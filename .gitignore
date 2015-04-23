@@ -1,0 +1,7 @@
+config/private.js
+node_modules/
+bower_components/
+build/
+*/.DS_Store
+.DS_Store
+newrelic_agent.log

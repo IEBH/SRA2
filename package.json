@@ -1,0 +1,49 @@
+{
+  "name": "crebp-sra",
+  "description": "Systematic Review Assistant from the Bond University Center for Research in Evidence-Based Practice",
+  "version": "0.0.0",
+  "main": "server.js",
+  "private": true,
+  "engines": {
+    "node": "0.10.x"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "postinstall": "bower install && gulp build"
+  },
+  "dependencies": {
+    "async-chainable": "~1.7.7",
+    "body-parser": "^1.12.2",
+    "bower": "^1.4.1",
+    "colors": "^1.0.3",
+    "connect-flash": "~0.1.1",
+    "connect-mongo": "^0.8.0",
+    "cookie-parser": "^1.3.4",
+    "del": "^1.1.1",
+    "ejs": "^2.3.1",
+    "express": "^4.12.3",
+    "express-ejs-layouts": "~1.1.0",
+    "express-log": "^1.0.1",
+    "express-restify-mongoose": "^0.7.5",
+    "express-session": "^1.10.4",
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-git-watch": "^0.1.0",
+    "gulp-mongoose-scenario": "^1.1.0",
+    "gulp-nodemon": "^1.0.5",
+    "gulp-replace": "^0.5.3",
+    "gulp-sourcemaps": "^1.5.1",
+    "gulp-uglify": "^1.1.0",
+    "gulp-util": "^3.0.4",
+    "gulp-watch": "^4.2.4",
+    "lodash": "^3.6.0",
+    "mkdirp": "~0.5.0",
+    "moment": "^2.9.0",
+    "mongoose": "^4.0.1",
+    "multer": "^0.1.8",
+    "newrelic": "^1.18.1",
+    "passport": "~0.2.1",
+    "passport-local": "~1.0.0",
+    "require-dir": "^0.3.0"
+  }
+}

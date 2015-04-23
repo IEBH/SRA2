@@ -1,0 +1,52 @@
+{
+	"users": [
+		{
+			"_ref": "users.mc",
+			"username": "mc",
+			"password": "qwaszx",
+			"name": "Matt Carter",
+			"email": "matt@mfdc.biz",
+			"role": "root"
+		},
+		{
+			"_ref": "users.js",
+			"username": "js",
+			"password": "qwaszx",
+			"name": "Jake Skoric",
+			"email": "jake@mfdc.biz",
+			"role": "root"
+		},
+		{
+			"_ref": "users.vm",
+			"username": "vm",
+			"password": "qwaszx",
+			"name": "Vandy Mau",
+			"email": "vandy@mfdc.biz",
+			"role": "root"
+		},
+		{
+			"_ref": "user.root",
+			"username": "root",
+			"password": "qwaszx",
+			"name": "Enoch Root",
+			"email": "root@mfdc.biz",
+			"role": "root"
+		},
+		{
+			"_ref": "user.admin",
+			"username": "admin",
+			"password": "qwaszx",
+			"name": "Joe Admin",
+			"email": "admin@mfdc.biz",
+			"role": "root"
+		},
+		{
+			"_ref": "user.user",
+			"username": "user",
+			"password": "qwaszx",
+			"name": "Joe User",
+			"email": "user@mfdc.biz",
+			"role": "user"
+		}
+	]
+}
