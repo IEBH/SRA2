@@ -9,23 +9,7 @@
 			"role": "root"
 		},
 		{
-			"_ref": "users.js",
-			"username": "js",
-			"password": "qwaszx",
-			"name": "Jake Skoric",
-			"email": "jake@mfdc.biz",
-			"role": "root"
-		},
-		{
-			"_ref": "users.vm",
-			"username": "vm",
-			"password": "qwaszx",
-			"name": "Vandy Mau",
-			"email": "vandy@mfdc.biz",
-			"role": "root"
-		},
-		{
-			"_ref": "user.root",
+			"_ref": "users.root",
 			"username": "root",
 			"password": "qwaszx",
 			"name": "Enoch Root",
@@ -33,7 +17,7 @@
 			"role": "root"
 		},
 		{
-			"_ref": "user.admin",
+			"_ref": "users.admin",
 			"username": "admin",
 			"password": "qwaszx",
 			"name": "Joe Admin",
@@ -41,7 +25,7 @@
 			"role": "root"
 		},
 		{
-			"_ref": "user.user",
+			"_ref": "users.user",
 			"username": "user",
 			"password": "qwaszx",
 			"name": "Joe User",

@@ -1,0 +1,27 @@
+{
+	"libraries": [
+		{
+			"_ref": "libraries.example",
+			"owners": ["users.mc", "users.admin", "users.user"]
+		}
+	],
+	"references": [
+		{
+			"library": "libraries.example",
+			"authors": ["John Smith", "Joe Random"],
+			"tags": ["referenceTags.keep"]
+		}
+	],
+	"referenceTags": [
+		{
+			"_ref": "referenceTags.keep",
+			"library": "libraries.example",
+			"title": "Keep"
+		},
+		{
+			"_ref": "referenceTags.keep",
+			"library": "libraries.example",
+			"title": "Reject"
+		}
+	]
+}
