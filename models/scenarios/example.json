@@ -2,7 +2,8 @@
 	"libraries": [
 		{
 			"_ref": "libraries.example",
-			"owners": ["users.mc", "users.admin", "users.user"]
+			"owners": ["users.mc", "users.admin", "users.user"],
+			"title": "Example library"
 		}
 	],
 	"references": [
