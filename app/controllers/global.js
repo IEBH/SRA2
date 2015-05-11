@@ -1,5 +1,5 @@
 // App global controller (also $rootScope)
-app.controller('globalController', function($scope, $rootScope, $location, $timeout, User) {
+app.controller('globalController', function($scope, $rootScope, $location, $timeout, Users) {
 	// .user {{{
 	$scope.user = {};
 
@@ -10,7 +10,7 @@ app.controller('globalController', function($scope, $rootScope, $location, $time
 	*/
 	$scope.$on('preLogin', function(e, details) {
 		if (details && details.username) {
-			User.login({}, details).$promise.then(function(data) {
+			Users.login({}, details).$promise.then(function(data) {
 				_.forEach($scope.user, function(v, key) { // Clear existing user object
 					delete $scope.user[key];
 				});
@@ -22,7 +22,7 @@ app.controller('globalController', function($scope, $rootScope, $location, $time
 				});
 			});
 		} else {
-			User.profile().$promise.then(function(data) {
+			Users.profile().$promise.then(function(data) {
 				_.assign($scope.user, data);
 				if (!$scope.user.settings) $scope.user.settings = {};
 				$timeout(function() {
@@ -35,7 +35,7 @@ app.controller('globalController', function($scope, $rootScope, $location, $time
 	$scope.$emit('preLogin'); // Trigger initial login
 
 	$scope.$on('logout', function() {
-		User.logout().$promise.then(function() {
+		Users.logout().$promise.then(function() {
 			_.forEach($scope.user, function(v, key) {
 				delete $scope.user[key];
 			});

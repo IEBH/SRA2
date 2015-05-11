@@ -1,10 +1,10 @@
-app.controller('libraryListController', function($scope, Library) {
+app.controller('libraryListController', function($scope, Libraries) {
 	$scope.libraries = null;
 
 	// Data refresher {{{
 	$scope.refresh = function() {
 		if (!$scope.user) return;
-		Library.query({owners: $scope.user._id}).$promise.then(function(data) {
+		Libraries.query({owners: $scope.user._id}).$promise.then(function(data) {
 			$scope.libraries = data;
 		});
 	};
