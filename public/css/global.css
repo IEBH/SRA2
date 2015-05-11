@@ -115,6 +115,11 @@ input[type=checkbox] {
 	width: 100%;
 }
 /* }}} */
+/* FIX: ng-click doesnt register as clickable within links {{{ */
+a[ng-click] {
+	cursor: pointer;
+}
+/* }}} */
 /* FIXES: Theme {{{ */
 /* FIX: Make right aligned tabs not have a style {{{ */
 .nav-tabs li.pull-right {
