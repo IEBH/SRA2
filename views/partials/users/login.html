@@ -1,0 +1,78 @@
+<div ng-controller="loginController" class="row-fluid">
+	<form ng-submit="login()" class="span12">
+		<div ng-show="user.error" class="alert alert-warning text-center pad">
+			<h4>{{user.error}}</h4>
+		</div>
+		<div class="login-container">
+			<div class="row-fluid">
+				<div class="center">
+					<h4>
+						<i class="fa fa-leaf green"></i>
+						<span class="white">Systematic Review Assistant</span>
+					</h4>
+				</div>
+			</div>
+
+			<div class="space-6"></div>
+
+			<div class="row-fluid">
+				<div class="position-relative">
+					<div id="login-box" class="login-box visible widget-box no-border">
+						<div class="widget-body">
+							<div class="widget-main">
+								<h4 class="header blue lighter bigger">
+									<i class="fa fa-coffee green"></i>
+									Please Enter Your Information
+								</h4>
+
+								<div class="space-6"></div>
+								<fieldset>
+									<label>
+										<span class="block input-icon input-icon-right">
+											Email address
+											<input type="text" class="span12" ng-model="loginDetails.username" placeholder="someone@somewhere.com" autofocus/>
+										</span>
+									</label>
+
+									<label>
+										<span class="block input-icon input-icon-right">
+											Password
+											<input type="password" ng-model="loginDetails.password" class="span12" placeholder="Your Password">
+										</span>
+									</label>
+
+									<div class="space"></div>
+
+									<div class="clearfix pull-center">
+										<button type="submit" class="width-35 btn btn-small btn-primary">
+											<i class="fa fa-key"></i>
+											Login
+										</button>
+									</div>
+
+									<div class="space-4"></div>
+								</fieldset>
+							</div>
+
+							<div class="toolbar clearfix">
+								<div>
+									<a href="#/recover" return false;" class="forgot-password-link">
+										<i class="fa fa-arrow-left"></i>
+										I forgot my password
+									</a>
+								</div>
+
+								<div>
+									<a href="#/signup" onclick="show_box('signup-box'); return false;" class="user-signup-link">
+										I want to register
+										<i class="fa fa-arrow-right"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
