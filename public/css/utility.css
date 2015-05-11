@@ -1,0 +1,43 @@
+/**
+* MFDC utility class
+* This CSS extends the default Bootstrap base with some handy additional classes
+*/
+/* Padding {{{ */
+.pad, .pad-sm, .pad-lg, .pad-xl {display:block;}
+.pad, table.pad td {padding: 20px;}
+.pad-xs, table.pad-xs td {padding: 5px;}
+.pad-sm, table.pad-sm td {padding: 10px;}
+.pad-lg, table.pad-lg td {padding: 30px;}
+.pad-xl, table.pad-xl td {padding: 50px;}
+.pad-top, .pad-top-xs, .pad-top-sm, .pad-top-lg, .pad-top-xl {display:block;}
+.pad-top, table.pad-top td {padding-top: 20px;}
+.pad-top-xs, table.pad-top-xs td {padding-top: 5px;}
+.pad-top-sm, table.pad-top-sm td {padding-top: 10px;}
+.pad-top-lg, table.pad-top-lg td {padding-top: 30px;}
+.pad-top-xl, table.pad-top-xl td {padding-top: 50px;}
+.pad-right, .pad-right-xs, .pad-right-sm, .pad-right-lg, .pad-right-xl {display:block;}
+.pad-right, table.pad-right td {padding-right: 20px;}
+.pad-right-xs, table.pad-right-xs td {padding-right: 5px;}
+.pad-right-sm, table.pad-right-sm td {padding-right: 10px;}
+.pad-right-lg, table.pad-right-lg td {padding-right: 30px;}
+.pad-right-xl, table.pad-right-xl td {padding-right: 50px;}
+.pad-bottom, .pad-bottom-xs, .pad-bottom-sm, .pad-bottom-lg, .pad-bottom-xl {display:block;}
+.pad-bottom, table.pad-bottom td {padding-bottom: 20px;}
+.pad-bottom-xs, table.pad-bottom-xs td {padding-bottom: 5px;}
+.pad-bottom-sm, table.pad-bottom-sm td {padding-bottom: 10px;}
+.pad-bottom-lg, table.pad-bottom-lg td {padding-bottom: 30px;}
+.pad-bottom-xl, table.pad-bottom-xl td {padding-bottom: 50px;}
+.pad-left, .pad-left-xs, .pad-left-sm, .pad-left-lg, .pad-left-xl {display:block;}
+.pad-left, table.pad-left td {padding-left: 20px;}
+.pad-left-xs, table.pad-left-xs td {padding-left: 5px;}
+.pad-left-sm, table.pad-left-sm td {padding-left: 10px;}
+.pad-left-lg, table.pad-left-lg td {padding-left: 30px;}
+.pad-left-xl, table.pad-left-xl td {padding-left: 50px;}
+/* }}} */
+/* Font Sizes {{{ */
+.font-xs {font-size: 8pt;}
+.font-sm {font-size: 10pt;}
+.font-md {font-size: 14pt;}
+.font-lg {font-size: 16pt;}
+.font-xlg {font-size: 20pt;}
+/* }}} */
