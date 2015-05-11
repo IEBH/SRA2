@@ -21,13 +21,12 @@ app.controller('globalController', function($scope, $rootScope, $location, $time
 					$location.path('/');
 				});
 			});
-		} else {
+		} else { // Grab cookie from server and attempt to login
 			Users.profile().$promise.then(function(data) {
 				_.assign($scope.user, data);
 				if (!$scope.user.settings) $scope.user.settings = {};
 				$timeout(function() {
 					$rootScope.$broadcast('login');
-					$location.path('/');
 				});
 			});
 		}
