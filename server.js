@@ -3,7 +3,7 @@
 global.config = require('./config');
 // }}}
 // Initial / NewRelic {{{
-require('newrelic');
+if (config.newrelic.enabled) require('newrelic');
 // }}}
 // Requires {{{
 var colors = require('colors');
@@ -17,7 +17,7 @@ global.app = express();
 // }}}
 // Settings {{{
 require('./config/db');
-app.set('title', 'CREBP-SRA');
+app.set('title', config.title);
 app.set('view engine', "html");
 app.set('layout', 'layouts/main');
 app.engine('.html', require('ejs').renderFile);
@@ -26,7 +26,7 @@ app.use(layouts);
 app.use(require('connect-flash')());
 // }}}
 // Settings / Basic Auth (DEBUGGING) {{{
-// Enable this to temporarily lock down the project
+// Enable this to temporarily lock down the server
 // app.use(express.basicAuth('user', 'letmein'));
 // }}}
 // Settings / Parsing {{{
@@ -43,7 +43,7 @@ app.use(session({
 	store: new mongoStore({mongooseConnection: mongoose.connection}),
 	resave: false,
 	saveUninitialized: false,
-	cookie: { 
+	cookie: {
 		expires: new Date(Date.now() + (3600000 * 48)), // 48 hours
 		maxAge: (3600000 * 48) // 48 hours
 	}
@@ -122,6 +122,7 @@ app.use(expressLog());
 // Controllers {{{
 requireDir('./controllers');
 // }}}
+
 // Static pages {{{
 app.use(express.static(__dirname + '/public'));
 app.use('/app', express.static(__dirname + '/app'));
@@ -129,12 +130,14 @@ app.use('/build', express.static(__dirname + '/build'));
 app.use('/partials', express.static(__dirname + '/views/partials'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 // }}}
+
 // Error catcher {{{
 app.use(function(err, req, res, next){
 	console.error(err.stack);
 	res.send(500, 'Something broke!').end();
 });
 // }}}
+
 // Init {{{
 var server = app.listen(config.port, config.host, function() {
 	console.log('Web interface listening on ' + ((config.host || 'localhost') + ':' + config.port).cyan);

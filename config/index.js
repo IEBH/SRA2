@@ -24,6 +24,12 @@ var defaults = {
 	port: process.env.PORT || 80,
 	url: 'http://localhost',
 	secret: "dT2CsWwmEBPnggihyKlY3IXONBIY4Db/yt5y1qcRHXkylDxHfEPGAsPkG1ikpFMgPnE9TrghA4hXSmuf8DvrdwtXZHY4Zmg8VVFs9Ei2NRK3N",
+	gulp: {
+		debugJS: true,
+		minifyJS: false,
+		debugCSS: true,
+		minifyCSS: false,
+	},
 	mongo: {
 		uri: 'mongodb://localhost/crebp-sra',
 		options: {
@@ -33,6 +39,7 @@ var defaults = {
 		}
 	},
 	newrelic: {
+		enabled: true,
 		name: 'CREBP-SRA',
 		license: 'c71e85e2d852cb4962d8b47dcad90de117501a07',
 	},

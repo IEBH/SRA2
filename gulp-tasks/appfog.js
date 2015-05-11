@@ -12,8 +12,7 @@ var spawn = require('child_process').spawn;
 * @author Matt Carter <m@ttcarter.com>
 * @date 2015-01-13
 */
-gulp.task('af-deploy', function(done) {
-	global.config = require('../config');
+gulp.task('af-deploy', ['load:config'], function(done) {
 	if (!config.deploy || !config.deploy.appfog || !config.deploy.appfog.profile) return next('Config values missing for config.deploy.appfog.profile');
 
 	async()

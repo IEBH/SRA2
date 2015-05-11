@@ -57,6 +57,7 @@ schema.virtual('data') // user.data returns the public facing user profile (i.e.
 			email: this.email,
 			name: this.name,
 			isAdmin: (this.role != 'user'),
+			isRoot: (this.role == 'root'),
 		};
 	});
 
