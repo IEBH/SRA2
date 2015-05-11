@@ -142,8 +142,8 @@
 				</a>
 			</li>
 
-			<li ng-show="user._id">
-				<a href="#/libraries" class="dropdown-toggle">
+			<li ng-controller="libraryListController">
+				<a href="#/libraries" data-toggle="dropdown" class="dropdown-toggle">
 					<i class="fa fa-tags"></i>
 					<span class="menu-text"> My libraries</span>
 					<b class="arrow fa fa-angle-down"></b>
@@ -151,8 +151,9 @@
 				<ul class="submenu">
 					<li><a href="#/libraries"><i class="fa fa-angle-double-right"></i> View all</a></li>
 					<li ng-repeat="library in libraries">
-						<a href="#/libraries/view/{{library.libraryid}}">
-							{{library.title}}
+						<a href="#/libraries/view/{{library._id}}">
+							<i class="fa fa-tags"></i>
+							{{library.title || 'Untitled'}}
 						</a>
 					</li>
 					<li><a href="#/libraries/import">
@@ -160,14 +161,15 @@
 					</li>
 				</ul>
 			</li>
-			<li ng-show="user._id">
+
+			<li>
 				<a href="#/help/getting-started">
 					<i class="fa fa-question-circle"></i>
 					<span class="menu-text"> Getting Started</span>
 				</a>
 			</li>
 
-			<li ng-show="!user._id">
+			<li ng-if="!user._id">
 				<a href="#/login">
 					<i class="fa fa-user"></i>
 					<span class="menu-text"> Login</span>

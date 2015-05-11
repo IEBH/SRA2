@@ -39,6 +39,7 @@ app.controller('globalController', function($scope, $rootScope, $location, $time
 			_.forEach($scope.user, function(v, key) {
 				delete $scope.user[key];
 			});
+			$location.path('/');
 		});
 	});
 	// }}}

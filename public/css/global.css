@@ -147,3 +147,8 @@ input[type=checkbox] {
 	margin-left: -20px;
 }
 /* }}} */
+/* FIX: Open sub-menus {{{ */
+li.open > ul.submenu {
+	display: block;
+}
+/* }}} */
