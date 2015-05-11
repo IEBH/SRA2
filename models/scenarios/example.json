@@ -9,7 +9,20 @@
 	"references": [
 		{
 			"library": "libraries.example",
+			"title": "Example reference #1",
 			"authors": ["John Smith", "Joe Random"],
+			"tags": ["referenceTags.keep"]
+		},
+		{
+			"library": "libraries.example",
+			"title": "Example reference #2",
+			"authors": ["John Smith", "Joe Random", "Jane Smythe"],
+			"tags": ["referenceTags.keep"]
+		},
+		{
+			"library": "libraries.example",
+			"title": "Example reference #3",
+			"authors": ["John Smith", "Joe Random", "Jane Smythe", "John Random"],
 			"tags": ["referenceTags.keep"]
 		}
 	],

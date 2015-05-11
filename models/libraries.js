@@ -7,6 +7,9 @@ var schema = new mongoose.Schema({
 	status: {type: String, enum: ['active', 'dedupe', 'deduped', 'deleted'], default: 'active', indexed: true},
 	debug: {type: String, enum: ['active', 'inactive'], default: 'inactive'},
 	title: {type: String},
+	tags: [{
+		title: {type: String}
+	}],
 });
 
 module.exports = mongoose.model(name, schema);
