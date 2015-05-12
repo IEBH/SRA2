@@ -4,7 +4,7 @@ app.controller('libraryOperation', function($scope, $location, $routeParams) {
 		{
 			id: 'view',
 			title: 'View the library',
-			urlExisting: '/libraries/view/:id'
+			urlExisting: '/libraries/:id'
 		},
 		{
 			id: 'import',
