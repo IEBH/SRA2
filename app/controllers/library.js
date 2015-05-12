@@ -14,12 +14,39 @@ app.controller('libraryController', function($scope, $location, $routeParams, Li
 	};
 	// }}}
 
+	// Saver {{{
+	/**
+	* Attempt to save various library information and reload from server
+	* @param array|string key Optional key or keys of information to save, if omitted all safe fields will be used
+	* @param string url Optional URL to navigate to after saving
+	*/
+	$scope.save = function(key, url) {
+		Libraries.save(
+			{id: $scope.library._id},
+			_.pick($scope.library, keys || ['status', 'title', 'tags'])
+		).$promise.then(function() {
+			if (url) {
+				$location.path(url);
+			} else {
+				$scope.refresh();
+			}
+		});
+	};
+	// }}}
+
+	// Settters {{{
+	$scope.set = function(key, value) {
+		$scope.library[key] = value;
+		$scope.save(key);
+	};
+	// }}}
+
 	// Load state {{{
 	if (!$routeParams.id) {
 		return $location.path('/libraries');
 	} else if ($routeParams.id == 'create') {
 		return Libraries.create({creator: $scope.user._id}).$promise.then(function(data) {
-			$location.path('/libraries/view/' + data._id);
+			$location.path('/libraries/' + data._id);
 		});
 	} else {
 		$scope.library = {_id: $routeParams.id};
