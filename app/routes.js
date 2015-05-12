@@ -1,9 +1,12 @@
-app.config(function($routeProvider, $locationProvider) {
-	$routeProvider
-		.when('/login', {templateUrl: "/partials/users/login.html"})
-		.when('/logout', {templateUrl: "/partials/users/logout.html"})
-		.when('/libraries', {templateUrl: "/partials/libraries/list.html"})
-		.when('/libraries/:id', {templateUrl: "/partials/libraries/view.html"})
-		.when('/libraries/import', {templateUrl: "/partials/libraries/operation.html"})
-		.otherwise({templateUrl: "/partials/dashboard.html"});
+app.config(function($stateProvider, $urlRouterProvider) {
+	$urlRouterProvider
+		.otherwise('/');
+
+	$stateProvider
+		.state('home', {url: '/', views: {main: {templateUrl: '/partials/dashboard.html'}}})
+		.state('login', {url: '/login', views: {main: {templateUrl: '/partials/users/login.html'}}})
+		.state('logout', {url: '/logout', views: {main: {templateUrl: '/partials/users/logout.html'}}})
+		.state('libraries', {url: '/libraries', views: {main: {templateUrl: '/partials/libraries/list.html'}}})
+		.state('libraries-view', {url: '/libraries/:id', views: {main: {templateUrl: '/partials/libraries/view.html'}}})
+		.state('libraries-operation', {url: '/libraries/{operation:import|export|dedupe|screen|tags|share|collabmatrix|clear|delete}', views: {main: {templateUrl: '/partials/libraries/operation.html'}}})
 });

@@ -1,4 +1,4 @@
-app.controller('libraryController', function($scope, $location, $routeParams, Libraries, References) {
+app.controller('libraryController', function($scope, $location, $stateParams, Libraries, References) {
 	$scope.library = null;
 	$scope.references = null;
 	
@@ -42,14 +42,14 @@ app.controller('libraryController', function($scope, $location, $routeParams, Li
 	// }}}
 
 	// Load state {{{
-	if (!$routeParams.id) {
+	if (!$stateParams.id) {
 		return $location.path('/libraries');
-	} else if ($routeParams.id == 'create') {
+	} else if ($stateParams.id == 'create') {
 		return Libraries.create({creator: $scope.user._id}).$promise.then(function(data) {
 			$location.path('/libraries/' + data._id);
 		});
 	} else {
-		$scope.library = {_id: $routeParams.id};
+		$scope.library = {_id: $stateParams.id};
 		$scope.refresh();
 	}
 	// }}}

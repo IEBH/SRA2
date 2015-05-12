@@ -1,5 +1,6 @@
-app.controller('libraryOperation', function($scope, $location, $routeParams) {
+app.controller('libraryOperation', function($scope, $location, $stateParams) {
 	// Operations {{{
+	// NOTE: Dont forget to also update app/routes if any of these change
 	$scope.operations = [
 		{
 			id: 'view',
@@ -81,6 +82,6 @@ app.controller('libraryOperation', function($scope, $location, $routeParams) {
 	// }}}
 
 	// Load state {{{
-	console.log($routeParams);
+	console.log('STATE', $stateParams);
 	// }}}
 });
