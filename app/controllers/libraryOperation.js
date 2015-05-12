@@ -27,6 +27,11 @@ app.controller('libraryOperation', function($scope, $location, $routeParams) {
 			urlExisting: '/libraries/:id/screen'
 		},
 		{
+			id: 'tags',
+			title: 'Edit the library tags',
+			urlExisting: '/libraries/:id/tags'
+		},
+		{
 			id: 'share',
 			title: 'Share the library',
 			urlExisting: '/libraries/:id/share'
@@ -35,6 +40,16 @@ app.controller('libraryOperation', function($scope, $location, $routeParams) {
 			id: 'collabmatrix',
 			title: 'Generate a collaboration matrix',
 			urlExisting: '/libraries/:id/collabmatrix'
+		},
+		{
+			id: 'clear',
+			title: 'Clear the library',
+			urlExisting: '/libraries/:id/clear'
+		},
+		{
+			id: 'delete',
+			title: 'Delete the library',
+			urlExisting: '/libraries/:id/delete'
 		}
 	];
 	$scope.operation = _.find($scope.operations, {id: 'view'});
