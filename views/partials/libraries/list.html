@@ -30,7 +30,6 @@
 		<tr>
 			<th width="60px">&nbsp;</th>
 			<th>Title</th>
-			<th width="100px">References</th>
 		</tr>
 		<tr ng-repeat="library in libraries">
 			<td>
@@ -39,8 +38,7 @@
 					<ul class="dropdown-menu" ng-include="'/partials/libraries/verbs.html'"></ul>
 				</div>
 			</td>
-			<td><a href="#/libraries/view/{{library._id}}">{{library.title}}</a></td>
-			<td><a href="#/libraries/view/{{library._id}}"><span class="badge badge-info"><i class="fa fa-tag"></i> FIXME</span></a></td>
+			<td><a href="#/libraries/{{library._id}}">{{library.title}}</a></td>
 		</tr>
 	</table>
 </div>
