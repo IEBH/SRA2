@@ -41,12 +41,16 @@ app.controller('libraryController', function($scope, $location, $stateParams, Li
 	};
 	// }}}
 
-	// Load state {{{
+	// Load state / Deal with simple operations {{{
 	if (!$stateParams.id) {
-		return $location.path('/libraries');
+		$location.path('/libraries');
 	} else if ($stateParams.id == 'create') {
-		return Libraries.create({creator: $scope.user._id}).$promise.then(function(data) {
+		Libraries.create({creator: $scope.user._id}).$promise.then(function(data) {
 			$location.path('/libraries/' + data._id);
+		});
+	} else if ($stateParams.operation == 'delete') {
+		Libraries.save({id: $stateParams.id}, {status: 'deleted'}).$promise.then(function() {
+			$location.path('/libraries');
 		});
 	} else {
 		$scope.library = {_id: $stateParams.id};
