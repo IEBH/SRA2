@@ -157,3 +157,28 @@ li.open > ul.submenu {
 	display: block;
 }
 /* }}} */
+/* FIX: Buttons within legends dont look right {{{ */
+legend {
+	height: 39px;
+}
+/* }}} */
+/* FIX: Badges next to each other are too cramped {{{ */
+.badge + .badge {
+	margin-left: 2px;
+}
+/* }}} */
+/* FIX: Table spacing is too big {{{ */
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+	padding: 4px;
+	vertical-align: middle;
+}
+
+table.table td .btn {
+	padding: 1px 2px;
+	line-height: 1em;
+}
+
+table.table td .btn > i {
+	margin-top: 5px;
+}
+/* }}} */
