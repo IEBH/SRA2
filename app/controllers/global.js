@@ -42,4 +42,26 @@ app.controller('globalController', function($scope, $rootScope, $location, $time
 		});
 	});
 	// }}}
+	// .breadcrumb {{{
+	$scope.breadcrumbs = [];
+	$scope.pageTitle = null;
+	$scope.pageUrl = null;
+	$rootScope.$on('setBreadcrumb', function(e, path) {
+		$scope.breadcrumbs = path;
+	});
+
+	$rootScope.$on('setTitle', function(e, title) {
+		$scope.pageTitle = title;
+	});
+
+	$rootScope.$on('$stateChangeStart', function(e, toState) {
+		$scope.pageUrl = $location.path();
+		if (toState.data) {
+			$scope.breadcrumbs = toState.data.breadcrumbs || [];
+			$scope.pageTitle = toState.data.title;
+		} else {
+			$scope.breadcrumbs = [];
+		}
+	});
+	// }}}
 });

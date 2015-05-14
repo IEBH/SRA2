@@ -1,4 +1,4 @@
-app.controller('libraryController', function($scope, $location, $stateParams, Libraries, References) {
+app.controller('libraryController', function($scope, $rootScope, $location, $stateParams, Libraries, References) {
 	$scope.library = null;
 	$scope.references = null;
 	
@@ -39,6 +39,10 @@ app.controller('libraryController', function($scope, $location, $stateParams, Li
 		$scope.library[key] = value;
 		$scope.save(key);
 	};
+	// }}}
+
+	// Watchers {{{
+	$scope.$watch('library.title', function() { $rootScope.$broadcast('setTitle', $scope.library.title) });
 	// }}}
 
 	// Load state / Deal with simple operations {{{
