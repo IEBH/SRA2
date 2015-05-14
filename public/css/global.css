@@ -115,6 +115,20 @@ input[type=checkbox] {
 	width: 100%;
 }
 /* }}} */
+/* .hero-unit {{{ */
+.hero-unit {
+	padding: 60px;
+	margin-bottom: 30px;
+	font-size: 18px;
+	font-weight: 200;
+	line-height: 30px;
+	color: inherit;
+	background-color: #eee;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+/* }}} */
 /* FIX: ng-click doesnt register as clickable within links {{{ */
 a[ng-click] {
 	cursor: pointer;
