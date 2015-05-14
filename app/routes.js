@@ -7,7 +7,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		.state('login', {url: '/login', views: {main: {templateUrl: '/partials/users/login.html'}}})
 		.state('logout', {url: '/logout', views: {main: {templateUrl: '/partials/users/logout.html'}}})
 		.state('libraries', {url: '/libraries', views: {main: {templateUrl: '/partials/libraries/list.html'}}})
+		.state('libraries-import', {url: '/libraries/{operation:import}', views: {main: {templateUrl: '/partials/libraries/import.html'}}})
 		.state('library-simple', {url: '/libraries/:id/{operation:delete}', views: {main: {templateUrl: '/partials/libraries/wait.html'}}})
-		.state('libraries-operation', {url: '/libraries/{operation:import|export|dedupe|screen|tags|share|collabmatrix|clear|delete}', views: {main: {templateUrl: '/partials/libraries/operation.html'}}})
+		.state('libraries-operation', {url: '/libraries/{operation:export|dedupe|screen|tags|share|collabmatrix|clear|delete}', views: {main: {templateUrl: '/partials/libraries/operation.html'}}})
 		.state('library-view', {url: '/libraries/:id', views: {main: {templateUrl: '/partials/libraries/view.html'}}})
 });

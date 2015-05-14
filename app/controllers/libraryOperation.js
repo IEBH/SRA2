@@ -62,6 +62,7 @@ app.controller('libraryOperation', function($scope, $location, $stateParams) {
 
 	// Libraries {{{
 	$scope.library = null;
+	$scope.newLibrary = {name: moment().format("MMM Do YYYY, h:mma")};
 	$scope.setLibrary = function(value) {
 		$scope.library = value;
 	};
@@ -82,6 +83,11 @@ app.controller('libraryOperation', function($scope, $location, $stateParams) {
 	// }}}
 
 	// Load state {{{
-	console.log('STATE', $stateParams);
+	if ($stateParams.operation == 'import') {
+		$scope.operation = _.find($scope.operations, {id: 'import'});
+		$scope.library = null;
+	} else if ($stateParams.operation) {
+		$scope.operation = _.find($scope.operations, {id: $stateParams.operation});
+	}
 	// }}}
 });

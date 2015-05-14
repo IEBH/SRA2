@@ -5,8 +5,22 @@ var schema = new mongoose.Schema({
 	created: {type: Date, default: Date.now},
 	edited: {type: Date, default: Date.now},
 	tags: [{type: mongoose.Schema.ObjectId, ref: 'referenceTags'}],
+	type: {type: String, default: 'report'},
 	title: {type: String},
+	titleSecondary: {type: String},
 	authors: [{type: String}],
+	date: {type: String},
+	pages: {type: String},
+	volume: {type: String},
+	number: {type: String},
+	isbn: {type: String},
+	label: {type: String},
+	caption: {type: String},
+	address: {type: String},
+	urls: [{type: String}],
+	abstract: {type: String},
+	notes: {type: String},
+	researchNotes: {type: String},
 });
 
 module.exports = mongoose.model(name, schema);
