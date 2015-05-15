@@ -75,8 +75,8 @@ app.post('/api/libraries/import', function(req, res) {
 
 /**
 * Export a library into the provided container format
-* @param string req.query.id The library ID to export
-* @param string req.query.format The library output format (must be supported by Reflib)
+* @param string req.params.id The library ID to export
+* @param string req.params.format The library output format (must be supported by Reflib)
 */
 app.get('/api/libraries/:id/export/:format', function(req, res) {
 	async()
@@ -126,6 +126,31 @@ app.get('/api/libraries/formats', function(req, res) {
 			ext: format.ext,
 		};
 	}));
+});
+
+
+/**
+* Mark all references within a library as deleted
+* @param req.param.id The library ID to clear
+*/
+app.get('/api/libraries/:id/clear', function(req, res) {
+	async()
+		.then(function(next) {
+			// Sanity checks {{{
+			if (!req.params.id) return next('id must be specified');
+			next();
+			// }}}
+		})
+		.then('library', function(next) {
+			Libraries.findOne({_id: req.params.id}, next);
+		})
+		.then(function(next) {
+			References.update({library: this.library._id}, {status: 'deleted'}, {multi: true}, next);
+		})
+		.end(function(err) {
+			if (err) return res.status(400).send(err);
+			res.send({id: this.library._id});
+		});
 });
 
 

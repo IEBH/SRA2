@@ -42,21 +42,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
-		// }}}
-		// Library (specific) {{{
-		.state('library-simple', {
-			url: '/libraries/:id/{operation:delete}',
-			views: {main: {templateUrl: '/partials/libraries/wait.html'}},
-			data: {
-				title: 'Performing operation',
-				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
-			}
-		})
 		.state('libraries-operation', {
 			url: '/libraries/{operation:export|dedupe|screen|tags|share|collabmatrix|clear|delete}',
 			views: {main: {templateUrl: '/partials/libraries/operation.html'}},
 			data: {
 				title: 'Perform operation',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		// }}}
+		// Library (specific) {{{
+		.state('library-simple', {
+			url: '/libraries/:id/{operation:delete|clear}',
+			views: {main: {templateUrl: '/partials/libraries/wait.html'}},
+			data: {
+				title: 'Performing operation',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})

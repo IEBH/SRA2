@@ -13,7 +13,7 @@
 		<a href="#" data-dismiss="alert" class="close"><i class="fa fa-times-sign"></i></a>
 		<h3><i class="fa fa-bell-o icon-animated-bell"></i> De-duplication in progress</h3>
 		<p>This library is still marked as having duplicate references.</p>
-		<div class="pull-center pad-top">
+		<div class="text-center pad-top">
 			<a class="btn" href="#/libraries/{{library._id}}/dedupe"><i class="fa fa-compress"></i> Examine duplicates</a>
 			<a class="btn" ng-click="set('status', 'active')"><i class="fa fa-stop"></i> Stop de-duping</a>
 			<a class="btn" data-dismiss="alert"><i class="fa fa-times-sign"></i> Not right now</a>
@@ -23,7 +23,7 @@
 	<div ng-if="!references || !references.length" class="alert alert-info">
 		<h3><i class="fa fa-info-circle"></i> No references in this library</h3>
 		<p>This library is empty. You can import references from a file or create new references manually.</p>
-		<div class="pull-center">
+		<div class="text-center pad-top">
 			<a href="#/libraries/{{library._id}}/import" class="btn"><i class="fa fa-cloud-upload"></i> Import library file</a>
 		</div>
 	</div>
@@ -34,7 +34,7 @@
 		<li class="pull-right"><a href="/libraries/{{library._id}}/tags" tooltip="Manage library tags" tooltip-position="left"><i class="fa fa-tags"></i></a></li>
 	</ul>
 
-	<table class="table table-striped table-bordered" id="reference-table">
+	<table ng-if="references && references.length" class="table table-striped table-bordered" id="reference-table">
 		<tr>
 			<th width="40px">&nbsp;</th>
 			<th>Title</th>

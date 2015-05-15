@@ -8,7 +8,7 @@ app.controller('libraryController', function($scope, $rootScope, $location, $sta
 		Libraries.get({id: $scope.library._id}).$promise.then(function(data) {
 			$scope.library = data;
 		});
-		References.query({library: $scope.library._id}).$promise.then(function(data) {
+		References.query({library: $scope.library._id, status: 'active'}).$promise.then(function(data) {
 			$scope.references = data;
 		});
 	};
@@ -55,6 +55,10 @@ app.controller('libraryController', function($scope, $rootScope, $location, $sta
 	} else if ($stateParams.operation == 'delete') {
 		Libraries.save({id: $stateParams.id}, {status: 'deleted'}).$promise.then(function() {
 			$location.path('/libraries');
+		});
+	} else if ($stateParams.operation == 'clear') {
+		Libraries.clear({id: $stateParams.id}).$promise.then(function() {
+			$location.path('/libraries/' + data._id);
 		});
 	} else {
 		$scope.library = {_id: $stateParams.id};
