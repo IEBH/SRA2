@@ -52,11 +52,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		})
 		// }}}
 		// Library (specific) {{{
-		.state('library-simple', {
+		.state('library-operation', {
 			url: '/libraries/:id/{operation:delete|clear}',
 			views: {main: {templateUrl: '/partials/libraries/wait.html'}},
 			data: {
 				title: 'Performing operation',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		.state('library-import', {
+			url: '/libraries/:id/{operation:import}',
+			views: {main: {templateUrl: '/partials/libraries/import.html'}},
+			data: {
+				title: 'Import',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
