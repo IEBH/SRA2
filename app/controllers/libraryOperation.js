@@ -1,4 +1,4 @@
-app.controller('libraryOperation', function($scope, $location, $stateParams) {
+app.controller('libraryOperation', function($scope, $rootScope, $location, $stateParams, Libraries) {
 	// Operations {{{
 	// NOTE: Dont forget to also update app/routes if any of these change
 	$scope.operations = [
@@ -68,6 +68,20 @@ app.controller('libraryOperation', function($scope, $location, $stateParams) {
 	};
 	// }}}
 
+	// Formats {{{
+	$scope.formats = null;
+	$scope.format = null;
+	Libraries.formats().$promise.then(function(data) {
+		$scope.formats = data;
+		var defaultLib = _.find($scope.formats, {id: 'endnotexml'});
+		if (defaultLib) $scope.format = defaultLib;
+	});
+
+	$scope.setFormat = function(format) {
+		$scope.format = format;
+	};
+	// }}}
+
 	// Submission {{{
 	$scope.error = null;
 	$scope.submit = function() {
@@ -85,7 +99,17 @@ app.controller('libraryOperation', function($scope, $location, $stateParams) {
 	// Load state {{{
 	if ($stateParams.operation == 'import') {
 		$scope.operation = _.find($scope.operations, {id: 'import'});
-		$scope.library = null;
+		$scope.library = Libraries.get({id: $stateParams.id});
+	} else if ($stateParams.operation == 'export') {
+		$scope.operation = _.find($scope.operations, {id: 'export'});
+		$scope.$watch('library', function() {
+			if (!$scope.library || !$scope.library._id) return;
+			$rootScope.$broadcast('setBreadcrumb', [
+				{url: '/libraries', title: 'Libraries'},
+				{url: '/libraries/' + $scope.library._id, title: $scope.library.title}
+			]);
+		}, true);
+		$scope.library = Libraries.get({id: $stateParams.id});
 	} else if ($stateParams.operation) {
 		$scope.operation = _.find($scope.operations, {id: $stateParams.operation});
 	}

@@ -3,6 +3,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		.otherwise('/');
 
 	$stateProvider
+		// General pages {{{
 		.state('home', {
 			url: '/',
 			views: {main: {templateUrl: '/partials/dashboard.html'}},
@@ -24,6 +25,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Logout',
 			}
 		})
+		// }}}
+		// Library (collective) {{{
 		.state('libraries', {
 			url: '/libraries',
 			views: {main: {templateUrl: '/partials/libraries/list.html'}},
@@ -39,6 +42,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
+		// }}}
+		// Library (specific) {{{
 		.state('library-simple', {
 			url: '/libraries/:id/{operation:delete}',
 			views: {main: {templateUrl: '/partials/libraries/wait.html'}},
@@ -55,6 +60,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
+		.state('library-export', {
+			url: '/libraries/:id/{operation:export}',
+			views: {main: {templateUrl: '/partials/libraries/export.html'}},
+			data: {
+				title: 'Export',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
 		.state('library-view', {
 			url: '/libraries/:id',
 			views: {main: {templateUrl: '/partials/libraries/view.html'}},
@@ -62,5 +75,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Library',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
-		});
+		})
+		// }}}
 });

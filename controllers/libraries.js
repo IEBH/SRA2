@@ -72,4 +72,61 @@ app.post('/api/libraries/import', function(req, res) {
 		});
 });
 
+
+/**
+* Export a library into the provided container format
+* @param string req.query.id The library ID to export
+* @param string req.query.format The library output format (must be supported by Reflib)
+*/
+app.get('/api/libraries/:id/export/:format', function(req, res) {
+	async()
+		.then(function(next) {
+			// Sanity checks {{{
+			if (!req.user) return next('You are not logged in');
+			if (!req.params.id) return next('id must be specified');
+			if (!req.params.format) return next('format must be specified');
+			next();
+			// }}}
+		})
+		.then('format', function(next) {
+			var format = _.find(rl.supported, {id: req.params.format});
+			if (!format) return next('format is unsupported: ' + req.params.format);
+			res.attachment(format.filename);
+			next(null, format);
+		})
+		.then(function(next) {
+			rl.output({
+				format: req.params.format,
+				stream: res,
+				content: [
+					{id: 'ref01', title: 'Hello World', authors: ['Joe Random', 'John Random'], volume: 1},
+					{id: 'ref02', title: 'Goodbye World', authors: ['Josh Random', 'Janet Random'], volume: 2},
+				],
+			})
+				.on('finish', function() {
+					next();
+				})
+		})
+		.end(function(err) {
+			if (err) return res.status(400).send(err);
+			res.end();
+		});
+});
+
+
+/**
+* Get a list of all supproted library formats
+* This really just returns the reflib.supported structure
+*/
+app.get('/api/libraries/formats', function(req, res) {
+	res.send(rl.supported.map(function(format) {
+		return {
+			id: format.id,
+			name: format.name,
+			ext: format.ext,
+		};
+	}));
+});
+
+
 restify.serve(app, Libraries);
