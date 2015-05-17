@@ -190,7 +190,7 @@
 					<a href="#/"><i class="fa fa-home home-icon"></i></a>
 				</li>
 				<li ng-repeat="crumb in breadcrumbs">
-					<a href="#/{{crumb.url}}">{{crumb.title}}</a>
+					<a href="#{{crumb.url}}">{{crumb.title}}</a>
 				</li>
 				<li ng-show="pageTitle">
 					<a ng-href="#{{pageUrl}}">{{pageTitle}}</a>
