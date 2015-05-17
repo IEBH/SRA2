@@ -5,51 +5,71 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 		{
 			id: 'view',
 			title: 'View the library',
+			allowExisting: true,
+			allowNew: false,
 			urlExisting: '/libraries/:id'
 		},
 		{
 			id: 'import',
 			title: 'Import references',
+			allowExisting: true,
+			allowNew: true,
 			urlExisting: '/libraries/:id/import'
 		},
 		{
 			id: 'export',
 			title: 'Export references',
+			allowExisting: true,
+			allowNew: false,
 			urlExisting: '/libraries/:id/export'
 		},
 		{
 			id: 'dedupe',
 			title: 'Deduplicate',
+			allowExisting: true,
+			allowNew: false,
 			urlExisting: '/libraries/:id/dedupe'
 		},
 		{
 			id: 'screen',
 			title: 'Screen references',
+			allowExisting: true,
+			allowNew: false,
 			urlExisting: '/libraries/:id/screen'
 		},
 		{
 			id: 'tags',
 			title: 'Edit the library tags',
+			allowExisting: true,
+			allowNew: false,
 			urlExisting: '/libraries/:id/tags'
 		},
 		{
 			id: 'share',
 			title: 'Share the library',
+			allowExisting: true,
+			allowNew: false,
 			urlExisting: '/libraries/:id/share'
 		},
 		{
 			id: 'collabmatrix',
 			title: 'Generate a collaboration matrix',
+			allowExisting: true,
+			allowNew: false,
 			urlExisting: '/libraries/:id/collabmatrix'
 		},
 		{
 			id: 'clear',
 			title: 'Clear the library',
+			allowExisting: true,
+			allowNew: false,
 			urlExisting: '/libraries/:id/clear'
 		},
 		{
 			id: 'delete',
 			title: 'Delete the library',
+			allowExisting: true,
+			allowNew: false,
 			urlExisting: '/libraries/:id/delete'
 		}
 	];
@@ -66,6 +86,16 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 	$scope.setLibrary = function(value) {
 		$scope.library = value;
 	};
+	// }}}
+
+	// .libraryAllowBlank {{{
+	/**
+	* Allow the libraryController to select a new library
+	*/
+	$scope.libraryAllowNew = false;
+	$scope.$watch('operation', function() {
+		$scope.libraryAllowNew = $scope.operation.allowNew;
+	});
 	// }}}
 
 	// Formats {{{

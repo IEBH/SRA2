@@ -32,7 +32,7 @@ app.post('/api/libraries/import', function(req, res) {
 			// }}}
 		})
 		.then('library', function(next) {
-			if (req.body.libraryId) { // Existing
+			if (req.body.libraryId && req.body.libraryId != 'new') { // Existing
 				Libraries.findOne({_id: req.body.libraryId}, next);
 			} else if (req.body.library) { // Create a new one with prototype
 				var library = _.clone(req.body.libray);
