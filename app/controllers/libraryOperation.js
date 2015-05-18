@@ -1,4 +1,4 @@
-app.controller('libraryOperation', function($scope, $rootScope, $location, $stateParams, Libraries) {
+app.controller('libraryOperation', function($scope, $rootScope, $location, $stateParams, Libraries, References) {
 	// Operations {{{
 	// NOTE: Dont forget to also update app/routes if any of these change
 	$scope.operations = [
@@ -134,9 +134,20 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 	// }}}
 
 	// Load state {{{
+	if ($stateParams.id) Libraries.get({id: $stateParams.id}).$promise.then(function(data) {
+		$scope.library = data;
+		// Decorators {{{
+		// .referenceCount {{{
+		$scope.library.referenceCount = null;
+		References.count({library: $scope.library._id}).$promise.then(function(countData) {
+			$scope.library.referenceCount = countData.count;
+		});
+		// }}}
+		// }}}
+	});
+
 	if ($stateParams.operation == 'import') {
 		$scope.operation = _.find($scope.operations, {id: 'import'});
-		$scope.library = Libraries.get({id: $stateParams.id});
 	} else if ($stateParams.operation == 'export') {
 		$scope.operation = _.find($scope.operations, {id: 'export'});
 		$scope.$watch('library', function() {
@@ -146,7 +157,6 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 				{url: '/libraries/' + $scope.library._id, title: $scope.library.title}
 			]);
 		}, true);
-		$scope.library = Libraries.get({id: $stateParams.id});
 	} else if ($stateParams.operation) {
 		$scope.operation = _.find($scope.operations, {id: $stateParams.operation});
 	}
