@@ -42,7 +42,7 @@
 						</li>
 					</ul>
 				</div>
-				<p class="help-block" ng-if="1 || library.referenceCount">{{library.referenceCount}} references in library</p>
+				<p class="help-block" ng-if="library.referenceCount">{{library.referenceCount}} references in library</p>
 			</div>
 		</div>
 
@@ -89,6 +89,14 @@
 					<label><input ng-model="user.position.staff" type="checkbox"> Staff</label>
 				</div>
 			</div>
+		</div>
+
+		<legend>Submit request</legend>
+
+		<div ng-if="library.referenceCount > 1" class="alert alert-warning pad-top">
+			<h4 class="alert-heading">Warning</h4>
+			<p>Your reference library contains <strong>{{library.referenceCount}}</strong> items which is rather a lot.</p>
+			<p>It might be an idea to divide your reference library up a little before submitting this request.</p>
 		</div>
 
 		<div class="form-group text-center">
