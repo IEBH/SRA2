@@ -6,7 +6,16 @@
 			"password": "qwaszx",
 			"name": "Matt Carter",
 			"email": "matt@mfdc.biz",
-			"role": "root"
+			"role": "root",
+			"title": "Dr",
+			"libraryNo": "BO361262",
+			"faculty": "Health Sciences and Medicine",
+			"position": {
+				"undergrad": false,
+				"postgrad": true,
+				"phd": true,
+				"staff": true
+			}
 		},
 		{
 			"_ref": "users.root",

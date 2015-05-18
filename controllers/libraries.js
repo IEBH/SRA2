@@ -94,14 +94,20 @@ app.get('/api/libraries/:id/export/:format', function(req, res) {
 			res.attachment(format.filename);
 			next(null, format);
 		})
+		.then('library', function(next) {
+			Libraries.findOne({_id: req.params.id}, next);
+		})
 		.then(function(next) {
 			rl.output({
 				format: req.params.format,
 				stream: res,
-				content: [
-					{id: 'ref01', title: 'Hello World', authors: ['Joe Random', 'John Random'], volume: 1},
-					{id: 'ref02', title: 'Goodbye World', authors: ['Josh Random', 'Janet Random'], volume: 2},
-				],
+				content: function(next, batch) {
+					console.log('Fetch batch', batch);
+					References.find({library: this.library._id})
+						.limit(config.limits.references)
+						.skip(config.limits.references * batch)
+						.exec(next);
+				},
 			})
 				.on('finish', function() {
 					next();

@@ -1,5 +1,5 @@
 // App global controller (also $rootScope)
-app.controller('globalController', function($scope, $rootScope, $location, $timeout, Users) {
+app.controller('globalController', function($scope, $rootScope, $debounce, $location, $timeout, Settings, Users) {
 	// .user {{{
 	$scope.user = {};
 
@@ -41,6 +41,13 @@ app.controller('globalController', function($scope, $rootScope, $location, $time
 			$location.path('/');
 		});
 	});
+
+	// Auto Save user fields {{{
+	$scope.$watch('user', $debounce(function() {
+		if (!$scope.user || !$scope.user.username) return; // User not yet logged in anyway
+		Users.profileSave({}, _.pick($scope.user, ['email', 'name', 'title', 'libraryNo', 'faculty', 'position', 'settings']));
+	}, Settings.debounce.user), true);
+	// }}}
 	// }}}
 	// .breadcrumb {{{
 	$scope.breadcrumbs = [];

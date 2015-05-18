@@ -25,6 +25,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Logout',
 			}
 		})
+		.state('profile', {
+			url: '/profile',
+			views: {main: {templateUrl: '/partials/users/profile.html'}},
+			data: {
+				title: 'Your Profile',
+			}
+		})
 		// }}}
 		// Library (collective) {{{
 		.state('libraries', {

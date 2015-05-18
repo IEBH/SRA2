@@ -14,6 +14,15 @@ var schema = new mongoose.Schema({
 	settings: {type: mongoose.Schema.Types.Mixed, default: {}},
 	created: {type: Date, default: Date.now},
 	lastLogin: {type: Date, default: Date.now},
+	title: {type: String},
+	libraryNo: {type: String},
+	faculty: {type: String},
+	position: {
+		undergrad: {type: Boolean},
+		postgrad: {type: Boolean},
+		phd: {type: Boolean},
+		staff: {type: Boolean},
+	},
 });
 
 // Deal with logins + user passwords {{{
@@ -58,6 +67,10 @@ schema.virtual('data') // user.data returns the public facing user profile (i.e.
 			name: this.name,
 			isAdmin: (this.role != 'user'),
 			isRoot: (this.role == 'root'),
+			title: this.title,
+			libraryNo: this.libraryNo,
+			faculty: this.faculty,
+			position: this.position,
 		};
 	});
 

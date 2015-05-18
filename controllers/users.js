@@ -105,13 +105,15 @@ app.post('/api/users/profile', function(req, res) {
 		.then(function(next) {
 			// Sanity checks {{{
 			if (!req.user) return next('User is not logged in');
-			if (!req.body.settings) return next('No .settings object specified');
-			if (!_.isObject(req.body.settings)) return next('.settings must be an object');
+			if (!req.body || !_.isObject(req.body)) return next('Nothing to save');
 			next();
 			// }}}
 		})
 		.then(function(next) {
-			req.user.settings = req.body.settings;
+			['email', 'name', 'title', 'libraryNo', 'faculty', 'position', 'settings'].forEach(function(field) {
+				if (req.body[field]) req.user[field] = req.body[field];
+			});
+			
 			req.user.save();
 			next();
 		})
