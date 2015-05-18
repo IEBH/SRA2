@@ -50,7 +50,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		})
 		.state('libraries-operation', {
-			url: '/libraries/{operation:export|dedupe|screen|tags|share|collabmatrix|clear|delete}',
+			url: '/libraries/{operation:export|dedupe|screen|tags|share|request|collabmatrix|clear|delete}',
 			views: {main: {templateUrl: '/partials/libraries/operation.html'}},
 			data: {
 				title: 'Perform operation',
@@ -80,6 +80,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			views: {main: {templateUrl: '/partials/libraries/export.html'}},
 			data: {
 				title: 'Export',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		.state('library-request', {
+			url: '/libraries/:id/{operation:request}',
+			views: {main: {templateUrl: '/partials/libraries/request.html'}},
+			data: {
+				title: 'Journal Request',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})

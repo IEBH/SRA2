@@ -52,6 +52,13 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			urlExisting: '/libraries/:id/share'
 		},
 		{
+			id: 'request',
+			title: 'Journal Request',
+			allowExisting: true,
+			allowNew: false,
+			urlExisting: '/libraries/:id/request'
+		},
+		{
 			id: 'collabmatrix',
 			title: 'Generate a collaboration matrix',
 			allowExisting: true,

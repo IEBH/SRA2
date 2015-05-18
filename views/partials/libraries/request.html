@@ -1,0 +1,101 @@
+<div ng-controller="libraryOperation" class="row-fluid">
+	<legend>Journal request</legend>
+
+	<div class="form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">University</label>
+			<div class="col-sm-10">
+				<div class="btn-group">
+					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-tags"></i>
+						Bond University
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a ng-click="">
+								<i class="fa fa-tags"></i>
+								Bond University
+							</a>
+						</li>
+					</ul>
+				</div>
+				<p class="help-block"><strong>BETA</strong> - Currently we are limited to Bond University Journal requests only</p>
+			</div>
+		</div>
+
+		<div ng-controller="libraryListController" class="form-group">
+			<label class="col-sm-2 control-label">Reference Library</label>
+			<div class="col-sm-10">
+				<div class="btn-group">
+					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-tags"></i>
+						{{library.title || 'Select a library...'}}
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li ng-repeat="library in libraries track by library._id">
+							<a ng-click="setLibrary(library)">
+								<i class="fa fa-tags"></i>
+								{{library.title}}
+							</a>
+						</li>
+					</ul>
+				</div>
+				<p class="help-block" ng-if="1 || library.referenceCount">{{library.referenceCount}} references in library</p>
+			</div>
+		</div>
+
+		<legend>Your information</legend>
+		<p class="text-center">The following information is saved in <a href="#/profile">your profile</a> automatically</p>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Name</label>
+			<div class="col-sm-10">
+				<input ng-model="user.name" type="text" class="form-control"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Email</label>
+			<div class="col-sm-10">
+				<input ng-model="user.email" type="text" class="form-control"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Title</label>
+			<div class="col-sm-10">
+				<input ng-model="user.title" type="text" class="form-control"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Library Number</label>
+			<div class="col-sm-10">
+				<input ng-model="user.libraryNo" type="text" class="form-control"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Faculty</label>
+			<div class="col-sm-10">
+				<input ng-model="user.faculty" type="text" class="form-control"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Position</label>
+			<div class="col-sm-10">
+				<div class="checkbox">
+					<label><input ng-model="user.position.undergrad" type="checkbox"> Undergrad</label>
+					<label><input ng-model="user.position.postgrad" type="checkbox"> Postgrad</label>
+					<label><input ng-model="user.position.phd" type="checkbox"> PhD</label>
+					<label><input ng-model="user.position.staff" type="checkbox"> Staff</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group text-center">
+			<a href="/api/libraries/{{library._id}}/request" type="submit" class="btn btn-lg btn-success">
+				<i class="fa fa-download"></i>
+				Submit request
+			</a>
+		</div>
+	</div>
+</div>
