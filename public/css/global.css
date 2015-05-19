@@ -148,6 +148,16 @@ input[type=checkbox] {
 	border: 1px solid #777;
 }
 /* }}} */
+/* x-editable CSS {{{ */
+.editable-buttons {
+	height: 30px;
+}
+
+.editable-buttons > .btn {
+	height: 30px;
+	width: 30px;
+}
+/* }}} */
 /* FIX: ng-click doesnt register as clickable within links {{{ */
 a[ng-click] {
 	cursor: pointer;

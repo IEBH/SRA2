@@ -27,6 +27,7 @@
 						<i class="fa fa-tag"></i>
 					</a>
 					<ul class="dropdown-menu">
+						<li><a href="#/libraries/{{library._id}}?tag={{tag._id}}"><i class="fa fa-tag"></i> View references</a></li>
 						<li><a><i class="fa fa-trash"></i> Delete tag</a></li>
 					</ul>
 				</div>
@@ -34,9 +35,9 @@
 			<td class="text-center"><a colorpicker ng-model="tag.color" data-toggle="dropdown">
 				<i class="fa fa-square fa-2x" style="color: {{tag.color}}; text-shadow: none"></i>
 			</a></td>
-			<td><a href="#/libraries/{{library._id}}?tag={{tag._id}}">
-				<span class="tag" style="background: {{tag.color}}">{{tag.title}}</span>
-			</a></td>
+			<td>
+				<span editable-text="tag.title" class="tag" style="background: {{tag.color}}">{{tag.title}}</span>
+			</td>
 			<td class="text-center"><a href="#/libraries/{{library._id}}?tag={{tag._id}}">
 				<span class="badge badge-info">{{tag.referenceCount}}</span>
 			</a></td>
