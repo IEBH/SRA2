@@ -1,7 +1,7 @@
 <div ng-controller="libraryOperation" class="row-fluid">
 	<legend>Journal request</legend>
 
-	<div class="form-horizontal">
+	<form ng-controller="libraryRequestController" ng-submit="submit()" class="form-horizontal">
 		<div class="form-group">
 			<label class="col-sm-2 control-label">University</label>
 			<div class="col-sm-10">
@@ -76,7 +76,17 @@
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Faculty</label>
 			<div class="col-sm-10">
-				<input ng-model="user.faculty" type="text" class="form-control"/>
+				<select ng-model="user.faculty" class="form-control">
+					<option>Please Select...</option>
+					<option value="BUS">Business</option>
+					<option value="Bond College">Bond College</option>
+					<option value="BUELI">BUELI</option>
+					<option value="HSM">Health Sciences and Medicine</option>
+					<option value="Law">Law</option>
+					<option value="FSD">Society and Design</option>
+					<option value="Library">Library</option>
+					<option value="Other">Other</option>
+				</select>
 			</div>
 		</div>
 		<div class="form-group">
@@ -93,17 +103,17 @@
 
 		<legend>Submit request</legend>
 
-		<div ng-if="library.referenceCount > 1" class="alert alert-warning pad-top">
+		<div ng-if="library.referenceCount > 10" class="alert alert-warning pad-top">
 			<h4 class="alert-heading">Warning</h4>
 			<p>Your reference library contains <strong>{{library.referenceCount}}</strong> items which is rather a lot.</p>
 			<p>It might be an idea to divide your reference library up a little before submitting this request.</p>
 		</div>
 
 		<div class="form-group text-center">
-			<a href="/api/libraries/{{library._id}}/request" type="submit" class="btn btn-lg btn-success">
+			<button type="submit" class="btn btn-lg btn-success">
 				<i class="fa fa-download"></i>
 				Submit request
-			</a>
+			</button>
 		</div>
-	</div>
+	</form>
 </div>

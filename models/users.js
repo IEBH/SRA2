@@ -74,4 +74,13 @@ schema.virtual('data') // user.data returns the public facing user profile (i.e.
 		};
 	});
 
+schema.methods.splitName = function() {
+	var nameBits = this.name.split(/\s+/);
+	return {
+		first: nameBits[0],
+		last: nameBits.length > 1 ? nameBits[nameBits.length - 1] : null,
+		other: nameBits.length > 2 ? nameBits.slice(1, -1).join(' ') : null,
+	};
+};
+
 module.exports = mongoose.model(name, schema);

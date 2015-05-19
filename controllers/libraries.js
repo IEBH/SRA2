@@ -4,6 +4,7 @@ var fs = require('fs');
 var moment = require('moment');
 var Libraries = require('../models/libraries');
 var References = require('../models/references');
+var request = require('superagent');
 var rl = require('reflib');
 
 /**
@@ -156,6 +157,77 @@ app.get('/api/libraries/:id/clear', function(req, res) {
 		.end(function(err) {
 			if (err) return res.status(400).send(err);
 			res.send({id: this.library._id});
+		});
+});
+
+
+
+/**
+* Submit a journal request
+* NOTE: At present this only supports Bond University
+*/
+app.get('/api/libraries/:id/request', function(req, res) {
+	async()
+		.then(function(next) {
+			// Sanity checks {{{
+			if (!req.user) return next('You are not logged in');
+			if (!req.params.id) return next('id must be specified');
+			next();
+			// }}}
+		})
+		.then('library', function(next) {
+			Libraries.findOne({_id: req.params.id}, next);
+		})
+		.then('references', function(next) {
+			References.find({library: this.library._id}, next);
+		})
+		.forEach('references', function(next, ref) {
+			var data = {
+				Title: req.user.title || '',
+				Library_Barcode: req.user.libraryNo || '',
+				First_Name: req.user.splitName().first || '',
+				Last_Name: req.user.splitName().last || '',
+				Email: req.user.email || '',
+				Faculty: req.user.faculty || '',
+				checkbox3: 'Checked Library Holdings',
+				Bond: 'Currently Enrolled',
+				Date_of_Request2: moment().format('DD/MM/YYYY'),
+				Journal_Title2: ref.journal || '',
+				Vol: ref.volume || '',
+				Issue: ref.issue || '',
+				ISSN: ref.isbn || '',
+				Month: _.isDate(ref.date) ? moment(ref.date).format('MMMM') : '',
+				Year: _.isDate(ref.date) ? moment(ref.date).format('YYYY') : '',
+				Pages: ref.pages || '',
+				Article_Author2: ref.authors ? ref.authors.join(', ') : '',
+				Article_Title2: ref.title || '',
+				Referemce2: '',
+				No_Use_Date2: '',
+				declaration2: 'Declaration Checked',
+			};
+			if (req.user.position.postgrad) data['Position1'] = 'Postgrad';
+			if (req.user.position.undergrad) data['Position2'] = 'Undergrad';
+			if (req.user.position.phd) data['Position3'] = 'Phd';
+			if (req.user.position.staff) data['Position4'] = 'Staff';
+
+			request.post(config.library.request.url)
+				.send(data)
+				.timeout(config.library.request.timeout)
+				.end(function(err, res) {
+					if (err) return next(err);
+					if (!res.ok) return next("Failed libarry request, return code: " + res.statusCode + ' - ' + res.text);
+					ref.response = res.body;
+					next();
+				});
+		})
+		.end(function(err) {
+			if (err) return res.status(400).send(err);
+			res.send(this.references.map(function(ref) {
+				return {
+					_id: ref._id,
+					response: ref.response,
+				};
+			}));
 		});
 });
 

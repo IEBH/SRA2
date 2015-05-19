@@ -46,6 +46,13 @@ var defaults = {
 	limits: {
 		references: 100, // How many references to hold in memory at once during operations such as export, dedupe etc.
 	},
+	library: {
+		request: {
+			// https://apps.bond.edu.au/forms/journalrequest.html => http://apps.bond.edu.au/form-response/doc_deliver_IFRAMEFORM.asp
+			url: 'http://localhost/debug/echo',
+			timeout: 30 * 1000,
+		},
+	},
 };
 
 module.exports = _.merge(
