@@ -144,6 +144,12 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 		});
 		// }}}
 		// }}}
+
+		// Update breadcrumbs
+		$rootScope.$broadcast('setBreadcrumb', [
+			{url: '/libraries', title: 'Libraries'},
+			{url: '/libraries/' + $scope.library._id, title: $scope.library.title}
+		]);
 	});
 
 	if ($stateParams.operation == 'import') {
