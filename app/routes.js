@@ -83,6 +83,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
+		.state('library-tags', {
+			url: '/libraries/:id/{operation:tags}',
+			views: {main: {templateUrl: '/partials/libraries/tags.html'}},
+			data: {
+				title: 'Edit Tags',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
 		.state('library-request', {
 			url: '/libraries/:id/{operation:request}',
 			views: {main: {templateUrl: '/partials/libraries/request.html'}},

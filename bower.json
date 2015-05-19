@@ -10,6 +10,8 @@
     "fontawesome": "~4.3.0",
     "lodash": "~3.6.0",
     "moment": ">=2.3.1",
-    "angular-ui-router": "~0.2.14"
+    "angular-ui-router": "~0.2.14",
+    "angular-bootstrap-colorpicker": "~3.0.18",
+    "angular-collection-assistant": "~1.1.4"
   }
 }

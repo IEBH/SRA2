@@ -16,7 +16,7 @@
 	</legend>
 
 	<div ng-if="!libraries.length" class="alert alert-info">
-		<h3><i class="fa fa-info-circle"></i> No libraries found</h3>
+		<h4><i class="fa fa-info-circle"></i> No libraries found</h4>
 		<p>You dont appear to have any reference libraries. You can import an existing library file or create new library manually.</p>
 		<div class="text-center pad-top">
 			<a href="#/libraries/import" class="btn"><i class="fa fa-cloud-upload"></i> Import file</a>
@@ -29,7 +29,7 @@
 			<th>Title</th>
 			<th width="60px">References</th>
 		</tr>
-		<tr ng-repeat="library in libraries">
+		<tr ng-repeat="library in libraries track by library._id">
 			<td>
 				<div class="dropdown">
 					<a class="btn" data-toggle="dropdown"><i class="fa fa-tags"></i></a>

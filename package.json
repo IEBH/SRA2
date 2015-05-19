@@ -26,6 +26,7 @@
     "express-log": "^1.0.1",
     "express-restify-mongoose": "^0.7.5",
     "express-session": "^1.11.2",
+    "golden-colors": "^1.0.1",
     "gulp": "^3.8.11",
     "gulp-concat": "^2.5.2",
     "gulp-git-watch": "^0.1.0",

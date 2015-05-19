@@ -33,7 +33,12 @@
 			"title": "Keep"
 		},
 		{
-			"_ref": "referenceTags.keep",
+			"_ref": "referenceTags.followup",
+			"library": "libraries.example",
+			"title": "Followup"
+		},
+		{
+			"_ref": "referenceTags.reject",
 			"library": "libraries.example",
 			"title": "Reject"
 		}

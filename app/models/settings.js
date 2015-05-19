@@ -1,7 +1,8 @@
 app.factory('Settings', function($resource) {
 	return {
-		debounce: {
-			user: 2 * 1000 // Only save user details after this delay
+		debounce: { // Only save entity details after this delay
+			tags: 2 * 1000,
+			user: 2 * 1000
 		}
 	};
 });
