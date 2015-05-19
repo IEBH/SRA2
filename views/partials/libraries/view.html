@@ -28,10 +28,10 @@
 		</div>
 	</div>
 
-	<ul ng-if="library.tags && library.tags.length" class="nav nav-tabs" id="tag-filter">
-		<li class="active"><a href="#/libraries/{{library._id}}"><i class="fa fa-asterisk"></i> Show All</a></li>
-		<li ng-repeat="tag in library.tags track by tag._id"><a href="#/libraries/{{library._id}}/tag/{{tag._id}}">{{tag.title}}</a></li>
-		<li class="pull-right"><a href="/libraries/{{library._id}}/tags" tooltip="Manage library tags" tooltip-position="left"><i class="fa fa-tags"></i></a></li>
+	<ul ng-if="tags && tags.length" class="nav nav-tabs" id="tag-filter">
+		<li ng-class="!activeTag && 'active'"><a href="#/libraries/{{library._id}}"><i class="fa fa-asterisk"></i> All</a></li>
+		<li ng-repeat="tag in tags track by tag._id" ng-class="activeTag._id == tag._id && 'active'"><a href="#/libraries/{{library._id}}/?tag={{tag._id}}">{{tag.title}}</a></li>
+		<li class="pull-right"><a href="/libraries/{{library._id}}/tags" tooltip="Manage library tags" tooltip-position="top"><i class="fa fa-tags"></i></a></li>
 	</ul>
 
 	<table ng-if="references && references.length" class="table table-striped table-bordered" id="reference-table">

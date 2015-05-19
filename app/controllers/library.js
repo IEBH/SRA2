@@ -1,5 +1,7 @@
-app.controller('libraryController', function($scope, $rootScope, $location, $stateParams, Libraries, References) {
+app.controller('libraryController', function($scope, $rootScope, $interval, $location, $stateParams, Libraries, References, ReferenceTags) {
 	$scope.library = null;
+	$scope.tags = null;
+	$scope.activeTag = null;
 	$scope.references = null;
 	
 	// Data refresher {{{
@@ -10,6 +12,10 @@ app.controller('libraryController', function($scope, $rootScope, $location, $sta
 		});
 		References.query({library: $scope.library._id, status: 'active'}).$promise.then(function(data) {
 			$scope.references = data;
+		});
+		ReferenceTags.query({library: $scope.library._id}).$promise.then(function(data) {
+			$scope.tags = data;
+			if ($location.search()['tag']) $scope.activeTag = _.find($scope.tags, {_id: $location.search()['tag']});
 		});
 	};
 	// }}}
@@ -43,6 +49,10 @@ app.controller('libraryController', function($scope, $rootScope, $location, $sta
 
 	// Watchers {{{
 	$scope.$watch('library.title', function() { $rootScope.$broadcast('setTitle', $scope.library.title) });
+
+	$scope.$on('$locationChangeSuccess', function() {
+		if ($scope.tags) $scope.activeTag = _.find($scope.tags, {_id: $location.search()['tag']});
+	});
 	// }}}
 
 	// Load state / Deal with simple operations {{{

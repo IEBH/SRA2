@@ -101,6 +101,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		})
 		.state('library-view', {
 			url: '/libraries/:id',
+			reloadOnSearch: false,
 			views: {main: {templateUrl: '/partials/libraries/view.html'}},
 			data: {
 				title: 'Library',
