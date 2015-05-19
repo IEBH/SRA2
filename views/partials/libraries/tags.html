@@ -20,7 +20,7 @@
 			<th>Tag</th>
 			<th width="60px">References</th>
 		</tr>
-		<tr ng-repeat="tag in tags track by tag._id">
+		<tr ng-repeat="tag in tags | filter:{status:'active'} track by tag._id">
 			<td>
 				<div class="dropdown">
 					<a class="btn" data-toggle="dropdown">
@@ -28,7 +28,8 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li><a href="#/libraries/{{library._id}}?tag={{tag._id}}"><i class="fa fa-tag"></i> View references</a></li>
-						<li><a><i class="fa fa-trash"></i> Delete tag</a></li>
+						<li class="divider"></li>
+						<li><a ng-click="deleteTag(tag)"><i class="fa fa-trash"></i> Delete tag</a></li>
 					</ul>
 				</div>
 			</td>
@@ -43,4 +44,8 @@
 			</a></td>
 		</tr>
 	</table>
+
+	<div class="text-center">
+		<a ng-click="newTag()" class="btn btn-success btn-lg"><i class="fa fa-plus"></i> Create new tag</a>
+	</div>
 </div></div>
