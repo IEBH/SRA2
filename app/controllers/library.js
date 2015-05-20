@@ -133,7 +133,8 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 	};
 
 	$scope.saveReference = function() {
-		References.save({id: $scope.reference._id}, _.pick($scope.reference, ['title', 'tags']));
+		References.save({id: $scope.reference._id}, _.pick($scope.reference, ['title', 'tags'])).$promise
+			.then($scope.refresh);
 	};
 	// }}}
 });
