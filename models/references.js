@@ -1,10 +1,10 @@
 var name = 'references';
 var schema = new mongoose.Schema({
 	id: mongoose.Schema.ObjectId,
-	library: {type: mongoose.Schema.ObjectId, ref: 'libraries'},
+	library: {type: mongoose.Schema.ObjectId, ref: 'libraries', indexed: true},
 	created: {type: Date, default: Date.now},
 	edited: {type: Date, default: Date.now},
-	tags: [{type: mongoose.Schema.ObjectId, ref: 'referenceTags'}],
+	tags: [{type: mongoose.Schema.ObjectId, ref: 'referenceTags', indexed: true}],
 	type: {type: String, default: 'report'},
 	title: {type: String},
 	titleSecondary: {type: String},
@@ -21,7 +21,7 @@ var schema = new mongoose.Schema({
 	abstract: {type: String},
 	notes: {type: String},
 	researchNotes: {type: String},
-	status: {type: String, enum: ['active', 'deleted'], default: 'active'},
+	status: {type: String, enum: ['active', 'deleted'], default: 'active', indexed: true},
 });
 
 module.exports = mongoose.model(name, schema);
