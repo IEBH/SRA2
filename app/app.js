@@ -16,3 +16,11 @@ app.run(function(editableThemes, editableOptions) {
 	editableOptions.theme = 'bs3';
 });
 // }}}
+
+app.run(function($rootScope) {
+	// BUGFIX: Destory any open Bootstrap modals during transition {{{
+	$rootScope.$on('$stateChangeStart', function() {
+		$('body > .modal-backdrop').remove();
+	});
+	// }}}
+});
