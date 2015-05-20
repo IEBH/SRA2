@@ -8,7 +8,7 @@
 				</div>
 				<div class="modal-body">
 					<p>Select the tags you wish to apply to this reference:</p>
-					<div ng-repeat="tag in tags | orderBy:'title'" class="checkbox">
+					<div ng-repeat="tag in tags" class="checkbox">
 						<label>
 							<input type="checkbox" ng-click="toggleTag(tag)" ng-checked="reference.tags | contains:tag._id"/>
 							<span class="tag" style="background: {{tag.color}}">{{tag.title}}</span>

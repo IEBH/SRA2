@@ -35,9 +35,23 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 		// Reference Tags {{{
 		ReferenceTags.query({library: $scope.library._id}).$promise.then(function(data) {
 			$scope.tagsObj = {};
+
+			// Sort data {{{
+			// }}}
+
 			$scope.tags = data
-				// Decorators {{{
+				.sort(function(a, b) {
+					console.log('SORT', a.title, b.title);
+					if (a.title > b.title) {
+						return 1;
+					} else if (b.title < a.title) {
+						return -1;
+					} else {
+						return 0;
+					}
+				})
 				.map(function(tag) {
+					// Decorators {{{
 					// .referenceCount {{{
 					tag.referenceCount = null;
 					References.count({library: $scope.library._id, tags: tag._id}).$promise.then(function(countData) {
@@ -48,8 +62,8 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 					$scope.tagsObj[tag._id] = tag;
 					// }}}
 					return tag;
-				});
-				// }}}
+					// }}}
+				})
 			if ($location.search()['tag']) $scope.activeTag = _.find($scope.tags, {_id: $location.search()['tag']});
 		});
 		// }}}
