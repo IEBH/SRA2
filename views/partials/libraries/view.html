@@ -22,7 +22,7 @@
 
 	<ul ng-if="tags && tags.length" class="nav nav-tabs" id="tag-filter">
 		<li ng-class="!activeTag && 'active'"><a href="#/libraries/{{library._id}}"><i class="fa fa-asterisk"></i> All</a></li>
-		<li ng-repeat="tag in tags track by tag._id" ng-class="activeTag._id == tag._id && 'active'"><a href="#/libraries/{{library._id}}/?tag={{tag._id}}">{{tag.title}}</a></li>
+		<li ng-repeat="tag in tags track by tag._id" ng-class="activeTag._id == tag._id && 'active'"><a href="#/libraries/{{library._id}}?tag={{tag._id}}">{{tag.title}}</a></li>
 		<li class="pull-right"><a href="/libraries/{{library._id}}/tags" tooltip="Manage library tags" tooltip-position="top"><i class="fa fa-tags"></i></a></li>
 	</ul>
 
