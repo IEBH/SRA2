@@ -83,6 +83,38 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
+		.state('library-dedupe', {
+			url: '/libraries/:id/{operation:dedupe}',
+			views: {main: {templateUrl: '/partials/fixme.html'}},
+			data: {
+				title: 'Deduplicate',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		.state('library-share', {
+			url: '/libraries/:id/{operation:share}',
+			views: {main: {templateUrl: '/partials/fixme.html'}},
+			data: {
+				title: 'Share',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		.state('library-screen', {
+			url: '/libraries/:id/{operation:screen}',
+			views: {main: {templateUrl: '/partials/fixme.html'}},
+			data: {
+				title: 'Share',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		.state('library-collabmatrix', {
+			url: '/libraries/:id/{operation:collabmatrix}',
+			views: {main: {templateUrl: '/partials/fixme.html'}},
+			data: {
+				title: 'Collaboration Matrix',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
 		.state('library-tags', {
 			url: '/libraries/:id/{operation:tags}',
 			views: {main: {templateUrl: '/partials/libraries/tags.html'}},
@@ -105,6 +137,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			views: {main: {templateUrl: '/partials/libraries/view.html'}},
 			data: {
 				title: 'Library',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		// }}}
+		// Reference {{{
+		.state('reference-view', {
+			url: '/references/:id',
+			views: {main: {templateUrl: '/partials/fixme.html'}},
+			data: {
+				title: 'Reference',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
