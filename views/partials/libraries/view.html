@@ -1,4 +1,35 @@
 <div ng-controller="libraryController">
+	<div id="modal-tagEdit" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button ng-click="saveReference()" type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">{{reference.title}}</h4>
+				</div>
+				<div class="modal-body">
+					<p>Select the tags you wish to apply to this reference:</p>
+					<div ng-repeat="tag in tags | orderBy:'title'" class="checkbox">
+						<label>
+							<input type="checkbox" ng-click="toggleTag(tag)" ng-checked="reference.tags | contains:tag._id"/>
+							<span class="tag" style="background: {{tag.color}}">{{tag.title}}</span>
+						</label>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="pull-left">
+						<a href="#/references/{{reference._id}}" class="btn btn-default">
+							<i class="fa fa-pencil"></i>
+							Edit reference
+						</a>
+					</div>
+					<div class="pull-right">
+						<a ng-click="saveReference()" class="btn btn-success" data-dismiss="modal">Close</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<legend>
 		{{library.title || 'Untitled'}}
 		<div class="btn-group pull-right">
@@ -59,6 +90,7 @@
 			<th width="40px">&nbsp;</th>
 			<th>Title</th>
 			<th>Authors</th>
+			<th ng-if="tags && tags.length">Tags</th>
 		</tr>
 		<tr ng-repeat="reference in references track by reference._id">
 			<td>
@@ -71,9 +103,9 @@
 					</ul>
 				</div>
 			</td>
-			<td><a href="/references/{{reference._id}}">{{::reference.title}}</a></td>
+			<td><a href="#/references/{{reference._id}}">{{::reference.title}}</a></td>
 			<td>
-				<a href="/references/{{reference._id}}">
+				<a href="#/references/{{reference._id}}">
 					<span ng-repeat="author in reference.authors | limitTo:3" class="badge badge-info">
 						<i class="fa fa-user"></i>
 						{{author}}
@@ -85,6 +117,12 @@
 					<em ng-if="::(!reference.authors || !reference.authors.length)">none</em>
 				</a>
 			</td>
+			<th ng-if="tags && tags.length">
+				<a ng-click="editTags(reference)"> 
+					<span ng-repeat="tag in reference.tags" class="tag" style="background: {{tagsObj[tag].color}}">{{tagsObj[tag].title}}</span>
+					<i class="fa fa-pencil show-on-hover"></i>
+				</a>
+			</th>
 		</tr>
 	</table>
 </div>

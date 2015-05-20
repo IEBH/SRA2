@@ -147,6 +147,19 @@ input[type=checkbox] {
 	border-radius: 10px;
 	border: 1px solid #777;
 }
+
+.tag + .tag {
+	margin-left: 2px;
+}
+/* }}} */
+/* .show-on-hover - Only show element when parent 'tr' has hover {{{ */
+.show-on-hover {
+	visibility: hidden;
+}
+
+tr:hover .show-on-hover {
+	visibility: initial;
+}
 /* }}} */
 /* x-editable CSS {{{ */
 .editable-buttons {

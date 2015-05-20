@@ -1,6 +1,7 @@
 app.controller('libraryController', function($scope, $rootScope, $interval, $location, $stateParams, Libraries, References, ReferenceTags) {
 	$scope.library = null;
 	$scope.tags = null;
+	$scope.tagsObj = null; // Object lookup for tags
 	$scope.activeTag = null;
 	$scope.references = null;
 	
@@ -33,17 +34,21 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 
 		// Reference Tags {{{
 		ReferenceTags.query({library: $scope.library._id}).$promise.then(function(data) {
+			$scope.tagsObj = {};
 			$scope.tags = data
 				// Decorators {{{
-				// .referenceCount {{{
 				.map(function(tag) {
+					// .referenceCount {{{
 					tag.referenceCount = null;
 					References.count({library: $scope.library._id, tags: tag._id}).$promise.then(function(countData) {
 						tag.referenceCount = countData.count;
 					});
+					// }}}
+					// Add to tagsObj lookup {{{
+					$scope.tagsObj[tag._id] = tag;
+					// }}}
 					return tag;
 				});
-				// }}}
 				// }}}
 			if ($location.search()['tag']) $scope.activeTag = _.find($scope.tags, {_id: $location.search()['tag']});
 		});
@@ -108,5 +113,27 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 		$scope.library = {_id: $stateParams.id};
 		$scope.refresh();
 	}
+	// }}}
+
+	// Reference inline edit {{{
+	$scope.reference = null;
+
+	$scope.editTags = function(reference) {
+		$scope.reference = reference;
+		$('#modal-tagEdit').modal('show');
+	};
+
+	$scope.toggleTag = function(tag) {
+		var index = _.indexOf($scope.reference.tags, tag._id);
+		if (index > -1) {
+			$scope.reference.tags.splice(index, 1);
+		} else {
+			$scope.reference.tags.push(tag._id);
+		}
+	};
+
+	$scope.saveReference = function() {
+		References.save({id: $scope.reference._id}, _.pick($scope.reference, ['title', 'tags']));
+	};
 	// }}}
 });
