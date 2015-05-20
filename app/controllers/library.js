@@ -11,6 +11,14 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 		// Library {{{
 		Libraries.get({id: $scope.library._id}).$promise.then(function(data) {
 			$scope.library = data;
+			// Decorators {{{
+			// .referenceCount {{{
+			$scope.library.referenceCount = null;
+			References.count({library: $scope.library._id}).$promise.then(function(countData) {
+				$scope.library.referenceCount = countData.count;
+			});
+			// }}}
+			// }}}
 		});
 		// }}}
 
@@ -25,7 +33,18 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 
 		// Reference Tags {{{
 		ReferenceTags.query({library: $scope.library._id}).$promise.then(function(data) {
-			$scope.tags = data;
+			$scope.tags = data
+				// Decorators {{{
+				// .referenceCount {{{
+				.map(function(tag) {
+					tag.referenceCount = null;
+					References.count({library: $scope.library._id, tags: tag._id}).$promise.then(function(countData) {
+						tag.referenceCount = countData.count;
+					});
+					return tag;
+				});
+				// }}}
+				// }}}
 			if ($location.search()['tag']) $scope.activeTag = _.find($scope.tags, {_id: $location.search()['tag']});
 		});
 		// }}}
