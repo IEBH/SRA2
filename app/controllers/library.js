@@ -7,16 +7,28 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 	// Data refresher {{{
 	$scope.refresh = function() {
 		if (!$scope.library) return;
+
+		// Library {{{
 		Libraries.get({id: $scope.library._id}).$promise.then(function(data) {
 			$scope.library = data;
 		});
-		References.query({library: $scope.library._id, status: 'active'}).$promise.then(function(data) {
+		// }}}
+
+		// References {{{
+		var rQuery = {library: $scope.library._id, status: 'active'};
+		if ($scope.activeTag) rQuery.tags = $scope.activeTag._id;
+
+		References.query(rQuery).$promise.then(function(data) {
 			$scope.references = data;
 		});
+		// }}}
+
+		// Reference Tags {{{
 		ReferenceTags.query({library: $scope.library._id}).$promise.then(function(data) {
 			$scope.tags = data;
 			if ($location.search()['tag']) $scope.activeTag = _.find($scope.tags, {_id: $location.search()['tag']});
 		});
+		// }}}
 	};
 	// }}}
 
@@ -51,7 +63,10 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 	$scope.$watch('library.title', function() { $rootScope.$broadcast('setTitle', $scope.library.title) });
 
 	$scope.$on('$locationChangeSuccess', function() {
-		if ($scope.tags) $scope.activeTag = _.find($scope.tags, {_id: $location.search()['tag']});
+		if ($scope.tags) {
+			$scope.activeTag = _.find($scope.tags, {_id: $location.search()['tag']});
+			$scope.refresh();
+		}
 	});
 	// }}}
 

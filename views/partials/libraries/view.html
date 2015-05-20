@@ -20,19 +20,28 @@
 		</div>
 	</div>
 
-	<div ng-if="!references || !references.length" class="alert alert-info">
-		<h3><i class="fa fa-info-circle"></i> No references in this library</h3>
-		<p>This library is empty. You can import references from a file or create new references manually.</p>
-		<div class="text-center pad-top">
-			<a href="#/libraries/{{library._id}}/import" class="btn"><i class="fa fa-cloud-upload"></i> Import library file</a>
-		</div>
-	</div>
-
 	<ul ng-if="tags && tags.length" class="nav nav-tabs" id="tag-filter">
 		<li ng-class="!activeTag && 'active'"><a href="#/libraries/{{library._id}}"><i class="fa fa-asterisk"></i> All</a></li>
 		<li ng-repeat="tag in tags track by tag._id" ng-class="activeTag._id == tag._id && 'active'"><a href="#/libraries/{{library._id}}/?tag={{tag._id}}">{{tag.title}}</a></li>
 		<li class="pull-right"><a href="/libraries/{{library._id}}/tags" tooltip="Manage library tags" tooltip-position="top"><i class="fa fa-tags"></i></a></li>
 	</ul>
+
+	<div ng-if="!references || !references.length" class="well">
+		<span ng-show="!activeTag">
+			<h3><i class="fa fa-info-circle"></i> No references in this library</h3>
+			<p>This library is empty. You can import references from a file or create new references manually.</p>
+			<div class="text-center pad-top">
+				<a href="#/libraries/{{library._id}}/import" class="btn"><i class="fa fa-cloud-upload"></i> Import library file</a>
+			</div>
+		</span>
+		<span ng-show="activeTag">
+			<h3><i class="fa fa-info-circle"></i> No references for this tag</h3>
+			<p>No references are filed under this tag.</p>
+			<div class="text-center pad-top">
+				<a href="#/libraries/{{library._id}}" class="btn"><i class="fa fa-asterisk"></i> Show all references</a>
+			</div>
+		</span>
+	</div>
 
 	<table ng-if="references && references.length" class="table table-striped table-bordered" id="reference-table">
 		<tr>
