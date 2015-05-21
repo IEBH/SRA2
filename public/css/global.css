@@ -235,5 +235,6 @@ table.table td .btn > i {
 /* FIX: Badges should wrap within tables {{{ */
 td .badge {
 	white-space: normal;
+	margin-top: 2px;
 }
 /* }}} */
