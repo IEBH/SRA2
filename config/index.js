@@ -45,6 +45,8 @@ var defaults = {
 	},
 	limits: {
 		references: 100, // How many references to hold in memory at once during operations such as export, dedupe etc.
+		dedupeOuter: 10, // How many comparison threads to allow at once (ref1)
+		dedupeInner: 10, // How many comparison threads to allow against dedupeOuter (total is dedupeOuter * dedupeInner)
 	},
 	library: {
 		request: {
@@ -55,7 +57,7 @@ var defaults = {
 	},
 	cron: {
 		enabled: true,
-		queryLimit: 10,
+		queryLimit: 10, // How many tasks to work on in one cron cycle
 		waitTime: 3 * 1000,
 	},
 };

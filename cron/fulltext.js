@@ -4,7 +4,7 @@
 */
 module.exports = function(finish, task) {
 	setTimeout(function() {
-		console.log('Pretending to work on task', task);
+		console.log('Pretending to work on task', task._id);
 		finish();
 	}, 3000);
 };
