@@ -1301,7 +1301,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
     display: block;
     position: relative;
     color: #616161;
-    padding: 7px 0 8px 37px;
+    padding: 7px 0 8px 27px;
     margin: 0;
     border-top: 1px dotted #e4e4e4;
 }

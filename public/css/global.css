@@ -191,6 +191,10 @@ a[ng-click] {
 .nav-list i.fa {
 	margin: 0 8px;
 }
+
+.nav-list ul.submenu i.fa {
+	margin: 0 2px;
+}
 /* }}} */
 /* }}} */
 /* FIXES: Waveform {{{ */
