@@ -1,4 +1,5 @@
 app.controller('libraryController', function($scope, $rootScope, $interval, $location, $stateParams, Libraries, References, ReferenceTags) {
+	$scope.loading = true;
 	$scope.library = null;
 	$scope.tags = null;
 	$scope.tagsObj = null; // Object lookup for tags
@@ -29,6 +30,7 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 
 		References.query(rQuery).$promise.then(function(data) {
 			$scope.references = data;
+			$scope.loading = false;
 		});
 		// }}}
 
