@@ -21,7 +21,7 @@
 				</div>
 			</div>
 		</div>
-		<div ng-show="!library" class="form-group">
+		<div ng-show="library._id == 'new'" class="form-group">
 			<label class="col-sm-2 control-label">Library name</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" name="libraryTitle" ng-model="newLibrary.name"/>
