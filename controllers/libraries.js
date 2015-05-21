@@ -232,4 +232,22 @@ app.get('/api/libraries/:id/request', function(req, res) {
 });
 
 
-restify.serve(app, Libraries);
+restify.serve(app, Libraries, {
+	middleware: function(req, res, next) {
+		if (!req.user) return res.status(400).send('You must be logged in to do that');
+
+		// Ensure that .owners is either specified OR glue it to the query if not {{{
+		if (req.user.role == 'user' && req.body.owners) {
+			var owners = req.body.owners || req.query.owners;
+			if (_.isArray(owners)) {
+				if (!_.contains(owners, req.user._id)) return res.status(400).send('Owners must contain the current user id');
+			} else if (_.isString(owners)) {
+				if (owners != req.user._id) return res.status(400).send('Owners must be the current user id');
+			} else {
+				req.query.owners = req.user._id;
+			}
+		}
+		// }}}
+		next();
+	},
+});
