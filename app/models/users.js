@@ -4,5 +4,6 @@ app.factory('Users', function($resource) {
 		logout: {url: '/api/users/logout', method: 'POST'},
 		profile: {url: '/api/users/profile', cache: false},
 		profileSave: {url: '/api/users/profile', method: 'POST'},
+		signup: {url: '/api/users', method: 'POST'}
 	});
 });

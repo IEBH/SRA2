@@ -25,6 +25,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Logout',
 			}
 		})
+		.state('signup', {
+			url: '/signup',
+			views: {main: {templateUrl: '/partials/users/signup.html'}},
+			data: {
+				title: 'Signup',
+			}
+		})
 		.state('profile', {
 			url: '/profile',
 			views: {main: {templateUrl: '/partials/users/profile.html'}},
