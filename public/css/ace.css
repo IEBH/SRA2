@@ -878,6 +878,9 @@ blockquote, blockquote.pull-right {
     text-shadow: none;
     color: #fff;
 }
+.navbar .nav>li>a:hover {
+    color: black;
+}
 .ace-nav {
     height: 100%}
 .ace-nav>li {
