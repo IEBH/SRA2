@@ -59,6 +59,13 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			urlExisting: '/libraries/:id/request'
 		},
 		{
+			id: 'fulltext',
+			title: 'Find full texts',
+			allowExisting: true,
+			allowNew: false,
+			urlExisting: '/libraries/:id/fulltext'
+		},
+		{
 			id: 'collabmatrix',
 			title: 'Generate a collaboration matrix',
 			allowExisting: true,

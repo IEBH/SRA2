@@ -143,3 +143,13 @@ var server = app.listen(config.port, config.host, function() {
 	console.log('Web interface listening on ' + ((config.host || 'localhost') + ':' + config.port).cyan);
 });
 // }}}
+// Init cron {{{
+if (config.cron.enabled) {
+	var cron = require('./cron');
+	cron
+		.on('info', function(msg) {
+			console.log(colors.blue('CRON'), msg);
+		})
+		.install();
+}
+// }}}

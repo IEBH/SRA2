@@ -3,6 +3,7 @@ var async = require('async-chainable');
 var fs = require('fs');
 var moment = require('moment');
 var Libraries = require('../models/libraries');
+var ProcessQueue = require('../models/processQueue');
 var References = require('../models/references');
 var request = require('superagent');
 var rl = require('reflib');
@@ -216,18 +217,53 @@ app.get('/api/libraries/:id/request', function(req, res) {
 				.end(function(err, res) {
 					if (err) return next(err);
 					if (!res.ok) return next("Failed libarry request, return code: " + res.statusCode + ' - ' + res.text);
-					ref.response = res.body;
 					next();
 				});
 		})
 		.end(function(err) {
 			if (err) return res.status(400).send(err);
-			res.send(this.references.map(function(ref) {
-				return {
-					_id: ref._id,
-					response: ref.response,
-				};
-			}));
+			res.send({_id: this.library._id});
+		});
+});
+
+
+/**
+* Create a processQueue item for each reference in the reference table
+* @param string req.params.id The library ID to operate on
+* @param string req.params.operation The operation to perform
+* @param object req.body Additional options to pass to the records
+*/
+app.all('/api/libraries/:id/process/:operation', function(req, res) {
+	async()
+		.then(function(next) {
+			// Sanity checks {{{
+			if (!req.user) return next('You are not logged in');
+			if (!req.params.id) return next('id must be specified');
+			if (!req.params.operation) return next('operation must be specified');
+			next();
+			// }}}
+		})
+		.then('library', function(next) {
+			Libraries.findOne({_id: req.params.id, status: 'active'}, next);
+		})
+		.then('references', function(next) {
+			References
+				.find({library: this.library._id, status: 'active'})
+				.select('_id')
+				.exec(next);
+		})
+		.then(function(next) {
+			ProcessQueue.create({
+				operation: req.params.operation,
+				owner: req.user._id,
+				library: this.library._id,
+				references: this.references.map(function(ref) { return ref._id }),
+				history: [{type: 'queued'}]
+			}, next);
+		})
+		.end(function(err) {
+			if (err) return res.status(400).send(err);
+			res.send({_id: this.library._id});
 		});
 });
 

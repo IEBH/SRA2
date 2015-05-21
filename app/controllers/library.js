@@ -110,27 +110,6 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 	});
 	// }}}
 
-	// Load state / Deal with simple operations {{{
-	if (!$stateParams.id) {
-		$location.path('/libraries');
-	} else if ($stateParams.id == 'create') {
-		Libraries.create({creator: $scope.user._id}).$promise.then(function(data) {
-			$location.path('/libraries/' + data._id);
-		});
-	} else if ($stateParams.operation == 'delete') {
-		Libraries.save({id: $stateParams.id}, {status: 'deleted'}).$promise.then(function() {
-			$location.path('/libraries');
-		});
-	} else if ($stateParams.operation == 'clear') {
-		Libraries.clear({id: $stateParams.id}).$promise.then(function() {
-			$location.path('/libraries/' + data._id);
-		});
-	} else {
-		$scope.library = {_id: $stateParams.id};
-		$scope.refresh();
-	}
-	// }}}
-
 	// Reference inline edit {{{
 	$scope.reference = null;
 
@@ -152,5 +131,30 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 		References.save({id: $scope.reference._id}, _.pick($scope.reference, ['title', 'tags'])).$promise
 			.then($scope.refresh);
 	};
+	// }}}
+
+	// Load state / Deal with simple operations {{{
+	if (!$stateParams.id) {
+		$location.path('/libraries');
+	} else if ($stateParams.id == 'create') {
+		Libraries.create({creator: $scope.user._id}).$promise.then(function(data) {
+			$location.path('/libraries/' + data._id);
+		});
+	} else if ($stateParams.operation == 'delete') {
+		Libraries.save({id: $stateParams.id}, {status: 'deleted'}).$promise.then(function() {
+			$location.path('/libraries');
+		});
+	} else if ($stateParams.operation == 'clear') {
+		Libraries.clear({id: $stateParams.id}).$promise.then(function(data) {
+			$location.path('/libraries/' + data._id);
+		});
+	} else if ($stateParams.operation == 'fulltext') {
+		Libraries.fulltext({id: $stateParams.id}).$promise.then(function(data) {
+			$location.path('/libraries/' + data._id);
+		});
+	} else {
+		$scope.library = {_id: $stateParams.id};
+		$scope.refresh();
+	}
 	// }}}
 });

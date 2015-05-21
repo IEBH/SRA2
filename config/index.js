@@ -53,6 +53,11 @@ var defaults = {
 			timeout: 30 * 1000,
 		},
 	},
+	cron: {
+		enabled: true,
+		queryLimit: 10,
+		waitTime: 3 * 1000,
+	},
 };
 
 module.exports = _.merge(

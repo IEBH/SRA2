@@ -57,7 +57,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		})
 		.state('libraries-operation', {
-			url: '/libraries/{operation:export|dedupe|screen|tags|share|request|collabmatrix|clear|delete}',
+			url: '/libraries/{operation:export|dedupe|screen|tags|share|request|collabmatrix|clear|delete|fulltext}',
 			views: {main: {templateUrl: '/partials/libraries/operation.html'}},
 			data: {
 				title: 'Perform operation',
@@ -67,7 +67,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		// }}}
 		// Library (specific) {{{
 		.state('library-operation', {
-			url: '/libraries/:id/{operation:delete|clear}',
+			url: '/libraries/:id/{operation:delete|clear|fulltext}',
 			views: {main: {templateUrl: '/partials/libraries/wait.html'}},
 			data: {
 				title: 'Performing operation',
