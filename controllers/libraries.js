@@ -96,7 +96,7 @@ app.get('/api/libraries/:id/export/:format', function(req, res) {
 			next(null, format);
 		})
 		.then('library', function(next) {
-			Libraries.findOne({_id: req.params.id}, next);
+			Libraries.findOne({_id: req.params.id, status: 'active'}, next);
 		})
 		.then(function(next) {
 			rl.output({
@@ -104,7 +104,7 @@ app.get('/api/libraries/:id/export/:format', function(req, res) {
 				stream: res,
 				content: function(next, batch) {
 					console.log('Fetch batch', batch);
-					References.find({library: this.library._id})
+					References.find({library: this.library._id, status: 'active'})
 						.limit(config.limits.references)
 						.skip(config.limits.references * batch)
 						.exec(next);
@@ -149,7 +149,7 @@ app.get('/api/libraries/:id/clear', function(req, res) {
 			// }}}
 		})
 		.then('library', function(next) {
-			Libraries.findOne({_id: req.params.id}, next);
+			Libraries.findOne({_id: req.params.id, status: 'active'}, next);
 		})
 		.then(function(next) {
 			References.update({library: this.library._id}, {status: 'deleted'}, {multi: true}, next);
@@ -176,10 +176,10 @@ app.get('/api/libraries/:id/request', function(req, res) {
 			// }}}
 		})
 		.then('library', function(next) {
-			Libraries.findOne({_id: req.params.id}, next);
+			Libraries.findOne({_id: req.params.id, status: 'active'}, next);
 		})
 		.then('references', function(next) {
-			References.find({library: this.library._id}, next);
+			References.find({library: this.library._id, status: 'active'}, next);
 		})
 		.forEach('references', function(next, ref) {
 			var data = {
