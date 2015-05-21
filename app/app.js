@@ -23,4 +23,9 @@ app.run(function($rootScope) {
 		$('body > .modal-backdrop').remove();
 	});
 	// }}}
+	// BUGFIX: Focus any input element with the 'autofocus' attribute on state change {{{
+	$rootScope.$on('$stateChangeSuccess', function() {
+		$('div[ui-view=main]').find('input[autofocus]').focus();
+	});
+	// }}}
 });
