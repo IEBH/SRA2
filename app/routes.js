@@ -148,6 +148,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		})
 		// }}}
+		// Operations {{{
+		.state('library-operation', {
+			url: '/librares/operation/:id',
+			views: {main: {templateUrl: '/partials/libraries/oprationStatus.html'}},
+			data: {
+				title: 'Performing operation',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		// }}}
 		// Reference {{{
 		.state('reference-view', {
 			url: '/references/:id',

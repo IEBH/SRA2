@@ -26,7 +26,7 @@ module.exports = function(finish, task) {
 			function(next) { // Setup task data
 				task.progress.current = 0;
 				task.progress.max = this.references.length;
-				task.history.append({type: 'status', response: 'Going to examine ' + this.references.length + ' references'});
+				task.history.push({type: 'status', response: 'Going to examine ' + this.references.length + ' references'});
 				task.save(next);
 			},
 			function(next) { // Setup library state
@@ -59,7 +59,7 @@ module.exports = function(finish, task) {
 		// Finish {{{
 		.parallel([
 			function(next) { // Finalize task data
-				task.history.append({type: 'status', response: 'Completed dedupe'});
+				task.history.push({type: 'completed', response: 'Completed dedupe'});
 				task.save(next);
 			},
 

@@ -1,0 +1,16 @@
+<div ng-controller="libraryOperationStatus" class="row-fluid pad-top">
+	<div class="span8 offset2">
+		<div class="alert alert-info alert-block">
+			<h1 class="pull-center"><i class="fa fa-spinner fa-spin"></i> Processing reference library...</h1>
+			<div class="row-fluid pad-top">
+				<div class="span8 offset2">
+					<div id="progress" class="progress progress-striped active">
+						<div class="bar" style="width: {{operation.progress.percent}}%"></div>
+					</div>
+					<div class="pull-center">Processed: {{operation.progress.current}} / {{operation.progress.max}}</div>
+					<div class="pull-center muted small pad-top-small">{{operation.lastUpdate}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
