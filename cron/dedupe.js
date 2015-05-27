@@ -25,8 +25,8 @@ module.exports = function(finish, task) {
 		.parallel([
 			function(next) { // Setup task data
 				task.progress.current = 0;
-				task.progress.max = this.references.length;
-				task.history.push({type: 'status', response: 'Going to examine ' + this.references.length + ' references'});
+				task.progress.max = task.references.length;
+				task.history.push({type: 'status', response: 'Going to examine ' + task.references.length + ' references'});
 				task.save(next);
 			},
 			function(next) { // Setup library state

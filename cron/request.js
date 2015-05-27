@@ -25,8 +25,8 @@ module.exports = function(finish, task) {
 			},
 			historyTask: function(next) {
 				task.progress.current = 0;
-				task.progress.max = this.references.length;
-				task.history.push({type: 'status', response: 'Going to request ' + this.references.length + ' references'});
+				task.progress.max = task.references.length;
+				task.history.push({type: 'status', response: 'Going to request ' + task.references.length + ' references'});
 				next();
 			},
 		})
