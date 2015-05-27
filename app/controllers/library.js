@@ -149,8 +149,12 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 			$location.path('/libraries/' + data._id);
 		});
 	} else if ($stateParams.operation == 'fulltext') {
-		Libraries.fulltext({id: $stateParams.id}).$promise.then(function(data) {
-			$location.path('/libraries/' + data._id);
+		Libraries.operationQueue({id: $stateParams.id, operation: 'dummy'}).$promise.then(function(data) {
+			$location.path('/libraries/operation/' + data._id);
+		});
+	} else if ($stateParams.operation == 'dummy') {
+		Libraries.operationQueue({id: $stateParams.id, operation: 'dummy'}).$promise.then(function(data) {
+			$location.path('/libraries/operation/' + data._id);
 		});
 	} else {
 		$scope.library = {_id: $stateParams.id};

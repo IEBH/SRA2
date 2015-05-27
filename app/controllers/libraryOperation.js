@@ -89,6 +89,16 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 	];
 	$scope.operation = _.find($scope.operations, {id: 'view'});
 
+	if ($scope.user.isRoot) {
+		$scope.operations.push({
+			id: 'dummy',
+			title: 'Dummy task',
+			allowExisting: true,
+			allowNew: true,
+			urlExisting: '/libraries/:id/dummy'
+		});
+	}
+
 	$scope.setOperation = function(value) {
 		$scope.operation = value;
 	};

@@ -12,6 +12,7 @@ var util = require('util');
 
 function Cron() {
 	this.workers = {
+		dummy: require('./dummy'),
 		fulltext: require('./fulltext'),
 	};
 
