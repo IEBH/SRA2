@@ -187,7 +187,7 @@ app.all('/api/libraries/:id/process/:operation', function(req, res) {
 				.select('_id')
 				.exec(next);
 		})
-		.then(function(next) {
+		.then('processQueue', function(next) {
 			ProcessQueue.create({
 				creator: req.user,
 				operation: req.params.operation,
@@ -200,7 +200,7 @@ app.all('/api/libraries/:id/process/:operation', function(req, res) {
 		})
 		.end(function(err) {
 			if (err) return res.status(400).send(err);
-			res.send({_id: this.library._id});
+			res.send({_id: this.processQueue._id});
 		});
 });
 
@@ -219,7 +219,7 @@ app.get('/api/operation/:id', function(req, res) {
 		})
 		// }}}
 		.then('operation', function(next) {
-			processQueue.findOne({id: req.params.id});
+			ProcessQueue.findOne({_id: req.params.id}, next);
 		})
 		.end(function(err) {
 			if (err) return res.status(400).send(err);

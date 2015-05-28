@@ -56,6 +56,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
+		.state('library-operation-status', {
+			url: '/libraries/operation/:id',
+			views: {main: {templateUrl: '/partials/libraries/operationStatus.html'}},
+			data: {
+				title: 'Performing operation',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
 		.state('libraries-operation', {
 			url: '/libraries/{operation:export|dedupe|screen|tags|share|request|collabmatrix|clear|delete|fulltext}',
 			views: {main: {templateUrl: '/partials/libraries/operation.html'}},
@@ -144,16 +152,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			views: {main: {templateUrl: '/partials/libraries/view.html'}},
 			data: {
 				title: 'Library',
-				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
-			}
-		})
-		// }}}
-		// Operations {{{
-		.state('library-operation-status', {
-			url: '/librares/operation/:id',
-			views: {main: {templateUrl: '/partials/libraries/oprationStatus.html'}},
-			data: {
-				title: 'Performing operation',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})

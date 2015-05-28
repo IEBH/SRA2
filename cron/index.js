@@ -13,7 +13,6 @@ var util = require('util');
 function Cron() {
 	this.workers = {
 		dummy: require('./dummy'),
-		fulltext: require('./fulltext'),
 	};
 
 	this.cycle = function(finish) {
@@ -44,7 +43,7 @@ function Cron() {
 						next();
 						// }}}
 					})
-					.then('alteredItem', function(next) {
+					.then(function(next) {
 						self.workers[item.operation](next, item);
 					})
 					.then(function(next) {

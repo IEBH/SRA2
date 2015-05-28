@@ -7,8 +7,8 @@
 					<div id="progress" class="progress progress-striped active">
 						<div class="bar" style="width: {{operation.progress.percent}}%"></div>
 					</div>
-					<div class="pull-center">Processed: {{operation.progress.current}} / {{operation.progress.max}}</div>
-					<div class="pull-center muted small pad-top-small">{{operation.lastUpdate}}</div>
+					<div ng-if="operation.progress.current > 0" class="pull-center">Processed: {{operation.progress.current}} / {{operation.progress.max}}</div>
+					<div ng-if="operation.lastUpdate" class="pull-center muted small pad-top-small">Last update at {{operation.lastUpdate}}</div>
 				</div>
 			</div>
 		</div>
