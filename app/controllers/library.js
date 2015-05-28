@@ -43,7 +43,6 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 
 			$scope.tags = data
 				.sort(function(a, b) {
-					console.log('SORT', a.title, b.title);
 					if (a.title > b.title) {
 						return 1;
 					} else if (b.title < a.title) {
@@ -100,7 +99,10 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 	// }}}
 
 	// Watchers {{{
-	$scope.$watch('library.title', function() { $rootScope.$broadcast('setTitle', $scope.library.title) });
+	$scope.$watch('library.title', function() {
+		if (!$scope.library) return;
+		$rootScope.$broadcast('setTitle', $scope.library.title);
+	});
 
 	$scope.$on('$locationChangeSuccess', function() {
 		if ($scope.tags) {
