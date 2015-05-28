@@ -10,7 +10,9 @@ app.controller('libraryListController', function($scope, Libraries, References) 
 		} else if (!$scope.libraryAllowNew && $scope.libraries.length > 0 && $scope.libraries[0]._id == 'new') { // Disable
 			$scope.libraries.splice(0, 1);
 		}
-		$scope.libraries.splice
+
+		// Default to new if no library is currently selected
+		if ($scope.libraryAllowNew && !$scope.library) $scope.library = $scope.libraries[0];
 	});
 
 	// Data refresher {{{
