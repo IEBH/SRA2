@@ -108,6 +108,12 @@ gulp.task('clean', function(next) {
 });
 
 
+gulp.task('clean-tasks', ['load:db'], function(next) {
+	var Tasks = require('./models/tasks');
+	Tasks.remove(function() { next() });
+});
+
+
 /**
 * Launch a plain server without Nodamon
 */
