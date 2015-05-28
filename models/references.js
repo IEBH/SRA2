@@ -7,7 +7,7 @@ var schema = new mongoose.Schema({
 	tags: [{type: mongoose.Schema.ObjectId, ref: 'referenceTags', indexed: true}],
 	type: {type: String, default: 'report'},
 	title: {type: String},
-	titleSecondary: {type: String},
+	journal: {type: String},
 	authors: [{type: String}],
 	date: {type: String},
 	pages: {type: String},

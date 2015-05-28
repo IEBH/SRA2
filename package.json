@@ -50,7 +50,7 @@
     "newrelic": "^1.19.0",
     "passport": "~0.2.1",
     "passport-local": "~1.0.0",
-    "reflib": "^1.0.4",
+    "reflib": "^1.0.6",
     "require-dir": "^0.3.0",
     "superagent": "^1.2.0"
   }

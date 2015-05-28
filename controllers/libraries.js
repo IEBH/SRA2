@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var async = require('async-chainable');
+var colors = require('colors');
 var fs = require('fs');
 var moment = require('moment');
 var Libraries = require('../models/libraries');
@@ -27,6 +28,7 @@ app.post('/api/libraries/import', function(req, res) {
 		})
 		.forEach(req.files, function(next, file) {
 			// File sanity checks {{{
+			console.log(colors.blue('Upload'), file.originalname, 'using driver', rl.identify(file.originalname));
 			if (file.originalname && !rl.identify(file.originalname)) return next('File type not supported');
 			next();
 			// }}}
@@ -52,7 +54,6 @@ app.post('/api/libraries/import', function(req, res) {
 		})
 		.forEach(req.files, function(next, file) {
 			var self = this;
-			console.log('Upload', file.path);
 			rl.parse(rl.identify(file.originalname) || 'endnotexml', fs.readFileSync(file.path))
 				.on('error', function(err) {
 					next(err);
