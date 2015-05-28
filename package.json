@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "postinstall": "bower install && gulp build"
+    "postinstall": "bower install --allow-root && gulp build"
   },
   "dependencies": {
     "async-chainable": "^1.7.11",
@@ -28,6 +28,7 @@
     "express-session": "^1.11.2",
     "golden-colors": "^1.0.1",
     "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
     "gulp-concat": "^2.5.2",
     "gulp-git-watch": "^0.1.0",
     "gulp-if": "^1.2.5",
