@@ -238,3 +238,8 @@ td .badge {
 	margin-top: 2px;
 }
 /* }}} */
+/* FIX: Muted text within alerts {{{ */
+.alert .muted {
+	color: #82BEDB;
+}
+/* }}} */

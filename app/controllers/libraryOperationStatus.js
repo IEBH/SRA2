@@ -15,10 +15,14 @@ app.controller('libraryOperationStatus', function($scope, $location, $stateParam
 					$location.path('/libraries/' + $scope.operation.library);
 				} else {
 					$scope.operation.lastUpdate = moment().format('h:mm:ss a');
-					if ($scope.operation.progress.current > 0) {
-						$scope.operation.progress.percent = Math.ceil($scope.operation.progress.current / $scope.operation.progress.max);
+					if ($scope.operation && $scope.operation.progress && $scope.operation.progress.current > 0) {
+						$scope.operation.progress.percent = Math.ceil(($scope.operation.progress.current / $scope.operation.progress.max) * 100);
 					} else {
-						$scope.operation.progress.percent = 100;
+						$scope.operation.progress = {
+							current: 0,
+							max: 100,
+							percent: 0
+						};
 					}
 				}
 			})
