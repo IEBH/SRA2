@@ -1,7 +1,9 @@
-app.controller('libraryRequestController', function($scope, $location, Libraries) {
+app.controller('libraryRequestController', function($scope, $location, Tasks) {
 	$scope.submit = function() {
-		Libraries.operationQueue({id: $scope.library._id, operation: 'request'}).$promise.then(function(data) {
-			$location.path('/libraries/operation/' + data._id);
+		Tasks.fromLibrary({id: $scope.library._id, worker: 'request'}, {settings: {
+			user: _.pick($scope.user, ['email', 'name', 'title', 'libraryNo', 'faculty', 'position'])
+		}}).$promise.then(function(data) {
+			$location.path('/libraries/task/' + data._id);
 		});
 	};
 });

@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var async = require('async-chainable');
 var Libraries = require('../models/libraries');
 var moment = require('moment');
@@ -9,7 +10,8 @@ module.exports = function(finish, task) {
 		// Sanity checks {{{
 		.then(function(next) {
 			console.log('TASK IS', task);
-			if (!task.settings.user) return next('.user object must be present for request');
+			if (!task.settings) return next('.settings object must be present for request');
+			if (!task.settings.user) return next('.settings.user object must be present for request');
 			next();
 		})
 		// }}}
@@ -33,6 +35,20 @@ module.exports = function(finish, task) {
 		})
 		// }}}
 
+		// Clean up data {{{
+		.then(function(next) {
+			if (task.settings.user.name && !_.isObject(task.settings.user.name)) {
+				var nameBits = task.settings.user.name.split(/\s+/);
+				task.settings.user.name = {
+					first: nameBits[0],
+					last: nameBits.length > 1 ? nameBits[nameBits.length - 1] : null,
+					other: nameBits.length > 2 ? nameBits.slice(1, -1).join(' ') : null,
+				};
+			}
+			next();
+		})
+		// }}}
+
 		// Make request(s) {{{
 		.forEach('references', function(nextRef, ref) {
 			async()
@@ -40,8 +56,8 @@ module.exports = function(finish, task) {
 					var data = {
 						Title: task.settings.user.title || '',
 						Library_Barcode: task.settings.user.libraryNo || '',
-						First_Name: task.settings.user.splitName().first || '',
-						Last_Name: task.settings.user.splitName().last || '',
+						First_Name: task.settings.user.first || '',
+						Last_Name: task.settings.user.last || '',
 						Email: task.settings.user.email || '',
 						Faculty: task.settings.user.faculty || '',
 						checkbox3: 'Checked Library Holdings',
@@ -86,6 +102,8 @@ module.exports = function(finish, task) {
 		// Finish {{{
 		.then(function(next) { // Finalize task data
 			task.history.push({type: 'completed', response: 'Completed request operation'});
+			task.completed = new Date();
+			task.status = 'completed';
 			task.save(next);
 		})
 		.end(finish);
