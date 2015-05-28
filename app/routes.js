@@ -56,9 +56,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
-		.state('library-operation-status', {
-			url: '/libraries/operation/:id',
-			views: {main: {templateUrl: '/partials/libraries/operationStatus.html'}},
+		.state('library-task-status', {
+			url: '/libraries/task/:id',
+			views: {main: {templateUrl: '/partials/libraries/taskStatus.html'}},
 			data: {
 				title: 'Performing operation',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]

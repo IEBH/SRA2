@@ -31,7 +31,7 @@ var defaults = {
 		minifyCSS: false,
 	},
 	mongo: {
-		uri: 'mongodb://localhost/crebp-sra',
+		uri: 'mongodb://localhost/sra',
 		options: {
 			db: {
 				safe: true

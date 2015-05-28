@@ -1,12 +1,12 @@
 /**
 * Cron core
-* Used as the periodic task runner to poll the processQueue and distribute tasks out to ./cron/*.js
+* Used as the periodic task runner to poll the tasks collection and distribute tasks out to ./cron/*.js workers
 */
 
 var _ = require('lodash');
 var async = require('async-chainable');
 var events = require('events');
-var ProcessQueue = require('../models/processQueue');
+var Tasks = require('../models/tasks');
 var request = require('superagent');
 var util = require('util');
 
@@ -24,28 +24,28 @@ function Cron() {
 				toProcess: 0,
 				processed: 0,
 			})
-			.then('queue', function(next) {
-				ProcessQueue.find({status: 'pending'})
+			.then('tasks', function(next) {
+				Tasks.find({status: 'pending'})
 					.limit(config.cron.queryLimit) // Scoop out only so many records at a time
 					.sort('touched')
 					.exec(next);
 			})
 			.then(function(next) {
-				this.toProcess = this.queue.length;
+				this.toProcess = this.tasks.length;
 				if (!this.toProcess) return next('Nothing to do');
 				next();
 			})
-			.forEach('queue', function(nextItem, item) {
+			.forEach('tasks', function(nextItem, item) {
 				var outer = this;
 				async()
 					.then(function(next) {
 						// Sanity Checks {{{
-						if (!self.workers[item.operation]) return next('Unknown operation: ' + item.operation);
+						if (!self.workers[item.worker]) return next('Unknown worker: ' + item.worker);
 						next();
 						// }}}
 					})
 					.then(function(next) {
-						self.workers[item.operation](next, item);
+						self.workers[item.worker](next, item);
 					})
 					.then(function(next) {
 						outer.processed++;

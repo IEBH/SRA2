@@ -3,7 +3,6 @@ var async = require('async-chainable');
 var fs = require('fs');
 var moment = require('moment');
 var Libraries = require('../models/libraries');
-var ProcessQueue = require('../models/processQueue');
 var References = require('../models/references');
 var rl = require('reflib');
 
@@ -157,75 +156,6 @@ app.get('/api/libraries/:id/clear', function(req, res) {
 		.end(function(err) {
 			if (err) return res.status(400).send(err);
 			res.send({id: this.library._id});
-		});
-});
-
-
-/**
-* Create a processQueue item for each reference in the reference table
-* @param string req.params.id The library ID to operate on
-* @param string req.params.operation The operation to perform
-* @param object req.body Additional options to pass to the records (stored in processQueue.settings)
-*/
-app.all('/api/libraries/:id/process/:operation', function(req, res) {
-	async()
-		.set('settings', req.body.settings || {})
-		// Sanity checks {{{
-		.then(function(next) {
-			if (!req.user) return next('You are not logged in');
-			if (!req.params.id) return next('id must be specified');
-			if (!req.params.operation) return next('operation must be specified');
-			next();
-		})
-		// }}}
-		.then('library', function(next) {
-			Libraries.findOne({_id: req.params.id, status: 'active'}, next);
-		})
-		.then('references', function(next) {
-			References
-				.find({library: this.library._id, status: 'active'})
-				.select('_id')
-				.exec(next);
-		})
-		.then('processQueue', function(next) {
-			ProcessQueue.create({
-				creator: req.user,
-				operation: req.params.operation,
-				owner: req.user._id,
-				library: this.library._id,
-				references: this.references.map(function(ref) { return ref._id }),
-				history: [{type: 'queued'}],
-				settings: this.settings,
-			}, next);
-		})
-		.end(function(err) {
-			if (err) return res.status(400).send(err);
-			res.send({_id: this.processQueue._id});
-		});
-});
-
-
-/**
-* Get the status of an operation
-* @param string req.params.id The operation ID to query
-*/
-app.get('/api/operation/:id', function(req, res) {
-	async()
-		// Sanity checks {{{
-		.then(function(next) {
-			if (!req.user) return next('You are not logged in');
-			if (!req.params.id) return next('id must be specified');
-			next();
-		})
-		// }}}
-		.then('operation', function(next) {
-			ProcessQueue.findOne({_id: req.params.id}, next);
-		})
-		.end(function(err) {
-			if (err) return res.status(400).send(err);
-			res.send(_.pick(this.operation, [
-				'_id', 'created', 'library', 'status', 'progress', 'history'
-			]));
 		});
 });
 

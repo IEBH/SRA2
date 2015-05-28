@@ -1,4 +1,4 @@
-app.controller('libraryController', function($scope, $rootScope, $interval, $location, $stateParams, Libraries, References, ReferenceTags) {
+app.controller('libraryController', function($scope, $rootScope, $interval, $location, $stateParams, Libraries, References, ReferenceTags, Tasks) {
 	$scope.loading = true;
 	$scope.library = null;
 	$scope.tags = null;
@@ -151,12 +151,12 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 			$location.path('/libraries/' + data._id);
 		});
 	} else if ($stateParams.operation == 'fulltext') {
-		Libraries.operationQueue({id: $stateParams.id, operation: 'dummy'}).$promise.then(function(data) {
-			$location.path('/libraries/operation/' + data._id);
+		Tasks.fromLibrary({id: $stateParams.id, worker: 'dummy'}).$promise.then(function(data) {
+			$location.path('/libraries/task/' + data._id);
 		});
 	} else if ($stateParams.operation == 'dummy') {
-		Libraries.operationQueue({id: $stateParams.id, operation: 'dummy'}).$promise.then(function(data) {
-			$location.path('/libraries/operation/' + data._id);
+		Tasks.fromLibrary({id: $stateParams.id, worker: 'dummy'}).$promise.then(function(data) {
+			$location.path('/libraries/task/' + data._id);
 		});
 	} else {
 		$scope.library = {_id: $stateParams.id};

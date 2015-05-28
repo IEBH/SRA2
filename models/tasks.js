@@ -1,10 +1,10 @@
-var name = 'processQueue';
+var name = 'tasks';
 var schema = new mongoose.Schema({
 	id: mongoose.Schema.ObjectId,
 	created: {type: Date, default: Date.now},
 	creator: {type: mongoose.Schema.ObjectId, ref: 'users'},
 	touched: {type: Date, default: Date.now},
-	operation: {type: String, enum: ['fulltext', 'dedupe', 'dummy', 'request'], index: true},
+	worker: {type: String, enum: ['fulltext', 'dedupe', 'dummy', 'request'], index: true},
 	completed: {type: Date},
 	status: {type: String, enum: ['pending', 'processing', 'completed'], default: 'pending', index: true},
 	progress: {

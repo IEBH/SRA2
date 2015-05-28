@@ -5,7 +5,7 @@ app.factory('Settings', function($resource) {
 			user: 2 * 1000
 		},
 		poll: { // How often certain interfaces should refresh
-			operationStatus: 2 * 1000,
+			task: 2 * 1000,
 		}
 	};
 });

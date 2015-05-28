@@ -8,6 +8,7 @@ module.exports = function(finish, task) {
 	async()
 		// Sanity checks {{{
 		.then(function(next) {
+			console.log('TASK IS', task);
 			if (!task.settings.user) return next('.user object must be present for request');
 			next();
 		})
