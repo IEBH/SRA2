@@ -243,3 +243,8 @@ td .badge {
 	color: #82BEDB;
 }
 /* }}} */
+/* FIX: Icon spacing in buttons isn't big enough {{{ */
+.btn > i.fa {
+	margin-right: 5px;
+}
+/* }}} */
