@@ -1,9 +1,7 @@
-app.controller('libraryRequestController', function($scope, Libraries) {
+app.controller('libraryRequestController', function($scope, $location, Libraries) {
 	$scope.submit = function() {
 		Libraries.operationQueue({id: $scope.library._id, operation: 'request'}).$promise.then(function(data) {
-			console.log('SUCCESS!', data);
-		}, function(err) {
-			console.log('FAILED BECAUSE', err);
+			$location.path('/libraries/operation/' + data._id);
 		});
 	};
 });

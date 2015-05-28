@@ -13,6 +13,7 @@ var util = require('util');
 function Cron() {
 	this.workers = {
 		dummy: require('./dummy'),
+		request: require('./request'),
 	};
 
 	this.cycle = function(finish) {

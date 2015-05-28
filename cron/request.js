@@ -15,7 +15,7 @@ module.exports = function(finish, task) {
 
 		// Retrieve data {{{
 		.parallel({
-			library:, function(next) {
+			library: function(next) {
 				Libraries.find({_id: task.library}, next);
 			},
 			references: function(next) {
