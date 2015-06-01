@@ -54,7 +54,7 @@
 		</div>
 	</div>
 
-	<div ng-show="selected.length" class="navbar navbar-default">
+	<div ng-style="{visibility: selected.length ? 'visible' : 'hidden'}" class="navbar navbar-default">
 		<ul class="nav navbar-nav">
 			<li class="btn-group">
 				<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">{{selected.length}} selected <i class="fa fa-chevron-down"></i></a>
