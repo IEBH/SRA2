@@ -69,6 +69,17 @@
 					<li><a ng-click="selectAction('tag-clear')">Clear tags</a></li>
 				</ul>
 			</li>
+			<li class="btn-group">
+				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action <i class="fa fa-chevron-down"></i></a>
+				<ul class="dropdown-menu">
+					<li><a ng-click="selectAction('request')"><i class="fa fa-envelope-o"></i> Journal request</a></li>
+					<li><a ng-click="selectAction('dedupe')"><i class="fa fa-compress"></i> Deduplicate</a></li>
+					<li><a ng-click="selectAction('screen')"><i class="fa fa-filter"></i> Screen</a></li>
+					<li ng-if="user.isRoot"><a ng-click="selectAction('dummy')"><i class="fa fa-cog"></i> Dummy task</a></li>
+					<li class="divider"></li>
+					<li><a ng-click="selectAction('delete')"><i class="fa fa-trash"></i> Delete</a></li>
+				</ul>
+			</li>
 		</ul>
 	</div>
 
@@ -117,7 +128,7 @@
 			<th>Authors</th>
 			<th ng-if="tags && tags.length">Tags</th>
 		</tr>
-		<tr ng-repeat="reference in references track by reference._id">
+		<tr ng-repeat="reference in references | filter:{status:'active'} track by reference._id">
 			<td class="text-center">
 				<input type="checkbox" ng-model="reference.selected" ng-change="determineSelected()"/>
 			</td>

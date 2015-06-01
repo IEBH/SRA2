@@ -101,10 +101,25 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 						if (!_.contains(ref.tags, operand._id)) ref.tags.push(operand._id);
 					});
 				}
+				$scope.selected.forEach(ref => {
+					References.save({id: ref._id}, {tags: ref.tags});
+				});
 				break;
 			case 'tag-clear':
 				$scope.selected.forEach(ref => {
 					ref.tags = [];
+					References.save({id: ref._id}, {tags: ref.tags});
+				});
+				break;
+			case 'request': // Operation -> Journal request
+			case 'dedupe': // Operation -> Dedupe
+			case 'screen': // Operation -> Screen
+			case 'dummy': // Operation -> Dummy
+				break;
+			case 'delete':
+				$scope.selected.forEach(ref => {
+					ref.status = 'deleted';
+					References.save({id: ref._id}, {status: ref.status});
 				});
 				break;
 		}
