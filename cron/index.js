@@ -41,8 +41,13 @@ function Cron() {
 					.then(function(next) {
 						// Sanity Checks {{{
 						if (!self.workers[item.worker]) return next('Unknown worker: ' + item.worker);
+						if (item.status != 'pending') return next('Grabbed task with invalid status: ' + item.status);
 						next();
 						// }}}
+					})
+					.then(function(next) { // Mark as processing so the next cycle doesn't grab it
+						item.status = 'processing';
+						item.save(next);
 					})
 					.then(function(next) {
 						self.workers[item.worker](next, item);
@@ -50,14 +55,16 @@ function Cron() {
 					.then(function(next) {
 						outer.processed++;
 						item.touched = new Date();
+						item.status = 'completed';
 						item.save(next);
 					})
 					.end(nextItem);
 			})
 			.end(function(err) {
-				self.emit('info', this.processed.toString() + '/' + this.toProcess.toString() + ' profiles processed');
+				if (this.toProcess) self.emit('info', this.processed.toString() + '/' + this.toProcess.toString() + ' profiles processed');
+
 				if (!this.toProcess) {
-					self.emit('info', 'Nothing to do');
+					self.emit('idle', 'Nothing to do');
 				} else if (err) {
 					self.emit('info', 'Cron Error - ' + err);
 				}
@@ -68,17 +75,30 @@ function Cron() {
 
 	this.install = function() {
 		var self = this;
-		self.emit('info', 'Installed');
+		// Cron runner process {{{
 		var cronRunner = function() {
 			setTimeout(function() {
-				self.emit('info', 'Beginning cron cycle');
+				// self.emit('info', 'Beginning cron cycle');
 				self.cycle(function() {
-					self.emit('info', 'Cycle complete');
+					// self.emit('info', 'Cycle complete');
 					cronRunner();
 				});
 			}, config.cron.waitTime);
 		};
-		cronRunner();
+		// }}}
+		async()
+			.then(function(next) {
+				// Restart all partially completed tasks as pending
+				Tasks.update({status: 'processing'}, {status: 'pending'}, next);
+			})
+			.then(function(next) {
+				cronRunner();
+				next();
+			})
+			.end(function(err) {
+				if (err) throw new Error(err);
+				self.emit('info', 'Installed');
+			});
 	};
 }
 
