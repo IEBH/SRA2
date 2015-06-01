@@ -67,4 +67,9 @@
 	top: auto;
 	margin-top: -30px;
 }
+
+ul.dropdown-menu li i.fa-caret-right {
+	font-size: 20px;
+	margin-right: 0;
+}
 /* }}} */

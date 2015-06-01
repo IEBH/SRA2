@@ -101,6 +101,16 @@ app.controller('libraryController', function($scope, $rootScope, $filter, $inter
 			case 'invert':
 				$scope.references.forEach(ref => { ref.selected = !ref.selected });
 				break;
+			case 'byTag':
+				$scope.references.forEach(ref => {
+					ref.selected = _.contains(ref.tags, operand._id);
+				});
+				break;
+			case 'byNoTag':
+				$scope.references.forEach(ref => {
+					ref.selected = !ref.tags.length;
+				});
+				break;
 			case 'tag':
 				if ($scope.selected.every(ref => { return _.contains(ref.tags, operand._id) })) { // Are we untagging?
 					$scope.selected.forEach(ref => {
