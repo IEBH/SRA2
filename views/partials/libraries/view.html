@@ -132,7 +132,7 @@
 			<th>Authors</th>
 			<th ng-if="tags && tags.length">Tags</th>
 		</tr>
-		<tr ng-repeat="reference in references | filter:{status:'active'} track by reference._id">
+		<tr ng-repeat="reference in references | filter:{status:'active'} track by reference._id" ng-class="{info: reference.selected}">
 			<td class="text-center">
 				<input type="checkbox" ng-model="reference.selected" ng-change="determineSelected()"/>
 			</td>
