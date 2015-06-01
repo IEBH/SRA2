@@ -64,9 +64,9 @@
 			<li ng-if="tags && tags.length" class="btn-group">
 				<a class="btn btn-info dropdown-toggle" data-toggle="dropdown">Tag <i class="fa fa-chevron-down"></i></a>
 				<ul class="dropdown-menu">
-					<li ng-repeat="tag in tags"><a ng-click="selectAction('tag', tag)">{{tag.title}}</a></li>
+					<li ng-repeat="tag in tags"><a ng-click="selectAction('tag', tag)"><i class="fa fa-tag"></i> {{tag.title}}</a></li>
 					<li class="divider"></li>
-					<li><a ng-click="selectAction('tag-clear')">Clear tags</a></li>
+					<li><a ng-click="selectAction('tag-clear')"><i class="fa fa-eraser"></i> Clear tags</a></li>
 				</ul>
 			</li>
 			<li class="btn-group">
