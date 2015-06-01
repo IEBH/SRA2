@@ -5,7 +5,7 @@
 			"username": "mc",
 			"password": "qwaszx",
 			"name": "Matt Carter",
-			"email": "matt@mfdc.biz",
+			"email": "matt_carter@bond.edu.au",
 			"role": "root",
 			"title": "Dr",
 			"libraryNo": "BO361262",
@@ -13,6 +13,40 @@
 			"position": {
 				"undergrad": false,
 				"postgrad": true,
+				"phd": true,
+				"staff": true
+			}
+		},
+		{
+			"_ref": "users.jc",
+			"username": "jc",
+			"password": "qwaszx",
+			"name": "Justin Clark",
+			"email": "jclark@bond.edu.au",
+			"role": "user",
+			"title": "Dr",
+			"libraryNo": "",
+			"faculty": "HSM",
+			"position": {
+				"undergrad": false,
+				"postgrad": false,
+				"phd": false,
+				"staff": true
+			}
+		},
+		{
+			"_ref": "users.pg",
+			"username": "pg",
+			"password": "qwaszx",
+			"name": "Paul Glasziou",
+			"email": "paul_glasziou@bond.edu.au",
+			"role": "user",
+			"title": "Dr",
+			"libraryNo": "",
+			"faculty": "HSM",
+			"position": {
+				"undergrad": false,
+				"postgrad": false,
 				"phd": true,
 				"staff": true
 			}
