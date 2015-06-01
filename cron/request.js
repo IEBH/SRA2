@@ -56,8 +56,8 @@ module.exports = function(finish, task) {
 					var data = {
 						Title: task.settings.user.title || '',
 						Library_Barcode: task.settings.user.libraryNo || '',
-						First_Name: task.settings.user.first || '',
-						Last_Name: task.settings.user.last || '',
+						First_Name: task.settings.user.name.first || '',
+						Last_Name: task.settings.user.name.last || '',
 						Email: task.settings.user.email || '',
 						Faculty: task.settings.user.faculty || '',
 						checkbox3: 'Checked Library Holdings',
