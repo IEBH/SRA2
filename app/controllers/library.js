@@ -29,7 +29,16 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 		if ($scope.activeTag) rQuery.tags = $scope.activeTag._id;
 
 		References.query(rQuery).$promise.then(function(data) {
-			$scope.references = data;
+			$scope.references = data
+				.map(ref => {
+					// Decorators {{{
+					// select already selected references (e.g. if changing tabs) {{{
+					if (_.find($scope.selected, {_id: ref._id})) ref.selected = true;
+					// }}}
+					return ref;
+					// }}}
+				});
+			$scope.determineSelected();
 			$scope.loading = false;
 		});
 		// }}}
