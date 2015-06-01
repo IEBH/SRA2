@@ -122,6 +122,30 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 	});
 	// }}}
 
+	// Filtering {{{
+	$scope.filters = [
+		{id: 'all', title: 'All references in library'}
+	];
+	$scope.filter = _.find($scope.filters, {id: 'all'});
+
+	// Deal with reference bucket {{{
+	var bucket = $scope.getReferenceBucket();
+	if (bucket && bucket.length) {
+		$scope.filters.push({
+			id: 'selected',
+			title: bucket.length + ' selected references',
+			references: bucket
+		});
+		$rootScope.$broadcast('referenceBucket', null); // Clear bucket
+		$scope.filter = _.find($scope.filters, {id: 'selected'});
+	}
+	// }}}
+
+	$scope.setFilter = function(what) {
+		$scope.filter = what;
+	};
+	// }}}
+
 	// Formats {{{
 	$scope.formats = null;
 	$scope.format = null;

@@ -71,4 +71,14 @@ app.controller('globalController', function($scope, $rootScope, $debounce, $loca
 		}
 	});
 	// }}}
+	// .referenceBucket {{{
+	// Structure which allows passing a large number of reference ID's between views
+	$scope.referenceBucket = null;
+	$scope.$on('referenceBucket', function(e, contents) {
+		$scope.referenceBucket = contents;
+	});
+	$scope.getReferenceBucket = function() {
+		return $scope.referenceBucket;
+	};
+	// }}}
 });

@@ -111,10 +111,25 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 					References.save({id: ref._id}, {tags: ref.tags});
 				});
 				break;
+			case 'export': // Operation -> Export
+				$rootScope.$broadcast('referenceBucket', $scope.selected.map(r => { return r._id }));
+				$location.path('/libraries/' + $scope.library._id + '/export');
+				break;
 			case 'request': // Operation -> Journal request
+				$rootScope.$broadcast('referenceBucket', $scope.selected.map(r => { return r._id }));
+				$location.path('/libraries/' + $scope.library._id + '/request');
+				break;
 			case 'dedupe': // Operation -> Dedupe
+				$rootScope.$broadcast('referenceBucket', $scope.selected.map(r => { return r._id }));
+				$location.path('/libraries/' + $scope.library._id + '/dedupe');
+				break;
 			case 'screen': // Operation -> Screen
+				$rootScope.$broadcast('referenceBucket', $scope.selected.map(r => { return r._id }));
+				$location.path('/libraries/' + $scope.library._id + '/screen');
+				break;
 			case 'dummy': // Operation -> Dummy
+				$rootScope.$broadcast('referenceBucket', $scope.selected.map(r => { return r._id }));
+				$location.path('/libraries/' + $scope.library._id + '/dummy');
 				break;
 			case 'delete':
 				$scope.selected.forEach(ref => {

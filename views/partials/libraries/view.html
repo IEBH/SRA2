@@ -34,7 +34,10 @@
 		{{library.title || 'Untitled'}}
 		<div class="btn-group pull-right">
 			<a class="btn dropdown-toggle" data-toggle="dropdown">
-				<i class="fa fa-cog"></i> Tools <span class="caret"></span>
+				<i class="fa fa-cog"></i>
+					Tools
+					<i class="fa fa-caret-down"></i>
+				</span>
 			</a>
 			<ul class="dropdown-menu" ng-include="'/partials/libraries/verbs.html'"></ul>
 		</div>
@@ -72,6 +75,7 @@
 			<li class="btn-group">
 				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action <i class="fa fa-chevron-down"></i></a>
 				<ul class="dropdown-menu">
+					<li><a ng-click="selectAction('export')"><i class="fa fa-cloud-download"></i> Export selected</a></li>
 					<li><a ng-click="selectAction('request')"><i class="fa fa-envelope-o"></i> Journal request</a></li>
 					<li><a ng-click="selectAction('dedupe')"><i class="fa fa-compress"></i> Deduplicate</a></li>
 					<li><a ng-click="selectAction('screen')"><i class="fa fa-filter"></i> Screen</a></li>

@@ -6,15 +6,15 @@
 			<label class="col-sm-2 control-label">University</label>
 			<div class="col-sm-10">
 				<div class="btn-group">
-					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-tags"></i>
+					<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-university"></i>
 						Bond University
-						<span class="caret"></span>
+						<i class="fa fa-chevron-down"></i>
 					</a>
 					<ul class="dropdown-menu">
 						<li>
 							<a ng-click="">
-								<i class="fa fa-tags"></i>
+								<i class="fa fa-university"></i>
 								Bond University
 							</a>
 						</li>
@@ -28,10 +28,10 @@
 			<label class="col-sm-2 control-label">Reference Library</label>
 			<div class="col-sm-10">
 				<div class="btn-group">
-					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+					<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 						<i class="fa fa-tags"></i>
 						{{library.title || 'Select a library...'}}
-						<span class="caret"></span>
+						<i class="fa fa-chevron-down"></i>
 					</a>
 					<ul class="dropdown-menu">
 						<li ng-repeat="library in libraries track by library._id">
@@ -43,6 +43,22 @@
 					</ul>
 				</div>
 				<p class="help-block" ng-if="library.referenceCount">{{library.referenceCount}} references in library</p>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Filtering</label>
+			<div class="col-sm-10">
+				<div class="btn-group">
+					<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-filter"></i>
+						{{filter.title || 'Select a filter...'}}
+						<i class="fa fa-chevron-down"></i>
+					</a>
+					<ul class="dropdown-menu">
+						<li ng-repeat="f in filters"><a ng-click="setFilter(f)">{{f.title}}</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 
