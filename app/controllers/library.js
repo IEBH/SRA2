@@ -71,6 +71,47 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 	};
 	// }}}
 
+	// Selected references {{{
+	$scope.selected = [];
+	/**
+	* Called on each references.selected change to populate $scope.selected
+	*/
+	$scope.determineSelected = function() {
+		$scope.selected = $scope.references.filter(ref => { return !! ref.selected });
+	};
+
+	$scope.selectAction = function(what, operand) {
+		switch (what) {
+			case 'all':
+				$scope.references.forEach(ref => { ref.selected = true });
+				break;
+			case 'none':
+				$scope.references.forEach(ref => { ref.selected = false });
+				break;
+			case 'invert':
+				$scope.references.forEach(ref => { ref.selected = !ref.selected });
+				break;
+			case 'tag':
+				if ($scope.selected.every(ref => { return _.contains(ref.tags, operand._id) })) { // Are we untagging?
+					$scope.selected.forEach(ref => {
+						ref.tags = _.without(ref.tags, operand._id);
+					});
+				} else { // Tagging
+					$scope.selected.forEach(ref => {
+						if (!_.contains(ref.tags, operand._id)) ref.tags.push(operand._id);
+					});
+				}
+				break;
+			case 'tag-clear':
+				$scope.selected.forEach(ref => {
+					ref.tags = [];
+				});
+				break;
+		}
+		$scope.determineSelected();
+	};
+	// }}}
+
 	// Saver {{{
 	/**
 	* Attempt to save various library information and reload from server

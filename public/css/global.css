@@ -171,6 +171,12 @@ tr:hover .show-on-hover {
 	width: 30px;
 }
 /* }}} */
+/* FIX: Checkboxes are too small {{{ */
+input[type=checkbox] {
+	width: 20px;
+	height: 20px;
+}
+/* }}} */
 /* FIX: ng-click doesnt register as clickable within links {{{ */
 a[ng-click] {
 	cursor: pointer;
@@ -246,5 +252,19 @@ td .badge {
 /* FIX: Icon spacing in buttons isn't big enough {{{ */
 .btn > i.fa {
 	margin-right: 5px;
+}
+/* }}} */
+/* FIX: Navbars within pages {{{ */
+.page-content .navbar {
+	margin-bottom: 20px;
+	min-height: inherit;
+}
+
+.page-content .navbar .navbar-nav > li > a {
+	padding: 5px 10px;
+}
+
+.page-content .navbar .navbar-nav > li > a.btn-link {
+	margin-top: 4px;
 }
 /* }}} */
