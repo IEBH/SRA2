@@ -1,4 +1,4 @@
-app.controller('libraryController', function($scope, $rootScope, $interval, $location, $stateParams, Libraries, References, ReferenceTags, Tasks) {
+app.controller('libraryController', function($scope, $rootScope, $filter, $interval, $location, $stateParams, Libraries, References, ReferenceTags, Tasks) {
 	$scope.loading = true;
 	$scope.library = null;
 	$scope.tags = null;
@@ -38,6 +38,7 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 					return ref;
 					// }}}
 				});
+			$scope.references = $filter('orderBy')($scope.references, $scope.sort, $scope.sortReverse);
 			$scope.determineSelected();
 			$scope.loading = false;
 		});
@@ -148,6 +149,20 @@ app.controller('libraryController', function($scope, $rootScope, $interval, $loc
 				break;
 		}
 		$scope.determineSelected();
+	};
+	// }}}
+
+	// Sorting {{{
+	$scope.sort = 'title';
+	$scope.sortReverse = false;
+	$scope.setSort = function(method) {
+		if ($scope.sort == method) { // Already set - reverse method
+			$scope.sortReverse = !$scope.sortReverse;
+		} else { // Changing method
+			$scope.sort = method;
+			$scope.sortReverse = false;
+		}
+		$scope.references = $filter('orderBy')($scope.references, $scope.sort, $scope.sortReverse);
 	};
 	// }}}
 
