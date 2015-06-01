@@ -51,7 +51,7 @@ var defaults = {
 	library: {
 		request: {
 			// https://apps.bond.edu.au/forms/journalrequest.html => http://apps.bond.edu.au/form-response/doc_deliver_IFRAMEFORM.asp
-			url: 'http://localhost/debug/echo',
+			url: 'http://apps.bond.edu.au/form-response/doc_deliver_IFRAMEFORM.asp',
 			timeout: 30 * 1000,
 		},
 	},
