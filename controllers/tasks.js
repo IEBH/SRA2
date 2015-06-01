@@ -5,10 +5,11 @@ var References = require('../models/references');
 var Tasks = require('../models/tasks');
 
 /**
-* Create a combined on an entire library (assume all references)
+* Create a combined on an entire library (assume all references, unless req.params.references is specified)
 * @param string req.params.libid The library ID to operate on
 * @param string req.params.worker The worker to allocate
-* @param object req.body Additional options to pass to the records (stored in processQueue.settings)
+* @param object req.body.settings Additional options to pass to the records (stored in processQueue.settings)
+* @param string req.body.settings.references Specific references to operate on - otherwise all are assumed
 */
 app.all('/api/tasks/library/:libid/:worker', function(req, res) {
 	async()
@@ -25,8 +26,14 @@ app.all('/api/tasks/library/:libid/:worker', function(req, res) {
 			Libraries.findOne({_id: req.params.libid, status: 'active'}, next);
 		})
 		.then('references', function(next) {
+			var query = {library: this.library._id, status: 'active'};
+			if (req.body.settings.references) { // Work on specific references
+				query['_id'] = {'$in': req.body.settings.references};
+				delete(req.body.settings.references);
+			}
+
 			References
-				.find({library: this.library._id, status: 'active'})
+				.find(query)
 				.select('_id')
 				.exec(next);
 		})
