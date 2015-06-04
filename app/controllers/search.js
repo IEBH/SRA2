@@ -34,4 +34,29 @@ app.controller('SearchController', function($scope, Searches) {
 		$scope.method = method;
 	};
 	// }}}
+
+	// Selected references {{{
+	$scope.selected = [];
+	/**
+	* Called on each references.selected change to populate $scope.selected
+	*/
+	$scope.determineSelected = function() {
+		$scope.selected = $scope.response.results.filter(ref => { return !! ref.selected });
+	};
+
+	$scope.selectAction = function(what, operand) {
+		switch (what) {
+			case 'all':
+				$scope.response.results.forEach(ref => { ref.selected = true });
+				break;
+			case 'none':
+				$scope.response.results.forEach(ref => { ref.selected = false });
+				break;
+			case 'invert':
+				$scope.response.results.forEach(ref => { ref.selected = !ref.selected });
+				break;
+		}
+		$scope.determineSelected();
+	};
+	// }}}
 });
