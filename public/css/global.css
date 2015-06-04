@@ -268,3 +268,8 @@ td .badge {
 	margin-top: 4px;
 }
 /* }}} */
+/* FIX: Buttons + icons within input groups have wrong top margin {{{ */
+.input-group > .input-group-btn > button.btn {
+	padding-top: 5px;
+}
+/* }}} */

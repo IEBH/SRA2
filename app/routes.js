@@ -39,6 +39,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Your Profile',
 			}
 		})
+		.state('search', {
+			url: '/search',
+			views: {main: {templateUrl: '/partials/search/search.html'}},
+			data: {
+				title: 'Search',
+			}
+		})
 		// }}}
 		// Library (collective) {{{
 		.state('libraries', {
