@@ -5,7 +5,33 @@
 				<div class="input-group input-group-lg col-sm-12">
 					<input ng-model="query" type="search" class="form-control" placeholder="Search for..." autofocus/>
 					<div class="input-group-btn">
-						<button class="btn btn-primary" type="submit"><i class="fa fa-search"/></button>
+						<button class="btn btn-primary" type="submit"><i class="fa" ng-class="searching ? 'fa-spinner fa-spin' : 'fa-search'"/></button>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="text-center">
+					<a ng-click="toggleAdvanced()" class="btn btn-default btn-xs">
+						<i class="fa" ng-class="advanced ? 'fa-arrow-up' : 'fa-arrow-down'"/>
+						Advanced options
+						<i class="fa" ng-class="advanced ? 'fa-arrow-up' : 'fa-arrow-down'"/>
+					</a>
+				</div>
+			</div>
+			<div ng-show="advanced" class="form-group">
+				<label class="col-sm-2 control-label">Database</label>
+				<div class="col-sm-10">
+					<div class="btn-group">
+						<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-database"/>
+							{{method.title}}
+						</a>
+						<ul class="dropdown-menu">
+							<li ng-repeat="method in methods track by method.id"><a ng-click="setMethod(method)">
+								<i class="fa fa-database"/>
+								{{method.title}}
+							</a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
