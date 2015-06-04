@@ -60,6 +60,13 @@ var defaults = {
 		queryLimit: 10, // How many tasks to work on in one cron cycle
 		waitTime: 3 * 1000,
 	},
+	search: {
+		pubmed: {
+			timeout: 20 * 1000,
+			resultsLimit: 50, // How many result ID's to ask for per search query
+			idLimit: 10, // How many paper ID's to fetch at once per search query
+		},
+	},
 };
 
 module.exports = _.merge(
