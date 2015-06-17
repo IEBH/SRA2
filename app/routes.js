@@ -11,6 +11,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Dashboard',
 			}
 		})
+		// User management {{{
 		.state('login', {
 			url: '/login',
 			views: {main: {templateUrl: '/partials/users/login.html'}},
@@ -39,6 +40,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Your Profile',
 			}
 		})
+		// }}}
 		.state('search', {
 			url: '/search',
 			views: {main: {templateUrl: '/partials/search/search.html'}},
