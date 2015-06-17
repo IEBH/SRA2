@@ -13,6 +13,7 @@ var rl = require('reflib');
 * @param string req.body.libraryId The library ID to upload into, if omitted a new one is created (using req.body.library)
 * @param object req.body.library Library prototype object to create (e.g. 'title')
 * @param object req.body.libraryTitle Alternate method to populate library.title within a POST operation
+* @param string req.body.json If set the created (or modified) library record is returned instead of redirecting to the library page
 */
 app.post('/api/libraries/import', function(req, res) {
 	async()
@@ -69,6 +70,7 @@ app.post('/api/libraries/import', function(req, res) {
 		})
 		.end(function(err) {
 			if (err) return res.status(400).send(err).end();
+			if (req.body.json) return res.send(this.library);
 			res.redirect('/#/libraries/' + this.library._id);
 		});
 });
