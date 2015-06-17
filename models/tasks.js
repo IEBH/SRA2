@@ -6,7 +6,7 @@ var schema = new mongoose.Schema({
 	touched: {type: Date, default: Date.now},
 	worker: {type: String, enum: ['fulltext', 'dedupe', 'dummy', 'request'], index: true},
 	completed: {type: Date},
-	status: {type: String, enum: ['pending', 'processing', 'completed'], default: 'pending', index: true},
+	status: {type: String, enum: ['pending', 'processing', 'error', 'completed'], default: 'pending', index: true},
 	progress: {
 		current: {type: Number, default: 0},
 		max: {type: Number},

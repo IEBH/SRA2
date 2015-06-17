@@ -58,7 +58,18 @@ function Cron() {
 						item.status = 'completed';
 						item.save(next);
 					})
-					.end(nextItem);
+					.end(function(err) {
+						if (err) {
+							item.status = 'error';
+							item.history.push({
+								type: 'error',
+								response: err.toString(),
+							});
+							item.save(nextItem);
+						} else {
+							nextItem();
+						}
+					});
 			})
 			.end(function(err) {
 				if (this.toProcess) self.emit('info', this.processed.toString() + '/' + this.toProcess.toString() + ' profiles processed');
