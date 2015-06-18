@@ -12,7 +12,9 @@ var util = require('util');
 
 function Cron() {
 	this.workers = {
+		dedupe: require('./dedupe'),
 		dummy: require('./dummy'),
+		'dummy-library': require('./dummy-library'),
 		request: require('./request'),
 	};
 
