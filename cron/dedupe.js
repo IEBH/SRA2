@@ -10,8 +10,8 @@ module.exports = function(finish, task) {
 	async()
 		// Retrieve data {{{
 		.parallel({
-			library:, function(next) {
-				Library.find({_id: task.library}, next);
+			library: function(next) {
+				Libraries.findOne({_id: task.library}, next);
 			},
 			references: function(next) {
 				References.find({
@@ -30,8 +30,8 @@ module.exports = function(finish, task) {
 				task.save(next);
 			},
 			function(next) { // Setup library state
-				library.dedupeStatus = 'processing';
-				library.save(next);
+				this.library.dedupeStatus = 'processing';
+				this.library.save(next);
 			},
 		])
 		// }}}
@@ -44,9 +44,7 @@ module.exports = function(finish, task) {
 				.limit(config.limits.dedupeInner)
 				.forEach(self.references.slice(ref1Offset + 1), function(next, ref2) { // To the references after it
 					console.log('COMPARE', ref1._id, ref2._id);
-					setTimeout(function() {
-						next();
-					}, Math.random() * 5000);
+					next();
 				})
 				.then(function(next) { // Update progress
 					task.progress.current++;
@@ -64,8 +62,8 @@ module.exports = function(finish, task) {
 			},
 
 			function(next) { // Finalize library state
-				library.dedupeStatus = 'review';
-				library.save(next);
+				this.library.dedupeStatus = 'review';
+				this.library.save(next);
 			},
 		])
 		.end(finish);
