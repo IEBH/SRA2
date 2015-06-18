@@ -70,6 +70,7 @@ app.post('/api/libraries/import', function(req, res) {
 		})
 		.end(function(err) {
 			if (err) return res.status(400).send(err).end();
+			console.log(colors.blue('Upload complete'), 'imported', colors.cyan(this.count), 'items');
 			if (req.body.json) return res.send(this.library);
 			res.redirect('/#/libraries/' + this.library._id);
 		});
