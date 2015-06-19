@@ -21,7 +21,7 @@ var schema = new mongoose.Schema({
 	abstract: {type: String},
 	notes: {type: String},
 	researchNotes: {type: String},
-	status: {type: String, enum: ['active', 'deleted'], default: 'active', indexed: true},
+	status: {type: String, enum: ['active', 'deleted', 'dupe'], default: 'active', indexed: true},
 });
 
 module.exports = mongoose.model(name, schema);

@@ -108,7 +108,7 @@ describe('DeDupe - test #1', function(){
 		agent.get(config.url + '/api/references')
 			.query({
 				library: library._id,
-				select: '-_id,-created,-edited,-library,-status,-tags',
+				select: '-_id,-created,-edited,-library,-status,-tags,-duplicateData',
 			})
 			.end(function(err, res) {
 				if (err) return finish(err);
@@ -131,7 +131,7 @@ describe('DeDupe - test #1', function(){
 						.map(function(i) {
 							return _.keyArrange(i);
 						})
-						.valueOf();
+						.value();
 
 					fs.writeFile(dumps.original, JSON.stringify(collection, null, '\t'), next);
 				},
@@ -143,7 +143,7 @@ describe('DeDupe - test #1', function(){
 						.map(function(i) {
 							return _.keyArrange(i);
 						})
-						.valueOf();
+						.value();
 
 					fs.writeFile(dumps.postProcess, JSON.stringify(collection, null, '\t'), next);
 				}
