@@ -128,11 +128,11 @@ app.post('/api/users/login', function(req, res) {
 		.then('profile', function(next) {
 			passport.authenticate('local', function(err, user, info) {
 				if (err) return next(err);
-				if (!user) {
+				if (user) {
 					console.log(colors.green('Successful login for'), colors.cyan(req.body.username));
-					return next('Unauthorized');
 				} else {
 					console.log(colors.red('Failed login for'), colors.cyan(req.body.username));
+					return next('Unauthorized');
 				}
 				req.logIn(user, function(err) {
 					if (err) return next(err);
