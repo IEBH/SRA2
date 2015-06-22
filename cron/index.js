@@ -16,6 +16,7 @@ function Cron() {
 		dummy: require('./dummy'),
 		'dummy-library': require('./dummy-library'),
 		request: require('./request'),
+		setter: require('./setter'),
 	};
 
 	this.cycle = function(finish) {

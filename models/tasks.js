@@ -4,7 +4,7 @@ var schema = new mongoose.Schema({
 	created: {type: Date, default: Date.now},
 	creator: {type: mongoose.Schema.ObjectId, ref: 'users'},
 	touched: {type: Date, default: Date.now},
-	worker: {type: String, enum: ['fulltext', 'dedupe', 'dummy', 'dummy-library', 'request'], index: true},
+	worker: {type: String, enum: ['fulltext', 'dedupe', 'dummy', 'dummy-library', 'setter', 'request'], index: true},
 	completed: {type: Date},
 	status: {type: String, enum: ['pending', 'processing', 'error', 'completed'], default: 'pending', index: true},
 	progress: {
