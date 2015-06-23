@@ -2,6 +2,7 @@ var app = angular.module('app', [
 	'colorpicker.module',
 	'ng-collection-assistant',
 	'ngResource',
+	'prettyBytes',
 	'ui.router',
 	'xeditable'
 ]);

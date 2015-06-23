@@ -14,6 +14,7 @@
     "angular-ui-router": "~0.2.15",
     "angular-bootstrap-colorpicker": "~3.0.18",
     "angular-collection-assistant": "~1.1.4",
-    "angular-xeditable": "~0.1.9"
+    "angular-xeditable": "~0.1.9",
+    "angular-pretty-bytes": "~1.0.1"
   }
 }

@@ -20,6 +20,31 @@ app.controller('libraryController', function($scope, $rootScope, $filter, $inter
 				$scope.library.referenceCount = countData.count;
 			});
 			// }}}
+			// Dummy Files {{{
+			$scope.library.files = [
+				{name: 'file1.txt', size: 123232, url: '/files/file1.txt'},
+				{name: 'file2.pdf', size: 234234234, url: '/files/file1.txt'},
+				{name: 'file3.png', size: 42342, url: '/files/file1.txt'},
+			];
+			// }}}
+			// Files {{{
+			if ($scope.library.files) {
+				var fileIcons = [
+					{re: /\.pdf$/i, icon: 'fa fa-file-pdf-o'},
+					{re: /\.(jpe?g|gif|png|webm)$/i, icon: 'fa fa-file-image-o'},
+					{re: /\.txt$/i, icon: 'fa fa-file-text-o'},
+					{re: /\.docx?$/i, icon: 'fa fa-file-word-o'},
+					{re: /\.(zip|rar)$/i, icon: 'fa fa-file-archive-o'},
+					{re: /\.pptx?$/i, icon: 'fa fa-file-powerpoint-o'},
+					{re: /\.(mov|avi|mp4|mpe?g)?$/i, icon: 'fa fa-file-video-o'},
+					{re: /\.(au|mp3|ogg?)?$/i, icon: 'fa fa-file-audio-o'},
+					{re: /./, icon: 'fa fa-file-o'},
+				];
+				$scope.library.files = $scope.library.files.map(file => {
+					file.icon = (fileIcons.find(function(fi) { return re.match(file.name) })).icon;
+				});
+			}
+			// }}}
 			// }}}
 		});
 		// }}}

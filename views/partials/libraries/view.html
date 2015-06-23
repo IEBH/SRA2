@@ -43,6 +43,27 @@
 		</div>
 	</legend>
 
+	<div ng-if="library.files" class="widget-box">
+		<div class="widget-header">
+			<h5 class="widget-title">Attached files</h5>
+			<div class="widget-toolbar">
+				<a><i class="ace-icon fa fa-times"></i></a>
+			</div>
+		</div>
+		<div class="widget-body">
+			<table class="table table-striped table-bordered">
+				<thead><tr>
+					<td>File Name</td>
+					<td width="100px">Size</td>
+				</tr></thead>
+				<tr ng-repeat="file in library.files">
+					<td><a href="{{file.url}}"><i class="{{file.icon}}"></i> {{file.name}}</a></td>
+					<td><a href="{{file.url}}">{{file.size | prettyBytes}}</a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
 	<div ng-if="library.dedupeStatus == 'processing' || library.dedupeStatus == 'review'" class="alert alert-info alert-block">
 		<a data-dismiss="alert" class="close"><i class="fa fa-times-sign"></i></a>
 		<h3><i class="fa fa-bell-o icon-animated-bell"></i> De-duplication in progress</h3>
