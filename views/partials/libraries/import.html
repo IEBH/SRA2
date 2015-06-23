@@ -7,10 +7,12 @@
 				<div class="btn-group">
 					<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 						<i class="fa fa-tags"></i>
-						{{library.title || 'Select a library...'}}
+						{{library.title || 'New library'}}
 						<i class="fa fa-caret-down"></i>
 					</a>
 					<ul class="dropdown-menu">
+						<li><a ng-click="setLibrary()"><i class="fa fa-tags"></i> New library</a></li>
+						<li ng-if="libraries.count" class="divider"></li>
 						<li ng-repeat="library in libraries track by library._id">
 							<a ng-click="setLibrary(library)">
 								<i class="fa fa-tags"></i>

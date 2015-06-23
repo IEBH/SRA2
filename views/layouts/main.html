@@ -154,7 +154,7 @@
 				</a>
 			</li>
 
-			<li ng-controller="libraryListController">
+			<li ng-if="user._id" ng-controller="libraryListController">
 				<a href="#/libraries" data-toggle="dropdown" class="dropdown-toggle">
 					<i class="fa fa-tags"></i>
 					<span class="menu-text"> My libraries</span>
