@@ -33,7 +33,7 @@ function compareRef(ref1, ref2) {
 			// }}}
 			return cf1 != cf2;
 		}
-	}) return false;
+	})) return false;
 	// }}}
 
 	// Stage 2 - Comparison of title + authors {{{
@@ -116,7 +116,7 @@ module.exports = function(finish, task) {
 							.filter(function(key) {
 								// Don't try to merge if the key is...
 								if (
-									key.substr(0, 1) == '_') ||
+									key.substr(0, 1) == '_' ||
 									key == 'duplicateData' ||
 									key == 'created' ||
 									key == 'edited' ||
@@ -141,11 +141,11 @@ module.exports = function(finish, task) {
 							.parallel([
 								function(next) {
 									ref1.save(next);
-								}),
+								},
 								function(next) {
 									ref2.status = 'dupe';
 									ref2.save(next);
-								})
+								}
 							])
 							.end(nextRef);
 						// }}}
