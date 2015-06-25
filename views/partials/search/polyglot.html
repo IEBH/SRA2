@@ -1,0 +1,29 @@
+<div ng-controller="PolyglotSearchController">
+	<div class="row-fluid">
+		<form class="form-horizontal">
+			<div class="form-group">
+				<div class="col-sm-12">
+					<textarea ng-model="query" class="form-control" rows="10" placeholder="Paste or type your search query here" autofocus></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div ng-if="query" id="engines" class="accordion-style1 panel-group">
+		<div ng-repeat="engine in engines" class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#engines" data-target="#engine-{{engine.id}}" aria-expanded="false">
+						{{engine.title}}
+					</a>
+					<a ng-click="openEngine(engine)" class="btn btn-sm btn-success pull-right"><i class="fa fa-search"></i></a>
+				</h4>
+			</div>
+			<div class="panel-collapse collapse" id="engine-{{engine.id}}" aria-expanded="false" style="height: 0px;">
+				<div class="panel-body">
+					<pre>{{engine.query}}</pre>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

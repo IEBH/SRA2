@@ -48,6 +48,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Search',
 			}
 		})
+		.state('polyglot', {
+			url: '/polyglot',
+			views: {main: {templateUrl: '/partials/search/polyglot.html'}},
+			data: {
+				title: 'Polyglot Search',
+			}
+		})
 		// }}}
 		// Library (collective) {{{
 		.state('libraries', {

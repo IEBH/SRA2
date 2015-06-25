@@ -279,3 +279,12 @@ td .badge {
 	line-height: 1.2em;
 }
 /* }}} */
+/* FIX: Linked panel titles (accordions) {{{ */
+.panel-title > a {
+	cursor: pointer;
+}
+
+.panel-title > a:hover {
+	text-decoration: none;
+}
+/* }}} */
