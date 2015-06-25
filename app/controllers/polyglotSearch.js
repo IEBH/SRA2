@@ -9,8 +9,11 @@ app.controller('PolyglotSearchController', function($scope) {
 			rewriter: function(q) { return q },
 			linker: function(engine) {
 				return {
-					method: 'POST',
-					action: 'https://www.ncbi.nlm.nih.gov/pubmed?' + $.param({term: engine.query}),
+					method: 'GET',
+					action: 'https://www.ncbi.nlm.nih.gov/pubmed',
+					fields: {
+						term: engine.query,
+					},
 				};
 			},
 		},
@@ -58,11 +61,68 @@ app.controller('PolyglotSearchController', function($scope) {
 			id: 'embase',
 			title: 'Embase',
 			rewriter: function(q) { return q },
+			linker: function(engine) {
+				return {
+					method: 'POST',
+					action: 'http://www.embase.com.ezproxy.bond.edu.au/rest/searchresults/executeSearch',
+					fields: {
+						module: 'SubmitQuery',
+						search_type: 'advanced',
+						search_action: 'search',
+						rand: Math.random() * 999999,
+						search_query: engine.query,
+						tico_scope: 'doc',
+						search_startyear: 2011,
+						search_endyear: (new Date).getYear(),
+						yearsAll: 'on'
+					},
+				};
+			},
 		},
 		{
 			id: 'webofscience',
 			title: 'Web of Science',
 			rewriter: function(q) { return q },
+			linker: function(engine) {
+				return {
+					method: 'POST',
+					action: 'http://apps.webofknowledge.com.ezproxy.bond.edu.au/UA_GeneralSearch.do',
+					fields: {
+						fieldCount: '1',
+						action: 'search',
+						product: 'UA',
+						search_mode: 'GeneralSearch',
+						SID: 'W15WDD6M2xkKPbfGfGY',
+						max_field_count: '25',
+						max_field_notice: 'Notice: You cannot add another field.',
+						input_invalid_notice: 'Search Error: Please enter a search term.',
+						exp_notice: 'Search Error: Patent search term could be found in more than one family (unique patent number required for Expand option) ',
+						input_invalid_notice_limits: ' <br/>Note: Fields displayed in scrolling boxes must be combined with at least one other search field.',
+						sa_params: "UA||W15WDD6M2xkKPbfGfGY|http://apps.webofknowledge.com.ezproxy.bond.edu.au|'",
+						formUpdated: 'true',
+						'value(input1)': engine.query,
+						'value(select1)': 'TS',
+						x: '798',
+						y: '311',
+						'value(hidInput1)': null,
+						limitStatus: 'collapsed',
+						ss_lemmatization: 'On',
+						ss_spellchecking: 'Suggest',
+						SinceLastVisit_UTC: null,
+						SinceLastVisit_DATE: null,
+						period: 'Range Selection',
+						range: 'ALL',
+						startYear: '1900',
+						endYear: (new Date()).getYear(),
+						update_back2search_link_param: 'yes',
+						ssStatus: 'display:none',
+						ss_showsuggestions: 'ON',
+						ss_query_language: 'auto',
+						ss_numDefaultGeneralSearchFields: '1',
+						rs_sort_by: 'PY.D;LD.D;SO.A;VL.D;PG.A;AU.A',
+					},
+				};
+			},
 		},
 	];
 	// }}}
