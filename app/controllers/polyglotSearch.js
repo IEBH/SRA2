@@ -1,12 +1,30 @@
 app.controller('PolyglotSearchController', function($scope) {
-	$scope.query = '"Cushing Syndrome"[Mesh] OR Cushing OR Cushings OR Cushing’s OR Hypercortisolism\n\nAND\n\n "Hydrocortisone"[Mesh] OR Hydrocortisone OR Cortisol OR Epicortisol OR Cortifair OR\n\n Cortril\n\nAND\n\n "Urine"[Mesh] OR Urine OR Urinary\n\nAND\n\n "Saliva"[Mesh] OR Saliva OR Salivary\n\nAND\n\n "Diagnosis"[Mesh] OR Diagnosis OR Diagnoses OR Diagnostic OR Screening';
+	$scope.query = '"Cushing Syndrome"[Mesh] OR Cushing OR Cushings OR Cushing\'s OR Hypercortisolism\n\nAND\n\n "Hydrocortisone"[Mesh] OR Hydrocortisone OR Cortisol OR Epicortisol OR Cortifair OR Cortril\n\nAND\n\n "Urine"[Mesh] OR Urine OR Urinary\n\nAND\n\n "Saliva"[Mesh] OR Saliva OR Salivary\n\nAND\n\n "Diagnosis"[Mesh] OR Diagnosis OR Diagnoses OR Diagnostic OR Screening';
+
+	// Utility functions {{{
+	/**
+	* Wrap all non-logical non-empty lines in brackets
+	* @param string query The input query to wrap
+	* @return string The output query wrapped with brackets
+	*/
+	$scope._wrapLines = function(q) {
+		return q.split("\n").map(function(line) {
+			line = _.trim(line);
+			if (!line) return line; // Empty line
+			if (/^(AND|OR)$/i.test(line)) return line; // Logical line - dont wrap
+			return '(' + line + ')';
+		}).join("\n");
+	};
+	// }}}
 
 	// Search engines {{{
 	$scope.engines = [
 		{
 			id: 'pubmed',
-			title: 'PubMed Health',
-			rewriter: function(q) { return q },
+			title: 'PubMed',
+			rewriter: function(q) { 
+				return $scope._wrapLines(q);
+			},
 			linker: function(engine) {
 				return {
 					method: 'GET',
@@ -19,8 +37,13 @@ app.controller('PolyglotSearchController', function($scope) {
 		},
 		{
 			id: 'cochrane',
-			title: 'Cochrane',
-			rewriter: function(q) { return q },
+			title: 'Cochrane CENTRAL',
+			rewriter: function(q) { 
+				return $scope._wrapLines(q)
+					.replace(/"(.+?)"\[MESH\]/ig, (line, mesh) => {
+						return '[mh "' + mesh + '"]';
+					});
+			},
 			linker: function(engine) {
 				return {
 					method: 'POST',
@@ -60,7 +83,12 @@ app.controller('PolyglotSearchController', function($scope) {
 		{
 			id: 'embase',
 			title: 'Embase',
-			rewriter: function(q) { return q },
+			rewriter: function(q) { 
+				return $scope._wrapLines(q)
+					.replace(/"(.+?)"\[MESH\]/ig, (line, mesh) => {
+						return "'" + mesh + "'/exp";
+					});
+			},
 			linker: function(engine) {
 				return {
 					method: 'POST',
@@ -82,7 +110,11 @@ app.controller('PolyglotSearchController', function($scope) {
 		{
 			id: 'webofscience',
 			title: 'Web of Science',
-			rewriter: function(q) { return q },
+			rewriter: function(q) { 
+				return $scope._wrapLines(q)
+					.replace(/"(.+?)"\[MESH\] (AND|OR) /ig, '')
+					.replace(/"(.+?)"\[MESH\]/ig, '');
+			},
 			linker: function(engine) {
 				return {
 					method: 'POST',
@@ -129,7 +161,7 @@ app.controller('PolyglotSearchController', function($scope) {
 
 	$scope.$watch('query', function() {
 		$scope.engines.forEach(function(engine) {
-			engine.query = engine.rewriter($scope.query);
+			engine.query = engine.rewriter(_.clone($scope.query));
 		});
 	});
 
