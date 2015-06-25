@@ -288,3 +288,16 @@ td .badge {
 	text-decoration: none;
 }
 /* }}} */
+/* FIX: Buttons in panel titles {{{ */
+.panel-title a.btn {
+	height: 35px;
+	margin-top: -9px;
+	padding: 0 5px;
+}
+
+.panel-title a.btn > i {
+	position: relative;
+	top: -3px;
+	left: 2px;
+}
+/* }}} */

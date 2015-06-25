@@ -1,5 +1,5 @@
 app.controller('PolyglotSearchController', function($scope) {
-	$scope.query = '"Cushing Syndrome"[Mesh] OR Cushing OR Cushings OR Cushing’s OR Hypercortisolism\n\nAND\n\n "Hydrocortisone"[Mesh] OR Hydrocortisone OR Cortisol OR Epicortisol OR Cortifair OR\n\n Cortril\n\n AND\n\n "Urine"[Mesh] OR Urine OR Urinary\n\n AND\n\n "Saliva"[Mesh] OR Saliva OR Salivary\n\n AND\n\n "Diagnosis"[Mesh] OR Diagnosis OR Diagnoses OR Diagnostic OR Screening';
+	$scope.query = '"Cushing Syndrome"[Mesh] OR Cushing OR Cushings OR Cushing’s OR Hypercortisolism\n\nAND\n\n "Hydrocortisone"[Mesh] OR Hydrocortisone OR Cortisol OR Epicortisol OR Cortifair OR\n\n Cortril\n\nAND\n\n "Urine"[Mesh] OR Urine OR Urinary\n\nAND\n\n "Saliva"[Mesh] OR Saliva OR Salivary\n\nAND\n\n "Diagnosis"[Mesh] OR Diagnosis OR Diagnoses OR Diagnostic OR Screening';
 
 	// Search engines {{{
 	$scope.engines = [
