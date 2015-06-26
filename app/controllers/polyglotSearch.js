@@ -85,6 +85,7 @@ app.controller('PolyglotSearchController', function($scope) {
 			title: 'Embase',
 			rewriter: function(q) { 
 				return $scope._wrapLines(q)
+					.replace("'", '')
 					.replace(/"(.+?)"\[MESH\]/ig, (line, mesh) => {
 						return "'" + mesh + "'/exp";
 					});
