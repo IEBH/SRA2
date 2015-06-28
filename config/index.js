@@ -70,7 +70,12 @@ var defaults = {
 };
 
 module.exports = _.merge(
+	// Adopt defaults...
 	defaults,
-	fs.existsSync('./config/private.js') ? require('./private.js') : {},
-	fs.existsSync('./config/' + defaults.env + '.js') ? require('./' + defaults.env + '.js') : {}
+
+	// Which are overriden by private.js if its present
+	fs.existsSync(__dirname + '/private.js') ? require(__dirname + '/private.js') : {},
+
+	// Whish are overriden by the NODE_ENV.js file if its present
+	fs.existsSync(__dirname + '/' + defaults.env + '.js') ? require(__dirname + '/' + defaults.env + '.js') : {}
 );

@@ -1,11 +1,13 @@
 var _ = require('lodash');
 var annotate = require('gulp-ng-annotate');
-var babel = require("gulp-babel");
+var babel = require('gulp-babel');
+var colors = require('colors');
 var concat = require('gulp-concat');
 var del = require('del');
 var gulp = require('gulp');
 var gulpIf = require('gulp-if');
 var gutil = require('gulp-util');
+var gplumber = require('gulp-plumber');
 var minifyCSS = require('gulp-minify-css');
 var notify = require('gulp-notify');
 var replace = require('gulp-replace');
@@ -74,6 +76,14 @@ gulp.task('load:models', ['load:db'], function(finish) {
 */
 gulp.task('scripts', ['load:config'], function() {
 	return gulp.src(paths.scripts)
+		.pipe(gplumber({
+			errorHandler: function(err) {
+				gutil.beep();
+				gutil.log(colors.red('ERROR DURING BUILD'));
+				process.stdout.write(err.stack);
+				this.emit('end');
+			},
+		}))
 		.pipe(babel())
 		.pipe(gulpIf(config.gulp.debugJS, sourcemaps.init()))
 		.pipe(concat('site.min.js'))

@@ -101,7 +101,7 @@ global.ensure = {
 			});
 		} else { // Not logged in and no method being passed to handle - reject
 			ensure.loginFail(req, res, next);
-		}	
+		}
 	}
 };
 

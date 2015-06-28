@@ -38,6 +38,7 @@
     "gulp-ng-annotate": "^0.5.3",
     "gulp-nodemon": "^2.0.3",
     "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.0.1",
     "gulp-replace": "^0.5.3",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
