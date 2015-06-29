@@ -48,12 +48,12 @@ module.exports = function(finish, task) {
 		})
 		// }}}
 
-		// Make request(s) {{{
+		// Send requests {{{
 		.forEach('references', function(nextRef, ref) {
 			async()
 				.then('html', function(next) {
 					next(null,
-						'<table>' +
+						'<table border="1">' +
 							'<thead><tr>' +
 								'<td>FIELD</td>' +
 								'<td>&nbsp;</td>' +
@@ -90,9 +90,10 @@ module.exports = function(finish, task) {
 				})
 				.then(function(next) {
 					new email({
-						from: task.settings.user.name + ' <' + task.settings.user.email + '>',
+						from: task.settings.user.email,
 						to: 'matt@mfdc.biz',
-						subject: 'Journal request',
+						bcc: 'matt_carter@bond.edu.au',
+						subject: 'Journal request - ' + (task.settings.user.title || 'Unknown title'),
 						body: this.html,
 						bodyType: 'html',
 					}).send(next);

@@ -70,7 +70,7 @@ describe('Journal Request', function(){
 					name: 'John Smith',
 					libraryNo: '12855535',
 					email: 'matt_carter@bond.edu.au',
-					facilty: 'HSM',
+					faculty: 'HSM',
 					position: {
 						postgrad: true,
 						undergrad: false,
