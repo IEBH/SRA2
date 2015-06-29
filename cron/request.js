@@ -90,19 +90,14 @@ module.exports = function(finish, task) {
 				})
 				.then(function(next) {
 					new email({
-						from: req.user.name + ' <' + req.user.email + '>',
+						from: task.settings.user.name + ' <' + task.settings.user.email + '>',
 						to: 'matt@mfdc.biz',
 						subject: 'Journal request',
 						body: this.html,
 						bodyType: 'html',
-					}).send(function(err) {
-						if (err) {
-							console.log('Error emailing contact form', err);
-							return res.status(400).send(err);
-						}
-						console.log('Contact form email dispatched for', req.body.email);
-						res.status(200).end();
-					});
+					}).send(next);
+				})
+				.then(function(next) {
 					task.history.push({type: 'response', response: this.response});
 					task.progress.current++;
 					task.save(next);

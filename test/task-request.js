@@ -8,7 +8,7 @@ var moment = require('moment');
 var reflib = require('reflib');
 var request = require('superagent');
 
-describe('DeDupe - test #1', function(){
+describe('Journal Request', function(){
 	// Library specific info
 	var libraryFile = __dirname + '/data/endnote-2.xml';
 	var libraryCount = 5;
@@ -59,12 +59,25 @@ describe('DeDupe - test #1', function(){
 			});
 	});
 
-	it('should reset status fields', function(finish) {
+	var task;
+	it('should queue up a library for journal request processing', function(finish) {
 		this.timeout(60 * 1000);
-		agent.post(config.url + '/api/tasks/library/' + library._id + '/setter')
+		agent.post(config.url + '/api/tasks/library/' + library._id + '/request')
 			.send({settings: {
-				label: null,
-				notes: null,
+				debug: true,
+				user: {
+					title: 'Mr',
+					name: 'John Smith',
+					libraryNo: '12855535',
+					email: 'matt_carter@bond.edu.au',
+					facilty: 'HSM',
+					position: {
+						postgrad: true,
+						undergrad: false,
+						phd: true,
+						staff: true,
+					},
+				},
 			}})
 			.end(function(err, res) {
 				if (err) return finish(err);
@@ -75,21 +88,7 @@ describe('DeDupe - test #1', function(){
 			});
 	});
 
-	var task;
-	it.skip('should queue up a library for journal request processing', function(finish) {
-		this.timeout(60 * 1000);
-		agent.post(config.url + '/api/tasks/library/' + library._id + '/request')
-			.send({settings: {debug: true}})
-			.end(function(err, res) {
-				if (err) return finish(err);
-				task = res.body;
-				expect(err).to.be.not.ok;
-				expect(task).to.have.property('_id');
-				finish();
-			});
-	});
-
-	it.skip('should keep checking until the task is complete', function(finish) {
+	it('should keep checking until the task is complete', function(finish) {
 		var pollInterval = 3 * 1000;
 		this.timeout(5 * 60 * 1000);
 		var checkTask = function() {
