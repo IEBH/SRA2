@@ -53,12 +53,12 @@ module.exports = function(finish, task) {
 			async()
 				.then('html', function(next) {
 					next(null,
-						'<table border="1">' +
-							'<thead><tr>' +
+						'<table border="1" cellspacing="0" cellpadding="5">' +
+							'<th>' +
 								'<td>FIELD</td>' +
 								'<td>&nbsp;</td>' +
 								'<td>VALUE</td>' +
-							'</tr></thead>' +
+							'</th>' +
 							'<tr><td>Title</td><td>=</td><td>' + (task.settings.user.title || '') + '</td></tr>' +
 							'<tr><td>Library_Barcode</td><td>=</td><td>' + (task.settings.user.libraryNo || '') + '</td></tr>' +
 							'<tr><td>First_Name</td><td>=</td><td>' + (task.settings.user.name.first || '') + '</td></tr>' +
