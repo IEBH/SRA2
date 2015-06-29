@@ -20,13 +20,6 @@ app.controller('libraryController', function($scope, $rootScope, $filter, $inter
 				$scope.library.referenceCount = countData.count;
 			});
 			// }}}
-			// Dummy Files {{{
-			$scope.library.files = [
-				{name: 'file1.txt', size: 123232, url: '/files/file1.txt'},
-				{name: 'file2.pdf', size: 234234234, url: '/files/file1.txt'},
-				{name: 'file3.png', size: 42342, url: '/files/file1.txt'},
-			];
-			// }}}
 			// Files {{{
 			if ($scope.library.files) {
 				var fileIcons = [
