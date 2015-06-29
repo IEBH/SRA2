@@ -1,9 +1,9 @@
 var _ = require('lodash');
 var async = require('async-chainable');
+var email = require('email').Email;
 var Libraries = require('../models/libraries');
 var moment = require('moment');
 var References = require('../models/references');
-var request = require('superagent');
 
 module.exports = function(finish, task) {
 	async()
@@ -51,45 +51,58 @@ module.exports = function(finish, task) {
 		// Make request(s) {{{
 		.forEach('references', function(nextRef, ref) {
 			async()
-				.then('response', function(next) {
-					var data = {
-						Title: task.settings.user.title || '',
-						Library_Barcode: task.settings.user.libraryNo || '',
-						First_Name: task.settings.user.name.first || '',
-						Last_Name: task.settings.user.name.last || '',
-						Email: task.settings.user.email || '',
-						Faculty: task.settings.user.faculty || '',
-						checkbox3: 'Checked Library Holdings',
-						Bond: 'Currently Enrolled',
-						Date_of_Request2: moment().format('DD/MM/YYYY'),
-						Journal_Title2: ref.journal || '',
-						Vol: ref.volume || '',
-						Issue: ref.issue || '',
-						ISSN: ref.isbn || '',
-						Month: _.isDate(ref.date) ? moment(ref.date).format('MMMM') : '',
-						Year: _.isDate(ref.date) ? moment(ref.date).format('YYYY') : '',
-						Pages: ref.pages || '',
-						Article_Author2: ref.authors ? ref.authors.join(', ') : '',
-						Article_Title2: ref.title || '',
-						Referemce2: '',
-						No_Use_Date2: '',
-						declaration2: 'Declaration Checked',
-					};
-					if (task.settings.user.position.postgrad) data['Position1'] = 'Postgrad';
-					if (task.settings.user.position.undergrad) data['Position2'] = 'Undergrad';
-					if (task.settings.user.position.phd) data['Position3'] = 'Phd';
-					if (task.settings.user.position.staff) data['Position4'] = 'Staff';
-
-					request.post(config.library.request.url)
-						.send(data)
-						.timeout(config.library.request.timeout)
-						.end(function(err, res) {
-							if (err) return next(err);
-							if (!res.ok) return next("Failed libarry request, return code: " + res.statusCode + ' - ' + res.text);
-							next(null, res.text);
-						});
+				.then('html', function(next) {
+					next(null,
+						'<table>' +
+							'<thead><tr>' +
+								'<td>FIELD</td>' +
+								'<td>&nbsp;</td>' +
+								'<td>VALUE</td>' +
+							'</tr></thead>' +
+							'<tr><td>Title</td><td>=</td><td>' + (task.settings.user.title || '') + '</td></tr>' +
+							'<tr><td>Library_Barcode</td><td>=</td><td>' + (task.settings.user.libraryNo || '') + '</td></tr>' +
+							'<tr><td>First_Name</td><td>=</td><td>' + (task.settings.user.name.first || '') + '</td></tr>' +
+							'<tr><td>Last_Name</td><td>=</td><td>' + (task.settings.user.name.last || '') + '</td></tr>' +
+							'<tr><td>Email</td><td>=</td><td>' + (task.settings.user.email || '') + '</td></tr>' +
+							'<tr><td>Faculty</td><td>=</td><td>' + (task.settings.user.faculty || '') + '</td></tr>' +
+							(task.settings.user.position.postgrad ? '<tr><td>Position1</td><td>=</td><td>Postgrad</td></tr>' : '') +
+							(task.settings.user.position.undergrad ? '<tr><td>Position2</td><td>=</td><td>Undergrad</td></tr>' : '') +
+							(task.settings.user.position.phd ? '<tr><td>Position3</td><td>=</td><td>Phd</td></tr>' : '') +
+							(task.settings.user.position.staff ? '<tr><td>Position4</td><td>=</td><td>Staff</td></tr>' : '') +
+							'<tr><td>checkbox3</td><td>=</td><td>Checked Library Holdings</td></tr>' +
+							'<tr><td>Bond</td><td>=</td><td>Currently Enrolled</td></tr>' +
+							'<tr><td>Date_of_Request2</td><td>=</td><td>' + (moment().format('DD/MM/YYYY')) + '</td></tr>' +
+							'<tr><td>Journal_Title2</td><td>=</td><td>' + (ref.journal || '') + '</td></tr>' +
+							'<tr><td>Vol</td><td>=</td><td>' + (ref.volume || '') + '</td></tr>' +
+							'<tr><td>Issue</td><td>=</td><td>' + (ref.issue || '') + '</td></tr>' +
+							'<tr><td>ISSN</td><td>=</td><td>' + (ref.isbn || '') + '</td></tr>' +
+							'<tr><td>Month</td><td>=</td><td>' + (_.isDate(ref.date) ? moment(ref.date).format('MMMM') : '') + '</td></tr>' +
+							'<tr><td>Year</td><td>=</td><td>' + (_.isDate(ref.date) ? moment(ref.date).format('YYYY') : '') + '</td></tr>' +
+							'<tr><td>Pages</td><td>=</td><td>' + (ref.pages || '') + '</td></tr>' +
+							'<tr><td>Article_Author2</td><td>=</td><td>' + (ref.authors ? ref.authors.join(', ') : '') + '</td></tr>' +
+							'<tr><td>Article_Title2</td><td>=</td><td>' + (ref.title || '') + '</td></tr>' +
+							'<tr><td>Reference2</td><td>=</td><td>&nbsp;</td></tr>' +
+							'<tr><td>No_Use_Date2</td><td>=</td><td>&nbsp;</td></tr>' +
+							'<tr><td>declaration2</td><td>=</td><td>Declaration Checked</td></tr>' +
+							'<tr><td>Submit</td><td>=</td><td>Submit your request</td></tr>' +
+						'</table>'
+					);
 				})
 				.then(function(next) {
+					new email({
+						from: req.user.name + ' <' + req.user.email + '>',
+						to: 'matt@mfdc.biz',
+						subject: 'Journal request',
+						body: this.html,
+						bodyType: 'html',
+					}).send(function(err) {
+						if (err) {
+							console.log('Error emailing contact form', err);
+							return res.status(400).send(err);
+						}
+						console.log('Contact form email dispatched for', req.body.email);
+						res.status(200).end();
+					});
 					task.history.push({type: 'response', response: this.response});
 					task.progress.current++;
 					task.save(next);

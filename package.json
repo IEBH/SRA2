@@ -8,8 +8,8 @@
     "node": "0.10.x"
   },
   "scripts": {
-    "start": "node server.js",
-    "postinstall": "bower install --allow-root && gulp build"
+    "postinstall": "bower install --allow-root && gulp build",
+    "start": "node server.js"
   },
   "dependencies": {
     "async-chainable": "^1.7.11",
@@ -22,6 +22,7 @@
     "cookie-parser": "^1.3.5",
     "del": "^1.2.0",
     "ejs": "^2.3.1",
+    "email": "^0.2.6",
     "express": "^4.12.4",
     "express-ejs-layouts": "~1.1.0",
     "express-log": "^1.0.1",
