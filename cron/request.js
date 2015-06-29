@@ -54,11 +54,11 @@ module.exports = function(finish, task) {
 				.then('html', function(next) {
 					next(null,
 						'<table border="1" cellspacing="0" cellpadding="5">' +
-							'<th>' +
-								'<td>FIELD</td>' +
-								'<td>&nbsp;</td>' +
-								'<td>VALUE</td>' +
-							'</th>' +
+							'<tr>' +
+								'<th>FIELD</th>' +
+								'<th>&nbsp;</th>' +
+								'<th>VALUE</th>' +
+							'</tr>' +
 							'<tr><td>Title</td><td>=</td><td>' + (task.settings.user.title || '') + '</td></tr>' +
 							'<tr><td>Library_Barcode</td><td>=</td><td>' + (task.settings.user.libraryNo || '') + '</td></tr>' +
 							'<tr><td>First_Name</td><td>=</td><td>' + (task.settings.user.name.first || '') + '</td></tr>' +
