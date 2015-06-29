@@ -1,5 +1,23 @@
 app.controller('PolyglotSearchController', function($scope) {
-	$scope.query = '"Cushing Syndrome"[Mesh] OR Cushing OR Cushings OR Cushing\'s OR Hypercortisolism\n\nAND\n\n "Hydrocortisone"[Mesh] OR Hydrocortisone OR Cortisol OR Epicortisol OR Cortifair OR Cortril\n\nAND\n\n "Urine"[Mesh] OR Urine OR Urinary\n\nAND\n\n "Saliva"[Mesh] OR Saliva OR Salivary\n\nAND\n\n "Diagnosis"[Mesh] OR Diagnosis OR Diagnoses OR Diagnostic OR Screening';
+	$scope.query = '';
+
+	// Examples functionality {{{
+	$scope.examples = [
+		{title: 'Failure of antibiotic prescribing for bacterial infections', query: '"Primary Health Care"[Mesh] OR Primary care OR Primary healthcare OR Family practice OR General practice\n\nAND\n\n"Treatment Failure"[Mesh] OR Treatment failure OR Treatment failures\n\nAND\n\n"Bacterial Infections"[Mesh] OR Bacteria OR Bacterial\n\nAND\n\n"Anti-Bacterial Agents"[Mesh] OR Antibacterial Agents OR Antibacterial Agent OR Antibiotics OR Antibiotic'},
+		{title: 'Clinical prediction guides for whiplash', query: '"Neck"[Mesh] OR Neck OR Necks OR "Cervical Vertebrae"[Mesh] OR "Cervical Vertebrae" OR "Neck Muscles"[Mesh] OR "Neck Muscles" OR "Neck Injuries"[Mesh] OR "Whiplash Injuries"[Mesh] OR "Radiculopathy"[Mesh] OR "Neck Injuries" OR "Neck Injury" OR Whiplash OR Radiculopathies OR Radiculopathy\n\n AND\n\n "Pain"[Mesh] OR Pain OR Pains OR Aches OR Ache OR Sore\n\n AND\n\n "Decision Support Techniques"[Mesh] OR "Predictive Value of Tests"[Mesh] OR "Observer Variation"[Mesh] OR Decision Support OR Decision Aids OR Decision Aid OR Decision Analysis OR Decision Modeling OR Decision modelling OR Prediction OR Predictions OR Predictor OR Predicting OR Predicted'},
+		{title: 'Prevalence of Thyroid Disease in Australia', query: '"Thyroid Diseases"[Mesh] OR "Thyroid diseases" OR "Thyroid disease" OR “Thyroid disorder" OR “Thyroid disorders" OR Goiter OR Goitre OR Hypothyroidism OR Hyperthyroidism OR Thyroiditis OR "Graves disease" OR Hyperthyroxinemia OR Thyrotoxicosis OR  “Thyroid dysgenesis" OR “Thyroid cancer" OR “Thyroid cancers" OR “Thyroid neoplasm" OR “Thyroid neoplasms" OR “Thyroid nodule" OR “Thyroid nodules" OR “Thyroid tumor" OR “Thyroid tumour" OR “Thyroid tumors" OR “Thyroid tumours" OR “Thyroid cyst" OR “Thyroid cysts" OR "Cancer of the thyroid"\n\n AND\n\n "Prevalence"[Mesh] OR "Epidemiology"[Mesh] OR "Prevalence" OR "Prevalences" OR Epidemiology OR Epidemiological\n\n AND\n\n "Australia"[Mesh] OR Australia OR Australian OR Australasian OR Australasia OR Queensland OR Victoria OR “New South Wales" OR “Northern Territory"'},
+	];
+
+	$scope.example = null;
+
+	$scope.showExample = function() {
+		var lastTitle = $scope.example ? $scope.example.title : null;
+		do {
+			$scope.example = _.sample($scope.examples);
+		} while ($scope.example.title == lastTitle);
+		$scope.query = _.clone($scope.example.query);
+	};
+	// }}}
 
 	// Utility functions {{{
 	/**
