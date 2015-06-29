@@ -50,8 +50,11 @@ var defaults = {
 	},
 	library: {
 		request: {
-			// https://apps.bond.edu.au/forms/journalrequest.html => http://apps.bond.edu.au/form-response/doc_deliver_IFRAMEFORM.asp
-			url: 'http://apps.bond.edu.au/form-response/doc_deliver_IFRAMEFORM.asp',
+			email: {
+				to: 'matt@mfdc.biz',
+				cc: undefined,
+				bcc: 'matt_carter@bond.edu.au',
+			},
 			timeout: 30 * 1000,
 		},
 	},

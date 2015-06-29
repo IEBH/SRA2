@@ -91,8 +91,9 @@ module.exports = function(finish, task) {
 				.then(function(next) {
 					new email({
 						from: task.settings.user.email,
-						to: 'matt@mfdc.biz',
-						bcc: 'matt_carter@bond.edu.au',
+						to: config.library.request.email.to,
+						cc: config.library.request.email.cc,
+						bcc: config.library.request.email.bcc,
 						subject: 'Journal request - ' + (task.settings.user.title || 'Unknown title'),
 						body: this.html,
 						bodyType: 'html',
