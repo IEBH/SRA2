@@ -51,7 +51,7 @@ var defaults = {
 	library: {
 		request: {
 			email: {
-				to: 'matt@mfdc.biz',
+				to: 'ddeliver@bond.edu.au',
 				cc: undefined,
 				bcc: 'matt_carter@bond.edu.au',
 			},
