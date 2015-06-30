@@ -134,7 +134,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			url: '/libraries/:id/{operation:screen}',
 			views: {main: {templateUrl: '/partials/libraries/screen.html'}},
 			data: {
-				title: 'Share',
+				title: 'Screen',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})

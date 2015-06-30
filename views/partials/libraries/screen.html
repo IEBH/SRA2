@@ -40,22 +40,23 @@
 		</div>
 	</legend>
 
-	<div ng-if="loading" class="alert alert-info text-center">
-		<div><i class="fa fa-spinner fa-spin fa-3x"></i></div>
-		<h3>Loading reference library...</h3>
-	</div>
+	<table height="450px">
+		<tr><td>
+			<div ng-if="loading" class="alert alert-info text-center">
+				<div><i class="fa fa-spinner fa-spin fa-3x"></i></div>
+				<h3>Loading reference library...</h3>
+			</div>
 
-	<div class="row">
-		<div ng-if="ref" class="col-md-12">
-			<h1 ng-if="options.show.title">{{ref.title}}</h1>
-			<p ng-if="options.show.abstract" class="lead">{{ref.abstract}}</p>
-			<div ng-if="options.show.fulltext" class="well">FULL TEXT AREA</div>
-		</div>
-	</div>
-
-	<div class="row text-center">
-		<a ng-click="movePrev()" class="btn btn-default"><i class="fa fa-fast-backward"></i></a>
-		<a ng-click="moveNext()" class="btn btn-default"><i class="fa fa-fast-forward"></i></a>
-		<a ng-click="showConfig()" class="btn btn-default"><i class="fa fa-cog"></i></a>
-	</div>
+			<div ng-if="ref" class="col-md-12">
+				<h1 ng-if="options.show.title">{{ref.title}}</h1>
+				<p ng-if="options.show.abstract" class="lead">{{ref.abstract}}</p>
+				<div ng-if="options.show.fulltext" class="well">FULL TEXT AREA</div>
+			</div>
+		</td></tr>
+		<tr height="50px"><td>
+			<a ng-click="movePrev()" class="btn btn-default"><i class="fa fa-fast-backward"></i></a>
+			<a ng-click="moveNext()" class="btn btn-default"><i class="fa fa-fast-forward"></i></a>
+			<a ng-click="showConfig()" class="btn btn-default"><i class="fa fa-cog"></i></a>
+		<//td></tr>
+	</table>
 </div></div>
