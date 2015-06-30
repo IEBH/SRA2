@@ -35,4 +35,11 @@ app.controller('libraryListController', function($scope, Libraries, References) 
 	};
 	$scope.refresh();
 	// }}}
+
+	// Share emails inline edit {{{
+	$scope.editShare = function(library) {
+		$scope.library = library;
+		$('#modal-shareLib').modal('show');
+	};
+	// }}}
 });
