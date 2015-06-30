@@ -94,7 +94,7 @@ module.exports = function(finish, task) {
 						to: config.library.request.email.to,
 						cc: config.library.request.email.cc,
 						bcc: config.library.request.email.bcc,
-						subject: 'Journal request - ' + (ref.title || 'Unknown title'),
+						subject: 'Document delivery request'
 						body: this.html,
 						bodyType: 'html',
 					}).send(next);
