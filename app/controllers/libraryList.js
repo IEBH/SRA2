@@ -1,4 +1,4 @@
-app.controller('libraryListController', function($scope, Libraries, References, Users) {
+app.controller('libraryListController', function($scope, Libraries, References, Users, $location) {
 	$scope.libraries = null;
 
 	$scope.$watch('libraryAllowNew + libraries', function() {
@@ -54,11 +54,26 @@ app.controller('libraryListController', function($scope, Libraries, References, 
 
 	$scope.emailList = null;
 	$scope.shareLib = function(library) {
-		//Step1 Create new users with emails
-		//Step2 Add new users to library's owners list
 		var emailArray = $scope.emailList.split(";");
 		console.log("emailArray:", emailArray);
 
+		//Step1 Send library link to emails
+		_.forEach(emailArray, function(v, key) {
+			if ($scope.validateEmail(v.trim())){ //email is legal
+				var emailContent = {};
+				emailContent.email = v.trim();
+				emailContent.sender = $scope.user;
+				emailContent.link = $location.absUrl() + '/' + library._id;
+				console.log('emailContent:', emailContent);
+				
+				Libraries.emailshare({}, emailContent);
+			}
+		});
+
+		//Step2 If existing user, add him to owners list
+
+
+		/*
 		_.forEach(emailArray, function(v, key) {
 			if ($scope.validateEmail(v.trim())){ //email is legal
 				//Check whether the email exists
@@ -93,7 +108,6 @@ app.controller('libraryListController', function($scope, Libraries, References, 
 				});
 			}
 		});
-
-		//Step3 Email login details
+		*/
 	};
 });
