@@ -1,4 +1,4 @@
-app.controller('libraryController', function($scope, $rootScope, $filter, $interval, $location, $stateParams, Libraries, References, ReferenceTags, Tasks) {
+app.controller('libraryController', function($scope, $rootScope, $httpParamSerializer, $filter, $interval, $location, $stateParams, $window, Libraries, References, ReferenceTags, Tasks) {
 	$scope.loading = true;
 	$scope.library = null;
 	$scope.tags = null;
@@ -267,6 +267,46 @@ app.controller('libraryController', function($scope, $rootScope, $filter, $inter
 	$scope.saveReference = function() {
 		References.save({id: $scope.reference._id}, _.pick($scope.reference, ['title', 'tags'])).$promise
 			.then($scope.refresh);
+	};
+
+	$scope.openFullText = function(reference) {
+		if ($scope.isFullTextDownloaded(reference)) {
+			$window.open(reference.fullTextURL, '_blank');
+		} else if (reference.fullTextURL) { // External link
+			$window.open(reference.fullTextURL, '_blank');
+		} else { // No link available - throw via OpenURL resolver
+			var params = {
+				'ctx_enc': 'info:ofi/enc:UTF-8',
+				'ctx_id': '10_1',
+				'ctx_tim': '2015-06-11T08%3A29%3A09IST',
+				'ctx_ver': 'Z39.88-2004',
+				'url_ctx_fmt': 'info:ofi/fmt:kev:mtx:ctx',
+				'url_ver': 'Z39.88-2004',
+				'rft.genre': 'article',
+			};
+
+			// Scan over reference fields and populate what we have into the search
+			// Standards docs available at http://ocoins.info/cobg.html
+			// See docs/alma-openurl-email.txt for reverse engineered splat
+			_.forEach({
+				title: 'rft.atitle',
+				journal: 'rft.jtitle',
+				volume: 'rft.volume',
+				issue: 'rft.issue',
+				issn: 'rft.isbn',
+				pages: 'rft.pages',
+				edition: 'rft.edition',
+				// Unknown: rft.btitle, aulast, auinit, auinit1, auinitm, ausuffix, au, aucorp, date, part, quarter, ssn, pages, artnum, eissn, eisbn, sici, coden, pub, series, stitle, spage, epage
+				// Unknown: rft_id, rft.object_id, rft_dat
+			}, function(outField, inField) {
+				if (reference[inField]) params[outField] = reference[inField];
+			});
+			$window.open('https://ap01.alma.exlibrisgroup.com/view/uresolver/61BOND_INST/openurl?' + $httpParamSerializer(params), '_blank');
+		}
+	};
+
+	$scope.isFullTextDownloaded = function(reference) {
+		return (/^\/api\/fulltext\//.test(reference.fullTextURL));
 	};
 	// }}}
 

@@ -132,9 +132,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		})
 		.state('library-screen', {
 			url: '/libraries/:id/{operation:screen}',
-			views: {main: {templateUrl: '/partials/fixme.html'}},
+			views: {main: {templateUrl: '/partials/libraries/screen.html'}},
 			data: {
-				title: 'Share',
+				title: 'Screen',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})

@@ -5,7 +5,7 @@ app.controller('PolyglotSearchController', function($scope) {
 	$scope.examples = [
 		{title: 'Failure of antibiotic prescribing for bacterial infections', query: '"Primary Health Care"[Mesh] OR Primary care OR Primary healthcare OR Family practice OR General practice\n\nAND\n\n"Treatment Failure"[Mesh] OR Treatment failure OR Treatment failures\n\nAND\n\n"Bacterial Infections"[Mesh] OR Bacteria OR Bacterial\n\nAND\n\n"Anti-Bacterial Agents"[Mesh] OR Antibacterial Agents OR Antibacterial Agent OR Antibiotics OR Antibiotic'},
 		{title: 'Clinical prediction guides for whiplash', query: '"Neck"[Mesh] OR Neck OR Necks OR "Cervical Vertebrae"[Mesh] OR "Cervical Vertebrae" OR "Neck Muscles"[Mesh] OR "Neck Muscles" OR "Neck Injuries"[Mesh] OR "Whiplash Injuries"[Mesh] OR "Radiculopathy"[Mesh] OR "Neck Injuries" OR "Neck Injury" OR Whiplash OR Radiculopathies OR Radiculopathy\n\n AND\n\n "Pain"[Mesh] OR Pain OR Pains OR Aches OR Ache OR Sore\n\n AND\n\n "Decision Support Techniques"[Mesh] OR "Predictive Value of Tests"[Mesh] OR "Observer Variation"[Mesh] OR Decision Support OR Decision Aids OR Decision Aid OR Decision Analysis OR Decision Modeling OR Decision modelling OR Prediction OR Predictions OR Predictor OR Predicting OR Predicted'},
-		{title: 'Prevalence of Thyroid Disease in Australia', query: '"Thyroid Diseases"[Mesh] OR "Thyroid diseases" OR "Thyroid disease" OR “Thyroid disorder" OR “Thyroid disorders" OR Goiter OR Goitre OR Hypothyroidism OR Hyperthyroidism OR Thyroiditis OR "Graves disease" OR Hyperthyroxinemia OR Thyrotoxicosis OR  “Thyroid dysgenesis" OR “Thyroid cancer" OR “Thyroid cancers" OR “Thyroid neoplasm" OR “Thyroid neoplasms" OR “Thyroid nodule" OR “Thyroid nodules" OR “Thyroid tumor" OR “Thyroid tumour" OR “Thyroid tumors" OR “Thyroid tumours" OR “Thyroid cyst" OR “Thyroid cysts" OR "Cancer of the thyroid"\n\n AND\n\n "Prevalence"[Mesh] OR "Epidemiology"[Mesh] OR "Prevalence" OR "Prevalences" OR Epidemiology OR Epidemiological\n\n AND\n\n "Australia"[Mesh] OR Australia OR Australian OR Australasian OR Australasia OR Queensland OR Victoria OR “New South Wales" OR “Northern Territory"'},
+		{title: 'Prevalence of Thyroid Disease in Australia', query: '"Thyroid Diseases"[Mesh] OR "Thyroid diseases" OR "Thyroid disease" OR "Thyroid disorder" OR "Thyroid disorders" OR Goiter OR Goitre OR Hypothyroidism OR Hyperthyroidism OR Thyroiditis OR "Graves disease" OR Hyperthyroxinemia OR Thyrotoxicosis OR  "Thyroid dysgenesis" OR "Thyroid cancer" OR "Thyroid cancers" OR "Thyroid neoplasm" OR "Thyroid neoplasms" OR "Thyroid nodule" OR "Thyroid nodules" OR "Thyroid tumor" OR "Thyroid tumour" OR "Thyroid tumors" OR "Thyroid tumours" OR "Thyroid cyst" OR "Thyroid cysts" OR "Cancer of the thyroid"\n\n AND\n\n "Prevalence"[Mesh] OR "Epidemiology"[Mesh] OR "Prevalence" OR "Prevalences" OR Epidemiology OR Epidemiological\n\n AND\n\n "Australia"[Mesh] OR Australia OR Australian OR Australasian OR Australasia OR Queensland OR Victoria OR "New South Wales" OR "Northern Territory"'},
 	];
 
 	$scope.example = null;
@@ -20,6 +20,10 @@ app.controller('PolyglotSearchController', function($scope) {
 	// }}}
 
 	// Utility functions {{{
+	$scope._replaceJunk = function(q) {
+		return q.replace(/[“”«»„’']/g, '"');
+	};
+
 	/**
 	* Wrap all non-logical non-empty lines in brackets
 	* @param string query The input query to wrap
@@ -41,7 +45,7 @@ app.controller('PolyglotSearchController', function($scope) {
 			id: 'pubmed',
 			title: 'PubMed',
 			rewriter: function(q) { 
-				return $scope._wrapLines(q);
+				return $scope._replaceJunk($scope._wrapLines(q));
 			},
 			linker: function(engine) {
 				return {
@@ -57,7 +61,7 @@ app.controller('PolyglotSearchController', function($scope) {
 			id: 'cochrane',
 			title: 'Cochrane CENTRAL',
 			rewriter: function(q) { 
-				return $scope._wrapLines(q)
+				return $scope._replaceJunk($scope._wrapLines(q))
 					.replace(/"(.+?)"\[MESH\]/ig, (line, mesh) => {
 						return '[mh "' + mesh + '"]';
 					});
@@ -102,7 +106,7 @@ app.controller('PolyglotSearchController', function($scope) {
 			id: 'embase',
 			title: 'Embase',
 			rewriter: function(q) { 
-				return $scope._wrapLines(q)
+				return $scope._replaceJunk($scope._wrapLines(q))
 					.replace("'", '')
 					.replace(/"(.+?)"\[MESH\]/ig, (line, mesh) => {
 						return "'" + mesh + "'/exp";
@@ -130,7 +134,7 @@ app.controller('PolyglotSearchController', function($scope) {
 			id: 'webofscience',
 			title: 'Web of Science',
 			rewriter: function(q) { 
-				return $scope._wrapLines(q)
+				return $scope._replaceJunk($scope._wrapLines(q))
 					.replace(/"(.+?)"\[MESH\] (AND|OR) /ig, '')
 					.replace(/"(.+?)"\[MESH\]/ig, '');
 			},
