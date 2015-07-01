@@ -5,27 +5,14 @@ app.directive('textselect', function() {
 		restrict: 'EA',
 		controller: function($scope, $element) {
 			$scope.getSelected = function() {
-				if ((window.getSelection()).toString()) {
-					if ((window.getSelection()).toString()==""){
-						return false;
-					}else{
-						return (window.getSelection()).toString();
-					}
-				}else if (document.getSelection) {
-					if ((document.getSelection).toString()==""){
-						return false;
-					}else{
-						return (document.getSelection()).toString();
-					}
-				}else {
-					var selection = document.selection && document.selection.createRange();
-					if (selection.text && selection.text!="") {
-						return selection.text;
-					}else{
-						return false;
-					}
-				}
-				return false;
+
+				var handler = [
+					window.getSelection ? window.getSelection().toString() : null,
+					document.getSelection ? document.getSelection).toString() : null,
+					document.selection && document.selection.createRange() ? selection.text : null
+				].find();
+
+				return handler;
 			}
 
 		},
