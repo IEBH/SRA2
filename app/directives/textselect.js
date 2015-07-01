@@ -8,7 +8,7 @@ app.directive('textselect', function() {
 
 				var handler = [
 					window.getSelection ? window.getSelection().toString() : null,
-					document.getSelection ? document.getSelection).toString() : null,
+					document.getSelection ? document.getSelection().toString() : null,
 					document.selection && document.selection.createRange() ? selection.text : null
 				].find();
 
