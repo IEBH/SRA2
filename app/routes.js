@@ -182,4 +182,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		})
 		// }}}
+		// For testing textselect directive {{{
+		.state('textselect', {
+			url: '/textselect',
+			views: {main: {templateUrl: '/partials/textselect/textselect.html'}},
+			data: {
+				title: 'Text Select'
+			}
+		})
+		// }}}
 });
