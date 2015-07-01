@@ -274,6 +274,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 			};
 
 			// Scan over reference fields and populate what we have into the search
+			// Standards docs available at http://ocoins.info/cobg.html
 			// See docs/alma-openurl-email.txt for reverse engineered splat
 			_.forEach({
 				title: 'rft.atitle',
