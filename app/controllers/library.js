@@ -39,6 +39,18 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 			}
 			// }}}
 			// }}}
+			// If existing user, add him to owners list {{{
+				if ($scope.user){
+					if (_.indexOf($scope.library.owners, $scope.user._id) < 0){
+						$scope.library.owners.push($scope.user._id);
+						console.log("$scope.library.owners:",$scope.library.owners);
+						Libraries.save(
+							{id: $scope.library._id},
+							_.pick($scope.library, ['owners'])
+						);
+					}
+				}
+			// }}}	
 		});
 		// }}}
 

@@ -6,6 +6,7 @@ var moment = require('moment');
 var Libraries = require('../models/libraries');
 var References = require('../models/references');
 var rl = require('reflib');
+var email = require('email').Email;
 
 /**
 * Accept a file and upload it either into a new or existing library
@@ -164,6 +165,35 @@ app.get('/api/libraries/:id/clear', function(req, res) {
 });
 
 
+/**
+* Send a contact form email
+* @param string req.body.email The email address of the receiver
+* @param string req.body.sender The info of who shared the link
+* @param string req.body.link The library link
+*/
+app.post('/emailshare', function(req, res) {
+	if (!req.body) return res.status(400).send('No post data provided');
+	if (!req.body.sender) return res.status(400).send('No sender provided');
+	if (!req.body.email) return res.status(400).send('No email provided');
+	if (!req.body.link) return res.status(400).send('No library link provided');
+
+	new email({
+		from: req.body.sender.name + ' <'+ req.body.sender.email +'>',
+		to: req.body.email,
+		subject: 'CREP-SRA Library Share',
+		body: req.body.sender.name + ' shared a library link to you:' + req.body.link,
+		bodyType: 'text/plain',
+	}).send(function(err) {
+		if (err) {
+			console.log('Error emailing contact form', err);
+			return res.status(400).send(err);
+		}
+		console.log('Contact form email dispatched for', req.body.email);
+		res.status(200).end();
+	});
+});
+
+
 restify.serve(app, Libraries, {
 	middleware: function(req, res, next) {
 		if (!req.user) return res.status(400).send('You must be logged in to do that');
@@ -171,9 +201,7 @@ restify.serve(app, Libraries, {
 		// Ensure that .owners is either specified OR glue it to the query if not {{{
 		if (req.user.role == 'user' && req.body.owners) {
 			var owners = req.body.owners || req.query.owners;
-			if (_.isArray(owners)) {
-				if (!_.contains(owners, req.user._id)) return res.status(400).send('Owners must contain the current user id');
-			} else if (_.isString(owners)) {
+			if (_.isString(owners)) {
 				if (owners != req.user._id) return res.status(400).send('Owners must be the current user id');
 			} else {
 				req.query.owners = req.user._id;
