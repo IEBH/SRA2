@@ -201,9 +201,7 @@ restify.serve(app, Libraries, {
 		// Ensure that .owners is either specified OR glue it to the query if not {{{
 		if (req.user.role == 'user' && req.body.owners) {
 			var owners = req.body.owners || req.query.owners;
-			if (_.isArray(owners)) {
-				if (!_.contains(owners, req.user._id)) return res.status(400).send('Owners must contain the current user id');
-			} else if (_.isString(owners)) {
+			if (_.isString(owners)) {
 				if (owners != req.user._id) return res.status(400).send('Owners must be the current user id');
 			} else {
 				req.query.owners = req.user._id;
