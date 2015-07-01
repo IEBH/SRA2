@@ -5,13 +5,8 @@ app.directive('textselect', function() {
 		restrict: 'EA',
 		controller: function($scope, $element) {
 			$scope.getSelected = function() {
-
-				var handler = [
-					window.getSelection ? window.getSelection().toString() : null,
-					document.getSelection ? document.getSelection).toString() : null,
-					document.selection && document.selection.createRange() ? selection.text : null
-				].find();
-
+				var handler = window.getSelection ? (window.getSelection()).toString() : null;
+					
 				return handler;
 			}
 
@@ -22,7 +17,6 @@ app.directive('textselect', function() {
 			elem
 				.on('mouseup', function() {
 					var selection = $scope.getSelected();
-					console.log('selection:', JSON.stringify(selection));
 					if (selection) {
 						alert(selection);
 					}
