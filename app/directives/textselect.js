@@ -1,6 +1,7 @@
 app.directive('textselect', function() {
 	return {
 		scope: {
+			textselectDropdown: '@',
 		},
 		restrict: 'EA',
 		controller: function($scope, $element) {
@@ -14,11 +15,17 @@ app.directive('textselect', function() {
 		template: 
 			'',
 		link: function($scope, elem, attr, ctrl) {
+			var dropdownID = '#' + $scope.textselectDropdown;
+			$(dropdownID).hide();
 			elem
 				.on('mouseup', function() {
 					var selection = $scope.getSelected();
+					
 					if (selection) {
-						alert(selection);
+						console.log("selection:",selection);
+						$(dropdownID).show();
+					}else{
+						$(dropdownID).hide();
 					}
 				});
 		}
