@@ -18,12 +18,16 @@ app.directive('textselect', function() {
 			var dropdownID = '#' + $scope.textselectDropdown;
 			$(dropdownID).hide();
 			elem
-				.on('mouseup', function() {
+				.on('mouseup', function(event) {
 					var selection = $scope.getSelected();
 					
 					if (selection) {
-						console.log("selection:",selection);
-						$(dropdownID).show();
+						console.log("selection:", selection);
+
+						$(dropdownID)
+						.css( "top", event.offsetY )
+						.css( "left", event.offsetX )
+						.show();
 					}else{
 						$(dropdownID).hide();
 					}
