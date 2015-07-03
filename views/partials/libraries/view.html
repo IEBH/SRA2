@@ -201,15 +201,15 @@
 					<em ng-if="::(!reference.authors || !reference.authors.length)">none</em>
 				</a>
 			</td>
-			<td><a ng-click="openFullText(reference)">
-				<i ng-class="isFullTextDownloaded(reference) ? '' : 'text-muted'" class="fa fa-file-pdf-o"></i>
-			</a></td>
 			<th ng-if="tags && tags.length">
 				<a ng-click="editTags(reference)"> 
 					<span ng-repeat="tag in reference.tags" class="tag" style="background: {{tagsObj[tag].color}}">{{tagsObj[tag].title}}</span>
 					<i class="fa fa-pencil show-on-hover"></i>
 				</a>
 			</th>
+			<td><a ng-click="openFullText(reference)">
+				<i ng-class="isFullTextDownloaded(reference) ? '' : 'text-muted'" class="fa fa-file-pdf-o"></i>
+			</a></td>
 		</tr>
 	</table>
 </div>
