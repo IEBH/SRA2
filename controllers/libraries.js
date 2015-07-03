@@ -217,6 +217,8 @@ app.post('/emailshare', function(req, res) {
 
 restify.serve(app, Libraries, {
 	middleware: function(req, res, next) {
+		if (req.method == 'GET') return next(); // Allow all GET actions reguardless of whether the user is logged in
+
 		if (!req.user) return res.status(400).send('You must be logged in to do that');
 
 		// Ensure that .owners is either specified OR glue it to the query if not {{{
