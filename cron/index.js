@@ -99,6 +99,12 @@ function Cron() {
 		// }}}
 		async()
 			.then(function(next) {
+				// Auto-schedule tasks
+				Tasks.create({worker: 'library-cleaner'});
+				// }}}
+				next();
+			})
+			.then(function(next) {
 				// Restart all partially completed tasks as pending
 				Tasks.update({status: 'processing'}, {status: 'pending'}, next);
 			})

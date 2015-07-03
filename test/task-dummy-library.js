@@ -6,7 +6,7 @@ var fs = require('fs');
 var moment = require('moment');
 var request = require('superagent');
 
-describe('DeDupe - test #1', function(){
+describe('Dummy-library task', function(){
 	var agent = request.agent();
 
 	it('should login', function(finish) {
@@ -25,6 +25,7 @@ describe('DeDupe - test #1', function(){
 		this.timeout(60 * 1000);
 		agent.post(config.url + '/api/libraries/import')
 			.field('libraryTitle', 'dedupe-test')
+			.field('libraryExpires', '3 hours')
 			.field('json', 'true')
 			.attach('file', __dirname + '/data/endnote-1.xml')
 			.end(function(err, res) {

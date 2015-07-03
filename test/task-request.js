@@ -47,6 +47,7 @@ describe('Journal Request', function(){
 		this.timeout(60 * 1000);
 		agent.post(config.url + '/api/libraries/import')
 			.field('libraryTitle', 'dedupe-test')
+			.field('libraryExpires', '3 hours')
 			.field('json', 'true')
 			.attach('file', libraryFile)
 			.end(function(err, res) {

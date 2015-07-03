@@ -1,13 +1,14 @@
 var _ = require('lodash');
 var async = require('async-chainable');
 var colors = require('colors');
+var email = require('email').Email;
 var fs = require('fs');
-var moment = require('moment');
 var Libraries = require('../models/libraries');
+var moment = require('moment');
 var References = require('../models/references');
 var ReferenceTags = require('../models/referenceTags');
 var rl = require('reflib');
-var email = require('email').Email;
+var strtotime = require('strtotime');
 
 /**
 * Accept a file and upload it either into a new or existing library
@@ -37,23 +38,23 @@ app.post('/api/libraries/import', function(req, res) {
 			// }}}
 		})
 		.then('library', function(next) {
-			if (req.body.libraryId && req.body.libraryId != 'new') { // Existing
-				Libraries.findOne({_id: req.body.libraryId}, next);
-			} else if (req.body.library) { // Create a new one with prototype
-				var library = _.clone(req.body.libray);
-				library.owners = [ req.user._id ];
-				Libraries.create(req.body.library, next);
-			} else if (req.body.libraryTitle) { // Create one with just a name
-				Libraries.create({
-					title: req.body.libraryTitle,
-					owners: [ req.user._id ],
-				}, next);
-			} else { // Create a new one from scratch
-				Libraries.create({
-					title: moment().format("MMM Do YYYY, h:mma"),
-					owners: [ req.user._id ],
-				}, next);
+			// Import into existing
+			if (req.body.libraryId && req.body.libraryId != 'new') return Libraries.findOne({_id: req.body.libraryId}, next);
+
+			var proto = {
+				title: req.body.libraryTitle || moment().format("MMM Do YYYY, h:mma"),
+				owners: [ req.user._id ],
+				expires: req.body.libraryExpires || undefined,
+			};
+
+			if (req.body.library) { // Create a new one with prototype
+				proto = _.omit(_.clone(req.body.library), ['_id', 'owners', 'status']);
+				proto.owners = [ req.user._id ];
 			}
+
+			if (proto.expires) proto.expires = strtotime(proto.expires);
+
+			Libraries.create(proto, next);
 		})
 		.set('refs', []) // References to create
 		.set('tags', {}) // Lookup array for tags

@@ -3,6 +3,7 @@ var schema = new mongoose.Schema({
 	id: mongoose.Schema.ObjectId,
 	created: {type: Date, default: Date.now},
 	edited: {type: Date, default: Date.now},
+	expiry: {type: Date},
 	owners: [{type: mongoose.Schema.ObjectId, ref: 'users', indexed: true}],
 	status: {type: String, enum: ['active', 'deleted'], default: 'active', indexed: true},
 	dedupeStatus: {type: String, enum: ['none', 'processing', 'review'], default: 'none'},

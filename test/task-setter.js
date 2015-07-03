@@ -8,7 +8,7 @@ var moment = require('moment');
 var reflib = require('reflib');
 var request = require('superagent');
 
-describe('Setter - test #1', function(){
+describe('Setter task', function(){
 	// Library specific info
 	var libraryFile = __dirname + '/data/endnote-1.xml';
 	var libraryCount = 1988;
@@ -53,6 +53,7 @@ describe('Setter - test #1', function(){
 		this.timeout(60 * 1000);
 		agent.post(config.url + '/api/libraries/import')
 			.field('libraryTitle', 'dedupe-test')
+			.field('libraryExpires', '3 hours')
 			.field('json', 'true')
 			.attach('file', libraryFile)
 			.end(function(err, res) {
