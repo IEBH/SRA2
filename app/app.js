@@ -1,4 +1,5 @@
 var app = angular.module('app', [
+	'angular-venn',
 	'colorpicker.module',
 	'ng-collection-assistant',
 	'ngResource',

@@ -27,6 +27,33 @@ app.controller('libraryTagController', function($scope, $debounce, collectionAss
 				// }}}
 				$scope.loading = false;
 		});
+		References.query({
+			select: '_id,tags',
+			library: $scope.library._id,
+			status: 'active'
+		}).$promise.then(function(data) {
+			$scope.references = data;
+		});
+	};
+	// }}}
+
+	// References (used for Venn display) {{{
+	$scope.references = null;
+
+	// Prepare fast-access .tagLookup {{{
+	$scope.tagLookup = null;
+	$scope.$watch('tags', function() {
+		if (!$scope.tags) return;
+		$scope.tagLookup = {};
+		$scope.tags.forEach(function(tag) { $scope.tagLookup[tag._id] = tag.title });
+	});
+	// }}}
+
+	$scope.getReferenceTags = function(ref) {
+		if (!$scope.tagLookup || !ref.tags) return [];
+		return ref.tags.map(function(tag) {
+			return $scope.tagLookup[tag];
+		});
 	};
 	// }}}
 

@@ -15,6 +15,9 @@
 		<h4><i class="fa fa-info-circle"></i> No tags found</h4>
 		<p>You dont appear to have any tags for this reference library.</p>
 	</div>
+	<div ng-if="tags.length > 1">
+		<div venn="references" venn-map="getReferenceTags" class="text-center"></div>
+	</div>
 	<table ng-if="tags.length" class="table table-striped table-bordered">
 		<tr>
 			<th width="40px">&nbsp;</th>
