@@ -19,6 +19,14 @@ var schema = new mongoose.Schema({
 			weight: {type: Number}
 		}],
 	},
+}, {
+	toJSON: {virtuals: true},
+	toObject: {virtuals: true},
 });
+
+schema.virtual('url')
+	.get(function() {
+		return config.url + '/#/libraries/' + this._id ;
+	});
 
 module.exports = mongoose.model(name, schema);

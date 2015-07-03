@@ -20,7 +20,7 @@ describe('DeDupe - test #1', function(){
 
 	it('should read the original EndNote file', function(finish) {
 		this.timeout(30 * 1000);
-		reflib.parse('endnotexml', fs.readFileSync(libraryFile))
+		reflib.parseFile(libraryFile)
 			.on('error', finish)
 			.on('ref', function(ref) {
 				refs.push(ref);

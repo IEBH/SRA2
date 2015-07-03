@@ -5,6 +5,7 @@ var fs = require('fs');
 var moment = require('moment');
 var Libraries = require('../models/libraries');
 var References = require('../models/references');
+var ReferenceTags = require('../models/referenceTags');
 var rl = require('reflib');
 var email = require('email').Email;
 
@@ -54,6 +55,8 @@ app.post('/api/libraries/import', function(req, res) {
 				}, next);
 			}
 		})
+		.set('refs', []) // References to create
+		.set('tags', {}) // Lookup array for tags
 		.forEach(req.files, function(next, file) {
 			var self = this;
 			rl.parse(rl.identify(file.originalname) || 'endnotexml', fs.readFileSync(file.path))
@@ -62,12 +65,30 @@ app.post('/api/libraries/import', function(req, res) {
 				})
 				.on('ref', function(ref) {
 					ref.library = self.library._id;
-					References.create(ref);
+					ref.tags.forEach(function(tag) { self.tags[tag] = true });
+					self.refs.push(_.omit(ref, ['_id', 'created', 'edited', 'status']));
+					self.count++;
 				})
-				.on('end', function(count) {
-					self.count += count;
+				.on('end', function() {
 					next();
 				});
+		})
+		.limit(50)
+		.forEach('tags', function(nextTag, junk, tag) {
+			var self = this;
+			ReferenceTags.create({
+				title: tag,
+				library: this.library._id,
+			}, function(err, createdTag) {
+				if (err) return nextTag(err);
+				self.tags[tag] = createdTag;
+				nextTag();
+			});
+		})
+		.forEach('refs', function(nextRef, ref) {
+			var self = this;
+			ref.tags = ref.tags.map(function(tag) { return self.tags[tag]._id })
+			References.create(ref, nextRef);
 		})
 		.end(function(err) {
 			if (err) return res.status(400).send(err).end();
