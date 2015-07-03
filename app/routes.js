@@ -55,6 +55,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Polyglot Search',
 			}
 		})
+		.state('debug', {
+			url: '/debug',
+			views: {main: {templateUrl: '/partials/debug.html'}},
+			data: {
+				title: 'Debug testing area',
+			}
+		})
 		// }}}
 		// Library (collective) {{{
 		.state('libraries', {
