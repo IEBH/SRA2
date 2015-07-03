@@ -150,6 +150,10 @@ if (config.cron.enabled) {
 		.on('info', function(msg) {
 			console.log(colors.blue('CRON'), msg);
 		})
+		.on('err', function(msg) {
+			if (msg == 'Nothing to do') return;
+			console.log(colors.blue('CRON'), colors.red('ERROR'), msg);
+		})
 		.install();
 }
 // }}}

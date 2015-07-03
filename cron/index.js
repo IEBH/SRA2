@@ -8,16 +8,11 @@ var async = require('async-chainable');
 var events = require('events');
 var Tasks = require('../models/tasks');
 var request = require('superagent');
+var requireDir = require('require-dir');
 var util = require('util');
 
 function Cron() {
-	this.workers = {
-		dedupe: require('./dedupe'),
-		dummy: require('./dummy'),
-		'dummy-library': require('./dummy-library'),
-		request: require('./request'),
-		setter: require('./setter'),
-	};
+	this.workers = requireDir('.');
 
 	this.cycle = function(finish) {
 		var self = this;
@@ -63,6 +58,7 @@ function Cron() {
 					})
 					.end(function(err) {
 						if (err) {
+							self.emit('err', err);
 							item.status = 'error';
 							item.history.push({
 								type: 'error',
@@ -75,6 +71,7 @@ function Cron() {
 					});
 			})
 			.end(function(err) {
+				if (err) self.emit('err', err);
 				if (this.toProcess) self.emit('info', this.processed.toString() + '/' + this.toProcess.toString() + ' profiles processed');
 
 				if (!this.toProcess) {
