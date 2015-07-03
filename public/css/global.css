@@ -132,20 +132,19 @@ input[type=checkbox] {
 /* .tag - reference tags (similar to .badge but with changable background color) {{{ */
 .tag {
 	text-shadow: none;
-	font-size: 12px;
-	padding-top: 1px;
-	padding-bottom: 3px;
+	font-size: 10px;
 	font-weight: normal;
 	line-height: 15px;
 	display: inline-block;
 	min-width: 10px;
-	padding: 3px 7px;
+	padding: 2px 5px;
 	color: #000;
 	text-align: center;
 	white-space: nowrap;
 	vertical-align: baseline;
 	border-radius: 10px;
 	border: 1px solid #777;
+	margin-bottom: 2px;
 }
 
 .tag + .tag {
