@@ -57,6 +57,8 @@ describe('DeDupe - test #1', function(){
 				expect(err).to.be.not.ok;
 				expect(library).to.have.property('_id');
 				expect(library).to.have.property('title');
+				expect(library).to.have.property('url');
+				mlog.log('Library available at', library.url);
 				finish();
 			});
 	});
@@ -155,5 +157,4 @@ describe('DeDupe - test #1', function(){
 			})
 			.end(finish);
 	});
-
 });
