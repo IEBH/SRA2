@@ -170,6 +170,17 @@ tr:hover .show-on-hover {
 	width: 30px;
 }
 /* }}} */
+/* Paper screener: .screener {{{ */
+.screener h1 {
+	margin: 0 0 10px 0 !important;
+	border-bottom: 1px solid rgb(171, 186, 195);
+	padding-bottom: 12px !important;
+}
+
+.screener .label {
+	font-size: inherit;
+}
+/* }}} */
 /* FIX: Checkboxes are too small {{{ */
 input[type=checkbox] {
 	width: 20px;

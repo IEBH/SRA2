@@ -53,17 +53,17 @@
 		</div>
 	</legend>
 
-	<table height="450px">
-		<tr><td>
-			<div ng-if="loading" class="alert alert-info text-center">
-				<div><i class="fa fa-spinner fa-spin fa-3x"></i></div>
-				<h3>Loading reference library...</h3>
-			</div>
+	<div ng-if="loading" class="alert alert-info text-center">
+		<div><i class="fa fa-spinner fa-spin fa-3x"></i></div>
+		<h3>Loading reference library...</h3>
+	</div>
 
+	<table class="screener" ng-if="!loading" height="450px" width="100%">
+		<tr><td>
 			<div ng-if="ref" class="col-md-12">
 				<span text-highlight="highlightTerms" text-highlight-wrapper="highlightWrapper" text-highlight-tags="highlightTags">
 					<h1 ng-if="options.show.title">{{ref.title}}</h1>
-					<p ng-if="options.show.abstract" class="lead">{{ref.abstract}}</p>
+					<p ng-if="options.show.abstract" class="lead">{{ref.abstract || 'No abstract available'}}</p>
 					<div ng-if="options.show.fulltext" class="well">FULL TEXT AREA</div>
 				</span>
 			</div>
