@@ -10,15 +10,28 @@
 					<table class="table table-bordered table-striped">
 						<thead><tr>
 							<td>Keyword</td>
-							<td>Weighting</td>
+							<td class="text-center" width="50px">Weighting</td>
+							<td width="50px">&nbsp;</td>
 						</tr></thead>
 						<tr ng-repeat="weighting in library.screening.weightings">
 							<td>{{weighting.keyword}}</td>
-							<td>{{weighting.weight}}</td>
+							<td class="text-center">{{weighting.weight}}</td>
+							<td class="text-center hide-until-hover"><a ng-click="deleteWeighting($index)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a></td>
 						</tr>
 						<tr ng-if="!library.screening.weightings.length">
 							<td colspan="2">No weightings present</td>
 						</tr>
+						<tfoot><tr>
+							<td>
+								<input type="text" ng-model="newWeighting.keyword" class="form-control"/>
+							</td>
+							<td>
+								<input type="number" ng-model="newWeighting.weight" class="form-control text-center"/>
+							</td>
+							<td class="text-center">
+								<button ng-click="addWeighting()" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Add</button>
+							</td>
+						</tr></tfoot>
 					</table>
 				</div>
 				<div class="modal-footer">
@@ -55,7 +68,7 @@
 				</span>
 			</div>
 		</td></tr>
-		<tr height="50px"><td>
+		<tr height="50px"><td class="text-center">
 			<a ng-click="movePrev()" class="btn btn-default"><i class="fa fa-fast-backward"></i></a>
 			<a ng-click="moveNext()" class="btn btn-default"><i class="fa fa-fast-forward"></i></a>
 			<a ng-click="showConfig()" class="btn btn-default"><i class="fa fa-cog"></i></a>

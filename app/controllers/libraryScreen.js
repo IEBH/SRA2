@@ -14,7 +14,7 @@ app.controller('libraryScreenController', function($scope, $location) {
 	$scope.highlightTags = ['h1', 'p', 'div'];
 	$scope.highlightTerms = null;
 	$scope.$watch('library.screening.weightings', function() {
-		if (!$scope.library.screening.weightings) return;
+		if (!$scope.library || !$scope.library.screening || !$scope.library.screening.weightings) return;
 		$scope.highlightTerms = $scope.library.screening.weightings.map(function(weighting) {
 			return weighting.keyword;
 		});
@@ -25,7 +25,16 @@ app.controller('libraryScreenController', function($scope, $location) {
 	$scope.showConfig = function() {
 		angular.element('#modal-screening-options')
 			.modal('show')
-			.one('hide.bs.modal', $scope.$parent.save);
+			.one('hide.bs.modal', function() {
+				$scope.$parent.save('screening');
+			});
+	};
+
+	$scope.newWeighting = {keyword: '', weight: 1};
+
+	$scope.addWeighting = function() {
+		$scope.library.screening.weightings.push(_.clone($scope.newWeighting));
+		$scope.newWeighting.keyword = '';
 	};
 	// }}}
 

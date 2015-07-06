@@ -14,6 +14,10 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 		Libraries.get({id: $scope.library._id}).$promise.then(function(data) {
 			$scope.library = data;
 			// Decorators {{{
+			// Default values {{{
+			if (!$scope.library.screening) $scope.library.screening = {};
+			if (!$scope.library.screening.weightings) $scope.library.screening.weightings = [];
+			// }}}
 			// .referenceCount {{{
 			$scope.library.referenceCount = null;
 			References.count({library: $scope.library._id}).$promise.then(function(countData) {

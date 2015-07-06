@@ -73,3 +73,28 @@ ul.dropdown-menu li i.fa-caret-right {
 	margin-right: 0;
 }
 /* }}} */
+/* .hide-until-hover {{{ */
+.hide-until-hover {
+	visibility: hidden;
+	transition: visibility 0s;
+}
+
+.hide-until-hover:hover {
+	visibility: visible;
+}
+
+/* When applied to TD {{{ */
+table tr > td.hide-until-hover {
+	visibility: visible;
+}
+
+table tr > td.hide-until-hover > * {
+	visibility: hidden;
+	transition: visibility 0s;
+}
+
+table tr:hover > td.hide-until-hover > * {
+	visibility: visible;
+}
+/* }}} */
+/* }}} */
