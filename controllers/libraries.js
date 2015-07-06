@@ -217,6 +217,7 @@ app.post('/emailshare', function(req, res) {
 
 
 restify.serve(app, Libraries, {
+	lean: false,
 	middleware: function(req, res, next) {
 		if (req.method == 'GET') return next(); // Allow all GET actions reguardless of whether the user is logged in
 
