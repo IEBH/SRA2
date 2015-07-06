@@ -6,6 +6,7 @@ app.controller('libraryScreenController', function($scope, $location, $rootScope
 			title: true,
 			abstract: true,
 			fulltext: false,
+			keywords: true,
 		},
 	};
 

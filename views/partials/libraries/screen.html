@@ -19,7 +19,7 @@
 							<td class="text-center hide-until-hover"><a ng-click="deleteWeighting($index)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a></td>
 						</tr>
 						<tr ng-if="!library.screening.weightings.length">
-							<td colspan="2">No weightings present</td>
+							<td colspan="3">No weightings present</td>
 						</tr>
 						<tfoot><tr>
 							<td>
@@ -64,6 +64,10 @@
 				<span text-highlight="highlightTerms" text-highlight-wrapper="highlightWrapper" text-highlight-tags="highlightTags">
 					<h1 ng-if="options.show.title">{{ref.title}}</h1>
 					<p ng-if="options.show.abstract" class="lead">{{ref.abstract || 'No abstract available'}}</p>
+					<div ng-if="options.show.keywords && ref.keywords">
+						<strong>Keywords:</strong>
+						<span ng-repeat="keyword in ref.keywords">{{keyword}}</span>
+					</div>
 					<div ng-if="options.show.fulltext" class="well">FULL TEXT AREA</div>
 				</span>
 			</div>
