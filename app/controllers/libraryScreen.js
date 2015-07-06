@@ -1,5 +1,5 @@
 // NOTE: This controller requires that its nested as the child of libraryController
-app.controller('libraryScreenController', function($scope, $location) {
+app.controller('libraryScreenController', function($scope, $location, $rootScope) {
 	$scope.ref = null;
 	$scope.options = {
 		show: {
@@ -59,5 +59,13 @@ app.controller('libraryScreenController', function($scope, $location) {
 
 	$scope.$watch('references', function() {
 		if ($scope.references && !$scope.ref) $scope.moveFirst();
+	});
+
+	$scope.$watch('library', function() {
+		$rootScope.$broadcast('setTitle', 'Screening');
+		$rootScope.$broadcast('setBreadcrumb', [
+			{url: '/libraries', title: 'Libraries'},
+			{url: '/libraries/' + $scope.library._id, title: $scope.library.title}
+		]);
 	});
 });
