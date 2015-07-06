@@ -34,13 +34,13 @@ describe('Randomized-tags - test #1', function(){
 			});
 	});
 
-	it('Should pick random references to use', function(finish) {
+	it('should pick random references to use', function(finish) {
 		refs = _.sample(refs, sampleSize);
 		expect(refs).to.have.length(sampleSize);
 		finish();
 	});
 
-	it('Should scramble the tags', function(finish) {
+	it('should scramble the tags', function(finish) {
 		var scrambled = 0;
 		refs = refs.map(function(ref) {
 			ref.tags = [];
@@ -54,7 +54,7 @@ describe('Randomized-tags - test #1', function(){
 		finish();
 	});
 
-	it('Should prepare a JSON output file', function(finish) {
+	it('should prepare a JSON output file', function(finish) {
 		this.timeout(60 * 1000);
 		mlog.log('Saving JSON file to', libraryFileOut);
 		reflib.outputFile(libraryFileOut, refs)
