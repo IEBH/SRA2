@@ -16,6 +16,8 @@
     "angular-collection-assistant": "~1.1.4",
     "angular-xeditable": "~0.1.9",
     "angular-pretty-bytes": "~1.0.1",
-    "angular-venn": "*"
+    "angular-venn": "*",
+    "angular-bs-text-highlight": "*",
+    "angular-bs-tooltip": "*"
   }
 }

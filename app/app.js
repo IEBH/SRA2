@@ -1,5 +1,7 @@
 var app = angular.module('app', [
 	'angular-venn',
+	'angular-bs-text-highlight',
+	'angular-bs-tooltip',
 	'colorpicker.module',
 	'ng-collection-assistant',
 	'ngResource',

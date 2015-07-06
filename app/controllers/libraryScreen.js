@@ -9,6 +9,18 @@ app.controller('libraryScreenController', function($scope, $location) {
 		},
 	};
 
+	// Keyword highlighting {{{
+	$scope.highlightWrapper = '<span class="label label-info">{{item.text}}</span>';
+	$scope.highlightTags = ['h1', 'p', 'div'];
+	$scope.highlightTerms = null;
+	$scope.$watch('library.screening.weightings', function() {
+		if (!$scope.library.screening.weightings) return;
+		$scope.highlightTerms = $scope.library.screening.weightings.map(function(weighting) {
+			return weighting.keyword;
+		});
+	});
+	// }}}
+
 	// Modals {{{
 	$scope.showConfig = function() {
 		angular.element('#modal-screening-options')

@@ -48,9 +48,11 @@
 			</div>
 
 			<div ng-if="ref" class="col-md-12">
-				<h1 ng-if="options.show.title">{{ref.title}}</h1>
-				<p ng-if="options.show.abstract" class="lead">{{ref.abstract}}</p>
-				<div ng-if="options.show.fulltext" class="well">FULL TEXT AREA</div>
+				<span text-highlight="highlightTerms" text-highlight-wrapper="highlightWrapper" text-highlight-tags="highlightTags">
+					<h1 ng-if="options.show.title">{{ref.title}}</h1>
+					<p ng-if="options.show.abstract" class="lead">{{ref.abstract}}</p>
+					<div ng-if="options.show.fulltext" class="well">FULL TEXT AREA</div>
+				</span>
 			</div>
 		</td></tr>
 		<tr height="50px"><td>
