@@ -78,7 +78,7 @@ describe('Randomized-tags - test #1', function(){
 	it('should upload a test library', function(finish) {
 		this.timeout(60 * 1000);
 		agent.post(config.url + '/api/libraries/import')
-			.field('libraryTitle', 'dedupe-test')
+			.field('libraryTitle', 'randomized-tags-test')
 			.field('libraryExpires', '3 hours')
 			.field('json', 'true')
 			.attach('file', libraryFileOut)
