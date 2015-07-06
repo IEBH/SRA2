@@ -22,6 +22,13 @@ app.controller('libraryScreenController', function($scope, $location, $rootScope
 	});
 	// }}}
 
+	// Text selection {{{
+	$scope.selectedText = null;
+	$scope.$on('selectedText', function(e, text) {
+		$scope.selectedText = text;
+	});
+	// }}}
+
 	// Modals {{{
 	$scope.showConfig = function() {
 		angular.element('#modal-screening-options')
@@ -33,9 +40,11 @@ app.controller('libraryScreenController', function($scope, $location, $rootScope
 
 	$scope.newWeighting = {keyword: '', weight: 1};
 
-	$scope.addWeighting = function() {
-		$scope.library.screening.weightings.push(_.clone($scope.newWeighting));
+	$scope.addWeighting = function(obj) {
+		$scope.library.screening.weightings.push(_.clone(obj || $scope.newWeighting));
 		$scope.newWeighting.keyword = '';
+		$scope.$parent.save('screening');
+		$('#dropdown-text-select').hide(); // Close the dropdown menu if its open
 	};
 	// }}}
 

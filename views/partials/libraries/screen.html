@@ -61,7 +61,16 @@
 	<table class="screener" ng-if="!loading" height="450px" width="100%">
 		<tr><td>
 			<div ng-if="ref" class="col-md-12">
-				<span text-highlight="highlightTerms" text-highlight-wrapper="highlightWrapper" text-highlight-tags="highlightTags">
+				<ul id="dropdown-text-select" class="dropdown-menu">
+					<li class="dropdown-header">{{selectedText}}</li>
+					<li class="divider"></li>
+					<li><a ng-click="addWeighting({keyword: selectedText, weight: 2})"><i class="fa fa-thumbs-o-up"></i> +2 Prefer</a></li>
+					<li><a ng-click="addWeighting({keyword: selectedText, weight: 1})"><i class="fa fa-thumbs-o-up"></i> +1 Prefer</a></li>
+					<li class="divider"></li>
+					<li><a ng-click="addWeighting({keyword: selectedText, weight: -1})"><i class="fa fa-thumbs-o-down"></i> -1 Avoid</a></li>
+					<li><a ng-click="addWeighting({keyword: selectedText, weight: -2})"><i class="fa fa-thumbs-o-down"></i> -2 Avoid</a></li>
+				</ul>
+				<span text-highlight="highlightTerms" text-highlight-wrapper="highlightWrapper" text-highlight-tags="highlightTags" text-highlight-popup="'#dropdown-text-select'">
 					<h1 ng-if="options.show.title">{{ref.title}}</h1>
 					<p ng-if="options.show.abstract" class="lead">{{ref.abstract || 'No abstract available'}}</p>
 					<div ng-if="options.show.keywords && ref.keywords">

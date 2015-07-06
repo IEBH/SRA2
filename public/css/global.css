@@ -101,6 +101,16 @@ input[type=checkbox] {
 	color: #424242 !important;
 	border-color: #DBDBDB;
 }
+
+#dropdown-text-select {
+	display: none;
+}
+
+#dropdown-text-select li.dropdown-header {
+	width: 300px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 /* }}} */
 /* Widget: Search basket {{{ */
 #basket > ul {
@@ -179,6 +189,11 @@ tr:hover .show-on-hover {
 
 .screener .label {
 	font-size: inherit;
+}
+/* }}} */
+/* FIX: <a> should always display as a cursor {{{ */
+a {
+	cursor: pointer;
 }
 /* }}} */
 /* FIX: Checkboxes are too small {{{ */
