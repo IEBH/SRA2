@@ -213,10 +213,10 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	// Saver {{{
 	/**
 	* Attempt to save various library information and reload from server
-	* @param array|string key Optional key or keys of information to save, if omitted all safe fields will be used
+	* @param array|string keys Optional key or keys of information to save, if omitted all safe fields will be used
 	* @param string url Optional URL to navigate to after saving
 	*/
-	$scope.save = function(key, url) {
+	$scope.save = function(keys, url) {
 		Libraries.save(
 			{id: $scope.library._id},
 			_.pick($scope.library, keys || ['status', 'title', 'tags'])
