@@ -8,6 +8,6 @@ module.exports = {
 		debugJS: false,
 		minifyJS: true,
 		debugCSS: false,
-		minifyCSS: true,
+		minifyCSS: false,
 	},
 };
