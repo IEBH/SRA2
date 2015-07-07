@@ -131,7 +131,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		})
 		.state('library-share', {
 			url: '/libraries/:id/{operation:share}',
-			views: {main: {templateUrl: '/partials/fixme.html'}},
+			views: {main: {templateUrl: '/partials/libraries/share.html'}},
 			data: {
 				title: 'Share',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]

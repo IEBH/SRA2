@@ -1,0 +1,31 @@
+<div ng-controller="libraryController"><div ng-controller="libraryShareController">
+	<div class="alert alert-info">This will send an email to the people you specifiy inviting them to view and edit the reference library <strong>{{library.title}}</strong>.</div>
+
+	<form ng-submit="submit()" class="form-horizontal">
+		<div ng-if="errors.length > 0" class="alert alert-warning">
+			<ul>
+				<li ng-repeat="error in errors">{{error.text}}</li>
+			</ul>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Email addresses</label>
+			<div class="col-sm-9">
+				<textarea ng-model="emails" class="form-control" rows="5" placeholder="someone@somewhere.com another@another.com..."/>
+				<p class="help-block">A list of email addresses seperated by spaces or new-lines</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Message to include</label>
+			<div class="col-sm-9">
+				<textarea ng-model="body" class="form-control" rows="7"></textarea>
+				<p class="help-block">The message that will be sent to the specified email addresses</p>
+			</div>
+		</div>
+		<div class="pull-left">
+			<a href="{{library.url}}" class="btn btn-danger">Cancel</a>
+		</div>
+		<div class="pull-right">
+			<button type="submit" class="btn btn-success"><i class="fa fa-share"></i> Share library</button>
+		</div>
+	</form>
+</div>

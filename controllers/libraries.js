@@ -189,30 +189,40 @@ app.get('/api/libraries/:id/clear', function(req, res) {
 
 /**
 * Send a contact form email
-* @param string req.body.email The email address of the receiver
-* @param string req.body.sender The info of who shared the link
-* @param string req.body.link The library link
+* @param string|array req.body.email The email address of the receiver(s)
 */
-app.post('/emailshare', function(req, res) {
-	if (!req.body) return res.status(400).send('No post data provided');
-	if (!req.body.sender) return res.status(400).send('No sender provided');
-	if (!req.body.email) return res.status(400).send('No email provided');
-	if (!req.body.link) return res.status(400).send('No library link provided');
-
-	new email({
-		from: req.body.sender.name + ' <'+ req.body.sender.email +'>',
-		to: req.body.email,
-		subject: 'CREP-SRA Library Share',
-		body: req.body.sender.name + ' shared a library link to you:' + req.body.link,
-		bodyType: 'text/plain',
-	}).send(function(err) {
-		if (err) {
-			console.log('Error emailing contact form', err);
-			return res.status(400).send(err);
-		}
-		console.log('Contact form email dispatched for', req.body.email);
-		res.status(200).end();
-	});
+app.post('/api/libraries/:id/share', function(req, res) {
+	async()
+		.then(function(next) {
+			// Sanity checks {{{
+			if (!req.params.id) return next('id must be specified');
+			if (!req.user) return next('You must be logged in');
+			if (!req.body.email) return next('No email address(es) specified to send to');
+			if (!req.body.body) return next('No email body specified');
+			next();
+			// }}}
+		})
+		.then('library', function(next) {
+			Libraries.findOne({_id: req.params.id, status: 'active'}, next);
+		})
+		.then(function(next) {
+			var self = this;
+			new email({
+				from: req.user.name + ' <' + req.user.email + '>',
+				to: _.isArray(req.body.email) ? req.body.email.join('; ') : req.body.email,
+				subject: 'CREP-SRA Library Share - ' + (self.library.title || 'Untitled'),
+				body: req.body.body,
+				bodyType: 'text/plain',
+			}).send(function(err) {
+				if (err) return next(err);
+				console.log(colors.blue('[SHARE]'), colors.cyan(self.library._id), 'With', req.body.email);
+				next();
+			});
+		})
+		.end(function(err) {
+			if (err) return res.status(400).send(err);
+			res.send({id: this.library._id});
+		});
 });
 
 
