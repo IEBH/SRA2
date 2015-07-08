@@ -82,9 +82,15 @@
 			</div>
 		</td></tr>
 		<tr height="50px"><td class="text-center">
+			<a ng-repeat="tag in tags" class="btn btn-default">
+				<span class="tag tag-lg" style="background: {{tag.color}}">{{tag.title}}</span>
+			</a>
+		</td></tr>
+		<tr height="50px"><td class="text-center">
 			<a ng-click="movePrev()" class="btn btn-default"><i class="fa fa-fast-backward"></i></a>
 			<a ng-click="moveNext()" class="btn btn-default"><i class="fa fa-fast-forward"></i></a>
 			<a ng-click="showConfig()" class="btn btn-default"><i class="fa fa-cog"></i></a>
+			<a href="#/libraries/{{library._id}}" tooltip="Go back to the reference list" class="btn btn-default"><i class="fa fa-th-list"></i></a>
 		<//td></tr>
 	</table>
 </div></div>

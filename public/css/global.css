@@ -157,6 +157,11 @@ input[type=checkbox] {
 	margin-bottom: 2px;
 }
 
+.tag.tag-lg {
+	font-size: 14px;
+	padding: 4px 8px;
+}
+
 .tag + .tag {
 	margin-left: 2px;
 }
