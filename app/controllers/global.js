@@ -16,10 +16,11 @@ app.controller('globalController', function($scope, $rootScope, $debounce, $loca
 				});
 				_.assign($scope.user, data);
 				if (!$scope.user.settings) $scope.user.settings = {};
-				$timeout(function() {
-					$rootScope.$broadcast('login');
-					$location.path('/');
-				});
+				if (!data.error) // All is well?
+					$timeout(function() {
+						$rootScope.$broadcast('login');
+						$location.path('/');
+					});
 			});
 		} else { // Grab cookie from server and attempt to login
 			Users.profile().$promise.then(function(data) {
