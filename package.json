@@ -28,6 +28,7 @@
     "express-ejs-layouts": "~1.1.0",
     "express-log": "^1.0.1",
     "express-restify-mongoose": "^0.7.5",
+    "express-restify-mongoose-guard": "^1.0.1",
     "express-session": "^1.11.3",
     "golden-colors": "^1.0.1",
     "gulp": "^3.9.0",

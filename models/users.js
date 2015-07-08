@@ -5,9 +5,9 @@ var schema = new mongoose.Schema({
 	id: mongoose.Schema.ObjectId,
 	username: {type: String, required: true, index: {unique: true}},
 	email: {type: String, required: true, index: {unique: true}},
-	passhash: {type: String},
-	passhash2: {type: String},
-	passsalt: {type: String},
+	_passhash: {type: String},
+	_passhash2: {type: String},
+	_passsalt: {type: String},
 	name: {type: String},
 	status: {type: String, enum: ['active', 'deleted'], default: 'active', index: true},
 	role: {type: String, enum: ['user', 'admin', 'root'], default: 'user', index: true},
@@ -29,8 +29,8 @@ var schema = new mongoose.Schema({
 schema
 	.virtual('password')
 	.set(function(password) {
-		this.passsalt = crypto.randomBytes(16).toString('base64');
-		this.passhash = this.encryptPass(this.passsalt, password);
+		this._passsalt = crypto.randomBytes(16).toString('base64');
+		this._passhash = this.encryptPass(this._passsalt, password);
 	});
 
 schema.methods.encryptPass = function(salt, password) {
@@ -39,7 +39,7 @@ schema.methods.encryptPass = function(salt, password) {
 };
 
 schema.methods.validPassword = function(candidate, next) {
-	return next(null, this.encryptPass(this.passsalt, candidate) == this.passhash);
+	return next(null, this.encryptPass(this._passsalt, candidate) == this._passhash);
 };
 // }}}
 

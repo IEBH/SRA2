@@ -111,8 +111,10 @@ app.use(passport.session());
 // Settings / Restify {{{
 global.restify = require('express-restify-mongoose');
 restify.defaults({
-	private: '__v', // CSV of protected properties
-	version: ''
+	version: '',
+	outputFn: require('express-restify-mongoose-guard')({
+		removeFields: [/^_/]
+	}),
 });
 // }}}
 // Settings / Logging {{{

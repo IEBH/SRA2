@@ -10,6 +10,9 @@ if (process.env.VCAP_SERVICES) {
 	env = 'openshift';
 } else if (process.env.MONGOLAB_URI) {
 	env = 'heroku';
+} else if (/-e\s*([a-z0-9\-]+)/i.test(process.argv.slice(1).join(' '))) { // exec with '-e env'
+	var eargs = /-e\s*([a-z0-9\-]+)/i.exec(process.argv.slice(1).join(' '));
+	env = eargs[1];
 } else if (process.env.NODE_ENV) { // Inherit from NODE_ENV
 	env = process.env.NODE_ENV;
 }

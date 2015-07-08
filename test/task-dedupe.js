@@ -111,7 +111,7 @@ describe('DeDupe - test #1', function(){
 		agent.get(config.url + '/api/references')
 			.query({
 				library: library._id,
-				select: '-_id,-created,-edited,-library,-status,-tags,-duplicateData',
+				select: '-_id,-created,-edited,-library,-status,-tags',
 			})
 			.end(function(err, res) {
 				if (err) return finish(err);
