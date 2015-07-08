@@ -45,14 +45,6 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 			// }}}
 			// If existing user, add him to owners list {{{
 				if ($scope.user){
-					if (_.indexOf($scope.library.owners, $scope.user._id) < 0){
-						$scope.library.owners.push($scope.user._id);
-						console.log("$scope.library.owners:",$scope.library.owners);
-						Libraries.save(
-							{id: $scope.library._id},
-							_.pick($scope.library, ['owners'])
-						);
-					}
 				}
 			// }}}	
 		});
@@ -238,16 +230,28 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	// }}}
 
 	// Watchers {{{
+	// Set the breadcrumb title if we dont already have one {{{
 	$scope.$watch('library.title', function() {
 		if (!$scope.library) return;
 		$rootScope.$broadcast('setTitle', $scope.library.title);
 	});
+	// }}}
 
+	// Reset the active tag if we're coming from another location {{{
 	$scope.$on('$locationChangeSuccess', function() {
 		if ($scope.tags) {
 			$scope.activeTag = _.find($scope.tags, {_id: $location.search()['tag']});
 			$scope.refresh();
 		}
+	});
+	// }}}
+
+	$scope.$watchGroup(['library', 'user'], function() {
+		if (!$scope.library || !$scope.library.title || !$scope.user || !$scope.user._id) return; // Not loaded yet
+		if (_.indexOf($scope.library.owners, $scope.user._id) >= 0) return; // User is already an owner
+
+		$scope.library.owners.push($scope.user._id);
+		$scope.save('owners');
 	});
 	// }}}
 
