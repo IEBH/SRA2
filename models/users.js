@@ -39,7 +39,7 @@ schema.methods.encryptPass = function(salt, password) {
 };
 
 schema.methods.validPassword = function(candidate, next) {
-	return next(null, this.encryptPass(this._passsalt, candidate) == this._passhash);
+	return next(null, this.encryptPass(this._passsalt || '', candidate) == this._passhash);
 };
 // }}}
 

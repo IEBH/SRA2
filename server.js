@@ -113,6 +113,7 @@ global.restify = require('express-restify-mongoose');
 restify.defaults({
 	version: '',
 	outputFn: require('express-restify-mongoose-guard')({
+		renameFields: {_id: '_id', __v: '_v'},
 		removeFields: [/^_/]
 	}),
 });
