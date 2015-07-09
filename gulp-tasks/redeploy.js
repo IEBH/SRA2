@@ -10,8 +10,8 @@ gulp.task('redeploy', function(finish) {
 	async()
 		.use(asyncExec)
 		.execDefaults({
+			style: 'passthru',
 			log: function(cmd) { gutil.log('[RUN]', cmd.cmd + ' ' + cmd.params.join(' ')) },
-			out: function(line) { gutil.log('[GOT]', line) }
 		})
 		.exec('git pull')
 		.exec('npm install')
