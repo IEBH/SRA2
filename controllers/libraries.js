@@ -66,7 +66,7 @@ app.post('/api/libraries/import', function(req, res) {
 				})
 				.on('ref', function(ref) {
 					ref.library = self.library._id;
-					ref.tags.forEach(function(tag) { self.tags[tag] = true });
+					if (ref.tags) ref.tags.forEach(function(tag) { self.tags[tag] = true });
 					self.refs.push(_.omit(ref, ['_id', 'created', 'edited', 'status']));
 					self.count++;
 				})
@@ -88,7 +88,7 @@ app.post('/api/libraries/import', function(req, res) {
 		})
 		.forEach('refs', function(nextRef, ref) {
 			var self = this;
-			ref.tags = ref.tags.map(function(tag) { return self.tags[tag]._id })
+			if (ref.tags) ref.tags = ref.tags.map(function(tag) { return self.tags[tag]._id })
 			References.create(ref, nextRef);
 		})
 		.end(function(err) {
