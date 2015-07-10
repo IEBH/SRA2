@@ -8,7 +8,7 @@ var moment = require('moment');
 var reflib = require('reflib');
 var request = require('superagent');
 
-describe('Setter task', function(){
+describe('Task: Setter', function(){
 	// Library specific info
 	var libraryFile = __dirname + '/data/endnote-1.xml';
 	var libraryCount = 1988;
