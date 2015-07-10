@@ -1,0 +1,35 @@
+<div ng-controller="libraryController"><div ng-controller="libraryCompareController">
+	<div class="alert alert-info">
+		<p>Compare the reference library <strong>{{library.title}}</strong> against other libraries.</p>
+		<p>Enter the URLs (or just the ID) of the other libraries you wish to compare against. Any differences with individual references will be highlighted.</p>
+		<p>This is useful when comparing the post-screening tags you and another researcher may have applied to references to look for conflicts.</p>
+	</div>
+	<form class="form-horizontal">
+		<div ng-if="errors.length" class="alert alert-warning">
+			<ul>
+				<li ng-repeat="error in errors">{{error.text}}</li>
+			</ul>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Library URLs</label>
+			<div class="col-sm-10">
+				<textarea ng-model="rawUrls" class="form-control" rows="5"></textarea>
+				<p class="help-block">Enter the URLs (or IDs) of the other libraries you wish to compare seperated by spaces or new lines</p>
+			</div>
+		</div>
+	</form>
+
+	<table ng-if="comparisons.length" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<td ng-repeat="comparison in comparisons track by library._id">{{comparison.library.title || 'Loading'}}</td>
+			</tr>
+			<tr>
+				<td ng-repeat="comparison in comparisons track by library._id">
+					<span ng-if="comparison.loaded">{{comparison.references.length | number}}</span>
+					<span ng-if="!comparison.loaded"><i class="fa fa-spinner fa-spin"></i></span>
+				</td>
+			</tr>
+		<thead>
+	</table>
+</div>

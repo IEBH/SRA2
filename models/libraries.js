@@ -15,6 +15,10 @@ var schema = new mongoose.Schema({
 		url: {type: String}
 	}],
 	screening: {
+		lastWeighting: {
+			date: {type: Date, default: Date.now},
+			hash: {type: String},
+		},
 		weightings: [{
 			keyword: {type: String},
 			weight: {type: Number}

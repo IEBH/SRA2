@@ -45,6 +45,13 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			urlExisting: '/libraries/:id/screen'
 		},
 		{
+			id: 'compare',
+			title: 'Compare',
+			allowExisting: true,
+			allowNew: true,
+			urlExisting: '/libraries/:id/compare'
+		},
+		{
 			id: 'tags',
 			title: 'Edit the library tags',
 			allowExisting: true,
