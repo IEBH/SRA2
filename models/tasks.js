@@ -19,6 +19,7 @@ var schema = new mongoose.Schema({
 	library: {type: mongoose.Schema.ObjectId, ref: 'libraries'},
 	references: [{type: mongoose.Schema.ObjectId, ref: 'references'}],
 	settings: {type: mongoose.Schema.Types.Mixed},
+	result: {type: mongoose.Schema.Types.Mixed},
 });
 
 module.exports = mongoose.model(name, schema);

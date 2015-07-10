@@ -23,6 +23,14 @@ var schema = new mongoose.Schema({
 	researchNotes: {type: String},
 	status: {type: String, enum: ['active', 'deleted', 'dupe'], default: 'active', indexed: true},
 	fullTextURL: {type: String},
+	screening: {
+		hash: {type: String},
+		weight: {type: Number},
+	},
+	parentage: { // see libraries model for a description of this structure
+		parent: {type: mongoose.Schema.ObjectId, ref: 'references', index: true},
+		fingerPrint: {type: String},
+	},
 });
 
 module.exports = mongoose.model(name, schema);

@@ -20,6 +20,10 @@ var schema = new mongoose.Schema({
 			weight: {type: Number}
 		}],
 	},
+	parentage: {
+		parent: {type: mongoose.Schema.ObjectId, ref: 'libraries', index: true}, // Original parent, if any
+		fingerPrint: {type: String}, // Identifying string, used when cloning to identify all original references from the same source
+	},
 }, {
 	toJSON: {virtuals: true},
 	toObject: {virtuals: true},

@@ -10,6 +10,13 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			urlExisting: '/libraries/:id'
 		},
 		{
+			id: 'copy',
+			title: 'Copy library',
+			allowExisting: true,
+			allowNew: false,
+			urlExisting: '/libraries/:id/copy'
+		},
+		{
 			id: 'import',
 			title: 'Import references',
 			allowExisting: true,

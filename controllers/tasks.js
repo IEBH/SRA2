@@ -69,12 +69,13 @@ app.get('/api/tasks/:id', function(req, res) {
 		})
 		// }}}
 		.then('task', function(next) {
-			Tasks.findOne({_id: req.params.id}, next);
+			Tasks
+				.findOne({_id: req.params.id})
+				.select('_id created library status progress history result')
+				.exec(next);
 		})
 		.end(function(err) {
 			if (err) return res.status(400).send(err);
-			res.send(_.pick(this.task, [
-				'_id', 'created', 'library', 'status', 'progress', 'history'
-			]));
+			res.send(this.task);
 		});
 });
