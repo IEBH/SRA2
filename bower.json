@@ -18,6 +18,7 @@
     "angular-pretty-bytes": "~1.0.1",
     "angular-venn": "*",
     "angular-bs-text-highlight": "*",
-    "angular-bs-tooltip": "*"
+    "angular-bs-tooltip": "*",
+    "angucomplete-alt": "~1.0.7"
   }
 }

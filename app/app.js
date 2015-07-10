@@ -7,7 +7,8 @@ var app = angular.module('app', [
 	'ngResource',
 	'prettyBytes',
 	'ui.router',
-	'xeditable'
+	'xeditable',
+	'angucomplete-alt'
 ]);
 
 app.config(function($compileProvider) {
