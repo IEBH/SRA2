@@ -1,22 +1,20 @@
-app.controller('libraryCompareController', function($scope, $rootScope, Libraries) {
+app.controller('libraryCompareController', function($scope, $rootScope, Libraries, References) {
 	$scope.comparisons = [];
 
 	// Convert rawUrls => comparisons {{{
 	$scope.errors = [];
-	$scope.rawUrls = null;
+	$scope.rawUrls = '';
 	$scope.$watch('rawUrls', function() {
 		if (!$scope.rawUrls) return;
 		$scope.errors = [];
 
-		$scope.comparisons = /[a-f0-9]{24}/i.exec($scope.rawUrls).map(function(hash, index) {
-			if (index == 0) return { // Return original libary as first item
-				_id: $scope.library._id,
-				library: $scope.library,
-				references: $scope.references,
-				error: null,
-				loaded: true,
-			};
-
+		$scope.comparisons = [{
+			_id: $scope.library._id,
+			library: $scope.library,
+			references: $scope.references,
+			error: null,
+			loaded: true,
+		}].concat($scope.rawUrls.match(/[a-f0-9]{24}/ig).map(function(hash, index) {
 			if (!hash) return;
 			var existing = _.find($scope.comparisons, {_id: hash});
 			if (existing) return existing; // Already know about this library
@@ -40,8 +38,7 @@ app.controller('libraryCompareController', function($scope, $rootScope, Librarie
 				});
 			// }}}
 			return newObj;
-		});
-
+		}));
 		if (!$scope.comparisons.length) $scope.errors.push({text: 'Could not find anything that looks like a valid SRA library ID'});
 
 		// Populate errors with any failed loads {{{
@@ -61,5 +58,28 @@ app.controller('libraryCompareController', function($scope, $rootScope, Librarie
 		]);
 		$rootScope.$broadcast('setTitle', 'Compare');
 	});
+	// }}}
+
+	// Load fingerprint peers {{{
+	$scope.peersLoading = true;
+	$scope.peers = null;
+	$scope.$watch('library', function() {
+		if (!$scope.library) return;
+		if ($scope.library.parentage && $scope.library.parentage.fingerPrint) {
+			Libraries.query({
+				'parentage.fingerPrint': $scope.library.parentage.fingerPrint,
+				populate: 'owners',
+			}).$promise.then(function(data) {
+				$scope.peers = data;
+				$scope.peersLoading = false;
+			});
+		} else {
+			$scope.peers = [];
+		}
+	});
+
+	$scope.addPeer = function(peer) {
+		$scope.rawUrls += ($scope.rawUrls ? '\n' : '') + peer._id;
+	};
 	// }}}
 });
