@@ -54,8 +54,6 @@ module.exports = function(finish, task) {
 			]);
 			copy.parentage.parent = this.library._id;
 			if (task.settings && task.settings.library) _.extend(copy, task.settings.library);
-
-			console.log('REFS SIZE', this.references.length);
 			Libraries.create(copy, next);
 		})
 

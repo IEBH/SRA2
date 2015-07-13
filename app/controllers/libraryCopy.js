@@ -7,7 +7,7 @@ app.controller('libraryCopyController', function($scope, $location, $rootScope, 
 		$scope.errors = [];
 		if (!$scope.title) $scope.errors.push({text: 'You must specify a title'});
 		if (!$scope.errors.length) {
-			Tasks.fromLibrary({id: $scope.library._id, worker: 'library-copy'}, {title: $scope.title}).$promise.then(function(task) {
+			Tasks.fromLibrary({id: $scope.library._id, worker: 'library-copy'}, {settings: {library: {title: $scope.title}}}).$promise.then(function(task) {
 				$location.path('/libraries/task/' + task._id);
 			});
 		}
