@@ -11,7 +11,7 @@ app.controller('libraryCompareController', function($scope, $rootScope, Librarie
 		$scope.comparisons = [{
 			_id: $scope.library._id,
 			library: $scope.library,
-			references: $scope.references,
+			referenceCount: $scope.references.length,
 			error: null,
 			loaded: true,
 		}].concat($scope.rawUrls.match(/[a-f0-9]{24}/ig).map(function(hash, index) {
@@ -20,14 +20,14 @@ app.controller('libraryCompareController', function($scope, $rootScope, Librarie
 			if (existing) return existing; // Already know about this library
 
 			// New ID
-			var newObj = {_id: hash, loaded: false, error: null, library: null, references: null};
+			var newObj = {_id: hash, loaded: false, error: null, library: null, referenceCount: null};
 			// Load library + references {{{
 			Libraries.get({id: hash}).$promise
 				.then(function(data) {
 					newObj.library = data;
-					References.query({library: newObj.library._id, status: 'active'}).$promise
+					References.count({library: newObj.library._id, status: 'active'}).$promise
 						.then(function(data) {
-							newObj.references = data;
+							newObj.referenceCount = data.count;
 						}, function(err) {
 							newObj.error = 'References: ' + err;
 						}).finally(function() {
