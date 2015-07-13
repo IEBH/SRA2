@@ -69,6 +69,7 @@ app.controller('libraryCompareController', function($scope, $rootScope, Librarie
 		if ($scope.library.parentage && $scope.library.parentage.fingerPrint) {
 			Libraries.query({
 				'parentage.fingerPrint': $scope.library.parentage.fingerPrint,
+				'_id': '!=' + $scope.library._id,
 				populate: 'owners',
 			}).$promise.then(function(data) {
 				$scope.peers = data;
