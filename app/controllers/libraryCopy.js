@@ -17,7 +17,7 @@ app.controller('libraryCopyController', function($scope, $location, $rootScope, 
 	$scope.$watch('library', function() {
 		if (!$scope.library || !$scope.library.title) return; // Not ready yet
 		if ($scope.title) return; // User has already set a title
-		$scope.title = $scope.library.title + ' (Copy ' + moment.format('dddd MMMM do YYYY h:mma') + ')';
+		$scope.title = $scope.library.title + ' (Copy - ' + moment().format('dddd MMMM do YYYY h:mma') + ')';
 	});
 	// }}}
 

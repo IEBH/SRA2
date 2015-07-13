@@ -27,7 +27,7 @@ app.all('/api/tasks/library/:libid/:worker', function(req, res) {
 		})
 		.then('references', function(next) {
 			var query = {library: this.library._id, status: 'active'};
-			if (req.body.settings.references) { // Work on specific references
+			if (req.body.settings && req.body.settings.references) { // Work on specific references
 				query['_id'] = {'$in': req.body.settings.references};
 				delete(req.body.settings.references);
 			}
@@ -45,7 +45,7 @@ app.all('/api/tasks/library/:libid/:worker', function(req, res) {
 				library: this.library._id,
 				references: this.references.map(function(ref) { return ref._id }),
 				history: [{type: 'queued'}],
-				settings: this.settings,
+				settings: this.settings || null,
 			}, next);
 		})
 		.end(function(err) {

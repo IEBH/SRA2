@@ -1,7 +1,7 @@
 <div ng-controller="libraryController"><div ng-controller="libraryCopyController">
 	<div class="alert alert-info">This operation will create a copy of the <strong>{{library.title}}</strong> library along with all its references.</div>
 
-	<form ng-submit="submit()" class="form-horizontal">
+	<form ng-submit="submit()" class="form-horizontal clearfix">
 		<div ng-if="errors.length > 0" class="alert alert-warning">
 			<ul>
 				<li ng-repeat="error in errors">{{error.text}}</li>
