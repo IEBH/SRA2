@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var async = require('async-chainable');
+var colors = require('colors');
 var Libraries = require('../models/libraries');
 var References = require('../models/references');
 var Tasks = require('../models/tasks');
@@ -49,7 +50,10 @@ app.all('/api/tasks/library/:libid/:worker', function(req, res) {
 			}, next);
 		})
 		.end(function(err) {
-			if (err) return res.status(400).send(err);
+			if (err) {
+				console.log(colors.red('TASK REJECTED'), err);
+				return res.status(400).send(err);
+			}
 			res.send({_id: this.task._id});
 		});
 });
