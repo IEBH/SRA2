@@ -1,4 +1,5 @@
 app.controller('libraryCompareController', function($scope, $rootScope, Libraries, References) {
+	$scope.mode = 'prepare'; // prepare|compare
 	$scope.comparisons = [];
 
 	// Convert rawUrls => comparisons {{{
@@ -80,6 +81,17 @@ app.controller('libraryCompareController', function($scope, $rootScope, Librarie
 
 	$scope.addPeer = function(peer) {
 		$scope.rawUrls += ($scope.rawUrls ? '\n' : '') + peer._id;
+	};
+	// }}}
+
+	// Mode toggles {{{
+	$scope.setMode = function(mode) {
+		$scope.mode = mode;
+		if (mode == 'compare') {
+			Libraries.compare({id: $scope.library._id}, {libraries: $scope.comparisons.slice(1).map(function(lib) { return lib._id })}).$promise.then(function(data) {
+				console.log('DAT', data);
+			});
+		}
 	};
 	// }}}
 });
