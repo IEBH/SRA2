@@ -65,11 +65,14 @@ module.exports = function(finish, task) {
 			var conflicts = {};
 			var dirty = false;
 			conflicts[libA._id] = {};
+			conflicts['_id'] = {};
+			conflicts['_id'][libA._id] = refA._id;
 
 			self.libraries.slice(1).forEach(function(libB) {
 				conflicts[libB._id] = {};
 
 				var refB = _.find(libB.references, function(ref) { return (ref.parentage && ref.parentage.fingerPrint && ref.parentage.fingerPrint == refA.parentage.fingerPrint) });
+				conflicts['_id'][libB._id] = refB._id;
 				if (!refB) {
 					conflicts[libB._id] = 'MISSING';
 					dirty = true;
@@ -115,7 +118,10 @@ module.exports = function(finish, task) {
 		// Finish {{{
 		.then(function(next) { // Finalize task data
 			task.destination = config.url + '/#/libraries/' + this.libraries[0]._id + '/compare/' + task._id;
-			task.result = this.conflicts;
+			task.result = {
+				libraries: this.libraries.map(function(lib) { return lib._id }),
+				conflicts: this.conflicts,
+			};
 			task.history.push({type: 'completed', response: 'Completed comparison task'});
 			task.completed = new Date();
 			task.status = 'completed';

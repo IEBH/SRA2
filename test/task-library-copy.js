@@ -47,7 +47,7 @@ describe('Task: library-copy', function(){
 	it('should upload a test library', function(finish) {
 		this.timeout(60 * 1000);
 		agent.post(config.url + '/api/libraries/import')
-			.field('libraryTitle', 'library-copy test')
+			.field('libraryTitle', 'TEST: library-copy (1)')
 			.field('libraryExpires', '3 hours')
 			.field('json', 'true')
 			.attach('file', libraryFile)
@@ -66,7 +66,7 @@ describe('Task: library-copy', function(){
 	it('should queue up a library for copy', function(finish) {
 		this.timeout(60 * 1000);
 		agent.post(config.url + '/api/tasks/library/' + library._id + '/library-copy')
-			.send({settings: {debug: true}})
+			.send({settings: {debug: true, library: {title: 'TEST: library-copy (2)'}}})
 			.end(function(err, res) {
 				if (err) return finish(err);
 				task = res.body;

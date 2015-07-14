@@ -1,5 +1,8 @@
-app.controller('libraryCompareController', function($scope, $rootScope, Libraries, References) {
-	$scope.mode = 'prepare'; // prepare|compare
+/**
+* Set up the comparison task for a library
+* see libraryCompareReviewController for the result when the task has completed
+*/
+app.controller('libraryCompareController', function($scope, $rootScope, Libraries, Tasks) {
 	$scope.comparisons = [];
 
 	// Convert rawUrls => comparisons {{{
@@ -12,7 +15,6 @@ app.controller('libraryCompareController', function($scope, $rootScope, Librarie
 		$scope.comparisons = [{
 			_id: $scope.library._id,
 			library: $scope.library,
-			referenceCount: $scope.references.length,
 			error: null,
 			loaded: true,
 		}].concat($scope.rawUrls.match(/[a-f0-9]{24}/ig).map(function(hash, index) {
@@ -21,19 +23,11 @@ app.controller('libraryCompareController', function($scope, $rootScope, Librarie
 			if (existing) return existing; // Already know about this library
 
 			// New ID
-			var newObj = {_id: hash, loaded: false, error: null, library: null, referenceCount: null};
+			var newObj = {_id: hash, loaded: false, error: null, library: null};
 			// Load library + references {{{
 			Libraries.get({id: hash}).$promise
 				.then(function(data) {
 					newObj.library = data;
-					References.count({library: newObj.library._id, status: 'active'}).$promise
-						.then(function(data) {
-							newObj.referenceCount = data.count;
-						}, function(err) {
-							newObj.error = 'References: ' + err;
-						}).finally(function() {
-							newObj.loaded = true;
-						});
 				}, function(err) {
 					newObj.error = 'Library: ' + err;
 				});
@@ -85,14 +79,13 @@ app.controller('libraryCompareController', function($scope, $rootScope, Librarie
 	};
 	// }}}
 
-	// Mode toggles {{{
-	$scope.setMode = function(mode) {
-		$scope.mode = mode;
-		if (mode == 'compare') {
-			Libraries.compare({id: $scope.library._id}, {libraries: $scope.comparisons.slice(1).map(function(lib) { return lib._id })}).$promise.then(function(data) {
-				console.log('DAT', data);
-			});
-		}
+	$scope.submit = function() {
+		Tasks.fromLibrary(
+			{id: $scope.comparisons[0]._id, worker: 'library-compare'},
+			{libraries: $scope.comparisons.slice(1)}
+		).$promise.then(function(task) {
+			$location.path('/libraries/task/' + task._id);
+		});
 	};
 	// }}}
 });

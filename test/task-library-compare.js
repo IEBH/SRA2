@@ -46,7 +46,7 @@ describe('Task: library-compare', function(){
 	it('should upload a test library', function(finish) {
 		this.timeout(60 * 1000);
 		agent.post(config.url + '/api/libraries/import')
-			.field('libraryTitle', 'library-compare test (1)')
+			.field('libraryTitle', 'TEST: library-compare (1)')
 			.field('libraryExpires', '3 hours')
 			.field('json', 'true')
 			.attach('file', libraryFile)
@@ -81,7 +81,7 @@ describe('Task: library-compare', function(){
 	it('should queue up original the library for copy', function(finish) {
 		this.timeout(60 * 1000);
 		agent.post(config.url + '/api/tasks/library/' + library._id + '/library-copy')
-			.send({settings: {debug: true}})
+			.send({settings: {debug: true, library: {title: 'TEST: library-compare (2)'}}})
 			.end(function(err, res) {
 				if (err) return finish(err);
 				task2 = res.body;
@@ -137,6 +137,53 @@ describe('Task: library-compare', function(){
 	});
 	// }}}
 
+	// Set tags on library2 {{{
+	var taskSetter;
+	it('should queue up reference setter for the library copy', function(finish) {
+		var mask = {title: 'Fake Title', authors: ['Fred Foo', 'Barry Bar', 'Brendan Baz']};
+		this.timeout(60 * 1000);
+		agent.post(config.url + '/api/tasks/library/' + task2.result._id + '/setter')
+			.send({settings: mask})
+			.end(function(err, res) {
+				if (err) return finish(err);
+				taskSetter = res.body;
+				expect(err).to.be.not.ok;
+				expect(taskSetter).to.have.property('_id');
+				finish();
+			});
+	});
+
+	it('should keep checking until the setter task is complete', function(finish) {
+		var pollInterval = 3 * 1000;
+		this.timeout(5 * 60 * 1000);
+		var checkTask = function() {
+			agent.get(config.url + '/api/tasks/' + taskSetter._id)
+				.end(function(err, res) {
+					if (err) {
+						checkTaskComplete(err, res);
+					} else {
+						var progress = res.body.progress;
+						mlog.log('[' + moment().format('HH:mm:ss') + '] Task still pending' + (progress.current ? (' ' + progress.current + ' / ' + progress.max + ' ~ ' + Math.ceil(progress.current / progress.max * 100).toString() + '%') : ''));
+						if (res.body.status == 'completed') {
+							checkTaskComplete(err, res);
+						} else {
+							setTimeout(checkTask, pollInterval);
+						}
+					}
+				});
+		};
+		setTimeout(checkTask, pollInterval);
+
+		var checkTaskComplete = function(err, res) {
+			expect(err).to.be.not.ok;
+			expect(res.body).to.have.property('_id');
+			expect(res.body).to.have.property('status', 'completed');
+			taskSetter = res.body;
+			finish();
+		};
+	});
+	// }}}
+
 	var task;
 	it('should queue up the comparison task', function(finish) {
 		this.timeout(60 * 1000);
@@ -177,7 +224,8 @@ describe('Task: library-compare', function(){
 			expect(res.body).to.have.property('_id');
 			expect(res.body).to.have.property('status', 'completed');
 			task = res.body;
-			console.log('RESULT', task);
+			mlog.log('Comparison URL:', task.destination);
+			console.log('RESULT', require('util').inspect(task, {depth: null, color: true}));
 			finish();
 		};
 	});

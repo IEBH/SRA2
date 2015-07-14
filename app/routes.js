@@ -161,6 +161,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
+		.state('library-compare-review', {
+			url: '/libraries/:id/compare/:taskid',
+			views: {main: {templateUrl: '/partials/libraries/compare-review.html'}},
+			data: {
+				title: 'Comparison Results',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
 		.state('library-collabmatrix', {
 			url: '/libraries/:id/{operation:collabmatrix}',
 			views: {main: {templateUrl: '/partials/fixme.html'}},

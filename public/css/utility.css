@@ -98,3 +98,9 @@ table tr:hover > td.hide-until-hover > * {
 }
 /* }}} */
 /* }}} */
+/* .table helpers - .table-fixed {{{ */
+/* Equally sizes all columns within a table unless they have a width override - <table class="table-fixed"/> */
+.table-fixed {
+	table-layout: fixed;
+}
+/* }}} */
