@@ -74,19 +74,35 @@ module.exports = function(finish, task) {
 					conflicts[libB._id] = 'MISSING';
 					dirty = true;
 				} else {
-					// FIXME: This only compares tags for now
-					// Compare tags {{{
-					if (refA.tags && refA.tags.length && (!refB.tags || !refB.tags.length)) { // A has tags, B does not
-						conflicts[libB._id].tags = 'MISSING';
-						dirty = true;
-					} else if ((!refA.tags || !refA.tags.length) && refB.tags && refB.tags.length) { // B has tags, A does not
-						conflicts[libA._id].tags = 'MISSING';
-						dirty = true;
-					} else if ( JSON.stringify(refA.tags.sort()) != JSON.stringify(refB.tags.sort()) ) { // Find mismatched tags
-						conflicts[libA._id].tags = refA.tags;
-						conflicts[libB._id].tags = refB.tags;
-						dirty = true;
-					}
+					// Simple field comparisons {{{
+					['title'].forEach(function(field) {
+						if (refA[field] && !refB[field]) { // A has field, B does not
+							conflicts[libB._id][field] = 'MISSING';
+							dirty = true;
+						} else if (!refA[field] && refB[field]) { // B has field, a does not
+							conflicts[libA._id][field] = 'MISSING';
+							dirty = true;
+						} else if (refA[field] != refB[field]) { // Fields mismatch
+							conflicts[libA._id][field] = refA[field];
+							conflicts[libB._id][field] = refB[field];
+							dirty = true;
+						}
+					});
+					// }}}
+					// Array comparisons {{{
+					['tags', 'authors'].forEach(function(field) {
+						if (refA[field] && refA[field].length && (!refB[field] || !refB[field].length)) { // A has field, B does not
+							conflicts[libB._id][field] = 'MISSING';
+							dirty = true;
+						} else if ((!refA[field] || !refA[field].length) && refB[field] && refB[field].length) { // B has field, A does not
+							conflicts[libA._id][field] = 'MISSING';
+							dirty = true;
+						} else if ( JSON.stringify(refA[field].sort()) != JSON.stringify(refB[field].sort()) ) { // Find mismatched tags
+							conflicts[libA._id][field] = refA[field];
+							conflicts[libB._id][field] = refB[field];
+							dirty = true;
+						}
+					});
 					// }}}
 				}
 			});
@@ -98,7 +114,10 @@ module.exports = function(finish, task) {
 		// }}}
 		// Finish {{{
 		.then(function(next) { // Finalize task data
-			task.result = this.conflicts;
+			task.result = {
+				url: config.url + '/#/libraries/' + this.libraries[0]._id + '/compare/' + task._id,
+				conflicts: this.conflicts,
+			};
 			task.history.push({type: 'completed', response: 'Completed comparison task'});
 			task.completed = new Date();
 			task.status = 'completed';
