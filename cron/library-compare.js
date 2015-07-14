@@ -114,10 +114,8 @@ module.exports = function(finish, task) {
 		// }}}
 		// Finish {{{
 		.then(function(next) { // Finalize task data
-			task.result = {
-				url: config.url + '/#/libraries/' + this.libraries[0]._id + '/compare/' + task._id,
-				conflicts: this.conflicts,
-			};
+			task.destination = config.url + '/#/libraries/' + this.libraries[0]._id + '/compare/' + task._id;
+			task.result = this.conflicts;
 			task.history.push({type: 'completed', response: 'Completed comparison task'});
 			task.completed = new Date();
 			task.status = 'completed';

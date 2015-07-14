@@ -85,6 +85,7 @@ module.exports = function(finish, task) {
 
 		// Finish {{{
 		.then(function(next) { // Finalize task data
+			task.destination = config.url + '/#/libraries/' + this.newLibrary._id;
 			task.result = this.newLibrary.toJSON();
 			task.history.push({type: 'completed', response: 'Completed copy task'});
 			task.completed = new Date();

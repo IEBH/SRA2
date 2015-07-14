@@ -75,7 +75,7 @@ app.get('/api/tasks/:id', function(req, res) {
 		.then('task', function(next) {
 			Tasks
 				.findOne({_id: req.params.id})
-				.select('_id created library status progress history result')
+				.select('_id created library status progress history result destination')
 				.exec(next);
 		})
 		.end(function(err) {
