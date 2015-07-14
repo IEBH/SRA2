@@ -43,6 +43,17 @@
 		</div>
 	</legend>
 
+	<div ng-if="!loading && !isOwner" class="alert alert-warning">
+		<p>You are not the owner of this library so you cannot make any changes or perform any operations.</p>
+		<p>Copying this library to your own collection allows you to make changes which can be merged back into this library later on.</p>
+		<div class="text-center pad-top">
+			<a href="/#/libraries/{{library._id}}/copy" class="btn">
+				<i class="fa fa-files-o"></i>
+				Copy this library to my collection
+			</a>
+		</div>
+	</div>
+
 	<div ng-if="library.files && libraries.files.length > 0" class="widget-box">
 		<div class="widget-header">
 			<h5 class="widget-title">Attached files</h5>
@@ -97,12 +108,11 @@
 				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action <i class="fa fa-chevron-down"></i></a>
 				<ul class="dropdown-menu">
 					<li><a ng-click="selectAction('export')"><i class="fa fa-cloud-download"></i> Export selected</a></li>
-					<li><a ng-click="selectAction('request')"><i class="fa fa-envelope-o"></i> Journal request</a></li>
-					<li><a ng-click="selectAction('dedupe')"><i class="fa fa-compress"></i> Deduplicate</a></li>
-					<li><a ng-click="selectAction('screen')"><i class="fa fa-filter"></i> Screen</a></li>
-					<li ng-if="user.isRoot"><a ng-click="selectAction('dummy')"><i class="fa fa-cog"></i> Dummy task</a></li>
-					<li class="divider"></li>
-					<li><a ng-click="selectAction('delete')"><i class="fa fa-trash"></i> Delete</a></li>
+					<li ng-if="isEditable"><a ng-click="selectAction('request')"><i class="fa fa-envelope-o"></i> Journal request</a></li>
+					<li ng-if="isEditable"><a ng-click="selectAction('dedupe')"><i class="fa fa-compress"></i> Deduplicate</a></li>
+					<li ng-if="isEditable"><a ng-click="selectAction('screen')"><i class="fa fa-filter"></i> Screen</a></li>
+					<li ng-if="isEditable" class="divider"></li>
+					<li ng-if="isEditable"><a ng-click="selectAction('delete')"><i class="fa fa-trash"></i> Delete</a></li>
 				</ul>
 			</li>
 		</ul>

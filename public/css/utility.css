@@ -73,6 +73,13 @@ ul.dropdown-menu li i.fa-caret-right {
 	margin-right: 0;
 }
 /* }}} */
+/* Alert helpers - .alert-sm {{{ */
+.alert-sm {
+	font-size: 8pt;
+	margin: 5px;
+	padding: 5px;
+}
+/* }}} */
 /* .hide-until-hover {{{ */
 .hide-until-hover {
 	visibility: hidden;

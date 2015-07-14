@@ -242,13 +242,20 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	});
 	// }}}
 
+	// .isOwner / .isEditable {{{
+	$scope.isOwner = false;
+	$scope.isEditable = false;
 	$scope.$watchGroup(['library', 'user'], function() {
 		if (!$scope.library || !$scope.library.title || !$scope.user || !$scope.user._id) return; // Not loaded yet
-		if (_.indexOf($scope.library.owners, $scope.user._id) >= 0) return; // User is already an owner
-
-		$scope.library.owners.push($scope.user._id);
-		$scope.save('owners');
+		if (_.indexOf($scope.library.owners, $scope.user._id) >= 0) { // User is already an owner
+			$scope.isOwner = true;
+			$scope.isEditable = true;
+		} else {
+			$scope.isOwner = false;
+			$scope.isEditable = false;
+		}
 	});
+	// }}}
 	// }}}
 
 	// Reference inline edit {{{

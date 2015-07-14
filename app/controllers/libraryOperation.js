@@ -7,6 +7,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'View the library',
 			allowExisting: true,
 			allowNew: false,
+			allowNonOwner: true,
 			urlExisting: '/libraries/:id'
 		},
 		{
@@ -14,6 +15,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'Copy library',
 			allowExisting: true,
 			allowNew: false,
+			allowNonOwner: true,
 			urlExisting: '/libraries/:id/copy'
 		},
 		{
@@ -21,6 +23,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'Import references',
 			allowExisting: true,
 			allowNew: true,
+			allowNonOwner: false,
 			urlExisting: '/libraries/:id/import'
 		},
 		{
@@ -28,6 +31,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'Export references',
 			allowExisting: true,
 			allowNew: false,
+			allowNonOwner: true,
 			urlExisting: '/libraries/:id/export'
 		},
 		{
@@ -35,6 +39,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'Deduplicate',
 			allowExisting: true,
 			allowNew: false,
+			allowNonOwner: false,
 			urlExisting: '/libraries/:id/dedupe'
 		},
 		{
@@ -42,6 +47,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'Screen references',
 			allowExisting: true,
 			allowNew: false,
+			allowNonOwner: false,
 			urlExisting: '/libraries/:id/screen'
 		},
 		{
@@ -49,6 +55,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'Compare',
 			allowExisting: true,
 			allowNew: true,
+			allowNonOwner: false,
 			urlExisting: '/libraries/:id/compare'
 		},
 		{
@@ -56,6 +63,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'Edit the library tags',
 			allowExisting: true,
 			allowNew: false,
+			allowNonOwner: false,
 			urlExisting: '/libraries/:id/tags'
 		},
 		{
@@ -63,6 +71,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'Share the library',
 			allowExisting: true,
 			allowNew: false,
+			allowNonOwner: false,
 			urlExisting: '/libraries/:id/share'
 		},
 		{
@@ -70,6 +79,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'Journal Request',
 			allowExisting: true,
 			allowNew: false,
+			allowNonOwner: true,
 			urlExisting: '/libraries/:id/request'
 		},
 		{
@@ -77,6 +87,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'Find full texts',
 			allowExisting: true,
 			allowNew: false,
+			allowNonOwner: false,
 			urlExisting: '/libraries/:id/fulltext'
 		},
 		{
@@ -84,6 +95,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'Generate a collaboration matrix',
 			allowExisting: true,
 			allowNew: false,
+			allowNonOwner: true,
 			urlExisting: '/libraries/:id/collabmatrix'
 		},
 		{
@@ -91,6 +103,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			title: 'Clear the library',
 			allowExisting: true,
 			allowNew: false,
+			allowNonOwner: false,
 			urlExisting: '/libraries/:id/clear'
 		},
 		{
