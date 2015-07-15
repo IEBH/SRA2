@@ -38,7 +38,9 @@
 			</tr></thead>
 			<tr ng-repeat="(field, row) in conflict.fields">
 				<td>{{field}}</td>
-				<td ng-repeat="item in row" ng-class="conflict.active[field] == item ? 'success' : ''" ng-click="rowSetActive(conflict, field, item)">{{item}}</td>
+				<td ng-repeat="item in row" ng-class="conflict.active[field] == item ? 'success' : ''" ng-click="rowSetActive(conflict, field, item)">
+					<div comparison-item="item" comparison-item-field="field"></div>
+				</td>
 			</tr>
 		</table>
 	</div>
