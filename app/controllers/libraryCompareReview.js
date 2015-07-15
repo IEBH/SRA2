@@ -50,7 +50,7 @@ app.controller('libraryCompareReviewController', function($scope, $location, $ro
 					item.references.push(refMap[library]);
 					Object.keys(conflict[library]).forEach(function(field) {
 						if (!item.fields[field]) item.fields[field] = [];
-						if (libraryIndex == 0) item.active[field] = conflict[library][field];
+						if (!item.active[field] && conflict[library][field] != 'MISSING') item.active[field] = conflict[library][field];
 						item.fields[field].push(conflict[library][field]);
 					});
 				}
