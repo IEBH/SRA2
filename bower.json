@@ -19,6 +19,6 @@
     "angular-venn": "*",
     "angular-bs-text-highlight": "*",
     "angular-bs-tooltip": "*",
-    "angucomplete-alt": "~1.0.7"
+    "smart-area": "~1.1.0"
   }
 }

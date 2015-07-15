@@ -8,7 +8,7 @@ var app = angular.module('app', [
 	'prettyBytes',
 	'ui.router',
 	'xeditable',
-	'angucomplete-alt'
+	'smartArea'
 ]);
 
 app.config(function($compileProvider) {
