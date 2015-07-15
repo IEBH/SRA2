@@ -43,10 +43,6 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 			}
 			// }}}
 			// }}}
-			// If existing user, add him to owners list {{{
-				if ($scope.user){
-				}
-			// }}}	
 		});
 		// }}}
 
@@ -246,6 +242,18 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 		$scope.library[key] = value;
 		$scope.save(key);
 	};
+	// }}}
+
+	// Display columns {{{
+	$scope.isScreening = false;
+	$scope.$watch('library', function() {
+		$scope.isScreening = (
+			$scope.library &&
+			$scope.library.screening &&
+			$scope.library.screening.lastWeighting &&
+			$scope.library.screening.lastWeighting.hash
+		);
+	});
 	// }}}
 
 	// Watchers {{{

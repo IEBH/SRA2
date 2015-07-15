@@ -185,6 +185,7 @@
 			</a></th>
 			<th>Authors</th>
 			<th ng-if="tags && tags.length" width="150px">Tags</th>
+			<th ng-if="isScreening">Weight</th>
 			<th><i class="fa fa-file-pdf-o"></i></th>
 		</tr></thead>
 		<tr ng-repeat="reference in references | filter:{status:'active'} track by reference._id" ng-class="{info: reference.selected}">
@@ -205,12 +206,13 @@
 					<em ng-if="::(!reference.authors || !reference.authors.length)">none</em>
 				</a>
 			</td>
-			<th ng-if="tags && tags.length">
+			<td ng-if="tags && tags.length">
 				<a ng-click="editTags(reference)"> 
 					<span ng-repeat="tag in reference.tags" class="tag" style="background: {{tagsObj[tag].color}}">{{tagsObj[tag].title}}</span>
 					<i class="fa fa-pencil show-on-hover"></i>
 				</a>
-			</th>
+			</td>
+			<td ng-if="isScreening">{{reference.screening.weight | number}}</td>
 			<td><a ng-click="openFullText(reference)">
 				<i ng-class="isFullTextDownloaded(reference) ? '' : 'text-muted'" class="fa fa-file-pdf-o"></i>
 			</a></td>
