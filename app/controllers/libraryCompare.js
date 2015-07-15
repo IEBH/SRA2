@@ -2,7 +2,7 @@
 * Set up the comparison task for a library
 * see libraryCompareReviewController for the result when the task has completed
 */
-app.controller('libraryCompareController', function($scope, $rootScope, Libraries, Tasks) {
+app.controller('libraryCompareController', function($scope, $location, $rootScope, Libraries, Tasks) {
 	$scope.comparisons = [];
 
 	// Convert rawUrls => comparisons {{{
@@ -82,7 +82,7 @@ app.controller('libraryCompareController', function($scope, $rootScope, Librarie
 	$scope.submit = function() {
 		Tasks.fromLibrary(
 			{id: $scope.comparisons[0]._id, worker: 'library-compare'},
-			{libraries: $scope.comparisons.slice(1)}
+			{settings: {libraries: $scope.comparisons.slice(1).map(function(lib) { return lib._id })}}
 		).$promise.then(function(task) {
 			$location.path('/libraries/task/' + task._id);
 		});

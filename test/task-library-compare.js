@@ -225,7 +225,6 @@ describe('Task: library-compare', function(){
 			expect(res.body).to.have.property('status', 'completed');
 			task = res.body;
 			mlog.log('Comparison URL:', task.destination);
-			console.log('RESULT', require('util').inspect(task, {depth: null, color: true}));
 			finish();
 		};
 	});
