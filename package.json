@@ -58,6 +58,7 @@
     "newrelic": "^1.20.2",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
+    "readfilebyline": "^0.1.2",
     "reflib": "^1.1.1",
     "require-dir": "^0.3.0",
     "sha1": "^1.1.1",

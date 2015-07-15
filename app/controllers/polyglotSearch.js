@@ -1,5 +1,22 @@
-app.controller('PolyglotSearchController', function($scope) {
+app.controller('PolyglotSearchController', function($scope, Assets) {
 	$scope.query = '';
+
+	// MeSH auto-complete {{{
+	$scope.smartArea = {
+		autocomplete: [{
+			words: [],
+			autocompleteOnSpace: 0
+		}]
+	};
+
+	$scope.refreshMeSH = function() {
+		Assets.mesh().$promise.then(function(data) {
+			$scope.smartArea.autocomplete[0].words = data;
+		});
+	};
+	// FIXME: DISABLED FOR NOW - Will find a nicer way to do this in the future - MC 2015-07-15
+	// $scope.refreshMeSH();
+	// }}}
 
 	// Examples functionality {{{
 	$scope.examples = [
@@ -7,15 +24,6 @@ app.controller('PolyglotSearchController', function($scope) {
 		{title: 'Clinical prediction guides for whiplash', query: '"Neck"[Mesh] OR Neck OR Necks OR "Cervical Vertebrae"[Mesh] OR "Cervical Vertebrae" OR "Neck Muscles"[Mesh] OR "Neck Muscles" OR "Neck Injuries"[Mesh] OR "Whiplash Injuries"[Mesh] OR "Radiculopathy"[Mesh] OR "Neck Injuries" OR "Neck Injury" OR Whiplash OR Radiculopathies OR Radiculopathy\n\n AND\n\n "Pain"[Mesh] OR Pain OR Pains OR Aches OR Ache OR Sore\n\n AND\n\n "Decision Support Techniques"[Mesh] OR "Predictive Value of Tests"[Mesh] OR "Observer Variation"[Mesh] OR Decision Support OR Decision Aids OR Decision Aid OR Decision Analysis OR Decision Modeling OR Decision modelling OR Prediction OR Predictions OR Predictor OR Predicting OR Predicted'},
 		{title: 'Prevalence of Thyroid Disease in Australia', query: '"Thyroid Diseases"[Mesh] OR "Thyroid diseases" OR "Thyroid disease" OR "Thyroid disorder" OR "Thyroid disorders" OR Goiter OR Goitre OR Hypothyroidism OR Hyperthyroidism OR Thyroiditis OR "Graves disease" OR Hyperthyroxinemia OR Thyrotoxicosis OR  "Thyroid dysgenesis" OR "Thyroid cancer" OR "Thyroid cancers" OR "Thyroid neoplasm" OR "Thyroid neoplasms" OR "Thyroid nodule" OR "Thyroid nodules" OR "Thyroid tumor" OR "Thyroid tumour" OR "Thyroid tumors" OR "Thyroid tumours" OR "Thyroid cyst" OR "Thyroid cysts" OR "Cancer of the thyroid"\n\n AND\n\n "Prevalence"[Mesh] OR "Epidemiology"[Mesh] OR "Prevalence" OR "Prevalences" OR Epidemiology OR Epidemiological\n\n AND\n\n "Australia"[Mesh] OR Australia OR Australian OR Australasian OR Australasia OR Queensland OR Victoria OR "New South Wales" OR "Northern Territory"'},
 	];
-
-	$scope.config = {
-      autocomplete: [
-        {
-          words: ['flu', 'cold', 'fever', 'bad cold'],
-          autocompleteOnSpace: 0
-        }
-      ]
-    };
 
 	$scope.example = null;
 
