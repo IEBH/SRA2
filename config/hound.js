@@ -5,4 +5,9 @@ module.exports = {
 	newrelic: {
 		enabled: false,
 	},
+	tasks: {
+		'library-cleaner': {
+			enabled: false,
+		},
+	},
 };

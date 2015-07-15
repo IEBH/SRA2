@@ -22,6 +22,7 @@ module.exports = function(finish, task) {
 
 		// Worker {{{
 		.then('libraries', function(next) {
+			if (!config.tasks['library-cleaner'].enabled) return next('Cleaner is disabled!');
 			Libraries.find({
 				expiry: {'$lt': (new Date)},
 				status: 'active',

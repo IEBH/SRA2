@@ -74,6 +74,11 @@ var defaults = {
 			idLimit: 10, // How many paper ID's to fetch at once per search query
 		},
 	},
+	tasks: {
+		'library-cleaner': {
+			enabled: true,
+		},
+	},
 };
 
 module.exports = _.merge(
