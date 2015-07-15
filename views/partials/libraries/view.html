@@ -215,7 +215,9 @@
 					<i class="fa fa-pencil show-on-hover"></i>
 				</a>
 			</td>
-			<td ng-if="isScreening">{{reference.screening.weight | number}}</td>
+			<td ng-if="isScreening" class="text-center">
+				<span class="badge badge-default">{{reference.screening.weight | number}}</span>
+			</td>
 			<td><a ng-click="openFullText(reference)">
 				<i ng-class="isFullTextDownloaded(reference) ? '' : 'text-muted'" class="fa fa-file-pdf-o"></i>
 			</a></td>
