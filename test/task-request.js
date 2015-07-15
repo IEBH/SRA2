@@ -8,7 +8,8 @@ var moment = require('moment');
 var reflib = require('reflib');
 var request = require('superagent');
 
-describe('Task: (Journal) Request', function(){
+// Task skipped as it sends an email to people who are likely to be upset - MC 2015-07-15
+describe.skip('Task: (Journal) Request', function(){
 	// Library specific info
 	var libraryFile = __dirname + '/data/endnote-2.xml';
 	var libraryCount = 5;
