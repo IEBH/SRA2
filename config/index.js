@@ -27,6 +27,7 @@ var defaults = {
 	port: process.env.PORT || 80,
 	url: 'http://localhost',
 	secret: "dT2CsWwmEBPnggihyKlY3IXONBIY4Db/yt5y1qcRHXkylDxHfEPGAsPkG1ikpFMgPnE9TrghA4hXSmuf8DvrdwtXZHY4Zmg8VVFs9Ei2NRK3N",
+	contactEmail: 'matt_carter@bond.edu.au',
 	gulp: {
 		debugJS: true,
 		minifyJS: false,

@@ -62,6 +62,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Debug testing area',
 			}
 		})
+		.state('contact', {
+			url: '/contact',
+			views: {main: {templateUrl: '/partials/pages/contact.html'}},
+			data: {
+				title: 'Contact Us',
+			}
+		})
 		// }}}
 		// Library (collective) {{{
 		.state('libraries', {
