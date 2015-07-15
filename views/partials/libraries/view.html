@@ -185,7 +185,10 @@
 			</a></th>
 			<th>Authors</th>
 			<th ng-if="tags && tags.length" width="150px">Tags</th>
-			<th ng-if="isScreening">Weight</th>
+			<th ng-if="isScreening" width="70px"><a ng-click="setSort('screening.weight')">
+				Weight
+				<i ng-if="sort=='screening.weight'" ng-class="!sortReverse ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
+			</th>
 			<th><i class="fa fa-file-pdf-o"></i></th>
 		</tr></thead>
 		<tr ng-repeat="reference in references | filter:{status:'active'} track by reference._id" ng-class="{info: reference.selected}">

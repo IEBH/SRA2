@@ -209,6 +209,9 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	$scope.setSort = function(method) {
 		if ($scope.sort == method) { // Already set - reverse method
 			$scope.sortReverse = !$scope.sortReverse;
+		} else if (method.substr(0, 1) == '-') { // Set into reverse
+			$scope.sort = method.substr(1);
+			$scope.sortReverse = true;
 		} else { // Changing method
 			$scope.sort = method;
 			$scope.sortReverse = false;
@@ -393,5 +396,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 		$scope.library = {_id: $stateParams.id};
 		$scope.refresh();
 	}
+
+	if ($location.search()['sort']) $scope.setSort($location.search()['sort']);
 	// }}}
 });
