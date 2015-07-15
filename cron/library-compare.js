@@ -80,10 +80,12 @@ module.exports = function(finish, task) {
 					// Simple field comparisons {{{
 					['title'].forEach(function(field) {
 						if (refA[field] && !refB[field]) { // A has field, B does not
+							conflicts[liAB._id][field] = refA[field];
 							conflicts[libB._id][field] = 'MISSING';
 							dirty = true;
 						} else if (!refA[field] && refB[field]) { // B has field, a does not
 							conflicts[libA._id][field] = 'MISSING';
+							conflicts[libB._id][field] = refB[field];
 							dirty = true;
 						} else if (refA[field] != refB[field]) { // Fields mismatch
 							conflicts[libA._id][field] = refA[field];
@@ -95,10 +97,12 @@ module.exports = function(finish, task) {
 					// Array comparisons {{{
 					['tags', 'authors'].forEach(function(field) {
 						if (refA[field] && refA[field].length && (!refB[field] || !refB[field].length)) { // A has field, B does not
+							conflicts[libA._id][field] = refA[field];
 							conflicts[libB._id][field] = 'MISSING';
 							dirty = true;
 						} else if ((!refA[field] || !refA[field].length) && refB[field] && refB[field].length) { // B has field, A does not
 							conflicts[libA._id][field] = 'MISSING';
+							conflicts[libB._id][field] = refB[field];
 							dirty = true;
 						} else if ( JSON.stringify(refA[field].sort()) != JSON.stringify(refB[field].sort()) ) { // Find mismatched tags
 							conflicts[libA._id][field] = refA[field];
