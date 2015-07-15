@@ -8,7 +8,7 @@ var moment = require('moment');
 var reflib = require('reflib');
 var request = require('superagent');
 
-describe('DeDupe - test #1', function(){
+describe('Task: DeDupe', function(){
 	// Library specific info
 	var libraryFile = __dirname + '/data/endnote-1.xml';
 	var libraryCount = 1988;

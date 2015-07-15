@@ -8,7 +8,7 @@ var moment = require('moment');
 var reflib = require('reflib');
 var request = require('superagent');
 
-describe('Journal Request', function(){
+describe('Task: (Journal) Request', function(){
 	// Library specific info
 	var libraryFile = __dirname + '/data/endnote-2.xml';
 	var libraryCount = 5;

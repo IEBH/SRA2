@@ -81,7 +81,10 @@
 				</span>
 			</div>
 		</td></tr>
-		<tr height="50px"><td class="text-center">
+		<tr ng-if="refNo > 0" height="20px"><td class="text-center">
+			<a tooltip="Click to go back to library view" href="#/libraries/{{library._id}}" class="badge badge-info badge-lg">Reference {{refNo}} of {{references.length}}</a>
+		</td></tr>
+		<tr ng-if="tags && tags.length" height="50px"><td class="text-center">
 			<a ng-repeat="tag in tags" class="btn btn-default">
 				<span class="tag tag-lg" style="background: {{tag.color}}">{{tag.title}}</span>
 			</a>

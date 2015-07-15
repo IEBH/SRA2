@@ -88,7 +88,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		})
 		.state('libraries-operation', {
-			url: '/libraries/{operation:export|dedupe|screen|tags|share|request|collabmatrix|clear|delete|fulltext}',
+			url: '/libraries/{operation:copy|export|dedupe|screen|compare|tags|share|request|collabmatrix|clear|delete|fulltext}',
 			views: {main: {templateUrl: '/partials/libraries/operation.html'}},
 			data: {
 				title: 'Perform operation',
@@ -102,6 +102,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			views: {main: {templateUrl: '/partials/libraries/wait.html'}},
 			data: {
 				title: 'Performing operation',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		.state('library-copy', {
+			url: '/libraries/:id/{operation:copy}',
+			views: {main: {templateUrl: '/partials/libraries/copy.html'}},
+			data: {
+				title: 'Copy',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
@@ -142,6 +150,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			views: {main: {templateUrl: '/partials/libraries/screen.html'}},
 			data: {
 				title: 'Screen',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		.state('library-compare', {
+			url: '/libraries/:id/{operation:compare}',
+			views: {main: {templateUrl: '/partials/libraries/compare.html'}},
+			data: {
+				title: 'Compare',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		.state('library-compare-review', {
+			url: '/libraries/:id/compare/:taskid',
+			views: {main: {templateUrl: '/partials/libraries/compare-review.html'}},
+			data: {
+				title: 'Comparison Results',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})

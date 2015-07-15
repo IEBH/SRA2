@@ -252,6 +252,11 @@ legend {
 .badge + .badge {
 	margin-left: 2px;
 }
+
+.badge-lg {
+	font-size: 15pt;
+	padding: 8px;
+}
 /* }}} */
 /* FIX: Table spacing is too big {{{ */
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {

@@ -15,10 +15,18 @@ var schema = new mongoose.Schema({
 		url: {type: String}
 	}],
 	screening: {
+		lastWeighting: {
+			date: {type: Date, default: Date.now},
+			hash: {type: String},
+		},
 		weightings: [{
 			keyword: {type: String},
 			weight: {type: Number}
 		}],
+	},
+	parentage: {
+		parent: {type: mongoose.Schema.ObjectId, ref: 'libraries', index: true}, // Original parent, if any
+		fingerPrint: {type: String}, // Identifying string, used when cloning to identify all original references from the same source
 	},
 }, {
 	toJSON: {virtuals: true},

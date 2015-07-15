@@ -1,4 +1,4 @@
-app.controller('taskController', function($scope, $location, $stateParams, $timeout, Settings, Tasks) {
+app.controller('taskController', function($scope, $location, $stateParams, $timeout, $window, Settings, Tasks) {
 	if (!$stateParams.id) return $location.path('/libraries');
 
 	// Data refresher {{{
@@ -12,7 +12,11 @@ app.controller('taskController', function($scope, $location, $stateParams, $time
 			.then(function(data) {
 				$scope.task = data;
 				if ($scope.task.status == 'completed') {
-					$location.path('/libraries/' + $scope.task.library);
+					if ($scope.task.destination) {
+						$window.location = $scope.task.destination;
+					} else {
+						$location.path('/libraries/' + $scope.task.library);
+					}
 				} else {
 					$scope.task.lastUpdate = moment().format('h:mm:ss a');
 					if ($scope.task && $scope.task.progress && $scope.task.progress.current > 0) {

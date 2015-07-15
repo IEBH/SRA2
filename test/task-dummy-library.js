@@ -6,7 +6,7 @@ var fs = require('fs');
 var moment = require('moment');
 var request = require('superagent');
 
-describe('Dummy-library task', function(){
+describe('Task: Dummy-library', function(){
 	var agent = request.agent();
 
 	it('should login', function(finish) {

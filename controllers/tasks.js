@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var async = require('async-chainable');
+var colors = require('colors');
 var Libraries = require('../models/libraries');
 var References = require('../models/references');
 var Tasks = require('../models/tasks');
@@ -27,7 +28,7 @@ app.all('/api/tasks/library/:libid/:worker', function(req, res) {
 		})
 		.then('references', function(next) {
 			var query = {library: this.library._id, status: 'active'};
-			if (req.body.settings.references) { // Work on specific references
+			if (req.body.settings && req.body.settings.references) { // Work on specific references
 				query['_id'] = {'$in': req.body.settings.references};
 				delete(req.body.settings.references);
 			}
@@ -45,11 +46,14 @@ app.all('/api/tasks/library/:libid/:worker', function(req, res) {
 				library: this.library._id,
 				references: this.references.map(function(ref) { return ref._id }),
 				history: [{type: 'queued'}],
-				settings: this.settings,
+				settings: this.settings || null,
 			}, next);
 		})
 		.end(function(err) {
-			if (err) return res.status(400).send(err);
+			if (err) {
+				console.log(colors.red('TASK REJECTED'), err);
+				return res.status(400).send(err);
+			}
 			res.send({_id: this.task._id});
 		});
 });
@@ -69,12 +73,13 @@ app.get('/api/tasks/:id', function(req, res) {
 		})
 		// }}}
 		.then('task', function(next) {
-			Tasks.findOne({_id: req.params.id}, next);
+			Tasks
+				.findOne({_id: req.params.id})
+				.select('_id created library status progress history result destination')
+				.exec(next);
 		})
 		.end(function(err) {
 			if (err) return res.status(400).send(err);
-			res.send(_.pick(this.task, [
-				'_id', 'created', 'library', 'status', 'progress', 'history'
-			]));
+			res.send(this.task);
 		});
 });
