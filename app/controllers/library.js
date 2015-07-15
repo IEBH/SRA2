@@ -52,7 +52,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 
 		// References {{{
 		var rQuery = {library: $scope.library._id, status: 'active'};
-		if ($scope.activeTag) rQuery.tags = $scope.activeTag._id;
+		if ($scope.activeTag && !$scope.activeTag.meta) rQuery.tags = $scope.activeTag._id;
 
 		References.query(rQuery).$promise.then(function(data) {
 			$scope.references = data
@@ -64,6 +64,9 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 					return ref;
 					// }}}
 				});
+			if ($scope.activeTag && $scope.activeTag.filter) { // Meta tag filtering
+				$scope.references = $scope.references.filter($scope.activeTag.filter);
+			}
 			$scope.references = $filter('orderBy')($scope.references, $scope.sort, $scope.sortReverse);
 			$scope.determineSelected();
 			$scope.loading = false;
@@ -74,12 +77,30 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 		ReferenceTags.query({library: $scope.library._id}).$promise.then(function(data) {
 			$scope.tagsObj = {};
 
-			// Sort data {{{
+			// Add meta tags {{{
+			data.push({
+				_id: '_all',
+				meta: true,
+				title: 'All',
+				icon: 'fa fa-star',
+				filter: function(ref) { return true },
+			});
+			data.push({
+				_id: '_untagged',
+				meta: true,
+				title: 'Untagged',
+				icon: 'fa fa-star-o',
+				filter: function(ref) { return !ref.tags || !ref.tags.length },
+			});
 			// }}}
 
 			$scope.tags = data
 				.sort(function(a, b) {
-					if (a.title > b.title) {
+					if (a.meta && !b.meta) {
+						return -1;
+					} else if (b.meta && !a.meta) {
+						return 1;
+					} else if (a.title > b.title) {
 						return 1;
 					} else if (b.title < a.title) {
 						return -1;
@@ -88,6 +109,8 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 					}
 				})
 				.map(function(tag) {
+					if (tag.meta) return tag;
+					tag.meta = false;
 					// Decorators {{{
 					// .referenceCount {{{
 					tag.referenceCount = null;
@@ -230,6 +253,20 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	$scope.$watch('library.title', function() {
 		if (!$scope.library) return;
 		$rootScope.$broadcast('setTitle', $scope.library.title);
+	});
+	// }}}
+
+	// Recalculate the meta tag numbers {{{
+	$scope.$watch('references', function() {
+		if (!$scope.references) return;
+
+		var tag = _.find($scope.tags, {_id: '_all'});
+		tag.referenceCount = $scope.references.length;
+
+		var tag = _.find($scope.tags, {_id: '_untagged'});
+		tag.referenceCount = $scope.references.filter(function(ref) {
+			return !ref.tags || !ref.tags.length;
+		}).length;
 	});
 	// }}}
 
