@@ -20,6 +20,9 @@
 			</table>
 		</div>
 		<p>The following table shows any unresolved conflicts. Click any column to override the default selection.</p>
+		<div class="text-center pad-top">
+			<a ng-click="resubmit()" class="btn"><i class="fa fa-files-o"></i> Redo comparison</a>
+		</div>
 	</div>
 	<div ng-if="!loading && !conflicts.length" class="alert alert-warning">
 		<p>No conflicts found.</p>

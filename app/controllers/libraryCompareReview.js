@@ -1,4 +1,4 @@
-app.controller('libraryCompareReviewController', function($scope, $rootScope, $stateParams, Libraries, References, Tasks) {
+app.controller('libraryCompareReviewController', function($scope, $location, $rootScope, $stateParams, Libraries, References, Tasks) {
 	$scope.loading = true;
 	$scope.task = null;
 
@@ -63,6 +63,17 @@ app.controller('libraryCompareReviewController', function($scope, $rootScope, $s
 	// Handle selection {{{
 	$scope.rowSetActive = function(conflict, field, item) {
 		conflict.active[field] = item;
+	};
+	// }}}
+
+	// .resubmit() {{{
+	$scope.resubmit = function() {
+		Tasks.fromLibrary(
+			{id: $scope.task.result.libraries[0], worker: 'library-compare'},
+			{settings: {libraries: $scope.task.result.libraries.slice(1)}}
+		).$promise.then(function(task) {
+			$location.path('/libraries/task/' + task._id);
+		});
 	};
 	// }}}
 });
