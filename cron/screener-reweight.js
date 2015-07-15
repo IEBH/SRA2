@@ -6,6 +6,8 @@ var _ = require('lodash')
 	.mixin(require('lodash-keyarrange'));
 var async = require('async-chainable');
 var colors = require('colors');
+var Libraries = require('../models/libraries');
+var References = require('../models/references');
 var sha1 = require('sha1');
 
 module.exports = function(finish, task) {
@@ -47,21 +49,22 @@ module.exports = function(finish, task) {
 		.then(function(next) {
 			// Determine if we should do anything at all {{{
 			if (
-				library.screening.lastWeighting.hash &&
-				library.screening.lastWeighting.hash == this.hash
+				this.library.screening.lastWeighting.hash &&
+				this.library.screening.lastWeighting.hash == this.hash
 			) return next('No rerun needed - hash already matches previous run on ' + library.screening.lastWeighting.date);
 			next();
 			// }}}
 		})
 
-		.forEach(this.references, function(nextRef, ref) { // Process each reference...
-			if (ref.screening.hash == this.hash) return next(); // No need to re-examine as the hash already matches
+		.forEach('references', function(nextRef, ref) { // Process each reference...
+			if (ref.screening.hash == this.hash) return nextRef(); // No need to re-examine as the hash already matches
 
-			var words = _.words(ref.abstract);
 			var score = 0;
 			
 			this.library.screening.weightings.forEach(function(weighting) {
-				var hasKeyword = _.indexOf(words, weighting.keywords);
+				var hasKeyword = ['title', 'abstract'].some(function(field) {
+					return ref[field] && ref[field].indexOf(weighting.keyword) > -1;
+				});
 				if (hasKeyword) score += weighting.weight;
 			});
 
@@ -80,9 +83,9 @@ module.exports = function(finish, task) {
 				task.save(next);
 			},
 			function(next) { // Save screening data back to library
-				library.screening.lastWeighting.date = new Date();
-				library.screening.lastWeighting.hash = this.hash;
-				library.save(next);
+				this.library.screening.lastWeighting.date = new Date();
+				this.library.screening.lastWeighting.hash = this.hash;
+				this.library.save(next);
 			},
 		])
 		.end(function(err) {
