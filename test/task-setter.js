@@ -139,6 +139,7 @@ describe('Task: Setter', function(){
 	});
 
 	it('should dump the sorted libraries', function(finish) {
+		this.timeout(60 * 1000);
 		async()
 			.parallel([
 				function(next) {
