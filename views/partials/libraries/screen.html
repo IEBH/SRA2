@@ -72,7 +72,7 @@
 				</ul>
 				<span text-highlight="highlightTerms" text-highlight-wrapper="highlightWrapper" text-highlight-tags="highlightTags" text-highlight-popup="'#dropdown-text-select'">
 					<h1 ng-if="options.show.title">{{ref.title}}</h1>
-					<p ng-if="options.show.abstract" class="lead">{{ref.abstract || 'No abstract available'}}</p>
+					<p ng-if="options.show.abstract" class="lead font-sm">{{ref.abstract || 'No abstract available'}}</p>
 					<div ng-if="options.show.keywords && ref.keywords">
 						<strong>Keywords:</strong>
 						<span ng-repeat="keyword in ref.keywords">{{keyword}}</span>
@@ -85,7 +85,7 @@
 			<a tooltip="Click to go back to library view" href="#/libraries/{{library._id}}" class="badge badge-info badge-lg">Reference {{refNo}} of {{references.length}}</a>
 		</td></tr>
 		<tr ng-if="tags && tags.length" height="50px"><td class="text-center">
-			<a ng-repeat="tag in tags" class="btn btn-default">
+			<a ng-repeat="tag in tags | filter:{meta:false}" class="btn btn-default">
 				<span class="tag tag-lg" style="background: {{tag.color}}">{{tag.title}}</span>
 			</a>
 		</td></tr>
