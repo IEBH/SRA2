@@ -336,3 +336,7 @@ td .badge {
 	left: 2px;
 }
 /* }}} */
+
+textarea.sa-realArea:focus{
+    -webkit-text-fill-color: #393939;
+}
