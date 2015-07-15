@@ -6,7 +6,7 @@ var fs = require('fs');
 var moment = require('moment');
 var request = require('superagent');
 
-describe('Task: Dummy-library', function(){
+describe('Task: dummy-library', function(){
 	var agent = request.agent();
 
 	it('should login', function(finish) {
@@ -24,7 +24,7 @@ describe('Task: Dummy-library', function(){
 	it('should upload a test library', function(finish) {
 		this.timeout(60 * 1000);
 		agent.post(config.url + '/api/libraries/import')
-			.field('libraryTitle', 'dedupe-test')
+			.field('libraryTitle', 'TEST: dummy-library')
 			.field('libraryExpires', '3 hours')
 			.field('json', 'true')
 			.attach('file', __dirname + '/data/endnote-1.xml')

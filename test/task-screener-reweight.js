@@ -46,7 +46,7 @@ describe('Task: screener-reweight', function(){
 	it('should upload a test library', function(finish) {
 		this.timeout(60 * 1000);
 		agent.post(config.url + '/api/libraries/import')
-			.field('libraryTitle', 'TEST: library-screener-reweight')
+			.field('libraryTitle', 'TEST: screener-reweight')
 			.field('libraryExpires', '3 hours')
 			.field('json', 'true')
 			.attach('file', libraryFile)
