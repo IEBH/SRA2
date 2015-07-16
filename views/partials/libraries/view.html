@@ -1,4 +1,4 @@
-<div ng-controller="libraryController">
+<div ng-controller="libraryController"><div ng-controller="libraryReferencesController">
 	<div id="modal-tagEdit" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -123,7 +123,7 @@
 		<div class="progress">
 			<div class="progress-bar progress-bar-info progress-bar-striped active" style="width: {{references.length / library.referenceCount | percentage}}"></div>
 		</div>
-		<p>{{references.length}} / {{library.referenceCount}} loaded</p>
+		<p>{{references.length | number}} / {{library.referenceCount | number}} loaded</p>
 	</div>
 
 	<ul ng-if="tags && tags.length" class="nav nav-tabs" id="tag-filter">
@@ -227,4 +227,4 @@
 			</a></td>
 		</tr>
 	</table>
-</div>
+</div></div>
