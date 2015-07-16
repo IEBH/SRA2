@@ -1,4 +1,4 @@
-app.controller('libraryController', function($scope, $rootScope, $httpParamSerializer, $filter, $interval, $location, $stateParams, $window, Libraries, References, ReferenceTags, Tasks) {
+app.controller('libraryController', function($scope, $rootScope, $httpParamSerializer, $filter, $interval, $location, $stateParams, $window, Libraries, Settings, References, ReferenceTags, Tasks) {
 	$scope.loading = true;
 	$scope.library = null;
 	$scope.tags = null;
@@ -45,29 +45,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 			// }}}
 		});
 		// }}}
-
-		// References {{{
-		var rQuery = {library: $scope.library._id, status: 'active'};
-		if ($scope.activeTag && !$scope.activeTag.meta) rQuery.tags = $scope.activeTag._id;
-
-		References.query(rQuery).$promise.then(function(data) {
-			$scope.references = data
-				.map(ref => {
-					// Decorators {{{
-					// select already selected references (e.g. if changing tabs) {{{
-					if (_.find($scope.selected, {_id: ref._id})) ref.selected = true;
-					// }}}
-					return ref;
-					// }}}
-				});
-			if ($scope.activeTag && $scope.activeTag.filter) { // Meta tag filtering
-				$scope.references = $scope.references.filter($scope.activeTag.filter);
-			}
-			$scope.references = $filter('orderBy')($scope.references, $scope.sort, $scope.sortReverse);
-			$scope.determineSelected();
-			$scope.loading = false;
-		});
-		// }}}
+		$scope.refreshReferences();
 
 		// Reference Tags {{{
 		ReferenceTags.query({library: $scope.library._id}).$promise.then(function(data) {
@@ -123,6 +101,51 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 			if ($location.search()['tag']) $scope.activeTag = _.find($scope.tags, {_id: $location.search()['tag']});
 		});
 		// }}}
+	};
+
+	$scope.refreshReferences = function() {
+		$scope.references = [];
+		$scope.refChunk = 0;
+		$scope._refreshReferenceChunk();
+	};
+
+	/**
+	* Load references in to the system in chunks (determined by Settings.getLimits.references)
+	*/
+	$scope._refreshReferenceChunk = function() {
+		var rQuery = {
+			library: $scope.library._id,
+			status: 'active',
+			limit: Settings.getLimits.references,
+			skip: Settings.getLimits.references * $scope.refChunk,
+		};
+		if ($scope.activeTag && !$scope.activeTag.meta) rQuery.tags = $scope.activeTag._id;
+
+		References.query(rQuery).$promise.then(function(data) {
+			$scope.references = $scope.references.concat(
+				data.map(ref => {
+					// Decorators {{{
+					// select already selected references (e.g. if changing tabs) {{{
+					if (_.find($scope.selected, {_id: ref._id})) ref.selected = true;
+					// }}}
+					return ref;
+					// }}}
+				})
+			);
+			if ($scope.activeTag && $scope.activeTag.filter) { // Meta tag filtering
+				$scope.references = $scope.references.filter($scope.activeTag.filter);
+			}
+			$scope.references = $filter('orderBy')($scope.references, $scope.sort, $scope.sortReverse);
+			$scope.determineSelected();
+
+			if (data.length < $scope.refChunk) { // Exhausted refs from server
+				$scope.loading = false;
+			} else {
+				console.log('REQ', $scope.refChunk);
+				$scope.refChunk++;
+				$scope._refreshReferenceChunk();
+			}
+		});
 	};
 	// }}}
 
@@ -269,7 +292,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 
 	// Recalculate the meta tag numbers {{{
 	$scope.$watch('references', function() {
-		if (!$scope.references) return;
+		if (!$scope.references || !$scope.tags) return;
 
 		var tag = _.find($scope.tags, {_id: '_all'});
 		tag.referenceCount = $scope.references.length;

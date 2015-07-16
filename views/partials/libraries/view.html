@@ -118,6 +118,14 @@
 		</ul>
 	</div>
 
+	<div ng-if="loading" class="alert alert-info text-center">
+		<h3><i class="fa fa-spinner fa-spin fa-1.5x"></i> Loading reference library...</h3>
+		<div class="progress">
+			<div class="progress-bar progress-bar-info progress-bar-striped active" style="width: {{references.length / library.referenceCount | percentage}}"></div>
+		</div>
+		<p>{{references.length}} / {{library.referenceCount}} loaded</p>
+	</div>
+
 	<ul ng-if="tags && tags.length" class="nav nav-tabs" id="tag-filter">
 		<li ng-repeat="tag in tags track by tag._id" ng-class="activeTag._id == tag._id && 'active'">
 			<a href="#/libraries/{{library._id}}?tag={{tag._id}}">
@@ -144,10 +152,6 @@
 				<a href="#/libraries/{{library._id}}" class="btn"><i class="fa fa-asterisk"></i> Show all references</a>
 			</div>
 		</span>
-	</div>
-	<div ng-if="loading" class="alert alert-info text-center">
-		<div><i class="fa fa-spinner fa-spin fa-3x"></i></div>
-		<h3>Loading reference library...</h3>
 	</div>
 
 	<table ng-if="references && references.length" class="table table-striped table-bordered" id="reference-table">
