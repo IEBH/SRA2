@@ -96,7 +96,7 @@
 					<li><a ng-click="selectAction('invert')">Invert selection</a></li>
 				</ul>
 			</li>
-			<li ng-if="tags && tags.length" class="btn-group">
+			<li ng-if="isEditable && tags && tags.length" class="btn-group">
 				<a class="btn btn-info dropdown-toggle" data-toggle="dropdown">Tag <i class="fa fa-chevron-down"></i></a>
 				<ul class="dropdown-menu">
 					<li ng-repeat="tag in tags | filter:{meta:false}"><a ng-click="selectAction('tag', tag)"><i class="fa fa-tag"></i> {{tag.title}}</a></li>
