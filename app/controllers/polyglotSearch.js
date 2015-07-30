@@ -224,7 +224,8 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 					.wrapLines()
 					.replaceJunk()
 					.replace(/"(.+?)"\[MESH\] (AND|OR) /ig, '')
-					.replace(/"(.+?)"\[MESH\]/ig, '');
+					.replace(/"(.+?)"\[MESH\]/ig, '')
+					.value();
 			},
 			linker: function(engine) {
 				return {
