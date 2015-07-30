@@ -25,18 +25,41 @@ _.mixin({
 
 	/**
 	* Replace MeSH terms with the string specififed
-	* This function will also obey any engine specific overrides using $scope.activeEngine
+	* This function will also obey any engine specific overrides
 	* e.g.
 	*       "Something"[MESH] // Replaces in all instances
 	*       "Something|Embase=Something Else"[MESH] // Replaces as 'something' in most cases, 'something else' in Embase engine
 	*
 	* @param string query The incomming full query string (PubMed format)
 	* @param string replacement The replacement to apply ($1 is the original term)
+	* @param string engine The active engine object
 	* @return string The query string with replacements applied
 	*/
-	replaceMesh: function(q, replacement) {
+	replaceMesh: function(q, replacement, engine) {
 		return q.replace(/"(.+?)"\[MESH\]/ig, (line, mesh) => {
-			return replacement.replace('$1', mesh);
+			if (!/\|/.test(mesh)) {  // Simple replacement
+				return replacement.replace('$1', mesh);
+			} else { // Using rule set
+				var rules = {};
+				mesh.split(/\|/).forEach(function(term) {
+					var ruleSyntax = /^\s*(.+)\s*=\s*(.+)\s*$/.exec(term);
+					if (ruleSyntax) {
+						rules[ruleSyntax[1].toLowerCase()] = ruleSyntax[2];
+					} else {
+						rules['DEFAULT'] = term;
+					}
+				});
+				var matchingRule = _.find(engine.aliases, function(alias) {
+					return !! rules[alias];
+				});
+				if (matchingRule) { // There is a rule specific to this engine
+					return replacement.replace('$1', rules[matchingRule]);
+				} else if (rules['DEFAULT']) {
+					return replacement.replace('$1', rules['DEFAULT']);
+				} else {
+					return '';
+				}
+			}
 		});
 	},
 
@@ -96,12 +119,13 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 	$scope.engines = [
 		{
 			id: 'pubmed',
+			aliases: ['pubmed', 'p', 'pm', 'pubm', 'ovid'],
 			title: 'PubMed',
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
-					.replaceMesh('"$1"[MESH]')
+					.replaceMesh('"$1"[MESH]', this)
 					.value();
 			},
 			linker: function(engine) {
@@ -116,12 +140,13 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 		},
 		{
 			id: 'cochrane',
+			aliases: ['cochrane', 'c'],
 			title: 'Cochrane CENTRAL',
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
-					.replaceMesh('[mh "$1"]')
+					.replaceMesh('[mh "$1"]', this)
 					.value();
 			},
 			linker: function(engine) {
@@ -163,12 +188,13 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 		{
 			id: 'embase',
 			title: 'Embase',
+			aliases: ['embase', 'e', 'eb'],
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
 					.replace("'", '')
-					.replaceMesh("'$1'/exp")
+					.replaceMesh("'$1'/exp", this)
 					.value();
 			},
 			linker: function(engine) {
@@ -192,6 +218,7 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 		{
 			id: 'webofscience',
 			title: 'Web of Science',
+			aliases: ['webofscience', 'w', 'wos', 'websci'],
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
@@ -245,8 +272,7 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 
 	$scope.$watch('query', function() {
 		$scope.engines.forEach(function(engine) {
-			$scope.activeEngine = engine;
-			engine.query = engine.rewriter(_.clone($scope.query));
+			engine.query = engine.rewriter.call(engine, _.clone($scope.query));
 		});
 	});
 
