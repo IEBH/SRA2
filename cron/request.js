@@ -52,6 +52,9 @@ module.exports = function(finish, task) {
 		.forEach('references', function(nextRef, ref) {
 			async()
 				.then('html', function(next) {
+					var refDate = moment(ref.date);
+					if (!refDate.isValid()) refDate = null;
+
 					next(null,
 						'<table border="1" cellspacing="0" cellpadding="5">' +
 							'<tr>' +
@@ -76,8 +79,8 @@ module.exports = function(finish, task) {
 							'<tr><td>Vol</td><td>=</td><td>' + (ref.volume || '') + '</td></tr>' +
 							'<tr><td>Issue</td><td>=</td><td>' + (ref.issue || '') + '</td></tr>' +
 							'<tr><td>ISSN</td><td>=</td><td>' + (ref.isbn || '') + '</td></tr>' +
-							'<tr><td>Month</td><td>=</td><td>' + (_.isDate(ref.date) ? moment(ref.date).format('MMMM') : '') + '</td></tr>' +
-							'<tr><td>Year</td><td>=</td><td>' + (_.isDate(ref.date) ? moment(ref.date).format('YYYY') : '') + '</td></tr>' +
+							'<tr><td>Month</td><td>=</td><td>' + (refDate ? refDate.format('MMMM') : '') + '</td></tr>' +
+							'<tr><td>Year</td><td>=</td><td>' + (ref.date ? refDate.format('YYYY') : '') + '</td></tr>' +
 							'<tr><td>Pages</td><td>=</td><td>' + (ref.pages || '') + '</td></tr>' +
 							'<tr><td>Article_Author2</td><td>=</td><td>' + (ref.authors ? ref.authors.join(', ') : '') + '</td></tr>' +
 							'<tr><td>Article_Title2</td><td>=</td><td>' + (ref.title || '') + '</td></tr>' +
