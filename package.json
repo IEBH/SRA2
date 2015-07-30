@@ -8,7 +8,7 @@
     "node": "0.10.x"
   },
   "scripts": {
-    "postinstall": "bower install --allow-root && gulp build",
+    "postinstall": "gulp build",
     "start": "node server.js"
   },
   "dependencies": {
