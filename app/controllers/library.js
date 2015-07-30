@@ -99,6 +99,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 		});
 		// }}}
 	};
+	// }}}
 
 	// Saver {{{
 	/**
