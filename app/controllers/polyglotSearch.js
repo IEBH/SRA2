@@ -1,3 +1,58 @@
+// Lodash extensions {{{
+_.mixin({
+	/**
+	* Wrap all non-logical non-empty lines in brackets
+	* @param string q The input query to wrap
+	* @return string The output query wrapped with brackets
+	*/
+	wrapLines: function(q) { 
+		return q.split("\n").map(function(line) {
+			line = _.trim(line);
+			if (!line) return line; // Empty line
+			if (/^(AND|OR)$/i.test(line)) return line; // Logical line - dont wrap
+			return '(' + line + ')';
+		}).join("\n");
+	},
+
+	/**
+	* Replace UTF8 weirdness with speachmarks
+	* @param string q The input query to replace
+	* @return string The cleaned up query
+	*/
+	replaceJunk: function(q) {
+		return q.replace(/[“”«»„’']/g, '"');
+	},
+
+	/**
+	* Replace MeSH terms with the string specififed
+	* This function will also obey any engine specific overrides using $scope.activeEngine
+	* e.g.
+	*       "Something"[MESH] // Replaces in all instances
+	*       "Something|Embase=Something Else"[MESH] // Replaces as 'something' in most cases, 'something else' in Embase engine
+	*
+	* @param string query The incomming full query string (PubMed format)
+	* @param string replacement The replacement to apply ($1 is the original term)
+	* @return string The query string with replacements applied
+	*/
+	replaceMesh: function(q, replacement) {
+		return q.replace(/"(.+?)"\[MESH\]/ig, (line, mesh) => {
+			return replacement.replace('$1', mesh);
+		});
+	},
+
+	/**
+	* Simple text replacer wrapped in lodash handlers
+	* This is really just STRING.replace() for lodash
+	* @param string query The query to operate on
+	* @param string|regexp search The search query to execute
+	* @param string|regexp replacement The replacement to apply
+	*/
+	replace: function(q, search, replacement) {
+		return q.replace(search, replacement);
+	},
+});
+// }}}
+
 app.controller('PolyglotSearchController', function($scope, Assets) {
 	$scope.query = '';
 
@@ -37,33 +92,17 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 	};
 	// }}}
 
-	// Utility functions {{{
-	$scope._replaceJunk = function(q) {
-		return q.replace(/[“”«»„’']/g, '"');
-	};
-
-	/**
-	* Wrap all non-logical non-empty lines in brackets
-	* @param string query The input query to wrap
-	* @return string The output query wrapped with brackets
-	*/
-	$scope._wrapLines = function(q) {
-		return q.split("\n").map(function(line) {
-			line = _.trim(line);
-			if (!line) return line; // Empty line
-			if (/^(AND|OR)$/i.test(line)) return line; // Logical line - dont wrap
-			return '(' + line + ')';
-		}).join("\n");
-	};
-	// }}}
-
 	// Search engines {{{
 	$scope.engines = [
 		{
 			id: 'pubmed',
 			title: 'PubMed',
 			rewriter: function(q) { 
-				return $scope._replaceJunk($scope._wrapLines(q));
+				return _(q)
+					.wrapLines()
+					.replaceJunk()
+					.replaceMesh('"$1"[MESH]')
+					.value();
 			},
 			linker: function(engine) {
 				return {
@@ -79,10 +118,11 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 			id: 'cochrane',
 			title: 'Cochrane CENTRAL',
 			rewriter: function(q) { 
-				return $scope._replaceJunk($scope._wrapLines(q))
-					.replace(/"(.+?)"\[MESH\]/ig, (line, mesh) => {
-						return '[mh "' + mesh + '"]';
-					});
+				return _(q)
+					.wrapLines()
+					.replaceJunk()
+					.replaceMesh('[mh "$1"]')
+					.value();
 			},
 			linker: function(engine) {
 				return {
@@ -124,11 +164,12 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 			id: 'embase',
 			title: 'Embase',
 			rewriter: function(q) { 
-				return $scope._replaceJunk($scope._wrapLines(q))
+				return _(q)
+					.wrapLines()
+					.replaceJunk()
 					.replace("'", '')
-					.replace(/"(.+?)"\[MESH\]/ig, (line, mesh) => {
-						return "'" + mesh + "'/exp";
-					});
+					.replaceMesh("'$1'/exp")
+					.value();
 			},
 			linker: function(engine) {
 				return {
@@ -152,7 +193,9 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 			id: 'webofscience',
 			title: 'Web of Science',
 			rewriter: function(q) { 
-				return $scope._replaceJunk($scope._wrapLines(q))
+				return _(q)
+					.wrapLines()
+					.replaceJunk()
 					.replace(/"(.+?)"\[MESH\] (AND|OR) /ig, '')
 					.replace(/"(.+?)"\[MESH\]/ig, '');
 			},
@@ -202,6 +245,7 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 
 	$scope.$watch('query', function() {
 		$scope.engines.forEach(function(engine) {
+			$scope.activeEngine = engine;
 			engine.query = engine.rewriter(_.clone($scope.query));
 		});
 	});
