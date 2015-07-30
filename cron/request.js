@@ -93,7 +93,7 @@ module.exports = function(finish, task) {
 				})
 				.then(function(next) {
 					new email({
-						from: config.library.request.email.from,
+						from: config.library.request.email.from || task.settings.user.title.email,
 						to: config.library.request.email.to,
 						cc: config.library.request.email.cc,
 						bcc: config.library.request.email.bcc,

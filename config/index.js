@@ -55,7 +55,7 @@ var defaults = {
 	library: {
 		request: {
 			email: {
-				from: 'noreply@crebp-sra.com',
+				from: null, // Set to falsy to use users own email
 				to: 'ddeliver@bond.edu.au',
 				cc: undefined,
 				bcc: 'matt_carter@bond.edu.au',
