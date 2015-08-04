@@ -2,7 +2,7 @@
 * Load references belonging to a library
 * NOTE: Requires nesting within a controller that provides $scope.library
 */
-app.controller('libraryReferencesController', function($scope, $filter, $window, References, Settings) {
+app.controller('libraryReferencesController', function($scope, $filter, $httpParamSerializer, $window, References, Settings) {
 	$scope.references = null;
 	
 	// Data loading {{{
