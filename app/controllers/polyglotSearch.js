@@ -76,7 +76,7 @@ _.mixin({
 });
 // }}}
 
-app.controller('PolyglotSearchController', function($scope, Assets) {
+app.controller('PolyglotSearchController', function($scope, $httpParamSerializer, $window, Assets) {
 	$scope.query = '';
 
 	// MeSH auto-complete {{{
@@ -199,18 +199,11 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 			},
 			linker: function(engine) {
 				return {
-					method: 'POST',
-					action: 'http://www.embase.com.ezproxy.bond.edu.au/rest/searchresults/executeSearch',
+					method: 'GET',
+					action: 'http://www.embase.com.ezproxy.bond.edu.au/search',
 					fields: {
-						module: 'SubmitQuery',
-						search_type: 'advanced',
-						search_action: 'search',
-						rand: Math.random() * 999999,
-						search_query: engine.query,
-						tico_scope: 'doc',
-						search_startyear: 2011,
-						search_endyear: (new Date).getYear(),
-						yearsAll: 'on'
+						sb: 'y',
+						search_query: engine.query.replace(/\n+/g, ' '),
 					},
 				};
 			},
@@ -279,13 +272,22 @@ app.controller('PolyglotSearchController', function($scope, Assets) {
 
 	$scope.openEngine = function(engine) {
 		var linker = engine.linker(engine);
-		$('#engineForm').remove();
-		$('<form id="engineForm" target="_blank" action="' + linker.action + '" method="' + linker.method + '" style="display: none"></form>').appendTo($('body'))
-		_.forEach(linker.fields, (v, k) => {
-			$('<input name="' + k + '"/>')
-				.attr('value', v)
-				.appendTo($('#engineForm'));
-		});
-		$('#engineForm').submit();
+		switch (linker.method) {
+			case 'POST':
+			case 'GET':
+				$('#engineForm').remove();
+				$('<form id="engineForm" target="_blank" action="' + linker.action + '" method="' + linker.method + '" style="display: none"></form>').appendTo($('body'))
+				_.forEach(linker.fields, (v, k) => {
+					$('<input name="' + k + '"/>')
+						.attr('value', v)
+						.appendTo($('#engineForm'));
+				});
+				$('#engineForm').submit();
+				break;
+			case 'GET-DIRECT':
+				// Special case to just open a new window directly with the search query encoded
+				console.log('URL', linker.action + '?' + $httpParamSerializer(linker.fields));
+				$window.open(linker.action + '?' + $httpParamSerializer(linker.fields), '_blank');
+		}
 	};
 });
