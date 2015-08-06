@@ -1,3 +1,49 @@
+/* Header {{{ */
+.header {
+	float: right;
+	margin: 0;
+	border-bottom: none;
+}
+
+.header a {
+	text-decoration: none;
+}
+
+.header img {
+	margin-right: 20px;
+}
+
+.brand {
+	float: left;
+	font-size: 30px;
+	margin-top: 13px;
+}
+
+.brand:hover {
+	text-decoration: none;
+}
+
+body.navbar-fixed {
+	padding-top: 65px;
+}
+
+.sidebar.fixed {
+	top: 65px;
+}
+
+.ace-nav {
+	60px;
+}
+
+.ace-nav li {
+	line-height: 65px;
+	max-height: 65px;
+}
+
+.ace-nav li a {
+	padding: 10px 15px !important;
+}
+/* }}} */
 /* Fonts {{{ */
 @font-face {
 	font-family: 'Open Sans';
