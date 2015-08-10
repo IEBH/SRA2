@@ -96,7 +96,7 @@
 					<li><a ng-click="selectAction('invert')">Invert selection</a></li>
 				</ul>
 			</li>
-			<li ng-if="isEditable && tags && tags.length" class="btn-group">
+			<li ng-if="isEditable && hasTags" class="btn-group">
 				<a class="btn btn-info dropdown-toggle" data-toggle="dropdown">Tag <i class="fa fa-chevron-down"></i></a>
 				<ul class="dropdown-menu">
 					<li ng-repeat="tag in tags | filter:{meta:false}"><a ng-click="selectAction('tag', tag)"><i class="fa fa-tag"></i> {{tag.title}}</a></li>
@@ -126,7 +126,7 @@
 		<p>{{references.length | number}} / {{library.referenceCount | number}} loaded</p>
 	</div>
 
-	<ul ng-if="tags && tags.length" class="nav nav-tabs" id="tag-filter">
+	<ul ng-if="hasTags" class="nav nav-tabs" id="tag-filter">
 		<li ng-repeat="tag in tags track by tag._id" ng-class="activeTag._id == tag._id && 'active'">
 			<a href="#/libraries/{{library._id}}?tag={{tag._id}}">
 				<i ng-if="tag.icon" ng-class="tag.icon"></i>
@@ -165,7 +165,7 @@
 						<li><a ng-click="selectAction('all')">Select all</a></li>
 						<li><a ng-click="selectAction('none')">Select none</a></li>
 						<li><a ng-click="selectAction('invert')">Invert selection</a></li>
-						<li ng-if="tags && tags.length">
+						<li ng-if="hasTags">
 							<a>Select by tag <i class="pull-right fa fa-caret-right"></i></a>
 							<ul class="dropdown-menu">
 								<li ng-repeat="tag in tags | filter:{meta:false}"><a ng-click="selectAction('byTag', tag)">
@@ -188,7 +188,7 @@
 				<i ng-if="sort=='title'" ng-class="!sortReverse ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
 			</a></th>
 			<th>Authors</th>
-			<th ng-if="tags && tags.length" width="150px">Tags</th>
+			<th ng-if="hasTags" width="150px">Tags</th>
 			<th ng-if="isScreening" width="70px"><a ng-click="setSort('screening.weight')">
 				Weight
 				<i ng-if="sort=='screening.weight'" ng-class="!sortReverse ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
@@ -213,7 +213,7 @@
 					<em ng-if="::(!reference.authors || !reference.authors.length)">none</em>
 				</a>
 			</td>
-			<td ng-if="tags && tags.length">
+			<td ng-if="hasTags">
 				<a ng-click="editTags(reference)"> 
 					<span ng-repeat="tag in reference.tags" class="tag" style="background: {{tagsObj[tag].color}}">{{tagsObj[tag].title}}</span>
 					<i class="fa fa-pencil show-on-hover"></i>

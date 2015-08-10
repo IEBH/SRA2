@@ -2,6 +2,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	$scope.loading = true;
 	$scope.library = null;
 	$scope.tags = null;
+	$scope.hasTags = false; // True if its not just meta tags
 	$scope.tagsObj = null; // Object lookup for tags
 	$scope.activeTag = null;
 	
@@ -95,6 +96,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 					return tag;
 					// }}}
 				})
+			$scope.hasTags = _.some($scope.tags, {meta: false});
 			if ($location.search()['tag']) $scope.activeTag = _.find($scope.tags, {_id: $location.search()['tag']});
 		});
 		// }}}
