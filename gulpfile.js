@@ -75,12 +75,15 @@ gulp.task('load:models', ['load:db'], function(finish) {
 * Compile all JS files into the build directory
 */
 gulp.task('scripts', ['load:config'], function() {
+	var hasErr;
 	return gulp.src(paths.scripts)
 		.pipe(gplumber({
 			errorHandler: function(err) {
 				gutil.beep();
 				gutil.log(colors.red('ERROR DURING BUILD'));
+				notify({message: err.name + '\n' + err.message, title: config.title + ' - JS Error'}).write(err);
 				process.stdout.write(err.stack);
+				hasErr = err;
 				this.emit('end');
 			},
 		}))
@@ -92,7 +95,10 @@ gulp.task('scripts', ['load:config'], function() {
 		.pipe(gulpIf(config.gulp.minifyJS, uglify({mangle: false})))
 		.pipe(gulpIf(config.gulp.debugJS, sourcemaps.write()))
 		.pipe(gulp.dest(paths.build))
-		.pipe(notify({message: 'Rebuilt frontend scripts', title: config.title}));
+		.on('end', function() {
+			if (!hasErr)
+				notify({message: 'Rebuilt frontend scripts', title: config.title}).write(0);
+		});
 });
 
 

@@ -13,7 +13,7 @@ var spawn = require('child_process').spawn;
 * @date 2015-01-13
 */
 gulp.task('af-deploy', ['load:config'], function(done) {
-	if (!config.deploy || !config.deploy.appfog || !config.deploy.appfog.profile) return next('Config values missing for config.deploy.appfog.profile');
+	if (!config.deploy || !config.deploy.appfog || !config.deploy.appfog.profile) return done('Config values missing for config.deploy.appfog.profile');
 
 	async()
 		.parallel([

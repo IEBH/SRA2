@@ -27,9 +27,10 @@ gulp.task('nodemon', ['load:config', 'build'], function(finish) {
 	})
 		.on('start', function() {
 			if (runCount > 0) return;
-			notify({message: 'Server started', title: config.title}).write();
+			notify({message: 'Server started', title: config.title}).write(0);
 		})
 		.on('restart', function() {
-			notify({message: 'Server restart #' + ++runCount, title: config.title}).write();
+			runCount++;
+			notify({message: 'Server restart #' + runCount, title: config.title}).write(0);
 		});
 });
