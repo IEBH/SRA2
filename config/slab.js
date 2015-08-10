@@ -5,4 +5,11 @@ module.exports = {
 	newrelic: {
 		enabled: false,
 	},
+	library: {
+		request: {
+			email: {
+				to: 'matt_carter@bond.edu.au',
+			},
+		},
+	},
 };

@@ -3,6 +3,8 @@ var async = require('async-chainable');
 var email = require('email').Email;
 var Libraries = require('../models/libraries');
 var moment = require('moment');
+var nodemailer = require('nodemailer');
+var nodemailerSendmail = require('nodemailer-sendmail-transport');
 var References = require('../models/references');
 
 module.exports = function(finish, task) {
@@ -92,15 +94,14 @@ module.exports = function(finish, task) {
 					);
 				})
 				.then(function(next) {
-					new email({
-						from: config.library.request.email.from || task.settings.user.title.email,
+					nodemailer.createTransport(nodemailerSendmail()).sendMail({
+						from: config.library.request.email.from || task.settings.user.email,
 						to: config.library.request.email.to,
 						cc: config.library.request.email.cc,
 						bcc: config.library.request.email.bcc,
 						subject: 'Document delivery request',
-						body: this.html,
-						bodyType: 'html',
-					}).send(next);
+						html: this.html,
+					}, next);
 				})
 				.then(function(next) {
 					task.history.push({type: 'response', response: this.response});
