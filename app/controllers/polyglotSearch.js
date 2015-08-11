@@ -70,6 +70,27 @@ _.mixin({
 	},
 
 	/**
+	* Replace adjacency markers
+	* e.g. Ovid 'NEAR3' => CENTRAL 'adj3'
+	* @param string q The query to operate on
+	* @param string engine The currently active engine
+	* @return string The query string with replacements applied
+	*/
+	replaceAdjacency: function(q, engine) {
+		[
+			/adj([0-9+]) /ig,
+			/NEAR([0-9+]) /ig,
+			/NEAR\/([0-9+]) /ig,
+		].forEach(function(re) {
+			q = q.replace(re, function(line, number) {
+				var out = engine.adjacency(engine, number);
+				return out ? out + ' ' : '';
+			});
+		});
+		return q;
+	},
+
+	/**
 	* Simple text replacer wrapped in lodash handlers
 	* This is really just STRING.replace() for lodash
 	* @param string query The query to operate on
@@ -133,6 +154,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.wrapLines()
 					.replaceJunk()
 					.replaceMesh('"$1"[MESH]', this)
+					.replaceAdjacency(this)
 					.value();
 			},
 			linker: function(engine) {
@@ -144,6 +166,9 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					},
 				};
 			},
+			adjacency: function(engine, number) {
+				return '';
+			},
 		},
 		{
 			id: 'cochrane',
@@ -154,6 +179,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.wrapLines()
 					.replaceJunk()
 					.replaceMesh('[mh "$1"]', this)
+					.replaceAdjacency(this)
 					.value();
 			},
 			linker: function(engine) {
@@ -191,6 +217,9 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					}
 				};
 			},
+			adjacency: function(engine, number) {
+				return 'NEAR' + number;
+			},
 		},
 		{
 			id: 'embase',
@@ -202,6 +231,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceJunk()
 					.replace("'", '')
 					.replaceMesh("'$1'/exp", this)
+					.replaceAdjacency(this)
 					.value();
 			},
 			linker: function(engine) {
@@ -214,6 +244,9 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					},
 				};
 			},
+			adjacency: function(engine, number) {
+				return 'NEAR/' + number;
+			},
 		},
 		{
 			id: 'webofscience',
@@ -225,6 +258,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceJunk()
 					.replace(/"(.+?)"\[MESH\] (AND|OR) /ig, '')
 					.replace(/"(.+?)"\[MESH\]/ig, '')
+					.replaceAdjacency(this)
 					.value();
 			},
 			linker: function(engine) {
@@ -266,6 +300,9 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 						rs_sort_by: 'PY.D;LD.D;SO.A;VL.D;PG.A;AU.A',
 					},
 				};
+			},
+			adjacency: function(engine, number) {
+				return '';
 			},
 		},
 	];
