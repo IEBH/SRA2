@@ -22,7 +22,7 @@ gulp.task('pm2-deploy', ['load:config'], function(finish) {
 
 		// External execs required to refresh project {{{
 		.exec('git pull')
-		.exec('npm install')
+		.exec('npm install --ignore-scripts')
 		.exec('bower install --allow-root')
 		.exec('gulp build')
 		// }}}
