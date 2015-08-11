@@ -305,6 +305,32 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return '';
 			},
 		},
+		{
+			id: 'cinahl',
+			title: 'CINAHL',
+			aliases: ['cinahl', 'ci', 'cnal'],
+			rewriter: function(q) { 
+				return _(q)
+					.wrapLines()
+					.replaceJunk()
+					.replace("'", '')
+					.replaceMesh('(MH "$1+")', this)
+					.replaceAdjacency(this)
+					.value();
+			},
+			linker: function(engine) {
+				return {
+					method: 'POST',
+					action: 'http://web.a.ebscohost.com.ezproxy.bond.edu.au/ehost/resultsadvanced',
+					fields: {
+						bquery: engine.query,
+					},
+				};
+			},
+			adjacency: function(engine, number) {
+				return 'N' + number;
+			},
+		},
 	];
 	// }}}
 
