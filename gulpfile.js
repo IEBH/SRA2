@@ -74,13 +74,14 @@ gulp.task('load:models', ['load:db'], function(finish) {
 /**
 * Compile all JS files into the build directory
 */
+var scriptBootCount = 0;
 gulp.task('scripts', ['load:config'], function() {
 	var hasErr;
 	return gulp.src(paths.scripts)
 		.pipe(gplumber({
 			errorHandler: function(err) {
 				gutil.beep();
-				gutil.log(colors.red('ERROR DURING BUILD'));
+				gutil.log(colors.red('ERROR DURING JS BUILD'));
 				notify({message: err.name + '\n' + err.message, title: config.title + ' - JS Error'}).write(err);
 				process.stdout.write(err.stack);
 				hasErr = err;
@@ -97,7 +98,11 @@ gulp.task('scripts', ['load:config'], function() {
 		.pipe(gulp.dest(paths.build))
 		.on('end', function() {
 			if (!hasErr)
-				notify({message: 'Rebuilt frontend scripts', title: config.title}).write(0);
+				notify({
+					title: config.title,
+					message: 'Rebuilt frontend scripts #' + ++scriptBootCount,
+					icon: __dirname + '/gulp-tasks/icons/angular.png',
+				}).write(0);
 		});
 });
 
@@ -105,14 +110,33 @@ gulp.task('scripts', ['load:config'], function() {
 /**
 * Compile all CSS files into the build directory
 */
+var cssBootCount = 0;
 gulp.task('css', ['load:config'], function() {
+	var hasErr = false;
 	return gulp.src(paths.css)
+		.pipe(gplumber({
+			errorHandler: function(err) {
+				gutil.beep();
+				gutil.log(colors.red('ERROR DURING CSS BUILD'));
+				notify({message: err.name + '\n' + err.message, title: config.title + ' - CSS Error'}).write(err);
+				process.stdout.write(err.stack);
+				hasErr = err;
+				this.emit('end');
+			},
+		}))
 		.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.init()))
 		.pipe(concat('site.min.css'))
 		.pipe(gulpIf(config.gulp.minifyCSS, minifyCSS()))
 		.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.write()))
 		.pipe(gulp.dest(paths.build))
-		.pipe(notify({message: 'Rebuilt frontend CSS', title: config.title}));
+		.on('end', function() {
+			if (!hasErr)
+				notify({
+					title: config.title,
+					message: 'Rebuilt frontend CSS #' + ++cssBootCount,
+					icon: __dirname + '/gulp-tasks/icons/css.png',
+				}).write(0);
+		});
 });
 
 

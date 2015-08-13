@@ -8,6 +8,7 @@
     "node": "0.10.x"
   },
   "scripts": {
+    "deploy": "gulp deploy",
     "postinstall": "gulp build",
     "start": "node server.js"
   },
@@ -46,7 +47,7 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.6",
-    "gulp-watch": "^4.3.4",
+    "gulp-watch": "^4.2.5",
     "levenshtein-dist": "^0.1.1",
     "lodash": "^3.10.1",
     "lodash-keyarrange": "^1.0.0",

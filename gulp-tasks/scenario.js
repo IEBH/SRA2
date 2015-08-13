@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var notify = require('gulp-notify');
 var scenario = require('gulp-mongoose-scenario');
 
 /**
@@ -11,5 +12,12 @@ gulp.task('scenario', ['load:models'], function(finish) {
 		.on('error', function(err) {
 			gutil.log('Error loading scenario'.red, err);
 		})
-		.on('end', finish);
+		.on('end', function(err) {
+			notify({
+				title: config.title,
+				message: 'Build database',
+				icon: __dirname + '/icons/mongo.png',
+			}).write(0);
+			finish(err);
+		});
 });
