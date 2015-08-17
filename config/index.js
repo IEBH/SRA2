@@ -27,6 +27,10 @@ var defaults = {
 	port: process.env.PORT || 80,
 	url: 'http://localhost',
 	secret: "dT2CsWwmEBPnggihyKlY3IXONBIY4Db/yt5y1qcRHXkylDxHfEPGAsPkG1ikpFMgPnE9TrghA4hXSmuf8DvrdwtXZHY4Zmg8VVFs9Ei2NRK3N",
+	access: {
+		lockdown: false, // Set to true to lock the site with the below users
+		users: [{user: 'user', pass: 'qwaszx'}],
+	},
 	contactEmail: 'matt_carter@bond.edu.au',
 	gulp: {
 		debugJS: true,
