@@ -19,6 +19,7 @@
     "angular-venn": "*",
     "angular-bs-text-highlight": "*",
     "angular-bs-tooltip": "*",
-    "smart-area": "~1.1.0"
+    "smart-area": "~1.1.0",
+    "angular-async-chainable": "*"
   }
 }
