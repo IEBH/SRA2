@@ -9,7 +9,6 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 	$scope.$watch('library', function() {
 		if (!$scope.library || !$scope.library._id) return;
 		if (!$scope._initialLoad) {
-			console.log('TRIGGER LOAD!');
 			$scope.refreshReferences();
 			$scope._initialLoad = true;
 		}
@@ -55,7 +54,7 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 			} else {
 				console.log('REQ', $scope.refChunk);
 				$scope.refChunk++;
-				$scope._refreshReferenceChunk();
+				$scope.$evalAsync($scope._refreshReferenceChunk);
 			}
 		});
 	};

@@ -214,7 +214,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 		});
 	} else {
 		$scope.library = {_id: $stateParams.id};
-		$scope.refresh();
+		$scope.$evalAsync($scope.refresh);
 	}
 
 	if ($location.search()['sort']) $scope.setSort($location.search()['sort']);

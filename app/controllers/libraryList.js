@@ -33,6 +33,6 @@ app.controller('libraryListController', function($scope, Libraries, References, 
 				// }}}
 		});
 	};
-	$scope.refresh();
+	$scope.$evalAsync($scope.refresh);
 	// }}}
 });
