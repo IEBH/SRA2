@@ -213,7 +213,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		// Reference {{{
 		.state('reference-view', {
 			url: '/references/:id',
-			views: {main: {templateUrl: '/partials/fixme.html'}},
+			views: {main: {templateUrl: '/partials/references/edit.html'}},
 			data: {
 				title: 'Reference',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
