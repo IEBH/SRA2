@@ -29,6 +29,7 @@ global.paths = {
 		'node_modules/',
 		'build/',
 		'data/',
+		'test/',
 	],
 	scripts: [
 		'app/**/*.js',
