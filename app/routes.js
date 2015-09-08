@@ -95,7 +95,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		})
 		.state('libraries-operation', {
-			url: '/libraries/{operation:copy|export|dedupe|screen|compare|tags|share|request|collabmatrix|clear|delete|fulltext}',
+			url: '/libraries/{operation:copy|export|dedupe|screen|compare|tags|share|request|collabmatrix|word-freq|clear|delete|fulltext}',
 			views: {main: {templateUrl: '/partials/libraries/operation.html'}},
 			data: {
 				title: 'Perform operation',
@@ -173,6 +173,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			views: {main: {templateUrl: '/partials/libraries/compare-review.html'}},
 			data: {
 				title: 'Comparison Results',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		.state('library-word-freq', {
+			url: '/libraries/:id/{operation:word-freq}',
+			views: {main: {templateUrl: '/partials/libraries/word-freq.html'}},
+			data: {
+				title: 'Word-Frequency Analysis',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})

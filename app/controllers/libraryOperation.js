@@ -99,6 +99,14 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 			urlExisting: '/libraries/:id/collabmatrix'
 		},
 		{
+			id: 'word-freq',
+			title: 'Collect word-frequency data',
+			allowExisting: true,
+			allowNew: true,
+			allowNonOwner: true,
+			urlExisting: '/libraries/:id/word-freq'
+		},
+		{
 			id: 'clear',
 			title: 'Clear the library',
 			allowExisting: true,

@@ -8,8 +8,9 @@ var app = angular.module('app', [
 	'ngResource',
 	'prettyBytes',
 	'ui.router',
-	'xeditable',
-	'smartArea'
+	'uiSwitch',
+	'smartArea',
+	'xeditable'
 ]);
 
 app.config(function($compileProvider) {

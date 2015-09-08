@@ -1,0 +1,58 @@
+<div ng-controller="libraryController"><div ng-controller="libraryWordFreqController">
+	<form ng-submit="submit()">
+		<div class="alert alert-info">
+			<p>Perform word-frequency analysis on the <strong>{{library.title}}</strong> reference library to find populat terms.</p>
+		</div>
+		<div class="form-horizontal">
+			<div ng-if="errors.length" class="alert alert-warning">
+				<ul>
+					<li ng-repeat="error in errors">{{error.text}}</li>
+				</ul>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-9 control-label">Deburr</label>
+				<div class="col-sm-9">
+					<switch ng-model="deburr" class="green"></switch>
+					<p class="help-block">Convert all <a href="https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)#Character_table">latin-1 supplementary letters</a> to basic latin letters and also remove <a href="https://en.wikipedia.org/wiki/Combining_Diacritical_Marks">combining diacritical marks</a>. e.g. <code> ̀ÕÑÎ ̵ÔÑ ́</code> becomes <code>ONION</code></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Ignore common terms</label>
+				<div class="col-sm-9">
+					<switch ng-model="deburr" class="green"></switch>
+					<p class="help-block">Remove all common english terms. e.g. <code>The</code>, <code>And</code>, <code>He</code>, <code>She</code>, <code>It</code></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Ignore numbers</label>
+				<div class="col-sm-9">
+					<switch ng-model="deburr" class="green"></switch>
+					<p class="help-block">Remove all numeric terms along with english varients. e.g. <code>123</code>, <code>Twenty</code>, <code>Five</code>, <code>107,108.42</code></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Weightings</label>
+				<div class="col-sm-9">
+					<table class="table table-stiped table-bordered">
+						<thead>
+							<tr>
+								<td>Term</td>
+								<td>Weighting</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="(val, key) in weights">
+								<td>{{key}}</td>
+								<td><input type="number" min="0" step="0.1" ng-model="val"/></td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="help-block">Adjust the weighting of terms found in different sections of a reference</p>
+				</div>
+			</div>
+		</div>
+		<div class="text-center">
+			<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Perform word-frequency analysis</button>
+		</div>
+	</form>
+</div></div>

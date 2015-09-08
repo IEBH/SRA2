@@ -75,8 +75,8 @@ module.exports = function(finish, task) {
 
 					if (task.settings.ignore.numbers) {
 						if (/^[0-9\.,]+$/.test(word)) return;
-						if (/^(one|two|three|four|five|six|seven|eight|nine|ten)/.test(word)) return;
-						if (/(one|two|three|four|five|six|seven|eight|nine)$/.test(word)) return;
+						if (/^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)/.test(word)) return;
+						if (/(one|two|three|four|five|six|seven|eight|nine|teen)$/.test(word)) return;
 						if (/^(twenty|thirty|fourty|fifty|sixty|seventy|eighty|ninety)/.test(word)) return;
 					}
 					// }}}
