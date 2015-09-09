@@ -1,0 +1,18 @@
+<div ng-controller="libraryController"><div ng-controller="libraryWordFreqReviewController">
+	<div ng-if="loading" class="alert alert-info text-center">
+		<div><i class="fa fa-spinner fa-spin fa-3x"></i></div>
+		<h3>Loading data...</h3>
+	</div>
+	<div ng-if="!loading" class="alert">
+		<h1>Word-frequency analysis results</h1>
+		<pre>{{task | pretty}}</pre>
+		<div class="pad-top">
+			<table class="table table-bordered table-striped">
+				<thead><tr>
+					<th>Word</th>
+					<th>Count</th>
+				</tr></thead>
+			</table>
+		</div>
+	</div>
+</div></div>

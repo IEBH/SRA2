@@ -1,7 +1,7 @@
 <div ng-controller="libraryController"><div ng-controller="libraryWordFreqController">
 	<form ng-submit="submit()">
 		<div class="alert alert-info">
-			<p>Perform word-frequency analysis on the <strong>{{library.title}}</strong> reference library to find populat terms.</p>
+			<p>Perform word-frequency analysis on the <strong>{{library.title}}</strong> reference library to find popular terms.</p>
 		</div>
 		<div class="form-horizontal">
 			<div ng-if="errors.length" class="alert alert-warning">
@@ -20,14 +20,14 @@
 				<label class="col-sm-3 control-label">Ignore common terms</label>
 				<div class="col-sm-9">
 					<switch ng-model="deburr" class="green"></switch>
-					<p class="help-block">Remove all common english terms. e.g. <code>The</code>, <code>And</code>, <code>He</code>, <code>She</code>, <code>It</code></p>
+					<p class="help-block">Remove all common English terms. e.g. <code>The</code>, <code>And</code>, <code>He</code>, <code>She</code>, <code>It</code></p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Ignore numbers</label>
 				<div class="col-sm-9">
 					<switch ng-model="deburr" class="green"></switch>
-					<p class="help-block">Remove all numeric terms along with english varients. e.g. <code>123</code>, <code>Twenty</code>, <code>Five</code>, <code>107,108.42</code></p>
+					<p class="help-block">Remove all numeric terms along with English variants. e.g. <code>123</code>, <code>Twenty</code>, <code>Five</code>, <code>107,108.42</code></p>
 				</div>
 			</div>
 			<div class="form-group">

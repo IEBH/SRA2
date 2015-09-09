@@ -184,6 +184,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
+		.state('library-word-freq-review', {
+			url: '/libraries/:id/word-freq/:taskid',
+			views: {main: {templateUrl: '/partials/libraries/word-freq-review.html'}},
+			data: {
+				title: 'Word-Frequency Analysis',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
 		.state('library-collabmatrix', {
 			url: '/libraries/:id/{operation:collabmatrix}',
 			views: {main: {templateUrl: '/partials/fixme.html'}},
