@@ -126,6 +126,10 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 				$rootScope.$broadcast('referenceBucket', $scope.selected.map(r => { return r._id }));
 				$location.path('/libraries/' + $scope.library._id + '/screen');
 				break;
+			case 'word-freq': // Operation -> Word-freq
+				$rootScope.$broadcast('referenceBucket', $scope.selected.map(r => { return r._id }));
+				$location.path('/libraries/' + $scope.library._id + '/word-freq');
+				break;
 			case 'delete':
 				$scope.selected.forEach(ref => {
 					ref.status = 'deleted';

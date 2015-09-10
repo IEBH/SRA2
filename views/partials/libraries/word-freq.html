@@ -1,4 +1,4 @@
-<div ng-controller="libraryController"><div ng-controller="libraryWordFreqController">
+<div ng-controller="libraryOperation"><div ng-controller="libraryWordFreqController">
 	<form ng-submit="submit()">
 		<div class="alert alert-info">
 			<p>Perform word-frequency analysis on the <strong>{{library.title}}</strong> reference library to find popular terms.</p>
@@ -10,23 +10,38 @@
 				</ul>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-9 control-label">Deburr</label>
+				<label class="col-sm-3 control-label">Filtering</label>
+				<div class="col-sm-9">
+					<div class="btn-group">
+						<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-filter"></i>
+							{{filter.title || 'Select a filter...'}}
+							<i class="fa fa-chevron-down"></i>
+						</a>
+						<ul class="dropdown-menu">
+							<li ng-repeat="f in filters"><a ng-click="setFilter(f)">{{f.title}}</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Deburr</label>
 				<div class="col-sm-9">
 					<switch ng-model="deburr" class="green"></switch>
-					<p class="help-block">Convert all <a href="https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)#Character_table">latin-1 supplementary letters</a> to basic latin letters and also remove <a href="https://en.wikipedia.org/wiki/Combining_Diacritical_Marks">combining diacritical marks</a>. e.g. <code> ̀ÕÑÎ ̵ÔÑ ́</code> becomes <code>ONION</code></p>
+					<p class="help-block">Convert all <a href="https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)#Character_table">latin-1 supplementary letters</a> to basic latin letters and also remove <a href="https://en.wikipedia.org/wiki/Combining_Diacritical_Marks">combining diacritical marks</a>. e.g. <code>ÕÑÎÔÑ</code> becomes <code>ONION</code></p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Ignore common terms</label>
 				<div class="col-sm-9">
-					<switch ng-model="deburr" class="green"></switch>
+					<switch ng-model="ignore.common" class="green"></switch>
 					<p class="help-block">Remove all common English terms. e.g. <code>The</code>, <code>And</code>, <code>He</code>, <code>She</code>, <code>It</code></p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Ignore numbers</label>
 				<div class="col-sm-9">
-					<switch ng-model="deburr" class="green"></switch>
+					<switch ng-model="ignore.numbers" class="green"></switch>
 					<p class="help-block">Remove all numeric terms along with English variants. e.g. <code>123</code>, <code>Twenty</code>, <code>Five</code>, <code>107,108.42</code></p>
 				</div>
 			</div>
@@ -41,9 +56,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="(val, key) in weights">
+							<tr ng-repeat="(key, val) in weights">
 								<td>{{key}}</td>
-								<td><input type="number" min="0" step="0.1" ng-model="val"/></td>
+								<td><input type="number" class="form-control" min="0" step="0.1" ng-model="val"/></td>
 							</tr>
 						</tbody>
 					</table>
