@@ -122,6 +122,7 @@ describe('Task: references-word-freq', function(){
 	});
 
 	it('should have a task result', function(finish) {
+		this.timeout(5 * 1000);
 		expect(task.result).to.be.an.object;
 		console.log('Top 10 results:',
 			_(task.result)
@@ -137,5 +138,6 @@ describe('Task: references-word-freq', function(){
 		expect(task.result['female']).to.equal(3);
 		expect(task.result['breast']).to.equal(17);
 		expect(task.result['histological']).to.equal(3);
+		finish();
 	});
 });
