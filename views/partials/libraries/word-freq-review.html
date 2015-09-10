@@ -5,13 +5,16 @@
 	</div>
 	<div ng-if="!loading" class="alert">
 		<h1>Word-frequency analysis results</h1>
-		<pre>{{task | pretty}}</pre>
 		<div class="pad-top">
 			<table class="table table-bordered table-striped">
 				<thead><tr>
 					<th>Word</th>
 					<th>Count</th>
 				</tr></thead>
+				<tr ng-repeat="word in task.result | orderBy:'-count' track by word.word">
+					<td>{{::word.word}}</td>
+					<td>{{::word.count | number}}</td>
+				</tr>
 			</table>
 		</div>
 	</div>
