@@ -11,6 +11,7 @@ app.controller('libraryWordFreqController', function($scope, $location, $rootSco
 		common: true,
 		numbers: true,
 	};
+	$scope.min = 3;
 
 	// Deal with breadcrumbs {{{
 	$scope.$watch('library', function() {
@@ -29,6 +30,7 @@ app.controller('libraryWordFreqController', function($scope, $location, $rootSco
 			deburr: $scope.deburr,
 			weights: $scope.weights,
 			ignore: $scope.ignore,
+			min: $scope.min,
 		}}).$promise.then(function(data) {
 			$location.path('/libraries/task/' + data._id);
 		});

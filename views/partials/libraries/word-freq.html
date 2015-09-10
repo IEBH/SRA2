@@ -46,6 +46,13 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-sm-3 control-label">Minimum word frequency</label>
+				<div class="col-sm-9">
+					<input ng-model="min" type="number" min="0" max="100" step="1" class="form-control"/>
+					<p class="help-block">Word frequencies below this number will not be shown. Set to <code>0</code> to display everything.</p>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-sm-3 control-label">Weightings</label>
 				<div class="col-sm-9">
 					<table class="table table-stiped table-bordered">

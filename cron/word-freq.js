@@ -8,7 +8,7 @@ module.exports = function(finish, task) {
 	async()
 		// Sanity checks {{{
 		.then(function(next) {
-			task.settings = _.defaults({
+			_.defaults(task.settings, {
 				deburr: true,
 				weights: { // Indicates the fields to be extracted and their weights
 					title: 1,
@@ -19,7 +19,8 @@ module.exports = function(finish, task) {
 					common: true,
 					numbers: true,
 				},
-			}, task.settings);
+				min: 3,
+			});
 			if (!task.settings) return next('.settings object must be present for request');
 			next();
 		})
@@ -87,6 +88,18 @@ module.exports = function(finish, task) {
 			});
 
 			nextRef();
+		})
+
+		// Apply settings.min
+		.then(function(next) {
+			var self = this;
+			if (!task.settings.min) return next();
+			
+			_.forEach(this.words, function(count, word) {
+				if (count < task.settings.min)
+					delete self.words[word];
+			});
+			next();
 		})
 		// }}}
 
