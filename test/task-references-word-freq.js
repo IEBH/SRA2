@@ -8,7 +8,7 @@ var moment = require('moment');
 var reflib = require('reflib');
 var request = require('superagent');
 
-describe('Task: references-word-freq', function(){
+describe('Task: word-freq', function(){
 	// Library specific info
 	var libraryFile = __dirname + '/data/endnote-2.xml';
 	var libraryCount = 5;
@@ -46,7 +46,7 @@ describe('Task: references-word-freq', function(){
 	it('should upload a test library', function(finish) {
 		this.timeout(60 * 1000);
 		agent.post(config.url + '/api/libraries/import')
-			.field('libraryTitle', 'TEST: references-word-freq')
+			.field('libraryTitle', 'TEST: word-freq')
 			.field('libraryExpires', '3 hours')
 			.field('json', 'true')
 			.attach('file', libraryFile)
@@ -79,7 +79,7 @@ describe('Task: references-word-freq', function(){
 	var task;
 	it('should queue up the word-frequency task', function(finish) {
 		this.timeout(60 * 1000);
-		agent.post(config.url + '/api/tasks/library/' + library._id + '/references-word-freq')
+		agent.post(config.url + '/api/tasks/library/' + library._id + '/word-freq')
 			.send({settings: {debug: true}})
 			.end(function(err, res) {
 				if (err) return finish(err);
@@ -124,20 +124,18 @@ describe('Task: references-word-freq', function(){
 	it('should have a task result', function(finish) {
 		this.timeout(5 * 1000);
 		expect(task.result).to.be.an.object;
-		console.log('Top 10 results:',
-			_(task.result)
-				.map(function(val, key) {
-					return {word: key, count: val};
-				})
-				.sortBy('-count')
+		expect(task.result.words).to.be.an.array;
+		/*console.log('Top 10 results:',
+			_(task.result.words)
+				.sortBy('-points')
 				.slice(0, 10)
 				.value()
-		);
+		);*/
 
-		expect(task.result['carcinomas']).to.equal(4);
-		expect(task.result['female']).to.equal(3);
-		expect(task.result['breast']).to.equal(17);
-		expect(task.result['histological']).to.equal(3);
+		expect(_.find(task.result.words, {word: 'carcinomas'}).points).to.equal(4);
+		expect(_.find(task.result.words, {word: 'female'}).points).to.equal(3);
+		expect(_.find(task.result.words, {word: 'breast'}).points).to.equal(17);
+		expect(_.find(task.result.words, {word: 'histological'}).points).to.equal(3);
 		finish();
 	});
 });

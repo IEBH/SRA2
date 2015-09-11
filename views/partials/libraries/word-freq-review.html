@@ -8,12 +8,28 @@
 		<div class="pad-top">
 			<table class="table table-bordered table-striped">
 				<thead><tr>
-					<th>Word</th>
-					<th>Count</th>
+					<th><a ng-click="setSort('word')">
+						Word
+						<i ng-if="sortCol == 'word'" class="fa" ng-class="sortAZ ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+					</a></th>
+					<th><a ng-click="setSort('unique')">
+						Unique
+						<i ng-if="sortCol == 'unique'" class="fa" ng-class="sortAZ ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+					</a></th>
+					<th ng-repeat="field in task.result.fields"><a ng-click="setSort(field)">
+						{{field | ucwords}}
+						<i ng-if="sortCol == field" class="fa" ng-class="sortAZ ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+					</a></th>
+					<th><a ng-click="setSort('points')">
+						Points
+						<i ng-if="sortCol == 'points'" class="fa" ng-class="sortAZ ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+					</a></th>
 				</tr></thead>
-				<tr ng-repeat="word in task.result | orderBy:'-count' track by word.word">
+				<tr ng-repeat="word in task.result.words | orderBy:sortCol:!sortAZ track by word.word">
 					<td>{{::word.word}}</td>
-					<td>{{::word.count | number}}</td>
+					<td>{{::word.unique | number}}</td>
+					<th ng-repeat="field in task.result.fields">{{::word[field] | number}}</th>
+					<td>{{::word.points | number}}</td>
 				</tr>
 			</table>
 		</div>

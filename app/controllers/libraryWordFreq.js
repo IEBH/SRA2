@@ -4,14 +4,17 @@ app.controller('libraryWordFreqController', function($scope, $location, $rootSco
 	$scope.deburr = true;
 	$scope.weights = {
 		title: 1,
-		keyword: 1,
+		keywords: 1,
 		abstract: 1,
 	};
 	$scope.ignore = {
 		common: true,
 		numbers: true,
 	};
-	$scope.min = 3;
+	$scope.min = {
+		points: 3,
+		unique: 0,
+	};
 
 	// Deal with breadcrumbs {{{
 	$scope.$watch('library', function() {

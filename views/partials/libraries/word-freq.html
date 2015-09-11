@@ -48,8 +48,15 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Minimum word frequency</label>
 				<div class="col-sm-9">
-					<input ng-model="min" type="number" min="0" max="100" step="1" class="form-control"/>
-					<p class="help-block">Word frequencies below this number will not be shown. Set to <code>0</code> to display everything.</p>
+					<input ng-model="min.points" type="number" min="0" max="100" step="1" class="form-control"/>
+					<p class="help-block">Words with points below this number will not be shown. Set to <code>0</code> to display everything.</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Minimum uniqueness</label>
+				<div class="col-sm-9">
+					<input ng-model="min.unique" type="number" min="0" max="100" step="1" class="form-control"/>
+					<p class="help-block">Words must occur in at least this number of references to be shown. Set to <code>0</code> to display everything.</p>
 				</div>
 			</div>
 			<div class="form-group">

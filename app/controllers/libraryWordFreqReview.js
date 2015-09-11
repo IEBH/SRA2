@@ -20,14 +20,18 @@ app.controller('libraryWordFreqReviewController', function($scope, $location, $r
 	Tasks.get({id: $stateParams.taskid}).$promise.then(function(task) {
 		$scope.loading = false;
 		$scope.task = task;
-		// Decorators {{{
-		$scope.task.result = _.map($scope.task.result, (count, word) => {
-			return {
-				word: word,
-				count: count,
-			};
-		});
-		// }}}
 	});
+	// }}}
+
+	// Table sorting {{{
+	$scope.sortCol = 'points';
+	$scope.sortAZ = false;
+	$scope.setSort = function(col) {
+		if ($scope.sortCol == col) { // Already sorted by this - switch dir
+			$scope.sortAZ = !$scope.sortAZ;
+		} else {
+			$scope.sortCol = col;
+		}
+	};
 	// }}}
 });
