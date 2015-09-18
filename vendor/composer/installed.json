@@ -1,0 +1,285 @@
+[
+    {
+        "name": "hashbang/waveform",
+        "version": "v1.4.0",
+        "version_normalized": "1.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/hash-bang/Waveform.git",
+            "reference": "9dc17b70b313ccb230a31785e16f131fcf587ae3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/hash-bang/Waveform/zipball/9dc17b70b313ccb230a31785e16f131fcf587ae3",
+            "reference": "9dc17b70b313ccb230a31785e16f131fcf587ae3",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.0.0"
+        },
+        "time": "2014-03-14 07:34:21",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "lib/waveform.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Matt Carter",
+                "email": "m@ttcarter.com",
+                "homepage": "https://github.com/hash-bang"
+            }
+        ],
+        "description": "PHP input validation make obscenely easy",
+        "homepage": "https://github.com/hash-bang/Waveform",
+        "keywords": [
+            "Forms",
+            "validation"
+        ]
+    },
+    {
+        "name": "hashbang/urlopts",
+        "version": "v1.2.0",
+        "version_normalized": "1.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/hash-bang/URLopts.git",
+            "reference": "8ede933c2e1d6d5a3b7150b4cbff8f9e188ffd0d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/hash-bang/URLopts/zipball/8ede933c2e1d6d5a3b7150b4cbff8f9e188ffd0d",
+            "reference": "8ede933c2e1d6d5a3b7150b4cbff8f9e188ffd0d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.0.0"
+        },
+        "time": "2014-04-08 04:41:11",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "lib/urlopts.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Matt Carter",
+                "email": "m@ttcarter.com",
+                "homepage": "https://github.com/hash-bang"
+            }
+        ],
+        "description": "Nicer looking URLs for key/value pairs for REST style operations",
+        "homepage": "https://github.com/hash-bang/URLopts",
+        "keywords": [
+            "rest",
+            "url"
+        ]
+    },
+    {
+        "name": "hashbang/pherl",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/hash-bang/Pherl.git",
+            "reference": "65eff9bcd4f85ece73be9bc4708d8888328703cb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/hash-bang/Pherl/zipball/65eff9bcd4f85ece73be9bc4708d8888328703cb",
+            "reference": "65eff9bcd4f85ece73be9bc4708d8888328703cb",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.0.0"
+        },
+        "time": "2014-03-21 05:58:11",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "lib/pherl.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Matt Carter",
+                "email": "m@ttcarter.com",
+                "homepage": "https://github.com/hash-bang"
+            }
+        ],
+        "description": "Perl like functionality for PHP",
+        "homepage": "https://github.com/hash-bang/Pherl",
+        "keywords": [
+            "arrays",
+            "functions",
+            "hashes",
+            "perl"
+        ]
+    },
+    {
+        "name": "phpmailer/phpmailer",
+        "version": "v5.2.9",
+        "version_normalized": "5.2.9.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPMailer/PHPMailer.git",
+            "reference": "73b61679809615850706f1dbf88e6df2ddc05745"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/73b61679809615850706f1dbf88e6df2ddc05745",
+            "reference": "73b61679809615850706f1dbf88e6df2ddc05745",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.0.0"
+        },
+        "require-dev": {
+            "phpdocumentor/phpdocumentor": "*",
+            "phpunit/phpunit": "4.1.*"
+        },
+        "time": "2014-09-26 18:33:30",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "class.phpmailer.php",
+                "class.pop3.php",
+                "class.smtp.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Jim Jagielski",
+                "email": "jimjag@gmail.com"
+            },
+            {
+                "name": "Marcus Bointon",
+                "email": "phpmailer@synchromedia.co.uk"
+            },
+            {
+                "name": "Andy Prevost",
+                "email": "codeworxtech@users.sourceforge.net"
+            },
+            {
+                "name": "Brent R. Matzelle"
+            }
+        ],
+        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "hashbang/joyst",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/hash-bang/Joyst.git",
+            "reference": "f8bcf396120884c5c77e3e8f016b8472e2cc2fb0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/hash-bang/Joyst/zipball/f8bcf396120884c5c77e3e8f016b8472e2cc2fb0",
+            "reference": "f8bcf396120884c5c77e3e8f016b8472e2cc2fb0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2015-02-20 01:28:51",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "classmap": [
+                "Joyst_Model.php",
+                "Joyst_Controller.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Matt Carter",
+                "email": "m@ttcarter.com",
+                "homepage": "https://github.com/hash-bang"
+            }
+        ],
+        "description": "CodeIgniter extension providing automated model functionality based on a DB schema",
+        "homepage": "https://github.com/hash-bang/Joyst",
+        "keywords": [
+            "codeigniter",
+            "database",
+            "model",
+            "schema"
+        ]
+    },
+    {
+        "name": "hashbang/reflib",
+        "version": "1.1.10",
+        "version_normalized": "1.1.10.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/hash-bang/RefLib.git",
+            "reference": "b4114e46af1d01580a2f210b0a5bace4bb60b977"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/hash-bang/RefLib/zipball/b4114e46af1d01580a2f210b0a5bace4bb60b977",
+            "reference": "b4114e46af1d01580a2f210b0a5bace4bb60b977",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.0.0"
+        },
+        "time": "2015-04-20 00:22:22",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "reflib.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Matt Carter",
+                "email": "m@ttcarter.com",
+                "homepage": "https://github.com/hash-bang"
+            }
+        ],
+        "description": "PHP module for managing a variety of citation reference libraries",
+        "homepage": "https://github.com/hash-bang/RefLib",
+        "keywords": [
+            "RIS",
+            "citations",
+            "endnote",
+            "library",
+            "references"
+        ]
+    }
+]

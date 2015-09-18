@@ -1,0 +1,27 @@
+{
+	"name": "hashbang/joyst",
+	"description": "CodeIgniter extension providing automated model functionality based on a DB schema",
+	"keywords": ["codeigniter", "model", "schema", "database"],
+	"homepage": "https://github.com/hash-bang/Joyst",
+	"type": "library",
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "Matt Carter",
+			"email": "m@ttcarter.com",
+			"homepage": "https://github.com/hash-bang"
+		}
+	],
+	"require": {
+		"php": ">=5.3.0"
+	},
+	"require-dev": {
+	},
+	"suggest": {
+	},
+	"config": {
+	},
+	"autoload": {
+		"classmap": ["Joyst_Model.php", "Joyst_Controller.php"]
+	}
+}

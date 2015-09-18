@@ -1,0 +1,149 @@
+/* Fonts {{{ */
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 300;
+	src: local('Open Sans Light'), local('OpenSans-Light'), url(../fonts/open-sans-300.woff) format('woff');
+}
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Open Sans'), local('OpenSans'), url(../fonts/open-sans-400.woff) format('woff');
+}
+/* }}} */
+/* LivIcon {{{ */
+.livicon {
+	display: inline-block;
+	line-height: inherit;
+	vertical-align: middle;
+}
+
+.livicon-bg {
+	position: relative;
+}
+
+.livicon-bg > div {
+	position: absolute;
+	width: 220px;
+	height: auto;
+	left: -20px;
+	top: 20px;
+	padding: 20px;
+	color: #fff;
+	font-size: 14px;
+}
+
+.livicon-bg:hover > div {
+	color: #A65808;
+}
+/* }}} */
+/* Reference menu {{{ */
+.navbar .nav .dropdown a {
+	text-overflow: ellipsis;
+	max-width: 400px;
+	overflow: hidden;
+}
+/* }}} */
+/* Style fixes {{{ */
+body {
+	overflow-x: hidden;
+}
+
+table a:hover {
+	text-decoration: none;
+}
+
+.hero-unit h1 {
+	margin: 0px !important;
+}
+
+/* Text-center missing for some reason */
+.text-center {
+	text-align: center;
+}
+
+/* Icons in dropdowns are too small */
+.dropdown > .btn > i {
+	font-size: 15pt;
+	line-height: 8px;
+}
+
+/* Icons in dropdown-menus are too cramped with text */
+.dropdown-menu > li > a > i {
+	margin-right: 6px;
+}
+
+/* Tooltip multi-line is too spaced out */
+.tooltip {
+	line-height: 150%;
+}
+
+/* WTF are Checkboxes hidden? */
+input[type=checkbox] {
+	opacity: 1 !important;
+}
+/* Radios look weird {{{ */
+.radio {
+	margin-bottom: 10px;
+	margin-top: 5px;
+}
+
+.radio input[type=radio] {
+	opacity: 1 !important;
+	margin-top: 3px;
+}
+/* }}} */
+/* }}} */
+/* Screening {{{ */
+.page-screening #reference-table .btn-default {
+	background-color: #F0F0F0 !important;
+	color: #424242 !important;
+	border-color: #DBDBDB;
+}
+/* }}} */
+/* Widget: Search basket {{{ */
+#basket > ul {
+	min-width: 400px;
+}
+
+#basket li > a {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+}
+/* }}} */
+/* FIXES: Theme {{{ */
+/* FIX: Make right aligned tabs not have a style {{{ */
+.nav-tabs li.pull-right {
+	margin-right: 1px;
+}
+
+.nav-tabs li.pull-right a {
+	border: none;
+	background: none;
+}
+/* }}} */
+/* FIX: Icons in sidebar are too squashed {{{ */
+.nav-list i.fa {
+	margin: 0 8px;
+}
+/* }}} */
+/* }}} */
+/* FIXES: Waveform {{{ */
+.waveform-readonly {
+	padding-top: 5px;
+	display: block;
+}
+
+.waveform-span {
+	padding: 5px 20px;
+}
+/* }}} */
+/* FIXMES: ng-include elements within a dropdown {{{ */
+.dropdown-menu > [ng-include] {
+	margin-left: -20px;
+}
+/* }}} */

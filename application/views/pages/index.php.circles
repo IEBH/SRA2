@@ -1,0 +1,27 @@
+<div class="pad">
+	<div class="hero-unit">
+		<h1><?=SITE_TITLE?></h1>
+		<p>Welcome to the CREBP Systematic Review Creator</p>
+
+		<div class="row-fluid pad-top">
+			<div class="span6 text-center">
+				<a href="/how-to" class="livicon livicon-bg morph" data-n="morph-c-s" data-s="220" data-c="#abbac3" data-hc="#FFE5CB" data-op="1">
+					<div>
+						<p class="center"><i class="livicon" data-n="notebook" data-s="64" data-c="#fff" data-hc="#A65808" data-op="1"></i><br><br>How to create a review</p>
+						<p class="center"></p>
+					</div>
+				</a>
+			</div>
+
+			<div class="span6 text-center">
+				<a href="/libraries/import" class="livicon livicon-bg morph" data-n="morph-c-s" data-s="220" data-c="#abbac3" data-hc="#FFE5CB" data-op="1">
+					<div>
+						<p class="center"><i class="livicon" data-n="upload" data-s="64" data-c="#fff" data-hc="#A65808" data-op="1"></i><br><br>Import EndNode XML</p>
+						<p class="center"></p>
+					</div>
+				</a>
+			</div>
+		</div>
+
+	</div>
+</div>

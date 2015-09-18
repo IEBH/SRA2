@@ -1,0 +1,17 @@
+.no-print {
+	display: none;
+}
+
+/* Fixes during print {{{ */
+.sidebar, .navbar, .breadcrumbs, .page-header {
+	display: none !important;
+}
+
+body {
+	padding-top: 0px !important;
+}
+
+.main-content {
+	margin: 0px !important;
+}
+/* }}} */

@@ -1,0 +1,27 @@
+{
+	"name": "hashbang/reflib",
+	"description": "PHP module for managing a variety of citation reference libraries",
+	"keywords": ["references", "citations", "library", "endnote", "ris"],
+	"homepage": "https://github.com/hash-bang/RefLib",
+	"type": "library",
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "Matt Carter",
+			"email": "m@ttcarter.com",
+			"homepage": "https://github.com/hash-bang"
+		}
+	],
+	"require": {
+		"php": ">=5.0.0"
+	},
+	"require-dev": {
+	},
+	"suggest": {
+	},
+	"config": {
+	},
+	"autoload": {
+		"classmap": ["reflib.php"]
+	}
+}

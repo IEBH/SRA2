@@ -1,0 +1,279 @@
+has,prefers,count
+"Al-Ansary LA","Ferroni E",2
+"Al-Ansary LA","Jefferson T",2
+"Al-Ansary LA","Thorning S",2
+"Alves Galvão MG","Alves da Cunha AJL",2
+"Alves Galvão MG","Rocha Crispino Santos MA",2
+"Alves da Cunha AJL","Alves Galvão MG",2
+"Alves da Cunha AJL","Rocha Crispino Santos MA",2
+"Bhutta ZA","Haider BA",3
+"Bhutta ZA","Lassi ZS",5
+"Bialy LM","Fernandes RM",2
+"Bialy LM","Hartling L",2
+"Bialy LM","Johnson DW",2
+"Bialy LM","Klassen TP",2
+"Bialy LM","Patel H",2
+"Bialy LM","Plint AC",2
+"Bialy LM","Tjosvold L",2
+"Bialy LM","Vandermeer B",2
+"Chang CC","Cheng AC",2
+"Cheng AC","Chang CC",2
+"Cripps AW","Nimmo GR",2
+"Cripps AW","Young MK",2
+"Cripps AW","van Driel ML",2
+"De Sutter AIM","van Driel ML",5
+"Del Mar CB","Dooley L",3
+"Del Mar CB","Farley R",2
+"Del Mar CB","Foxlee R",2
+"Del Mar CB","Glasziou PP",6
+"Del Mar CB","Hayward G",3
+"Del Mar CB","Heneghan CJ",4
+"Del Mar CB","Hoffmann T",2
+"Del Mar CB","Jefferson T",2
+"Del Mar CB","Jones MA",2
+"Del Mar CB","Perera R",3
+"Del Mar CB","Rovers MM",2
+"Del Mar CB","Spurling GKP",2
+"Del Mar CB","Thompson MJ",4
+"Del Mar CB","Thorning S",2
+"Del Mar CB","Venekamp RP",2
+"Del Mar CB","van Driel ML",2
+"Demicheli V","Di Pietrantonj C",4
+"Demicheli V","Ferroni E",2
+"Demicheli V","Jefferson T",3
+"Demicheli V","Rivetti A",2
+"Di Pietrantonj C","Demicheli V",4
+"Di Pietrantonj C","Ferroni E",2
+"Di Pietrantonj C","Jefferson T",3
+"Di Pietrantonj C","Rivetti A",2
+"Dong BR","Li T",2
+"Dong BR","Lin X",2
+"Dong BR","Liu GJ",3
+"Dong BR","Wu HM",3
+"Dong BR","Wu T",4
+"Dong BR","Yang M",5
+"Dooley L","Del Mar CB",3
+"Dooley L","Foxlee R",2
+"Elayaraja S","James S",2
+"Elayaraja S","Meleveedu R",2
+"Elayaraja S","Sathiyasekaran BWC",2
+"Elayaraja S","Shah PB",2
+"Fahey T","Smith SM",2
+"Farley R","Del Mar CB",2
+"Farley R","Spurling GKP",2
+"Fernandes RM","Bialy LM",2
+"Fernandes RM","Hartling L",2
+"Fernandes RM","Johnson DW",2
+"Fernandes RM","Klassen TP",2
+"Fernandes RM","Patel H",2
+"Fernandes RM","Plint AC",2
+"Fernandes RM","Tjosvold L",2
+"Fernandes RM","Vandermeer B",2
+"Ferroni E","Al-Ansary LA",2
+"Ferroni E","Demicheli V",2
+"Ferroni E","Di Pietrantonj C",2
+"Ferroni E","Jefferson T",3
+"Ferroni E","Thorning S",2
+"Foxlee R","Del Mar CB",2
+"Foxlee R","Dooley L",2
+"Gafter-Gvili A","Leibovici L",2
+"Gafter-Gvili A","Paul M",2
+"Gill P","Harnden A",2
+"Gill P","Perera R",2
+"Gill P","Wang K",2
+"Glasziou PP","Del Mar CB",6
+"Glasziou PP","Hayward G",3
+"Glasziou PP","Heneghan CJ",3
+"Glasziou PP","Perera R",3
+"Glasziou PP","Rovers MM",2
+"Glasziou PP","Thompson MJ",3
+"Glasziou PP","Venekamp RP",2
+"Granados Rugeles C","Rojas-Reyes MX",2
+"Haider BA","Bhutta ZA",3
+"Haider BA","Lassi ZS",3
+"Harnden A","Gill P",2
+"Harnden A","Perera R",3
+"Harnden A","Wang K",3
+"Hartling L","Bialy LM",2
+"Hartling L","Fernandes RM",2
+"Hartling L","Johnson DW",2
+"Hartling L","Klassen TP",3
+"Hartling L","Patel H",2
+"Hartling L","Plint AC",2
+"Hartling L","Tjosvold L",2
+"Hartling L","Vandermeer B",2
+"Hayward G","Del Mar CB",3
+"Hayward G","Glasziou PP",3
+"Hayward G","Heneghan CJ",3
+"Hayward G","Perera R",3
+"Hayward G","Thompson MJ",3
+"Heneghan CJ","Del Mar CB",4
+"Heneghan CJ","Glasziou PP",3
+"Heneghan CJ","Hayward G",3
+"Heneghan CJ","Perera R",4
+"Heneghan CJ","Thompson MJ",5
+"Hoffmann T","Del Mar CB",2
+"James S","Elayaraja S",2
+"James S","Meleveedu R",2
+"James S","Sathiyasekaran BWC",2
+"James S","Shah PB",2
+"Jefferson T","Al-Ansary LA",2
+"Jefferson T","Del Mar CB",2
+"Jefferson T","Demicheli V",3
+"Jefferson T","Di Pietrantonj C",3
+"Jefferson T","Ferroni E",3
+"Jefferson T","Jones MA",2
+"Jefferson T","Thomas RE",2
+"Jefferson T","Thorning S",2
+"Jiang L","Wu T",2
+"Johnson DW","Bialy LM",2
+"Johnson DW","Fernandes RM",2
+"Johnson DW","Hartling L",2
+"Johnson DW","Klassen TP",5
+"Johnson DW","Patel H",2
+"Johnson DW","Plint AC",2
+"Johnson DW","Russell K",2
+"Johnson DW","Tjosvold L",2
+"Johnson DW","Vandermeer B",3
+"Jones MA","Del Mar CB",2
+"Jones MA","Jefferson T",2
+"Kabra SK","Lodha R",2
+"Klassen TP","Bialy LM",2
+"Klassen TP","Fernandes RM",2
+"Klassen TP","Hartling L",3
+"Klassen TP","Johnson DW",5
+"Klassen TP","Patel H",2
+"Klassen TP","Plint AC",2
+"Klassen TP","Russell K",2
+"Klassen TP","Tjosvold L",2
+"Klassen TP","Vandermeer B",3
+"Lassi ZS","Bhutta ZA",5
+"Lassi ZS","Haider BA",3
+"Leibovici L","Gafter-Gvili A",2
+"Leibovici L","Paul M",2
+"Li K","Wu T",2
+"Li S","Wu T",2
+"Li T","Dong BR",2
+"Li T","Liu GJ",2
+"Li T","Wu HM",2
+"Li T","Yang M",2
+"Li Y","Zhang M",2
+"Lin X","Dong BR",2
+"Lin X","Yang M",2
+"Liu GJ","Dong BR",3
+"Liu GJ","Li T",2
+"Liu GJ","Wu HM",2
+"Liu GJ","Yang M",3
+"Lodha R","Kabra SK",2
+"McGuire T","van Driel ML",2
+"Meleveedu R","Elayaraja S",2
+"Meleveedu R","James S",2
+"Meleveedu R","Sathiyasekaran BWC",2
+"Meleveedu R","Shah PB",2
+"Meremikwu MM","Oduwole O",2
+"Ngamjarus C","Thanaviratananich S",2
+"Nimmo GR","Cripps AW",2
+"Nimmo GR","Young MK",2
+"Oduwole O","Meremikwu MM",2
+"Patel H","Bialy LM",2
+"Patel H","Fernandes RM",2
+"Patel H","Hartling L",2
+"Patel H","Johnson DW",2
+"Patel H","Klassen TP",2
+"Patel H","Plint AC",2
+"Patel H","Tjosvold L",2
+"Patel H","Vandermeer B",2
+"Paul M","Gafter-Gvili A",2
+"Paul M","Leibovici L",2
+"Perera R","Del Mar CB",3
+"Perera R","Gill P",2
+"Perera R","Glasziou PP",3
+"Perera R","Harnden A",3
+"Perera R","Hayward G",3
+"Perera R","Heneghan CJ",4
+"Perera R","Thompson MJ",4
+"Perera R","Wang K",3
+"Plint AC","Bialy LM",2
+"Plint AC","Fernandes RM",2
+"Plint AC","Hartling L",2
+"Plint AC","Johnson DW",2
+"Plint AC","Klassen TP",2
+"Plint AC","Patel H",2
+"Plint AC","Tjosvold L",2
+"Plint AC","Vandermeer B",2
+"Rivetti A","Demicheli V",2
+"Rivetti A","Di Pietrantonj C",2
+"Rocha Crispino Santos MA","Alves Galvão MG",2
+"Rocha Crispino Santos MA","Alves da Cunha AJL",2
+"Rojas-Reyes MX","Granados Rugeles C",2
+"Rovers MM","Del Mar CB",2
+"Rovers MM","Glasziou PP",2
+"Rovers MM","Venekamp RP",2
+"Russell K","Johnson DW",2
+"Russell K","Klassen TP",2
+"Sathiyasekaran BWC","Elayaraja S",2
+"Sathiyasekaran BWC","James S",2
+"Sathiyasekaran BWC","Meleveedu R",2
+"Sathiyasekaran BWC","Shah PB",2
+"Shah PB","Elayaraja S",2
+"Shah PB","James S",2
+"Shah PB","Meleveedu R",2
+"Shah PB","Sathiyasekaran BWC",2
+"Smith SM","Fahey T",2
+"Spurling GKP","Del Mar CB",2
+"Spurling GKP","Farley R",2
+"Thanaviratananich S","Ngamjarus C",2
+"Thomas RE","Jefferson T",2
+"Thompson MJ","Del Mar CB",4
+"Thompson MJ","Glasziou PP",3
+"Thompson MJ","Hayward G",3
+"Thompson MJ","Heneghan CJ",5
+"Thompson MJ","Perera R",4
+"Thorning S","Al-Ansary LA",2
+"Thorning S","Del Mar CB",2
+"Thorning S","Ferroni E",2
+"Thorning S","Jefferson T",2
+"Tjosvold L","Bialy LM",2
+"Tjosvold L","Fernandes RM",2
+"Tjosvold L","Hartling L",2
+"Tjosvold L","Johnson DW",2
+"Tjosvold L","Klassen TP",2
+"Tjosvold L","Patel H",2
+"Tjosvold L","Plint AC",2
+"Tjosvold L","Vandermeer B",2
+"Vandermeer B","Bialy LM",2
+"Vandermeer B","Fernandes RM",2
+"Vandermeer B","Hartling L",2
+"Vandermeer B","Johnson DW",3
+"Vandermeer B","Klassen TP",3
+"Vandermeer B","Patel H",2
+"Vandermeer B","Plint AC",2
+"Vandermeer B","Tjosvold L",2
+"Venekamp RP","Del Mar CB",2
+"Venekamp RP","Glasziou PP",2
+"Venekamp RP","Rovers MM",2
+"Wang K","Gill P",2
+"Wang K","Harnden A",3
+"Wang K","Perera R",3
+"Wu HM","Dong BR",3
+"Wu HM","Li T",2
+"Wu HM","Liu GJ",2
+"Wu HM","Yang M",3
+"Wu T","Dong BR",4
+"Wu T","Jiang L",2
+"Wu T","Li K",2
+"Wu T","Li S",2
+"Wu T","Yang M",2
+"Yang M","Dong BR",5
+"Yang M","Li T",2
+"Yang M","Lin X",2
+"Yang M","Liu GJ",3
+"Yang M","Wu HM",3
+"Yang M","Wu T",2
+"Young MK","Cripps AW",2
+"Young MK","Nimmo GR",2
+"Zhang M","Li Y",2
+"van Driel ML","Cripps AW",2
+"van Driel ML","De Sutter AIM",5
+"van Driel ML","Del Mar CB",2
+"van Driel ML","McGuire T",2

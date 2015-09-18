@@ -1,0 +1,18 @@
+Options -Indexes
+
+SetEnv PHPRC /home/crebp/public_html/crebp-sra.com/php.ini
+
+# Rewrite fun
+RewriteEngine on
+# RewriteBase /
+
+# Dont do anything if its in the /lab directory
+RewriteRule ^lab/		- [L]
+
+# If the file exists
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^(.*)$		- [L]
+
+# Throw everything else at Codeigniter
+RewriteCond $1 !^(index\.php|images|robots\.txt)
+RewriteRule ^(.*)$ index.php/$1 [L]

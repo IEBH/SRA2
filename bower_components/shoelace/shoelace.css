@@ -1,0 +1,59 @@
+/* Pull-center - Center block or text elements (similar to pull-left & pull-right */
+.pull-center {
+	margin: 0 auto;
+	display: block;
+	text-align: center;
+}
+
+td.pull-center, th.pull-center {
+	text-align: center !important;
+	display: table-cell;
+}
+
+.pull-reset {
+	text-align: left;
+}
+
+.pull-vcenter, table.pull-vcenter td, .pull-vcenter i {
+	vertical-align: middle;
+}
+
+/* Padding controls */
+.pad, .pad-small, .pad-large, .pad-huge {display:block;}
+.pad, table.pad td {padding: 20px;}
+.pad-small, table.pad-small td {padding: 10px;}
+.pad-large, table.pad-large td {padding: 30px;}
+.pad-huge, table.pad-huge td {padding: 50px;}
+.pad-top, .pad-top-small, .pad-top-large, .pad-top-huge {display:block;}
+.pad-top, table.pad-top td {padding-top: 20px;}
+.pad-top-small, table.pad-top-small td {padding-top: 10px;}
+.pad-top-large, table.pad-top-large td {padding-top: 30px;}
+.pad-top-huge, table.pad-top-huge td {padding-top: 50px;}
+.pad-right, .pad-right-small, .pad-right-large, .pad-right-huge {display:block;}
+.pad-right, table.pad-right td {padding-right: 20px;}
+.pad-right-small, table.pad-right-small td {padding-right: 10px;}
+.pad-right-large, table.pad-right-large td {padding-right: 30px;}
+.pad-right-huge, table.pad-right-huge td {padding-right: 50px;}
+.pad-bottom, .pad-bottom-small, .pad-bottom-large, .pad-bottom-huge {display:block;}
+.pad-bottom, table.pad-bottom td {padding-bottom: 20px;}
+.pad-bottom-small, table.pad-bottom-small td {padding-bottom: 10px;}
+.pad-bottom-large, table.pad-bottom-large td {padding-bottom: 30px;}
+.pad-bottom-huge, table.pad-bottom-huge td {padding-bottom: 50px;}
+.pad-left, .pad-left-small, .pad-left-large, .pad-left-huge {display:block;}
+.pad-left, table.pad-left td {padding-left: 20px;}
+.pad-left-small, table.pad-left-small td {padding-left: 10px;}
+.pad-left-large, table.pad-left-large td {padding-left: 30px;}
+.pad-left-huge, table.pad-left-huge td {padding-left: 50px;}
+
+/* Font sizes */
+.font-tiny {font-size: 8pt;}
+.font-small {font-size: 10pt;}
+.font-medium {font-size: 14pt;}
+.font-large {font-size: 16pt;}
+.font-huge {font-size: 20pt;}
+
+.input-stretch {width: 100%;}
+
+.dropdown-fix-clipping.open {
+	display: block;
+}

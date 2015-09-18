@@ -1,0 +1,10 @@
+{
+    "require": {
+	"hashbang/waveform": "~1.4.0",
+	"hashbang/urlopts": "~1.2.0",
+        "hashbang/joyst": "dev-master",
+        "hashbang/pherl": "~1.0.0",
+        "hashbang/reflib": "~1.1.4",
+        "phpmailer/phpmailer": "~5.2"
+    }
+}

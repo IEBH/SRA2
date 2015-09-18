@@ -1,0 +1,6 @@
+name: waveform
+version: 1.0.0
+compatibility: 2.0.2
+#dependencies:
+#  spark-1: 1.0.0
+tags: ["forms", "input", "validation"]

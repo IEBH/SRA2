@@ -1,0 +1,200 @@
+<div id="schema">
+	<!-- References -->
+	<div class="ref" data-ref="interventions" data-icon="icon-medkit">Interventions</div>
+	<div class="ref" data-ref="comparisons" data-icon="icon-beaker">Comparisons</div>
+	<div class="ref" data-ref="outcome" data-icon="icon-exchange">Outcomes</div>
+	<div class="ref" data-ref="study-type" data-icon="icon-book">Study-type</div>
+	<div class="ref" data-ref="patients-disease" data-icon="icon-group">Patients-disease</div>
+
+	<!-- TITLE -->
+	<div class="section" data-title="Title" data-icon="icon-quote-left">
+		<div class="section-option" data-title="<a>interventions</a> vs <a>comparisons</a> for <a>outcomes</a> a systematic review of <a>study</a>">
+			<a data-ref="interventions">INTERVENTIONS</a>
+			vs
+			<a data-ref="comparisons">COMPARISONS</a>
+			for
+			<a data-ref="outcome">OUTCOME</a>:
+			a
+			<a>
+				<ul>
+					<li>systematic review</li>
+					<li>meta-analysis</li>
+					<li>systematic review and meta-analysis</li>
+				</ul>
+			</a>
+			of
+			<a data-ref="study-type">STUDY-TYPE</a>
+		</div>
+		<div class="section-option" data-title="Systematic review of <a>title</a>">
+			<a>
+				<ul>
+					<li>systematic review</li>
+					<li>meta-analysis</li>
+					<li>systematic review and meta-analysis</li>
+				</ul>
+			</a>
+			of
+			<a>TITLE</a>
+		</div>
+	</div>
+
+	<!-- OBJECTIVES -->
+	<div class="section" data-title="Objectives" data-icon="icon-screenshot">
+		<div class="section-option" data-title="To assess the effect on <a>outcomes</a> of <a>interventions</a> verses <a>comparisons</a> in <a>patients/diseases</a>">
+			To assess the effect on
+			<a data-ref="outcome">OUTCOME</a>
+			of
+			<a data-ref="interventions">INTERVENTIONS</a>
+			verses
+			<a data-ref="comparisons">COMPARISONS</a>
+			in
+			<a data-ref="patients-disease">PATIENTS-DISEASE</a>
+		</div>
+		<div class="section-option" data-title="Randomized trials of <a>interventions</a> in <a>patients/diseases</a>">
+			Randomized trials of
+			<a data-ref="interventions">INTERVENTIONS</a>
+			in
+			<a data-ref="patients-disease">PATIENTS-DISEASE</a>
+		</div>
+	</div>
+
+	<!-- ELIGIBILITY CRITERIA -->
+	<div class="section" data-title="Eligibility Criteria" data-icon="icon-group">
+		<div class="section-option" data-title="We included <a>study type</a> testing <a>interventions</a> versus <a>comparisons</a> in <a>patients/diseases</a>">
+			We included
+			<a data-ref="study-type">STUDY-TYPE</a>
+			testing
+			<a data-ref="interventions">INTERVENTIONS</a>
+			versus
+			<a data-ref="comparisons">COMPARISONS</a>
+			in
+			<a data-ref="patients-disease">PATIENTS-DISEASE</a>
+		</div>
+	</div>
+
+	<!-- INFORMATION SOURCES -->
+	<div class="section" data-title="Information Sources" data-icon="icon-book">
+		<div class="section-option" data-title="We performed a literature search of trials using <a>sources</a> we retrieved <a>languages</a> for review. We searched for <a>search-type</a>">
+			We performed a literature search of trials using
+			<a>databases or sources</a>,
+			we retrieved articles that were
+			<a>
+				<ul>
+					<li>in English</li>
+					<li>in English - and non English languages</li>
+				</ul>
+			</a>
+			<a>
+				<ul>
+					<li>published</li>
+					<li>un-published</li>
+				</ul>
+			</a>
+			for review.
+			<a>any other restrictions</a>
+		</div>
+	</div>
+
+	<!-- RISK OF BIAS -->
+	<div class="section" data-title="Risk of Bias" data-icon="icon-warning-sign">
+		<div class="section-option" data-title="Risk of bias was assessed regarding <a>list</a>">
+			Risk of bias was assessed regarding
+			<!-- FIXME: CHECKLIST -->
+			<a>randomisation, allocation concealment, blinding, incomplete outcome data, selective outcome reporting and other biases.</a>
+		</div>
+	</div>
+
+	<!-- INCLUDED STUDIES -->
+	<div class="section" data-title="Included Studies" data-icon="icon-sitemap">
+		<div class="section-option" data-title="We included <a>number</a> of trials involving <a>number</a> of participants">
+			We included
+			<a>number</a>
+			trials involving
+			<a>number</a>
+			participants.
+		</div>
+	</div>
+
+	<!-- SYNTHESIS OF RESULTS & DESCRIPTION OF EFFECTS -->
+	<div class="section" data-title="Synthesis of results & description of effects" data-icon="icon-beaker">
+		<div class="section-option" data-title="<a>text</a>">
+			<a>
+				<ul class="compound" data-text="Compound Question">
+					<li>
+						Significance <select>
+							<option value="ss">Statistically Significant</option>
+							<option value="nss">Not Statistically Significant</option>
+						</select>
+					</li>
+					<li>
+						Importance <select>
+							<option value="cip">Clinically Important (Positive)</option>
+							<option value="up">Unimportant (Positive)</option>
+							<option value="un">Unimportant (Negative)</option>
+							<option value="cin">Clinically Important (Negative)</option>
+						</select>
+					</li>
+					<li class="value" data-combination="ss-cip">SS-CIP</li>
+					<li class="value" data-combination="ss-up">SS-UP</li>
+					<li class="value" data-combination="ss-un">SS-UN</li>
+					<li class="value" data-combination="ss-cin">SS-CIN</li>
+					<li class="value" data-combination="nss-cip">NSS-CIP</li>
+					<li class="value" data-combination="nss-up">NSS-UP</li>
+					<li class="value" data-combination="nss-un">NSS-UN</li>
+					<li class="value" data-combination="nss-cin">NSS-CIN</li>
+				</ul>
+			</a>
+		</div>
+	</div>
+
+	<!-- STRENGTHS AND LIMITATIONS -->
+	<div class="section" data-title="Strengths and Limitations" data-icon="icon-resize-small">
+		<div class="section-option" data-title="<a>interventions</a> vs <a>comparisons</a> for <a>outcomes</a> a systematic review of <a>study</a>">
+			<a>
+				<ul>
+					<li>Do not include</li>
+					<li>bias strength</li>
+					<li>bias limitation</li>
+				</ul>
+			</a>
+			<a>
+				<ul>
+					<li>Do not include</li>
+					<li>hetrogeneity strength</li>
+					<li>hetrogeneity limitation</li>
+				</ul>
+			</a>
+		</div>
+	</div>
+
+	<!-- INTERPRETATION -->
+	<div class="section" data-title="Interpretation" data-icon="icon-eye-open">
+		<div class="section-option" data-title="<a>text</a>">
+			<a>text</a>
+		</div>
+	</div>
+
+	<!-- FUNDING -->
+	<div class="section" data-title="Funding" data-icon="icon-money">
+		<div class="section-option" data-title="No was no external funding for the review">
+			No was no external funding for the review
+		</div>
+		<div class="section-option" data-title="This review was funded by <a>funding source</a>">
+			This review was funded by
+			<a>funding source</a>
+		</div>
+	</div>
+
+	<!-- REGISTRATION -->
+	<div class="section" data-title="Registration" data-icon="icon-pencil">
+		<div class="section-option" data-title="<a>text</a>">
+			Registration:
+			<a>
+				<ul>
+					<li>PROSPERO</li>
+				</ul>
+			</a>
+			<a>registration number</a>
+		</div>
+	</div>
+</div>

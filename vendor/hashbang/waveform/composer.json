@@ -1,0 +1,27 @@
+{
+	"name": "hashbang/waveform",
+	"description": "PHP input validation make obscenely easy",
+	"keywords": ["forms", "validation"],
+	"homepage": "https://github.com/hash-bang/Waveform",
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Matt Carter",
+			"email": "m@ttcarter.com",
+			"homepage": "https://github.com/hash-bang"
+		}
+	],
+	"require": {
+		"php": ">=5.0.0"
+	},
+	"require-dev": {
+	},
+	"suggest": {
+	},
+	"config": {
+	},
+	"autoload": {
+		"files": ["lib/waveform.php"]
+	}
+}

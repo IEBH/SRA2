@@ -1,0 +1,14 @@
+{
+  "name": "shoelace",
+  "version": "1.0.0",
+  "homepage": "https://github.com/hash-bang/Shoelace",
+  "authors": [
+    "Matt Carter <m@ttcarter.com>"
+  ],
+  "description": "A small addon library for Bootstrap providing additional JS and CSS hacks",
+  "keywords": [
+    "bootstrap",
+    "addon"
+  ],
+  "license": "MIT"
+}

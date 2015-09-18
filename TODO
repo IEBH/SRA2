@@ -1,0 +1,31 @@
+Short term changes
+	x Login "username" -> "email"
+	- Select entire reference button
+	- Dedupe selection saving (currently displays "feature not available")
+	- RIS export
+		# "I export as a RIS file to import into Endnote - the journal names are missing and most of the year published - actually most of the information is missing - the fields that are importing are author, title,  DOI, a year for the Medline records but not the others etc"
+	- Test sharing system
+		- Via email
+		- Via URL
+
+Medium term changes
+	- Abstract creator tool
+	- Welcome email
+	- Convert from one format to another - e.g. Import RIS, output EndNoteXML
+	- Reference editing
+	- Add "Unfiled" tab to screening process
+	- Add abstract preview to screening process
+	- Add quick shortuts to screening process
+		- Space to 'exclude'
+		- Other buttons (maybe 1..n) to tag
+
+Long term changes
+	- Integrate abstract creator tool
+	- Bootstrap 3
+	- Fontawesome 3
+	- Angular
+		- Reference editing
+	- Change theme to be more professional
+		- Lose sidebar and switch to topbar style
+		- References should be EndNote style one line only layout
+	- Depreciate: controller/tools, views/tools/ [replacement is the collabmatrix already built]
