@@ -20,7 +20,7 @@
 						{{field | ucwords}}
 						<i ng-if="sortCol == field" class="fa" ng-class="sortAZ ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
 					</a></th>
-					<th><a ng-click="setSort('points')">
+					<th style="min-width: 150px"><a ng-click="setSort('points')">
 						Points
 						<i ng-if="sortCol == 'points'" class="fa" ng-class="sortAZ ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
 					</a></th>
@@ -29,7 +29,13 @@
 					<td>{{::word.word}}</td>
 					<td>{{::word.unique | number}}</td>
 					<th ng-repeat="field in task.result.fields">{{::word[field] | number}}</th>
-					<td>{{::word.points | number}}</td>
+					<td>
+						<div class="progress active">
+							<div class="progress-bar" style="width: {{::word.width}}%;">
+								{{::word.points | number}}
+							</div>
+						</div>
+					</td>
 				</tr>
 			</table>
 		</div>

@@ -20,6 +20,15 @@ app.controller('libraryWordFreqReviewController', function($scope, $location, $r
 	Tasks.get({id: $stateParams.taskid}).$promise.then(function(task) {
 		$scope.loading = false;
 		$scope.task = task;
+		// Decorators {{{
+		// task.result.fields[].width {{{
+		$scope.maxPoints = Math.max.apply(this, task.result.words.map(word => word.points));
+		$scope.task.result.words = $scope.task.result.words.map(word => {
+			word.width = Math.ceil((word.points / $scope.maxPoints) * 100);
+			return word;
+		});
+		// }}}
+		// }}}
 	});
 	// }}}
 
