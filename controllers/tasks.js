@@ -67,7 +67,6 @@ app.get('/api/tasks/:id', function(req, res) {
 	async()
 		// Sanity checks {{{
 		.then(function(next) {
-			if (!req.user) return next('You are not logged in');
 			if (!req.params.id) return next('id must be specified');
 			next();
 		})
