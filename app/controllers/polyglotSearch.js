@@ -145,6 +145,14 @@ _.mixin({
 	},
 
 	/**
+	* Removes redundent speachmarks for single search terms
+	* e.g. "single"[tiab] => single[tiab]
+	*/
+	replaceRedundentEncasing: function(q, engine) {
+		return q.replace(/"([a-z0-9\-_]+?)"/ig, '$1');
+	},
+
+	/**
 	* Simple text replacer wrapped in lodash handlers
 	* This is really just STRING.replace() for lodash
 	* @param string query The query to operate on
@@ -212,6 +220,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceSearchAbstracts('"$1"[ab]', this)
 					.replaceSearchTitleAbstracts('"$1"[tiab]', this)
 					.replaceAdjacency(this)
+					.replaceRedundentEncasing(this)
 					.value();
 			},
 			linker: function(engine) {
@@ -240,6 +249,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceSearchAbstracts('"$1".ab.', this)
 					.replaceSearchTitleAbstracts('"$1".tw.', this)
 					.replaceAdjacency(this)
+					.replaceRedundentEncasing(this)
 					.value();
 			},
 			linker: function(engine) {
@@ -268,6 +278,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceSearchAbstracts('"$1":ab', this)
 					.replaceSearchTitleAbstracts('"$1":ti;ab', this)
 					.replaceAdjacency(this)
+					.replaceRedundentEncasing(this)
 					.value();
 			},
 			linker: function(engine) {
@@ -323,6 +334,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceSearchAbstracts('"$1":ab', this)
 					.replaceSearchTitleAbstracts('"$1":ti;ab', this)
 					.replaceAdjacency(this)
+					.replaceRedundentEncasing(this)
 					.value();
 			},
 			linker: function(engine) {
@@ -353,6 +365,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceSearchAbstracts('', this)
 					.replaceSearchTitleAbstracts('', this)
 					.replaceAdjacency(this)
+					.replaceRedundentEncasing(this)
 					.value();
 			},
 			linker: function(engine) {
@@ -414,6 +427,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceSearchAbstracts('', this)
 					.replaceSearchTitleAbstracts('', this)
 					.replaceAdjacency(this)
+					.replaceRedundentEncasing(this)
 					.value();
 			},
 			linker: function(engine) {
