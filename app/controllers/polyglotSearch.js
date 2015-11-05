@@ -147,7 +147,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 	$scope.engines = [
 		{
 			id: 'pubmed',
-			aliases: ['pubmed', 'p', 'pm', 'pubm', 'ovid'],
+			aliases: ['pubmed', 'p', 'pm', 'pubm'],
 			title: 'PubMed',
 			rewriter: function(q) { 
 				return _(q)
@@ -168,6 +168,31 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 			},
 			adjacency: function(engine, number) {
 				return '';
+			},
+		},
+		{
+			id: 'ovid',
+			aliases: ['ovid', 'o', 'ov'],
+			title: 'Ovid Medline',
+			rewriter: function(q) { 
+				return _(q)
+					.wrapLines()
+					.replaceJunk()
+					.replaceMesh('exp $1/', this)
+					.replaceAdjacency(this)
+					.value();
+			},
+			linker: function(engine) {
+				return {
+					method: 'POST',
+					action: 'http://ovidsp.tx.ovid.com.ezproxy.bond.edu.au/sp-3.17.0a/ovidweb.cgi',
+					fields: {
+						textBox: engine.query,
+					},
+				};
+			},
+			adjacency: function(engine, number) {
+				return 'adj' + number;
 			},
 		},
 		{
