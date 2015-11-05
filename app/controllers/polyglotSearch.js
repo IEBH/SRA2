@@ -70,6 +70,60 @@ _.mixin({
 	},
 
 	/**
+	* Replace search times for titles
+	* e.g. "Something"[ti] => "Something".tw.
+	* @param string q The query to operate on
+	* @param string engine The currently active engine
+	* @return string The query string with replacements applied
+	*/
+	replaceSearchTitles: function(q, replacement, engine) {
+		[
+			/"(.+?)"\[TI\]/ig, // Pubmed style
+			/"(.+?)"\.TI\./ig, // Ovid style
+		].forEach(function(re) {
+			q = q.replace(re, (line, term) => replacement.replace('$1', term));
+		});
+		return q;
+	},
+
+
+	/**
+	* Replace search times for abstracts
+	* e.g. "Something"[ab] => "Something".tw.
+	* @param string q The query to operate on
+	* @param string engine The currently active engine
+	* @return string The query string with replacements applied
+	*/
+	replaceSearchAbstracts: function(q, replacement, engine) {
+		[
+			/"(.+?)"\[AB\]/ig, // Pubmed style
+			/"(.+?)"\.AB\./ig, // Ovid style
+		].forEach(function(re) {
+			q = q.replace(re, (line, term) => replacement.replace('$1', term));
+		});
+		return q;
+	},
+
+
+	/**
+	* Replace search times for titles + abstracts
+	* e.g. "Something"[tiab] => "Something".tw.
+	* @param string q The query to operate on
+	* @param string engine The currently active engine
+	* @return string The query string with replacements applied
+	*/
+	replaceSearchTitleAbstracts: function(q, replacement, engine) {
+		[
+			/"(.+?)"\[TIAB\]/ig, // Pubmed style
+			/"(.+?)"\.TW\./ig, // Ovid style
+		].forEach(function(re) {
+			q = q.replace(re, (line, term) => replacement.replace('$1', term));
+		});
+		return q;
+	},
+
+
+	/**
 	* Replace adjacency markers
 	* e.g. Ovid 'NEAR3' => CENTRAL 'adj3'
 	* @param string q The query to operate on
@@ -154,6 +208,9 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.wrapLines()
 					.replaceJunk()
 					.replaceMesh('"$1"[MESH]', this)
+					.replaceSearchTitles('"$1"[ti]', this)
+					.replaceSearchAbstracts('"$1"[ab]', this)
+					.replaceSearchTitleAbstracts('"$1"[tiab]', this)
 					.replaceAdjacency(this)
 					.value();
 			},
@@ -179,6 +236,9 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.wrapLines()
 					.replaceJunk()
 					.replaceMesh('exp $1/', this)
+					.replaceSearchTitles('"$1".ti.', this)
+					.replaceSearchAbstracts('"$1".ab.', this)
+					.replaceSearchTitleAbstracts('"$1".tw.', this)
 					.replaceAdjacency(this)
 					.value();
 			},
@@ -204,6 +264,9 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.wrapLines()
 					.replaceJunk()
 					.replaceMesh('[mh "$1"]', this)
+					.replaceSearchTitles('"$1":ti', this)
+					.replaceSearchAbstracts('"$1":ab', this)
+					.replaceSearchTitleAbstracts('"$1":ti;ab', this)
 					.replaceAdjacency(this)
 					.value();
 			},
@@ -256,6 +319,9 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceJunk()
 					.replace("'", '')
 					.replaceMesh("'$1'/exp", this)
+					.replaceSearchTitles('"$1":ti', this)
+					.replaceSearchAbstracts('"$1":ab', this)
+					.replaceSearchTitleAbstracts('"$1":ti;ab', this)
 					.replaceAdjacency(this)
 					.value();
 			},
@@ -283,6 +349,9 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceJunk()
 					.replace(/"(.+?)"\[MESH\] (AND|OR) /ig, '')
 					.replace(/"(.+?)"\[MESH\]/ig, '')
+					.replaceSearchTitles('', this)
+					.replaceSearchAbstracts('', this)
+					.replaceSearchTitleAbstracts('', this)
 					.replaceAdjacency(this)
 					.value();
 			},
@@ -340,6 +409,10 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceJunk()
 					.replace("'", '')
 					.replaceMesh('(MH "$1+")', this)
+					// FIXME: Needs combining like this: TI (title1 OR title2 OR title3) OR AB (ab1 OR ab2 OR ab3)
+					.replaceSearchTitles('', this)
+					.replaceSearchAbstracts('', this)
+					.replaceSearchTitleAbstracts('', this)
 					.replaceAdjacency(this)
 					.value();
 			},
