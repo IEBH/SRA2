@@ -382,6 +382,15 @@ td .badge {
 	left: 2px;
 }
 /* }}} */
+/* FIX: Hovering the login button {{{ */
+.nav.ace-nav li.light-blue:hover {
+	background: #CCCCCC;
+}
+
+.nav.ace-nav li.light-blue:hover a {
+	background: transparent;
+}
+/* }}} */
 
 textarea.sa-realArea:focus{
     -webkit-text-fill-color: #393939;
