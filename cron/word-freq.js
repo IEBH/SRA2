@@ -53,7 +53,7 @@ module.exports = function(finish, task) {
 
 		.forEach('references', function(nextRef, ref) {
 			var self = this;
-			var hasUnique = false; // Whether this reference has already been counted in the word.unique count
+			var uniques = {}; // Words detected in this reference
 
 			_.keys(task.settings.weights).forEach(function(key) {
 				if (!ref[key]) return;
@@ -98,9 +98,9 @@ module.exports = function(finish, task) {
 
 					self.words[word].points += (task.settings.weights[key] || 1);
 					self.words[word][key]++;
-					if (!hasUnique) {
+					if (!uniques[word]) {
 						self.words[word].unique++;
-						hasUnique = true;
+						uniques[word] = true;
 					}
 				});
 			});
