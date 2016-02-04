@@ -64,7 +64,7 @@ module.exports = function(finish, task) {
 				if (task.settings.deburr) val = _.deburr(val);
 
 				// Strip punctuation
-				val = val.replace(/[\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.]+/g, '');
+				val = val.replace(/[=\+\-\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.]+/g, '');
 
 				// Split up if not already an array
 				if (!_.isArray(val)) val = val.split(/\s+/);
@@ -75,7 +75,7 @@ module.exports = function(finish, task) {
 					if (!word) return;
 					if (
 						task.settings.ignore.common &&
-						/^(a|also|am|an|and|any|are|as|at|be|been|but|by|can|did|do|get|had|has|have|he|him|i|if|in|into|is|it|its|itself|last|may|me|met|more|no|not|of|on|only|or|over|see|set|she|should|some|such|that|them|then|there|these|the|they|this|to|up|upon|use|used|was|well|were|which|who|will|with|we)$/.test(word)
+						/^(a|also|am|an|and|any|are|as|at|be|been|but|by|can|could|did|do|for|get|had|has|have|he|him|i|if|in|into|is|it|its|itself|last|may|me|met|more|n|no|not|p|of|on|only|or|our|over|see|set|she|should|some|such|than|that|them|then|their|there|these|the|they|this|to|up|upon|use|used|was|well|were|which|who|will|with|we|vs)$/.test(word)
 					) return;
 
 					if (task.settings.ignore.numbers) {
