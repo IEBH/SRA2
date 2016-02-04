@@ -61,7 +61,7 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 		.set('tags', {}) // Lookup array for tags
 		.forEach(req.files, function(next, file) {
 			var self = this;
-			rl.parse(rl.identify(file.originalname) || 'endnotexml', fs.readFileSync(file.path))
+			rl.parse(rl.identify(file.originalname) || 'endnotexml', file.buffer.toString())
 				.on('error', function(err) {
 					next(err);
 				})
