@@ -5,7 +5,7 @@
 var _ = require('lodash')
 	.mixin(require('lodash-keyarrange'));
 var async = require('async-chainable');
-var colors = require('colors');
+var colors = require('chalk');
 var Libraries = require('../models/libraries');
 var References = require('../models/references');
 var sha1 = require('sha1');

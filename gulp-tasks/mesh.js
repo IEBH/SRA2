@@ -4,7 +4,7 @@
 
 var _ = require('lodash');
 var async = require('async-chainable');
-var colors = require('colors');
+var colors = require('chalk');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var fs = require('fs');

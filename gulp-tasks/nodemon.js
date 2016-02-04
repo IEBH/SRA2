@@ -19,6 +19,11 @@ gulp.task('nodemon', ['load:config', 'build'], function(finish) {
 		gulp.start('css');
 	});
 
+	watch(paths.partials, function() {
+		gutil.log('Rebuild Angular partials...');
+		gulp.start('partials');
+	});
+
 	var runCount = 0;
 	nodemon({
 		script: 'server.js',
@@ -37,8 +42,8 @@ gulp.task('nodemon', ['load:config', 'build'], function(finish) {
 			runCount++;
 			notify({
 				title: config.title,
-				message: 'Server restart #' + runCount,
-				icon: __dirname + '/icons/node.png',
+				message: 'Server restart' + (++runCount > 1 ? ' #' + runCount : ''),
+				icon: __dirname + '/icons/nodemon.png',
 			}).write(0);
 		});
 });

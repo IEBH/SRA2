@@ -6,7 +6,8 @@ global.config = require('./config');
 if (config.newrelic.enabled) require('newrelic');
 // }}}
 // Requires {{{
-var colors = require('colors');
+var _ = require('lodash');
+var colors = require('chalk');
 var bodyParser = require('body-parser');
 var express = require('express');
 var layouts = require('express-ejs-layouts')
@@ -39,9 +40,8 @@ if (config.access && config.access.lockdown) {
 // }}}
 // Settings / Parsing {{{
 app.use(require('cookie-parser')());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(require('multer')());
+app.use(bodyParser.json({limit: '16mb'}));
+app.use(bodyParser.urlencoded({limit: '16mb', extended: false}));
 // }}}
 // Settings / Cookies + Sessions {{{
 app.use(require('connect-flash')());

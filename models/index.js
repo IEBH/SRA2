@@ -1,3 +1,3 @@
 var requireDir = require('require-dir');
 
-requireDir('./');
+module.exports = requireDir('./', {camelcase: true});

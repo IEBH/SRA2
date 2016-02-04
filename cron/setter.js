@@ -5,7 +5,7 @@
 * @param object task.settings The mask to set
 */
 var async = require('async-chainable');
-var colors = require('colors');
+var colors = require('chalk');
 var References = require('../models/references');
 
 module.exports = function(finish, task) {

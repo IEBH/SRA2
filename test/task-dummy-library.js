@@ -1,6 +1,6 @@
 global.config = require('../config');
 var async = require('async-chainable');
-var colors = require('colors');
+var colors = require('chalk');
 var expect = require('chai').expect;
 var fs = require('fs');
 var moment = require('moment');

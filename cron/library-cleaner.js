@@ -4,7 +4,7 @@
 * This worker is used for debugging the task worker and reporting system
 */
 var async = require('async-chainable');
-var colors = require('colors');
+var colors = require('chalk');
 var Libraries = require('../models/libraries');
 var References = require('../models/references');
 

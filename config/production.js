@@ -1,4 +1,4 @@
-var colors = require('colors');
+var colors = require('chalk');
 
 console.log(colors.bold.red('RUNNING IN PRODUCTION MODE'));
 

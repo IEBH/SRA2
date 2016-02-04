@@ -1,9 +1,10 @@
 var _ = require('lodash');
 var async = require('async-chainable');
-var colors = require('colors');
+var colors = require('chalk');
 var email = require('email').Email;
 var fs = require('fs');
 var Libraries = require('../models/libraries');
+var multer = require('multer');
 var moment = require('moment');
 var References = require('../models/references');
 var ReferenceTags = require('../models/referenceTags');
@@ -18,7 +19,7 @@ var strtotime = require('strtotime');
 * @param object req.body.libraryTitle Alternate method to populate library.title within a POST operation
 * @param string req.body.json If set the created (or modified) library record is returned instead of redirecting to the library page
 */
-app.post('/api/libraries/import', function(req, res) {
+app.post('/api/libraries/import', multer().any(), function(req, res) {
 	async()
 		.set('count', 0)
 		.then(function(next) {
