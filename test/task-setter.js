@@ -146,7 +146,7 @@ describe('Task: Setter', function(){
 					mlog.log('Dumping original library into ' + dumps.original);
 
 					var collection = _(refs)
-						.sortByAll(['isbn', 'title'])
+						.sortBy(['isbn', 'title'])
 						.map(function(i) {
 							return _.keyArrange(i);
 						})
@@ -158,7 +158,7 @@ describe('Task: Setter', function(){
 					mlog.log('Dumping post-processed library into ' + dumps.postProcess);
 
 					var collection = _(refsPost)
-						.sortByAll(['isbn', 'title'])
+						.sortBy(['isbn', 'title'])
 						.map(function(i) {
 							return _.keyArrange(i);
 						})
