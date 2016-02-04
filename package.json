@@ -1,6 +1,6 @@
 {
   "name": "crebp-sra",
-  "description": "Systematic Review Assistant from the Bond University Center for Research in Evidence-Based Practice",
+  "description": "Systematic Review Accelerator from the Bond University Center for Research in Evidence-Based Practice",
   "version": "0.0.0",
   "main": "server.js",
   "private": true,

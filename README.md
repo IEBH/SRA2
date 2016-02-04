@@ -1,6 +1,6 @@
-Systematic Review Assistant
-===========================
-The Systematic Review Assistant (SRA) project is based at the [Bond University Center for Research in Evidence-Based Practice](http://crebp.net.au) was originally conceived under the aim of drastically reducing the amount of time it takes to construct a Systematic Review using Information Technology.
+Systematic Review Accelerator
+=============================
+The Systematic Review Accelerator (SRA) project is based at the [Bond University Center for Research in Evidence-Based Practice](http://crebp.net.au) was originally conceived under the aim of drastically reducing the amount of time it takes to construct a Systematic Review using Information Technology.
 
 The assistance it gives researches when constructing reviews is split into a number of different modules:
 
