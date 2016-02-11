@@ -82,7 +82,7 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 				break;
 			case 'byTag':
 				$scope.references.forEach(ref => {
-					ref.selected = _.contains(ref.tags, operand._id);
+					ref.selected = _.includes(ref.tags, operand._id);
 				});
 				break;
 			case 'byNoTag':
@@ -91,13 +91,13 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 				});
 				break;
 			case 'tag':
-				if ($scope.selected.every(ref => { return _.contains(ref.tags, operand._id) })) { // Are we untagging?
+				if ($scope.selected.every(ref => { return _.includes(ref.tags, operand._id) })) { // Are we untagging?
 					$scope.selected.forEach(ref => {
 						ref.tags = _.without(ref.tags, operand._id);
 					});
 				} else { // Tagging
 					$scope.selected.forEach(ref => {
-						if (!_.contains(ref.tags, operand._id)) ref.tags.push(operand._id);
+						if (!_.includes(ref.tags, operand._id)) ref.tags.push(operand._id);
 					});
 				}
 				$scope.selected.forEach(ref => {

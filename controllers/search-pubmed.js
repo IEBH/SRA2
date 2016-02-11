@@ -64,7 +64,7 @@ app.get('/api/search/pubmed', function(req, res) {
 							isbn: ref.issn,
 							type: ref.pubtype ? ref.pubtype[0] : 'unknown',
 							has: {
-								abstract: (ref.attributes && _.contains(ref.attributes, 'Has Abstract')),
+								abstract: (ref.attributes && _.includes(ref.attributes, 'Has Abstract')),
 							},
 						};
 					}));

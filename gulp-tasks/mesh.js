@@ -33,7 +33,7 @@ gulp.task('mesh', function(finish) {
 		})
 		.then(function(next) {
 			gutil.log('Unique filtering');
-			this.headings = _.unique(this.headings, true);
+			this.headings = _.uniq(this.headings, true);
 			next();
 		})
 		.then(function(next) {
