@@ -40,8 +40,8 @@ if (config.access && config.access.lockdown) {
 // }}}
 // Settings / Parsing {{{
 app.use(require('cookie-parser')());
-app.use(bodyParser.json({limit: '16mb'}));
-app.use(bodyParser.urlencoded({limit: '16mb', extended: false}));
+app.use(bodyParser.json({limit: '150mb'}));
+app.use(bodyParser.urlencoded({limit: '150mb', extended: false}));
 // }}}
 // Settings / Cookies + Sessions {{{
 app.use(require('connect-flash')());
