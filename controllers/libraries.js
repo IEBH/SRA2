@@ -33,8 +33,9 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 		})
 		.forEach(req.files, function(next, file) {
 			// File sanity checks {{{
-			console.log(colors.blue('Upload'), file.originalname, 'using driver', rl.identify(file.originalname));
-			if (file.originalname && !rl.identify(file.originalname)) return next('File type not supported');
+			var rlDriver = rl.identify(file.originalname);
+			console.log(colors.blue('Upload'), colors.cyan(file.originalname), 'using driver', colors.cyan(rlDriver));
+			if (file.originalname && !rlDriver) return next('File type not supported');
 			next();
 			// }}}
 		})
@@ -93,7 +94,11 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 			References.create(ref, nextRef);
 		})
 		.end(function(err) {
-			if (err) return res.status(400).send(err).end();
+			if (err) {
+				console.log(colors.blue('Upload'), colors.red('ERROR'), err.toString());
+				return res.status(400).send(err.toString()).end();
+			}
+
 			console.log(colors.blue('Upload complete'), 'imported', colors.cyan(this.count), 'items');
 			if (req.body.json) return res.send(this.library);
 			res.redirect('/#/libraries/' + this.library._id);
