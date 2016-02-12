@@ -53,7 +53,7 @@ var defaults = {
 	},
 	limits: {
 		references: 100, // How many references to hold in memory at once during operations such as export, dedupe etc.
-		dedupeOuter: 5, // How many comparison threads to allow at once (ref1)
+		dedupeOuter: 1, // How many comparison threads to allow at once (ref1). Ideally this should be '1' as anything else increases stack size n^n
 		dedupeInner: 10, // How many comparison threads to allow against dedupeOuter (total is dedupeOuter * dedupeInner)
 	},
 	library: {
