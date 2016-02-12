@@ -25,7 +25,7 @@ describe('Task: word-freq', function(){
 				refs.push(ref);
 			})
 			.on('end', function(count) {
-				expect(count).to.equal(libraryCount);
+				expect(refs).to.have.length(libraryCount);
 				finish();
 			});
 	});
