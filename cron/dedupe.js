@@ -2,6 +2,7 @@
 * Deduplicate worker
 * Performs a map-reduce operation on all specified references awarding a similarity score for each
 */
+var _ = require('lodash');
 var async = require('async-chainable');
 var compareNames = require('compare-names');
 var Libraries = require('../models/libraries');
@@ -26,9 +27,9 @@ function compareRef(ref1, ref2) {
 	if (['year', 'pages', 'volume', 'number', 'isbn'].some(function(f) {
 		if (ref1[f] && ref2[f]) { // Both refs possess the comparitor
 			// Strip all non-numerics out {{{
-			var cf1 = ref1[f].replace(/[^0-9]+/, '');
+			var cf1 = ref1[f].replace(/[^0-9]+/g, '');
 			if (!cf1) return; // Skip out if nothing is left anyway
-			var cf2 = ref2[f].replace(/[^0-9]+/, '');
+			var cf2 = ref2[f].replace(/[^0-9]+/g, '');
 			if (!cf2) return;
 			// }}}
 			return cf1 != cf2;
@@ -66,6 +67,10 @@ function fuzzyStringCompare(a, b) {
 
 
 module.exports = function(finish, task) {
+	var scanned = 0;
+	var comparisons = 0;
+	var dupesFound = 0;
+
 	async()
 		// Retrieve data {{{
 		.parallel({
@@ -99,11 +104,14 @@ module.exports = function(finish, task) {
 		.limit(config.limits.dedupeOuter)
 		.forEach('references', function(nextRef, ref1, ref1Offset) { // Compare each reference...
 			var self = this;
+			scanned++;
 			async()
 				.limit(config.limits.dedupeInner)
 				.forEach(self.references.slice(ref1Offset + 1), function(next, ref2) { // To the references after it
 					// Dedupe worker (inner - actual comparison between ref1 + ref2) {{{
+					comparisons++;
 					if (compareRef(ref1, ref2)) { // Is a dupe - process
+						dupesFound++;
 						// Append duplicateData structure onto ref1 if its not already present {{{
 						if (!ref1.duplicateData) ref1.duplicateData = [];
 						var dupData = {reference: ref2._id, conflicting: {}};
@@ -147,10 +155,10 @@ module.exports = function(finish, task) {
 									ref2.save(next);
 								}
 							])
-							.end(nextRef);
+							.end(next);
 						// }}}
 					} else { // Not a dupe - move on
-						nextRef();
+						next('NOTDUPE');
 					}
 					// }}}
 				})
@@ -158,14 +166,18 @@ module.exports = function(finish, task) {
 					task.progress.current++;
 					task.save(next);
 				})
-				.end(nextRef);
+				.end(function(err) {
+					// Ignore NOTDUPE errors
+					if (err && err != 'NOTDUPE') return nextRef(err);
+					nextRef();
+				});
 		})
 		// }}}
 
 		// Finish {{{
 		.parallel([
 			function(next) { // Finalize task data
-				task.history.push({type: 'completed', response: 'Completed dedupe'});
+				task.history.push({type: 'completed', response: 'Completed dedupe. Scanned ' + scanned + ' with ' + comparisons + ' comparisons. Which found ' + dupesFound + ' dupes'});
 				task.save(next);
 			},
 

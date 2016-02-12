@@ -66,7 +66,7 @@ describe('Task: DeDupe', function(){
 	var task;
 	it('should queue up a library for dedupe processing', function(finish) {
 		this.timeout(60 * 1000);
-		agent.post(config.url + '/api/tasks/library/' + library._id + '/dummy-library')
+		agent.post(config.url + '/api/tasks/library/' + library._id + '/dedupe')
 			.send({settings: {debug: true}})
 			.end(function(err, res) {
 				if (err) return finish(err);
@@ -102,6 +102,11 @@ describe('Task: DeDupe', function(){
 			expect(err).to.be.not.ok;
 			expect(res.body).to.have.property('_id');
 			expect(res.body).to.have.property('status', 'completed');
+
+			// Output completed response
+			var statusTask = _.find(res.body.history, {type: 'completed'});
+			if (statusTask) mlog.log(statusTask.response);
+
 			finish();
 		};
 	});
