@@ -137,7 +137,7 @@ describe('Task: DeDupe', function(){
 					var collection = _(refs)
 						.sortBy(['isbn', 'title'])
 						.map(function(i) {
-							return _.keyArrange(i);
+							return _.omit(_.keyArrange(i), 'recNumber');
 						})
 						.value();
 
@@ -149,7 +149,7 @@ describe('Task: DeDupe', function(){
 					var collection = _(refsPost)
 						.sortBy(['isbn', 'title'])
 						.map(function(i) {
-							return _.keyArrange(i);
+							return _.omit(_.keyArrange(i), '_v');
 						})
 						.value();
 

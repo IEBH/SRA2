@@ -124,7 +124,7 @@ module.exports = function(finish, task) {
 							.filter(function(key) {
 								// Don't try to merge if the key is...
 								if (
-									key.substr(0, 1) == '_' ||
+									_.startsWith(key, '_') ||
 									key == 'duplicateData' ||
 									key == 'created' ||
 									key == 'edited' ||
