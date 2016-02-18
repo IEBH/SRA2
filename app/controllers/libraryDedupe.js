@@ -10,6 +10,7 @@ app.controller('libraryDedupeController', function($scope, $location, $rootScope
 	});
 	// }}}
 
+	// Dedupe overall process {{{
 	/**
 	* End the dedupe review
 	*/
@@ -17,15 +18,46 @@ app.controller('libraryDedupeController', function($scope, $location, $rootScope
 		$scope.library.dedupeStatus = 'none';
 		$scope.save('dedupeStatus', '/libraries/' + $scope.library._id);
 	};
+	// }}}
 
+	// Individual references {{{
+	/**
+	* Select the field value to use from a number of alternates
+	* @param object ref The reference to change
+	* @param string key The key to set the value of
+	* @param mixed value The value to set
+	*/
 	$scope.dedupeSetAlternate = function(ref, key, value) {
 		ref[key] = value;
+
+		// Recalculate the selected field based on _.isEqual to figure out which one the user selected
 		var DDF = _.find(ref.duplicateDataFields, {key: key});
 		if (!DDF) return console.warn('Cannot find ref.duplicateDataFields meta entry for key', key, 'on ref', ref);
 		DDF.selected = _.mapValues(DDF.selected, function(val, dupIndex) {
 			return _.isEqual(ref[key], ref.duplicateData[dupIndex].conflicting[key]);
 		});
+
+
+		// Save to server
+		var saveData = {};
+		saveData[key] = value;
+
+		References.save({id: ref._id}, saveData);
 	};
+
+	/**
+	* Signal that the user has finished with this reference
+	* Really just delets the .duplicateData field from the ref and removes it from the list of references
+	* @param object ref The reference we are finished with
+	*/
+	$scope.dedupeSetDone = function(ref) {
+		// Save to server
+		References.save({id: ref._id}, {duplicateData: []});
+
+		// Nuke from array
+		_.remove($scope.references, {_id: ref._id});
+	};
+	// }}}
 
 	// Loader {{{
 	$scope.loading = true;

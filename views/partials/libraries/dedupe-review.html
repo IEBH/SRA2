@@ -66,19 +66,7 @@
 	<!-- Dupe list {{{ -->
 	<div ng-if="!loading" class="duplicates">
 		<div ng-repeat="reference in references track by reference._id">
-			<legend>
-				<div class="btn-group pull-left">
-					<div class="btn-group">
-						<a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tag"></i></a>
-						<ul class="dropdown-menu">
-							<li><a href="/references/edit/FIXME"><i class="fa fa-pencil"></i> Edit reference </a></li>
-							<li class="divider"></li>
-							<li><a href="/references/delete/FIXME"><i class="fa fa-trash-o"></i> Delete reference</a></li>
-						</ul>
-					</div>
-				</div>
-				{{reference.title}}
-			</legend>
+			<legend>{{reference.title}}</legend>
 			<div class="row">
 				<table class="table table-bordered table-striped table-hover table-dupes">
 					<thead>
@@ -94,9 +82,9 @@
 				</table>
 				<div class="text-center pad-bottom">
 					<div class="btn-group">
-						<a class="btn btn-default"><i class="fa fa-expand"></i> Not duplicates</a>
-						<a class="btn btn-success"><i class="fa fa-compress"></i> Merge</a>
-						<a class="btn btn-default"><i class="fa fa-trash-o"></i> Delete both</a>
+						<a class="btn btn-default FIXME"><i class="fa fa-expand"></i> Not duplicates</a>
+						<a ng-click="dedupeSetDone(reference)" class="btn btn-success"><i class="fa fa-compress"></i> Merge</a>
+						<a class="btn btn-default FIXME"><i class="fa fa-trash-o"></i> Delete both</a>
 					</div>
 				</div>
 			</div>
