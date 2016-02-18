@@ -119,7 +119,12 @@ app.use(passport.session());
 // }}}
 // Settings / Restify {{{
 // Add express-restify-mongoose-queryizer to fix ERM not supporting `?filter=value` format any more
-app.use(require('express-restify-mongoose-queryizer'));
+app.use(require('express-restify-mongoose-queryizer')({
+	rewriteQuery: true,
+	rewriteQueryDeleteKeys: false,
+	postToPatch: true,
+	postToPatchUrl: /^\/api\/.+\/[0-9a-f]{24}$/,
+}));
 
 global.restify = require('express-restify-mongoose');
 var ERMGuard = require('express-restify-mongoose-guard')({

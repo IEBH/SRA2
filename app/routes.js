@@ -138,9 +138,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		})
 		.state('library-dedupe', {
 			url: '/libraries/:id/{operation:dedupe}',
-			views: {main: {templateUrl: '/partials/fixme.html'}},
+			views: {main: {templateUrl: '/partials/libraries/dedupe-review.html'}},
 			data: {
-				title: 'Deduplicate',
+				title: 'De-duplicate',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})

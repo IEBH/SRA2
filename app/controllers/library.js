@@ -124,7 +124,12 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	// }}}
 
 	// Settters {{{
-	$scope.set = function(key, value) {
+	/**
+	* Quickly set a property of the library object
+	* @param string key The key to set
+	* @param string value The value to set
+	*/
+	$scope.set = function(key, value, url) {
 		$scope.library[key] = value;
 		$scope.save(key);
 	};
