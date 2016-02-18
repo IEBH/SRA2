@@ -1,4 +1,4 @@
-app.controller('libraryDedupeController', function($scope, $location, $rootScope, References) {
+app.controller('libraryDedupeController', function($scope, $location, $q, $rootScope, References) {
 	// Deal with breadcrumbs {{{
 	$scope.$watch('library', function() {
 		if (!$scope.library) return;
@@ -49,13 +49,30 @@ app.controller('libraryDedupeController', function($scope, $location, $rootScope
 	* Signal that the user has finished with this reference
 	* Really just delets the .duplicateData field from the ref and removes it from the list of references
 	* @param object ref The reference we are finished with
+	* @return promise
 	*/
 	$scope.dedupeSetDone = function(ref) {
 		// Save to server
-		References.save({id: ref._id}, {duplicateData: []});
+		var promise = References.save({id: ref._id}, {duplicateData: []}).$promise;
 
 		// Nuke from array
 		_.remove($scope.references, {_id: ref._id});
+
+		return promise;
+	};
+
+	/**
+	* Signal that none of the items marked are dupes
+	* We cycle though all the items and mark them as 'active' (from 'dupe') and then call dedupeSetDone
+	* @param object ref The reference we are finished with
+	* @return promise
+	*/
+	$scope.dedupeSetNotDupe = function(ref) {
+		return $q
+			.all(
+				ref.duplicateData.slice(1).map(dupe => References.save({id: dupe.reference}, {status: 'active'}).$promise)
+			)
+			.then(() => $scope.dedupeSetDone(ref));
 	};
 	// }}}
 
