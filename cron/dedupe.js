@@ -155,19 +155,7 @@ module.exports = function(finish, task) {
 						ref1.duplicateData.push({reference: ref2._id, conflicting: conflicting});
 						ref2.status = 'dupe';
 						// }}}
-						// Save ref1 / ref2 {{{
-						async()
-							.parallel([
-								function(next) {
-									ref1.save(next);
-								},
-								function(next) {
-									ref2.status = 'dupe';
-									ref2.save(next);
-								}
-							])
-							.end(next);
-						// }}}
+						next();
 					} else { // Not a dupe - move on
 						next('NOTDUPE');
 					}
@@ -182,6 +170,14 @@ module.exports = function(finish, task) {
 					if (err && err != 'NOTDUPE') return nextRef(err);
 					nextRef();
 				});
+		})
+		// }}}
+
+		// Save everything {{{
+		.limit(1)
+		.forEach(references, function(next, ref) {
+			if (!ref.isModified()) return next(); // Nothing to do
+			ref.save(next);
 		})
 		// }}}
 
