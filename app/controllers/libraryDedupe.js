@@ -25,9 +25,24 @@ app.controller('libraryDedupeController', function($scope, $location, $rootScope
 		References.query({
 			library: $scope.library._id,
 			status: 'active',
+			'duplicateData.0': {$exists: true},
 		}).$promise
 			.then(function(data) {
-				$scope.references = data;
+				$scope.references = data
+					// Decorators {{{
+					.map(ref => {
+						// Compute .duplicateDataFields {{{
+						ref.duplicateDataFields = [];
+
+						ref.duplicateData.forEach(dup => {
+							_.keys(dup.conflicting).forEach(k => ref.duplicateDataFields.push(k));
+						});
+
+						ref.duplicateDataFields = _.uniq(ref.duplicateDataFields);
+						// }}}
+						return ref;
+					});
+					// }}}
 			})
 			.finally(function() {
 				$scope.loading = false;

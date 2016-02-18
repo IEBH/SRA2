@@ -80,40 +80,26 @@
 				{{reference.title}}
 			</legend>
 			<div class="row">
-				<pre>{{reference.duplicateData | pretty}}</pre>
 				<table class="table table-bordered table-striped table-hover table-dupes">
 					<thead>
 						<th>Field</th>
-						<th><a href="/references/{{reference._id}}" target="_blank">Reference #1</a></th>
-						<th ng-repeat="dupe in reference.duplicateData"><a href="/references/{{reference._id}}" target="_blank">Reference #{{$index + 1}}</a></th>
+						<th><a href="/references/{{reference._id}}" target="_blank">#1</a></th>
+						<th ng-repeat="dupe in reference.duplicateData" ng-style="{width: (100 / (reference.duplicateData.length + 1)) + '%'}"><a href="/references/{{reference._id}}" target="_blank">#{{$index + 2}}</a></th>
 					</thead>
-
-				</table>
-			</div>
-			<!--
-					<? foreach ($ref['altdata'] as $field => $val) { ?>
-					<tr>
-						<th><?=$field?></th>
-						<td class="selectable selected"><div><?=$this->Reference->Flatten($ref[$field], "<br/>")?></div></td>
-						<? foreach ($altrefs as $altrefid => $junk) { ?>
-						<? if (isset($ref['altdata'][$field][$altrefid])) { ?>
-							<td class="selectable"><div><?=$this->Reference->Flatten($ref['altdata'][$field][$altrefid])?></div></td>
-						<? } else { ?>
-							<td>&nbsp;</td>
-						<? } ?>
-						<? } ?>
+					<tr ng-repeat="field in reference.duplicateDataFields">
+						<th>{{field}}</th>
+						<td class="selectable selected"><div>{{reference[field]}}</div></td>
+						<td ng-repeat="dupe in reference.duplicateData" class="selectable"><div>{{dupe.conflicting[field]}}</div></td>
 					</tr>
-					<? } ?>
 				</table>
-				<div class="pull-center pad-bottom">
+				<div class="text-center pad-bottom">
 					<div class="btn-group">
-						<a class="btn btn-default" href="#" data-action="dupe-break"><i class="fa fa-expand"></i> Not duplicates</a>
-						<a class="btn btn-success" href="#" data-action="dupe-save"><i class="fa fa-compress"></i> Merge</a>
-						<a class="btn btn-default" href="#" data-action="dupe-delete"><i class="fa fa-trash-o"></i> Delete both</a>
+						<a class="btn btn-default"><i class="fa fa-expand"></i> Not duplicates</a>
+						<a class="btn btn-success"><i class="fa fa-compress"></i> Merge</a>
+						<a class="btn btn-default"><i class="fa fa-trash-o"></i> Delete both</a>
 					</div>
 				</div>
 			</div>
-			-->
 		</div>
 	</div>
 	<!-- }}} -->

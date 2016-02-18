@@ -141,6 +141,11 @@ input[type=checkbox] {
 }
 /* }}} */
 /* }}} */
+/* Duplication {{{ */
+.duplicates .table-dupes td {
+	word-break: break-word;
+}
+/* }}} */
 /* Screening {{{ */
 .page-screening #reference-table .btn-default {
 	background-color: #F0F0F0 !important;
