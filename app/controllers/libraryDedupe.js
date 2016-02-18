@@ -74,6 +74,19 @@ app.controller('libraryDedupeController', function($scope, $location, $q, $rootS
 			)
 			.then(() => $scope.dedupeSetDone(ref));
 	};
+
+	/**
+	* Delete all marked references
+	* @param object ref The reference we are finished with
+	* @return promise
+	*/
+	$scope.dedupeSetDelete = function(ref) {
+		return $q
+			.all(
+				ref.duplicateData.map(dupe => References.save({id: dupe.reference}, {status: 'deleted'}).$promise)
+			)
+			.then(() => $scope.dedupeSetDone(ref));
+	};
 	// }}}
 
 	// Loader {{{
