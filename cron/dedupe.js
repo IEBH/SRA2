@@ -67,6 +67,7 @@ function fuzzyStringCompare(a, b) {
 
 
 module.exports = function(finish, task) {
+	var references = [];
 	var scanned = 0;
 	var comparisons = 0;
 	var dupesFound = 0;
@@ -80,7 +81,11 @@ module.exports = function(finish, task) {
 			references: function(next) {
 				References.find({
 					_id: {"$in": task.references},
-				}, next);
+				}, function(err, refs) {
+					if (err) return next(err);
+					refs.forEach(ref => references.push(ref)); // Append to array so original pointer doesnt break
+					next(null, references);
+				});
 			},
 		})
 		// }}}
@@ -89,8 +94,8 @@ module.exports = function(finish, task) {
 		.parallel([
 			function(next) { // Setup task data
 				task.progress.current = 0;
-				task.progress.max = task.references.length;
-				task.history.push({type: 'status', response: 'Going to examine ' + task.references.length + ' references'});
+				task.progress.max = references.length;
+				task.history.push({type: 'status', response: 'Going to examine ' + references.length + ' references'});
 				task.save(next);
 			},
 			function(next) { // Setup library state
@@ -100,30 +105,35 @@ module.exports = function(finish, task) {
 		])
 		// }}}
 
+		// Clear existing duplicate data (if any) {{{
+		.limit(1)
+		.forEach(references, function(next, ref) {
+			if (ref.status == 'dupe') ref.status = 'active';
+			if (ref.duplicateData.length) ref.duplicateData = [];
+			if (!ref.isModified()) return next(); // Nothing to do
+			ref.save(next);
+		})
+		// }}}
+
 		// Dedupe worker (outer) {{{
 		.limit(config.limits.dedupeOuter)
-		.forEach('references', function(nextRef, ref1, ref1Offset) { // Compare each reference...
-			var self = this;
+		.forEach(references, function(nextRef, ref1, ref1Offset) { // Compare each reference...
 			scanned++;
 			async()
 				.limit(config.limits.dedupeInner)
-				.forEach(self.references.slice(ref1Offset + 1), function(next, ref2) { // To the references after it
+				.forEach(references.slice(ref1Offset + 1), function(next, ref2) { // To the references after it
 					// Dedupe worker (inner - actual comparison between ref1 + ref2) {{{
 					comparisons++;
 					if (compareRef(ref1, ref2)) { // Is a dupe - process
 						dupesFound++;
-						// Append duplicateData structure onto ref1 if its not already present {{{
-						if (!ref1.duplicateData) ref1.duplicateData = [];
-						var dupData = {reference: ref2._id, conflicting: {}};
-						ref1.duplicateData.push(dupData);
-						// }}}
+						var conflicting = {};
 						// Merge conflicting keys {{{
 						// For each key in either ref1 or ref2...
-						_(Object.keys(ref1).concat(Object.keys(ref2)))
+						_(Object.keys(ref1.toObject()).concat(Object.keys(ref2.toObject())))
 							.uniq()
 							.filter(function(key) {
 								// Don't try to merge if the key is...
-								if (
+								return ! (
 									_.startsWith(key, '_') ||
 									key == 'duplicateData' ||
 									key == 'created' ||
@@ -131,8 +141,7 @@ module.exports = function(finish, task) {
 									key == 'library' ||
 									key == 'status' ||
 									key == 'tags'
-								) return false;
-								return true;
+								);
 							})
 							.forEach(function(key) {
 								if (ref1[key] && !ref2[key]) { // Ref1 has the key ref2 does not
@@ -140,9 +149,11 @@ module.exports = function(finish, task) {
 								} else if (!ref1[key] && ref2[key]) { // Ref 1 does not have the key ref2 does
 									ref1[key] = ref2[key];
 								} else if (!_.isEqual(ref1[key], ref2[key])) { // Both have the key and it conflicts
-									dupData.conflicting[key] = ref2[key];
+									conflicting[key] = ref2[key];
 								}
 							});
+						ref1.duplicateData.push({reference: ref2._id, conflicting: conflicting});
+						ref2.status = 'dupe';
 						// }}}
 						// Save ref1 / ref2 {{{
 						async()
