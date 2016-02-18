@@ -145,6 +145,14 @@ input[type=checkbox] {
 .duplicates .table-dupes td {
 	word-break: break-word;
 }
+
+.duplicates .table-dupes td.selectable {
+	padding: 10px;
+}
+.duplicates .table-dupes td.selectable.selected {
+	color: #468847 !important;
+	background: #dff0d8 !important;
+}
 /* }}} */
 /* Screening {{{ */
 .page-screening #reference-table .btn-default {

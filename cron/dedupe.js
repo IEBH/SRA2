@@ -176,7 +176,21 @@ module.exports = function(finish, task) {
 		// Save everything {{{
 		.limit(1)
 		.forEach(references, function(next, ref) {
-			if (!ref.isModified()) return next(); // Nothing to do
+			if (!ref.isModified() && !ref.duplicateData.length) return next(); // Nothing to do
+
+			if (ref.duplicateData.length) { // This ref is the master for a few dupes
+				var originalFields = {};
+
+				ref.duplicateData.forEach(dup => { // Scan each duplicate
+					_.keys(dup.conflicting).forEach(k => originalFields[k] = ref[k]); // Copy the original into storage
+				});
+
+				// Make sure that it is the first item in the duplicateData list
+				ref.duplicateData.unshift({
+					reference: ref._id,
+					conflicting: originalFields,
+				});
+			}
 			ref.save(next);
 		})
 		// }}}

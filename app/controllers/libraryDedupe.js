@@ -18,9 +18,17 @@ app.controller('libraryDedupeController', function($scope, $location, $rootScope
 		$scope.save('dedupeStatus', '/libraries/' + $scope.library._id);
 	};
 
-	$scope.loading = true;
+	$scope.dedupeSetAlternate = function(ref, key, value) {
+		ref[key] = value;
+		var DDF = _.find(ref.duplicateDataFields, {key: key});
+		if (!DDF) return console.warn('Cannot find ref.duplicateDataFields meta entry for key', key, 'on ref', ref);
+		DDF.selected = _.mapValues(DDF.selected, function(val, dupIndex) {
+			return _.isEqual(ref[key], ref.duplicateData[dupIndex].conflicting[key]);
+		});
+	};
 
 	// Loader {{{
+	$scope.loading = true;
 	$scope.refresh = function() {
 		References.query({
 			library: $scope.library._id,
@@ -31,14 +39,23 @@ app.controller('libraryDedupeController', function($scope, $location, $rootScope
 				$scope.references = data
 					// Decorators {{{
 					.map(ref => {
-						// Compute .duplicateDataFields {{{
+						// .duplicateDataFields - collection of fields selectable for this ref {{{
 						ref.duplicateDataFields = [];
 
-						ref.duplicateData.forEach(dup => {
-							_.keys(dup.conflicting).forEach(k => ref.duplicateDataFields.push(k));
-						});
+						ref.duplicateData.forEach((dup, dupIndex) => {
+							_.keys(dup.conflicting).forEach(function(k) {
+								var fieldInfo = _.find(ref.duplicateDataFields, {key: k});
+								if (!fieldInfo) {
+									fieldInfo = {
+										key: k,
+										selected: {},
+									};
+									ref.duplicateDataFields.push(fieldInfo);
+								}
 
-						ref.duplicateDataFields = _.uniq(ref.duplicateDataFields);
+								fieldInfo.selected[dupIndex] = _.isEqual(ref[k], dup.conflicting[k]);
+							});
+						});
 						// }}}
 						return ref;
 					});

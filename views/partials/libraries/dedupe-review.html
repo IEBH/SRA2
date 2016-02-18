@@ -82,14 +82,14 @@
 			<div class="row">
 				<table class="table table-bordered table-striped table-hover table-dupes">
 					<thead>
-						<th>Field</th>
-						<th><a href="/references/{{reference._id}}" target="_blank">#1</a></th>
-						<th ng-repeat="dupe in reference.duplicateData" ng-style="{width: (100 / (reference.duplicateData.length + 1)) + '%'}"><a href="/references/{{reference._id}}" target="_blank">#{{$index + 2}}</a></th>
+						<th width="10%">Field</th>
+						<th ng-repeat="dupe in reference.duplicateData" ng-style="{width: (90 / (reference.duplicateData.length)) + '%'}"><a href="/references/{{reference._id}}" target="_blank">#{{$index + 1}}</a></th>
 					</thead>
 					<tr ng-repeat="field in reference.duplicateDataFields">
-						<th>{{field}}</th>
-						<td class="selectable selected"><div>{{reference[field]}}</div></td>
-						<td ng-repeat="dupe in reference.duplicateData" class="selectable"><div>{{dupe.conflicting[field]}}</div></td>
+						<th>{{field.key}}</th>
+						<td ng-repeat="dupe in reference.duplicateData"  ng-class="field.selected[$index] && 'selected'" ng-click="dedupeSetAlternate(reference, field.key, dupe.conflicting[field.key])" class="selectable">
+							{{dupe.conflicting[field.key]}}
+						</td>
 					</tr>
 				</table>
 				<div class="text-center pad-bottom">
