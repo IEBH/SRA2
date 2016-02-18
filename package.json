@@ -29,7 +29,7 @@
     "email": "^0.2.6",
     "express": "^4.13.4",
     "express-ejs-layouts": "^2.0.0",
-    "express-log-url": "^1.0.1",
+    "express-log-url": "^1.0.2",
     "express-restify-mongoose": "^2.4.2",
     "express-restify-mongoose-guard": "^1.1.1",
     "express-restify-mongoose-queryizer": "^1.1.5",
