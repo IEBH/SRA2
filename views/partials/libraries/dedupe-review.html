@@ -7,11 +7,11 @@
 			You have the option of
 			<ol>
 				<li>Choosing which fields you wish to retain by individually selecting those fields or</li>
-				<li>Selecting "Skip review stage” to accept the deduplicators choice</li>
+				<li>Selecting "Accept all changes" to accept the de-duplicators choice</li>
 			</ol>
 		</p>
 		<div class="text-center">
-			<a ng-click="dedupeEnd()" class="btn" tooltip="End the de-duplicate review stage and accept all recommendations" data-tip-placement="bottom"><i class="fa fa-times-sign"></i> Skip review stage</a>
+			<a ng-click="dedupeEnd()" class="btn" tooltip="End the de-duplicate review stage and accept all marked recommendations" data-tip-placement="bottom"><i class="fa fa-stop-circle"></i> Accept all changes</a>
 			<a href="/libraries/{{library._id}}" class="btn" tooltip="Retain all the unmerged data below and continue this process at a later date" data-tip-placement="bottom"><i class="fa fa-mail-forward"></i> Come back to this later</a>
 		</div>
 	</div>
@@ -32,8 +32,8 @@
 			</div>
 
 			<div class="infobox-data">
-				<div class="infobox-content">References</div>
-				<div class="infobox-content">FIXME</div>
+				<div class="infobox-content">References (accepted)</div>
+				<div class="infobox-content">{{stats.active | number}}</div>
 			</div>
 		</div>
 
@@ -44,7 +44,7 @@
 
 			<div class="infobox-data">
 				<div class="infobox-content">Duplicates</div>
-				<div class="infobox-content">FIXME</div>
+				<div class="infobox-content">{{stats.dupes | number}}</div>
 			</div>
 		</div>
 
@@ -55,13 +55,13 @@
 
 			<div class="infobox-data">
 				<div class="infobox-content">Deleted</div>
-				<div class="infobox-content">FIXME</div>
+				<div class="infobox-content">{{stats.deleted | number}}</div>
 			</div>
 		</div>
 	</div>
-	<!-- }}} -->
 
 	<hr/>
+	<!-- }}} -->
 
 	<!-- Dupe list {{{ -->
 	<div ng-if="!loading" class="duplicates">
@@ -88,16 +88,18 @@
 					</div>
 				</div>
 			</div>
+
+			<hr/>
 		</div>
 	</div>
 	<!-- }}} -->
 
 	<!-- Footer {{{ -->
-	<div class="alert alert-info">
+	<div ng-if="!loading && references.length > 1" class="alert alert-info">
 		<h3><i class="fa-smile"></i> End of duplicate list</h3>
 		<p>There are now more duplicates to review.</p>
 		<div class="text-center">
-			<a ng-click="dedupeEnd()" class="btn" tooltip="End the de-duplicate review stage" data-tip-placement="bottom"><i class="fa fa-tags"></i> Finish de-dupe review</a>
+			<a ng-click="dedupeEnd()" class="btn" tooltip="End the de-duplicate review stage" data-tip-placement="bottom"><i class="fa fa-stop-circle"></i> Finish de-dupe review</a>
 		</div>
 	</div>
 	<!-- }}} -->

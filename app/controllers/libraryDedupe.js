@@ -53,7 +53,11 @@ app.controller('libraryDedupeController', function($scope, $location, $q, $rootS
 	*/
 	$scope.dedupeSetDone = function(ref) {
 		// Save to server
-		var promise = References.save({id: ref._id}, {duplicateData: []}).$promise;
+		var promise = $q.all([
+			References.save({id: ref._id}, {duplicateData: []}).$promise,
+
+			$scope.refreshStats(),
+		]);
 
 		// Nuke from array
 		_.remove($scope.references, {_id: ref._id});
@@ -90,42 +94,71 @@ app.controller('libraryDedupeController', function($scope, $location, $q, $rootS
 	// }}}
 
 	// Loader {{{
+	$scope.stats = {
+		active: undefined,
+		dupes: undefined,
+		deleted: undefined,
+	};
 	$scope.loading = true;
 	$scope.refresh = function() {
-		References.query({
-			library: $scope.library._id,
-			status: 'active',
-			'duplicateData.0': {$exists: true},
-		}).$promise
-			.then(function(data) {
-				$scope.references = data
-					// Decorators {{{
-					.map(ref => {
-						// .duplicateDataFields - collection of fields selectable for this ref {{{
-						ref.duplicateDataFields = [];
+		return $q
+			.all([
+				$scope.refreshStats(),
 
-						ref.duplicateData.forEach((dup, dupIndex) => {
-							_.keys(dup.conflicting).forEach(function(k) {
-								var fieldInfo = _.find(ref.duplicateDataFields, {key: k});
-								if (!fieldInfo) {
-									fieldInfo = {
-										key: k,
-										selected: {},
-									};
-									ref.duplicateDataFields.push(fieldInfo);
-								}
+				References.query({
+					library: $scope.library._id,
+					status: 'active',
+					'duplicateData.0': {$exists: true},
+				}).$promise
+					.then(function(data) {
+						$scope.references = data
+							// Decorators {{{
+							.map(ref => {
+								// .duplicateDataFields - collection of fields selectable for this ref {{{
+								ref.duplicateDataFields = [];
 
-								fieldInfo.selected[dupIndex] = _.isEqual(ref[k], dup.conflicting[k]);
+								ref.duplicateData.forEach((dup, dupIndex) => {
+									_.keys(dup.conflicting).forEach(function(k) {
+										var fieldInfo = _.find(ref.duplicateDataFields, {key: k});
+										if (!fieldInfo) {
+											fieldInfo = {
+												key: k,
+												selected: {},
+											};
+											ref.duplicateDataFields.push(fieldInfo);
+										}
+
+										fieldInfo.selected[dupIndex] = _.isEqual(ref[k], dup.conflicting[k]);
+									});
+								});
+								// }}}
+								return ref;
 							});
-						});
-						// }}}
-						return ref;
-					});
-					// }}}
-			})
+							// }}}
+					}),
+
+			])
 			.finally(function() {
 				$scope.loading = false;
 			});
+
+	};
+
+	/**
+	* Refresh the stats for the library
+	* @return promise
+	*/
+	$scope.refreshStats = function() {
+		return $q.all([
+			References.count({library: $scope.library._id, status: 'active'}).$promise
+				.then(countData => $scope.stats.active = countData.count),
+
+			References.count({library: $scope.library._id, status: 'dupe'}).$promise
+				.then(countData => $scope.stats.dupes = countData.count),
+
+			References.count({library: $scope.library._id, status: 'deleted'}).$promise
+				.then(countData => $scope.stats.deleted = countData.count),
+		]);
 	};
 	// }}}
 
