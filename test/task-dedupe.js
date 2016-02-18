@@ -129,6 +129,7 @@ describe('Task: DeDupe', function(){
 	});
 
 	it('should dump the sorted libraries', function(finish) {
+		this.timeout(30 * 1000);
 		async()
 			.parallel([
 				function(next) {
