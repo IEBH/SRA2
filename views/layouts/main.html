@@ -92,135 +92,262 @@
 </head>
 
 <body ng-app="app" ng-controller="globalController" class="navbar-fixed">
-<div class="navbar navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container-fluid">
-			<a href="/" class="brand">
-				<i class="fa fa-leaf"></i> Systematic Research Accelerator
-			</a>
-
-			<ul class="nav ace-nav pull-right">
-				<li class="light-blue">
-					<a ng-show="user._id" data-toggle="dropdown" href="#" class="dropdown-toggle">
-						<span class="user-info">
-							<small>Welcome,</small> {{user.name}}
-						</span>
-						<i class="fa fa-caret-down"></i>
+	<div class="wrapper">
+		<header class="topnavbar-wrapper">
+			<nav role="navigation" class="navbar topnavbar">
+				<div class="navbar-header">
+					<a href="/" class="navbar-brand">
+						<div class="brand-logo">
+							<i class="fa fa-leaf"></i> Systematic Research Accelerator
+						</div>
+						<div class="brand-logo-collapsed">
+							<i class="fa fa-leaf"></i> SRA
+						</div>
 					</a>
-					<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
-						<li><a href="#/libraries"><i class="fa fa-tags"></i> My libraries</a></li>
-						<li class="divider"></li>
-						<li><a href="#/contact"><i class="fa fa-envelope"></i> Contact Us</a></li>
-						<li class="divider"></li>
-						<li><a href="#/profile"><i class="fa fa-user"></i> Your profile</a></li>
-						<li><a href="#/logout"><i class="fa fa-power-off"></i> Logout</a></li>
+				</div>
+
+				<div class="nav-wrapper">
+					<!-- START Left navbar-->
+					<ul class="nav navbar-nav">
+						<li>
+							<!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+							<a href="#" data-toggle-state="aside-collapsed" class="hidden-xs">
+								<em class="fa fa-navicon"></em>
+							</a>
+							<!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
+							<a href="#" data-toggle-state="aside-toggled" data-no-persist="true" class="visible-xs sidebar-toggle">
+								<em class="fa fa-navicon"></em>
+							</a>
+						</li>
+						<!-- START User avatar toggle-->
+						<li>
+							<!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+							<a id="user-block-toggle" href="#user-block" data-toggle="collapse">
+								<em class="icon-user"></em>
+							</a>
+						</li>
+						<!-- END User avatar toggle-->
+						<!-- START lock screen-->
+						<li>
+							<a href="lock.html" title="Lock screen">
+								<em class="icon-lock"></em>
+							</a>
+						</li>
+						<!-- END lock screen-->
 					</ul>
-					<a ng-show="!user._id" href="#/login"><i class="fa fa-user"></i> Login</a>
-				</li>
-			</ul>
+					<!-- END Left navbar-->
+					<!-- START Right Navbar-->
+					<ul class="nav navbar-nav navbar-right">
+						<!-- Search icon-->
+						<li>
+							<a href="#" data-search-open="">
+								<em class="icon-magnifier"></em>
+							</a>
+						</li>
+						<!-- Fullscreen (only desktops)-->
+						<li class="visible-lg">
+							<a href="#" data-toggle-fullscreen="">
+								<em class="fa fa-expand"></em>
+							</a>
+						</li>
+						<!-- START Alert menu-->
+						<li class="dropdown dropdown-list">
+							<a href="#" data-toggle="dropdown">
+								<em class="icon-bell"></em>
+								<div class="label label-danger">11</div>
+							</a>
+							<!-- START Dropdown menu-->
+							<ul class="dropdown-menu animated flipInX">
+								<li>
+									<!-- START list group-->
+									<div class="list-group">
+										<!-- list item-->
+										<a href="#" class="list-group-item">
+											<div class="media-box">
+												<div class="pull-left">
+													<em class="fa fa-twitter fa-2x text-info"></em>
+												</div>
+												<div class="media-box-body clearfix">
+													<p class="m0">New followers</p>
+													<p class="m0 text-muted">
+														<small>1 new follower</small>
+													</p>
+												</div>
+											</div>
+										</a>
+										<!-- list item-->
+										<a href="#" class="list-group-item">
+											<div class="media-box">
+												<div class="pull-left">
+													<em class="fa fa-envelope fa-2x text-warning"></em>
+												</div>
+												<div class="media-box-body clearfix">
+													<p class="m0">New e-mails</p>
+													<p class="m0 text-muted">
+														<small>You have 10 new emails</small>
+													</p>
+												</div>
+											</div>
+										</a>
+										<!-- list item-->
+										<a href="#" class="list-group-item">
+											<div class="media-box">
+												<div class="pull-left">
+													<em class="fa fa-tasks fa-2x text-success"></em>
+												</div>
+												<div class="media-box-body clearfix">
+													<p class="m0">Pending Tasks</p>
+													<p class="m0 text-muted">
+														<small>11 pending task</small>
+													</p>
+												</div>
+											</div>
+										</a>
+										<!-- last list item -->
+										<a href="#" class="list-group-item">
+											<small>More notifications</small>
+											<span class="label label-danger pull-right">14</span>
+										</a>
+									</div>
+									<!-- END list group-->
+								</li>
+							</ul>
+							<!-- END Dropdown menu-->
+						</li>
+						<!-- END Alert menu-->
+						<!-- START Offsidebar button-->
+						<li>
+							<a href="#" data-toggle-state="offsidebar-open" data-no-persist="true">
+								<em class="icon-notebook"></em>
+							</a>
+						</li>
+						<!-- END Offsidebar menu-->
+					</ul>
+					<!-- END Right Navbar-->
+				</div>
+				<!-- END Nav wrapper-->
+				<!-- START Search form-->
+				<form role="search" action="search.html" class="navbar-form">
+					<div class="form-group has-feedback">
+						<input type="text" placeholder="Type and hit enter ..." class="form-control">
+						<div data-search-dismiss="" class="fa fa-times form-control-feedback"></div>
+					</div>
+					<button type="submit" class="hidden btn btn-default">Submit</button>
+				</form>
+				<!-- END Search form-->
+			</nav>
+			<!-- END Top Navbar-->
+		</header>
 
-			<div class="header">
-				<a href="http://bond.edu.au" target="_blank"><img src="/img/header-bond.png"/></a>
-				<a href="http://crebp.net.au" target="_blank"><img src="/img/header-crebp.png"></a>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="main-container container-fluid">
-	<a class="menu-toggler" id="menu-toggler" href="#">
-		<span class="menu-text"></span>
-	</a>
-
-	<div class="sidebar fixed" id="sidebar">
 		<!-- Sidebar {{{ -->
-		<ul class="nav nav-list">
-			<li>
-				<a href="#/">
-					<i class="fa fa-dashboard"></i>
-					<span class="menu-text">Dashboard</span>
-				</a>
-			</li>
-
-			<li>
-				<a href="#/search">
-					<i class="fa fa-search"></i>
-					<span class="menu-text">Search</span>
-				</a>
-				<a href="#/polyglot">
-					<i class="fa fa-search"></i>
-					<span class="menu-text">Polyglot Search</span>
-				</a>
-			</li>
-
-			<li ng-if="user._id" ng-controller="libraryListController">
-				<a href="#/libraries" data-toggle="dropdown" class="dropdown-toggle">
-					<i class="fa fa-tags"></i>
-					<span class="menu-text"> My libraries</span>
-					<b class="arrow fa fa-angle-down"></b>
-				</a>
-				<ul class="submenu">
-					<li><a href="#/libraries"><i class="fa fa-angle-double-right"></i> View all</a></li>
-					<li ng-repeat="library in libraries">
-						<a href="#/libraries/{{library._id}}">
-							<i class="fa fa-tags"></i>
-							{{library.title || 'Untitled'}}
-						</a>
-					</li>
-					<li><a href="#/libraries/import">
-						<i class="fa fa-plus"></i> Import New</a>
-					</li>
-				</ul>
-			</li>
-
-			<li>
-				<a href="#/help/getting-started">
-					<i class="fa fa-question-circle"></i>
-					<span class="menu-text"> Getting Started</span>
-				</a>
-			</li>
-
-			<li>
-				<a href="#/contact">
-					<i class="fa fa-envelope"></i>
-					<span class="menu-text"> Contact Us</span>
-				</a>
-			</li>
-
-			<li ng-if="!user._id">
-				<a href="#/login">
-					<i class="fa fa-user"></i>
-					<span class="menu-text"> Login</span>
-				</a>
-			</li>
-			<? } ?>
-		</ul>
-
-		<div class="sidebar-collapse" id="sidebar-collapse">
-			<i class="fa fa-angle-double-left"></i>
-		</div>
+		<aside class="aside">
+			<div class="aside-inner">
+				<nav data-sidebar-anyclick-close="" class="sidebar">
+					<ul class="nav">
+						<!-- User {{{ -->
+						<li class="has-user-block">
+							<div id="user-block" class="collapse">
+								<div class="item user-block">
+									<!-- User picture-->
+									<div class="user-block-picture">
+										<div class="user-block-status">
+											<img src="img/user/02.jpg" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
+											<div class="circle circle-success circle-lg"></div>
+										</div>
+									</div>
+									<!-- Name and Job-->
+									<div class="user-block-info">
+										<span class="user-block-name">Hello, Mike</span>
+										<span class="user-block-role">Designer</span>
+									</div>
+								</div>
+							</div>
+						</li>
+						<!-- }}} -->
+						<li class="active">
+							<a href="#/">
+								<div class="pull-right label label-info">3</div>
+								<i class="fa fa-dashboard"></i>
+								<span class="menu-text">Dashboard</span>
+							</a>
+						</li>
+						<li>
+							<a href="#/" data-toggle="collapse" data-target="#sidebar-tools">
+								<div class="pull-right label label-info">3</div>
+								<i class="fa fa-wrench"></i>
+								<span class="menu-text">Tools</span>
+							</a>
+							<ul id="sidebar-tools" class="nav sidebar-subnav collapse">
+								<li class="sidebar-subnav-header">Tools</li>
+								<li>
+									<a href="#/search" title="Dashboard v1">
+										<i class="fa fa-search"></i>
+										<span>Search</span>
+									</a>
+								</li>
+								<li>
+									<a href="#/polyglot" title="Dashboard v1">
+										<i class="fa fa-search"></i>
+										<span>Polyglot</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li ng-if="user._id" ng-controller="libraryListController">
+							<a href="#/libraries" data-toggle="collapse" data-target="#sidebar-libraries">
+								<div class="pull-right label label-info">3</div>
+								<i class="fa fa-tags"></i>
+								<span class="menu-text">Libraries</span>
+							</a>
+							<ul id="sidebar-libraries" class="nav sidebar-subnav collapse">
+								<li class="sidebar-subnav-header">Libraries</li>
+								<li ng-repeat="library in libraries track by library._id">
+									<a href="#/libraries/{{library._id}}" title="Dashboard v1">
+										<i class="fa fa-tags"></i>
+										<span>{{library.title || 'Untitled'}}</span>
+									</a>
+								</li>
+								<li>
+									<a href="#/libraries/import">
+										<i class="fa fa-plus"></i>
+										<span>Import New</span>
+									</a>
+								</li>
+								<li>
+									<a href="#/libraries">
+										<i class="fa fa-table"></i>
+										<span>View All</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</aside>
 		<!-- }}} -->
-	</div>
-	<div class="main-content">
-		<div class="breadcrumbs" id="breadcrumbs">
-			<ul class="breadcrumb">
-				<li>
-					<a href="#/"><i class="fa fa-home home-icon"></i></a>
-				</li>
-				<li ng-repeat="crumb in breadcrumbs">
-					<a href="#{{crumb.url}}">{{crumb.title}}</a>
-				</li>
-				<li ng-show="pageTitle">
-					<a ng-href="#{{pageUrl}}">{{pageTitle}}</a>
-				</li>
-			</ul>
-		</div>
-
-		<div class="page-content">
-			<div class="page-header position-relative">
+		<section>
+			<!-- Page content-->
+			<div class="content-wrapper">
+				<div class="content-heading">
+					{{pageTitle}}
+					<small class="breadcrumbs" id="breadcrumbs">
+						<ul class="breadcrumb">
+							<li>
+								<a href="#/"><i class="fa fa-home home-icon"></i></a>
+							</li>
+							<li ng-repeat="crumb in breadcrumbs">
+								<a href="#{{crumb.url}}">{{crumb.title}}</a>
+							</li>
+							<li ng-show="pageTitle">
+								<a ng-href="#{{pageUrl}}">{{pageTitle}}</a>
+							</li>
+						</ul>
+					</small>
+				</div>
 				<%- body %>
 			</div>
-		</div>
+		</section>
 	</div>
 </body>
 
