@@ -1,3 +1,16 @@
+/* Branding fixes {{{ */
+.navbar-brand, .navbar-brand:active {
+	color: #EEE !important;
+}
+
+.navbar-brand:hover {
+	color: #FFF !important;
+}
+
+.navbar-brand > .brand-logo {
+	padding-top: 15px !important;
+}
+/* }}} */
 /* Sidebar icons should get big when sidebar is in collapsed state {{{ */
 body.aside-collapsed .sidebar > ul.nav > li > a > i.fa {
 	font-size: 1.6em;
