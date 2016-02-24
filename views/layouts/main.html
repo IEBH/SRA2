@@ -267,27 +267,33 @@
 						<li class="active">
 							<a href="#/">
 								<div class="pull-right label label-info">3</div>
-								<i class="fa fa-dashboard"></i>
+								<i class="fa fa-fw fa-dashboard"></i>
 								<span class="menu-text">Dashboard</span>
+							</a>
+						</li>
+						<li ng-if="!user._id">
+							<a href="#/login">
+								<i class="fa fa-fw fa-user"></i>
+								Login
 							</a>
 						</li>
 						<li>
 							<a href="#/" data-toggle="collapse" data-target="#sidebar-tools">
 								<div class="pull-right label label-info">3</div>
-								<i class="fa fa-wrench"></i>
+								<i class="fa fa-fw fa-wrench"></i>
 								<span class="menu-text">Tools</span>
 							</a>
 							<ul id="sidebar-tools" class="nav sidebar-subnav collapse">
 								<li class="sidebar-subnav-header">Tools</li>
 								<li>
 									<a href="#/search" title="Dashboard v1">
-										<i class="fa fa-search"></i>
+										<i class="fa fa-fw fa-search"></i>
 										<span>Search</span>
 									</a>
 								</li>
 								<li>
 									<a href="#/polyglot" title="Dashboard v1">
-										<i class="fa fa-search"></i>
+										<i class="fa fa-fw fa-search"></i>
 										<span>Polyglot</span>
 									</a>
 								</li>
@@ -326,8 +332,8 @@
 			</div>
 		</aside>
 		<!-- }}} -->
+		<!-- Main content {{{ -->
 		<section>
-			<!-- Page content-->
 			<div class="content-wrapper">
 				<div class="content-heading">
 					{{pageTitle}}
@@ -348,6 +354,7 @@
 				<%- body %>
 			</div>
 		</section>
+		<!-- }}} -->
 	</div>
 </body>
 
