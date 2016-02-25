@@ -14,16 +14,14 @@ app.get('/login', function(req, res) {
 		return res.redirect('/');
 
 	res.render('pages/login', {
-		layout: 'layouts/promo',
-		namespace: 'plain',
+		layout: 'layouts/minimal',
 		message: req.flash('passportMessage'),
 	});
 });
 
 app.get('/signup', function(req, res) {
 	res.render('pages/signup', {
-		layout: 'layouts/promo',
-		namespace: 'plain',
+		layout: 'layouts/minimal',
 		message: req.flash('signupMessage'),
 		values: {key: '', name: '', email: '', password: ''},
 	});

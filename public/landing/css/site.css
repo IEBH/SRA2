@@ -6856,7 +6856,6 @@ footer .copyright {
 .form-control + .parsley-errors-list + .form-control-feedback {
   right: 0;
   left: auto;
-  top: 10px;
 }
 .input-sm + .form-control-feedback,
 .input-sm + .parsley-errors-list + .form-control-feedback {
@@ -6954,4 +6953,14 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 }
 .setting-colors .setting-color.checked > em {
   display: block;
+}
+
+.content-center {
+  margin: 0 auto;
+  width: 320px;
+  margin-top: 30px!important;
+}
+
+.pad-top-lg {
+	margin-top: 10px;
 }
