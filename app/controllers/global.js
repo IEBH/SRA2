@@ -39,7 +39,7 @@ app.controller('globalController', function($scope, $rootScope, $debounce, $loca
 			_.forEach($scope.user, function(v, key) {
 				delete $scope.user[key];
 			});
-			$location.path('/');
+			window.location = '/';
 		});
 	});
 
