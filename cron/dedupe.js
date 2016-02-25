@@ -83,7 +83,7 @@ module.exports = function(finish, task) {
 					_id: {"$in": task.references},
 				}, function(err, refs) {
 					if (err) return next(err);
-					refs.forEach(ref => references.push(ref)); // Append to array so original pointer doesnt break
+					refs.forEach(ref => references.push(ref)); // Push to references so the pointer doesnt break
 					next(null, references);
 				});
 			},

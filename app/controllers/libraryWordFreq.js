@@ -38,5 +38,4 @@ app.controller('libraryWordFreqController', function($scope, $location, $rootSco
 			$location.path('/libraries/task/' + data._id);
 		});
 	};
-	// }}}
 });

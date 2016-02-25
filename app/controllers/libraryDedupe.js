@@ -17,5 +17,4 @@ app.controller('libraryDedupeController', function($scope, $location, $rootScope
 			$location.path('/libraries/task/' + data._id);
 		});
 	};
-	// }}}
 });
