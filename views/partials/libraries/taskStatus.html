@@ -1,24 +1,26 @@
-<div ng-controller="taskController" class="row-fluid pad-top">
-	<div ng-switch="task.status" class="span8 offset2">
+<div ng-controller="taskController" class="container pad-top">
+	<div ng-switch="task.status" class="col-md-8 col-md-offset-2">
+		<div ng-switch-when="loading" class="alert alert-info alert-block">
+			<h1 class="pull-center"><i class="fa fa-spinner fa-spin"></i> Preparing to run task...</h1>
+		</div>
+		<div ng-switch-when="pending" class="alert alert-info alert-block">
+			<h1 class="pull-center"><i class="fa fa-spinner fa-spin"></i> Task pre-processing...</h1>
+		</div>
 		<div ng-switch-when="processing" class="alert alert-info alert-block">
 			<h1 class="pull-center"><i class="fa fa-spinner fa-spin"></i> Processing reference library...</h1>
-			<div class="row-fluid pad-top">
-				<div class="span8 offset2">
-					<div ng-if="task.progress.current > 0" class="progress progress-striped active">
-						<div class="progress-bar progress-bar-striped active" style="width: {{task.progress.percent}}%"></div>
-					</div>
-					<div ng-if="task.progress.current > 0" class="text-center">Processed: {{task.progress.current}} / {{task.progress.max}}</div>
-					<div ng-if="task.lastUpdate" class="text-center muted small pad-top-sm pad-bottom-sm">Last update at {{task.lastUpdate}}</div>
-				</div>
+			<div ng-if="task.progress.current > 0" class="progress progress-striped active">
+				<div class="progress-bar progress-bar-striped active" style="width: {{task.progress.percent}}%"></div>
 			</div>
+			<div ng-if="task.progress.current > 0" class="text-center">Processed: {{task.progress.current}} / {{task.progress.max}}</div>
+			<div ng-if="task.lastUpdate" class="text-center muted small pad-top-sm pad-bottom-sm">Last update at {{task.lastUpdate}}</div>
 		</div>
-		<div ng-switch-when="complete" class="alert alert-success alert-block">
+		<div ng-switch-when="completed" class="alert alert-success alert-block">
 			<h1 class="pull-center"><i class="fa fa-exclamation-triangle"></i> Completed processing</h1>
 		</div>
 		<div ng-switch-when="error" class="alert alert-danger alert-block">
 			<h1 class="pull-center"><i class="fa fa-exclamation-triangle"></i> Error processing reference library</h1>
-			<div class="row-fluid pad-top">
-				<div class="span8 offset2 text-center"><a href="#/tasks/{{task._id}}" class="btn btn-default">View task history</a></div>
+			<div class="row pad-top">
+				<div class="col-md-8 col-md-offset-2 text-center"><a href="#/tasks/{{task._id}}" class="btn btn-default">View task history</a></div>
 			</div>
 		</div>
 	</div>
