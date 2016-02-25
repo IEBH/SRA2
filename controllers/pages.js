@@ -1,3 +1,9 @@
 app.get('/', function(req, res) {
-	res.render('pages/main');
+	if (req.user) {
+		res.render('pages/main');
+	} else {
+		res.render('pages/landing', {
+			layout: 'layouts/landing',
+		});
+	}
 });
