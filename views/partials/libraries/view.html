@@ -119,22 +119,6 @@
 		</ul>
 	</div>
 
-	<div id="modal-loading" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title"><i class="fa fa-spinner fa-spin fa-1.5x"></i> Loading reference library...</h4>
-				</div>
-				<div class="modal-body">
-					<div class="progress">
-						<div class="progress-bar progress-bar-info progress-bar-striped active" style="width: {{references.length / library.referenceCount | percentage}}"></div>
-					</div>
-					<p class="text-center">{{references.length | number}} / {{library.referenceCount | number}} loaded</p>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<ul ng-if="hasTags" class="nav nav-tabs" id="tag-filter">
 		<li ng-repeat="tag in tags track by tag._id" ng-class="activeTag._id == tag._id && 'active'">
 			<a href="#/libraries/{{library._id}}?tag={{tag._id}}">
