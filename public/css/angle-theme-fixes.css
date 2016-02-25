@@ -1,3 +1,8 @@
+/* All <a> elements should be clickable {{{ */
+a {
+	cursor: pointer;
+}
+/* }}} */
 /* Branding fixes {{{ */
 .navbar-brand, .navbar-brand:active {
 	color: #EEE !important;
@@ -15,5 +20,14 @@
 body.aside-collapsed .sidebar > ul.nav > li > a > i.fa {
 	font-size: 1.6em;
 	width: auto;
+}
+/* }}} */
+/* Theme breaks fixed navbars {{{ */
+.navbar-fixed-bottom, .navbar-fixed-top {
+	position: fixed !important;
+}
+
+.content-wrapper {
+	margin-top: 50px !important;
 }
 /* }}} */

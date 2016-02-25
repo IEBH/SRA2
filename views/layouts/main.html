@@ -91,10 +91,10 @@
 	<link href="/build/site.min.css" rel="stylesheet" type="text/css"/>
 </head>
 
-<body ng-app="app" ng-controller="globalController" class="navbar-fixed">
+<body ng-app="app" ng-controller="globalController">
 	<div class="wrapper">
 		<header class="topnavbar-wrapper">
-			<nav role="navigation" class="navbar topnavbar">
+			<nav role="navigation" class="navbar navbar-fixed-top topnavbar">
 				<div class="navbar-header">
 					<a href="/" class="navbar-brand">
 						<div class="brand-logo">
@@ -109,31 +109,26 @@
 				<div class="nav-wrapper">
 					<!-- START Left navbar-->
 					<ul class="nav navbar-nav">
+						<!-- Sidebar collapse toggle {{{ -->
 						<li>
 							<!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
-							<a href="#" data-toggle-state="aside-collapsed" class="hidden-xs">
+							<a data-toggle-state="aside-collapsed" class="hidden-xs">
 								<em class="fa fa-navicon"></em>
 							</a>
 							<!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
-							<a href="#" data-toggle-state="aside-toggled" data-no-persist="true" class="visible-xs sidebar-toggle">
+							<a data-toggle-state="aside-toggled" data-no-persist="true" class="visible-xs sidebar-toggle">
 								<em class="fa fa-navicon"></em>
 							</a>
 						</li>
-						<!-- START User avatar toggle-->
+						<!-- }}} -->
+						<!-- User avatar toggle {{{ -->
 						<li>
 							<!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
-							<a id="user-block-toggle" href="#user-block" data-toggle="collapse">
-								<em class="icon-user"></em>
+							<a id="user-block-toggle" data-toggle="collapse" data-target="#user-block">
+								<i class="fa fa-user"></i>
 							</a>
 						</li>
-						<!-- END User avatar toggle-->
-						<!-- START lock screen-->
-						<li>
-							<a href="lock.html" title="Lock screen">
-								<em class="icon-lock"></em>
-							</a>
-						</li>
-						<!-- END lock screen-->
+						<!-- }}} -->
 					</ul>
 					<!-- END Left navbar-->
 					<!-- START Right Navbar-->
