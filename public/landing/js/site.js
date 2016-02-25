@@ -75,33 +75,6 @@
 	});
 
 
-	// Video Background
-	// -----------------------------------
-
-	$(function() {
-
-		if (matchMedia('(min-width: 640px)').matches) {
-
-			var videoContainer = $('<div id="video-container"/>').prependTo($body);
-			var videobackground = new $.backgroundVideo(
-				// create a container
-				videoContainer,
-				{
-					'align':    'centerXY',
-					'width':    1280,
-					'height':   720,
-					'path':     'video/',
-					'filename': 'video',
-					'types':    ['webm', 'mp4']
-
-			}).$videoEl.on('loadeddata', function(){
-				$('#header').removeClass('novideo');
-			});
-		}
-
-	});
-
-
 	// Smooth Scroll
 	// -----------------------------------
 	var scrollAnimationTime = 1200,
@@ -148,61 +121,6 @@
 			mobile: false
 		})
 	).init();
-
-
-	// Owl Crousel
-	// -----------------------------------
-
-	$(function () {
-
-		$('#feedback-carousel').owlCarousel({
-				rtl:              window.modeRTL,
-				responsiveClass:  true,
-				responsive: {
-						0: {
-								items: 1,
-								nav:   false
-						}
-				}
-		});
-
-		$('#appshots').owlCarousel({
-				rtl:             window.modeRTL,
-				margin:          10,
-				responsiveClass: true,
-				responsive:      {
-						0: {
-								items: 1,
-								nav:   false
-						},
-						500: {
-								items: 2,
-								nav:   false
-						},
-						1000: {
-								items: 4,
-								nav:   false,
-								loop:  false
-						}
-				}
-		});
-
-	});
-
-
-	// Nivo Lightbox
-	// -----------------------------------
-	$(function () {
-
-		$('#appshots a').nivoLightbox({
-
-			effect: 'fadeScale',                        // The effect to use when showing the lightbox
-			theme: 'default',                           // The lightbox theme to use
-			keyboardNav: true                           // Enable/Disable keyboard navigation (left/right/escape)
-
-		});
-
-	});
 
 })(window.jQuery);
 
