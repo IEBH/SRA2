@@ -1,11 +1,12 @@
-<!-- WEBSITE PRELOADER-->
+<!-- Preloader {{{ -->
 <div class="preloader">
 	<div class="loading">Loading ...</div>
 </div>
-<!-- START HEADER-->
+<!-- }}} -->
+<!-- Header {{{ -->
 <header id="header" class="header novideo">
 	<div class="full-screen">
-		<!-- START STICKY NAVBAR-->
+		<!-- Sticky NavBar {{{ -->
 		<div class="navbar navbar-default navbar-fixed-top navbar-sticky">
 			<div class="container">
 				<div class="navbar-header">
@@ -22,26 +23,26 @@
 				<!-- MENU-->
 				<div id="navbar-main" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right main-navbar">
-						<li><a href="#header">Home</a>
-						</li>
-						<li><a href="#features">Features</a>
-						</li>
-						<li><a href="#shots">Shots</a>
-						</li>
-						<li><a href="#plans">Plans</a>
+						<li><a href="#header">Home</a></li>
+						<li><a href="#features">Features</a></li>
+						<li><a href="#contact">Contact Us</a></li>
+						<li>
+							<a href="/login">
+								<strong>Login</strong>
+							</a>
 						</li>
 						<li>
-							<a href="#download">
-								<strong>Download</strong>
+							<a href="/signup">
+								<strong>Sign-up</strong>
 							</a>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<!-- END STICKY NAVBAR-->
+		<!-- }}} -->
+		<!-- Landing screen {{{ -->
 		<div class="container">
-			<!-- MAIN LOGO-->
 			<div class="top-logo">
 				<img src="img/logo.png" alt="">
 			</div>
@@ -49,11 +50,16 @@
 				<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 					<!-- INTRO MESSAGE-->
 					<div class="intro-section">
-						<h1 class="intro">Responsive Bootstrap Admin Template</h1>
-						<h5>Available on <a href="https://wrapbootstrap.com/theme/angle-bootstrap-admin-app-angularjs-WB04HF123" class="buy-link">WrapBootstrap</a>
+						<h1 class="intro">Systematic Review Accelerator</h1>
+						<h5>From the <a href="http://bond.edu.aiu" class="buy-link">Bond University</a> <a href="http://www.crebp.net.au" class="buy-link">Centre for Research in Evidence-Based Practice</a>
 						</h5>
-						<!-- DEMO BUTTON-->
-						<div class="text-center"><a href="../../backend-angular/" class="btn btn-lg btn-theme"><i class="icon-app-download"></i><span> <strong>AngularJS </strong>Demo</span></a><a href="../../backend-jquery/" class="btn btn-lg btn-theme"><i class="icon-app-download"></i><span> <strong>jQuery </strong>Demo</span></a>
+						<div class="text-center">
+							<a href="/login" class="btn btn-lg btn-theme">
+								<span> <strong>Login </strong> to an existing account</span>
+							</a>
+							<a href="/signup" class="btn btn-lg btn-theme">
+								<span> <strong>Sign-up </strong> a new account</span>
+							</a>
 						</div>
 					</div>
 					<div class="intro-shot">
@@ -62,9 +68,10 @@
 				</div>
 			</div>
 		</div>
+		<!-- }}} -->
 	</div>
 </header>
-<!-- END HEADER-->
+<!-- }}} -->
 <!-- START APP SHOTS-->
 <section class="versions">
 	<div class="container">
@@ -134,263 +141,105 @@
 		</div>
 	</div>
 </section>
-<!-- START FEATURE LIST-->
+<!-- Features {{{ -->
 <section id="features" class="features-list">
 	<div class="container">
-		<!-- START SECTION HEADER-->
 		<div data-wow-offset="120" data-wow-duration="1.3s" class="section-header wow fadeIn animated">
-			<!-- SECTION TITLE-->
-			<h2>Full of Features</h2>
-			<div class="section-description">Donec mauris arcu, vestibulum ac hendrerit ut, convallis cursus libero.</div>
+			<h2>Features</h2>
+			<div class="section-description">Everything you need to create a systematic review quickly and easily</div>
 		</div>
-		<!-- END SECTION HEADER-->
 		<div class="row">
-			<!-- START FEATURES LEFT-->
+			<!-- Features / Left {{{ -->
 			<div class="col-md-4 col-sm-4 features-left">
-				<!-- FEATURE-->
 				<div class="feature">
-					<!-- FEATURE ICON-->
 					<div data-wow-offset="15" data-wow-duration="1.3s" class="feature-icon wow fadeIn animated">
 						<span class="fa-stack fa-lg">
 							<em class="fa fa-circle fa-stack-2x"></em>
 							<em class="fa fa-random fa-stack-1x fa-inverse"></em>
 						</span>
 					</div>
-					<!-- FEATURE TEXT-->
 					<div class="feature-details">
 						<h4 class="main-color">Responsive Layout</h4>
 						<p>Lorem ipsum dolor sit amet, ed do eiusmod tempor incididunt ut labore et dolore magna.</p>
 					</div>
 				</div>
-				<!-- FEATURE-->
 				<div class="feature">
-					<!-- FEATURE ICON-->
 					<div data-wow-offset="15" data-wow-duration="1.3s" class="feature-icon wow fadeIn animated">
 						<span class="fa-stack fa-lg">
 							<em class="fa fa-circle fa-stack-2x"></em>
 							<em class="fa fa-rocket fa-stack-1x fa-inverse"></em>
 						</span>
 					</div>
-					<!-- FEATURE TEXT-->
 					<div class="feature-details">
 						<h4 class="main-color">Bootstrap UI based</h4>
 						<p>Lorem ipsum dolor sit amet, ed do eiusmod tempor incididunt ut labore et dolore magna.</p>
 					</div>
 				</div>
-				<!-- FEATURE-->
 				<div class="feature">
-					<!-- FEATURE ICON-->
 					<div data-wow-offset="15" data-wow-duration="1.3s" class="feature-icon wow fadeIn animated">
 						<span class="fa-stack fa-lg">
 							<em class="fa fa-circle fa-stack-2x"></em>
 							<em class="fa fa-crosshairs fa-stack-1x fa-inverse"></em>
 						</span>
 					</div>
-					<!-- FEATURE TEXT-->
 					<div class="feature-details">
 						<h4 class="main-color">Cross Platform</h4>
 						<p>Lorem ipsum dolor sit amet, ed do eiusmod tempor incididunt ut labore et dolore magn.</p>
 					</div>
 				</div>
 			</div>
-			<!-- END FEATURES LEFT-->
-			<!-- START MOBILE MOCKUP-->
+			<!-- }}} -->
+			<!-- Feature image {{{ -->
 			<div class="col-md-4 col-sm-4">
 				<div data-wow-offset="120" data-wow-duration="1.3s" class="mockup-mobile wow fadeIn animated">
 					<img src="img/iphone-minimal.png" alt="" data-no-retina>
 				</div>
 			</div>
-			<!-- END MOBILE MOCKUP-->
-			<!-- START FEATURES RIGHT-->
+			<!-- }}} -->
+			<!-- Features / Right {{{ -->
 			<div class="col-md-4 col-sm-4 features-right">
-				<!-- FEATURE-->
 				<div class="feature">
-					<!-- FEATURE ICON-->
 					<div data-wow-offset="15" data-wow-duration="1.3s" class="feature-icon wow fadeIn animated">
 						<span class="fa-stack fa-lg">
 							<em class="fa fa-circle fa-stack-2x"></em>
 							<em class="fa fa-moon-o fa-stack-1x fa-inverse"></em>
 						</span>
 					</div>
-					<!-- FEATURE TEXT-->
 					<div class="feature-details">
 						<h4 class="main-color">Lazy load Assets</h4>
 						<p>Lorem ipsum dolor sit amet, ed do eiusmod tempor incididunt ut labore et dolore magna.</p>
 					</div>
 				</div>
-				<!-- FEATURE-->
 				<div class="feature">
-					<!-- FEATURE ICON-->
 					<div data-wow-offset="15" data-wow-duration="1.3s" class="feature-icon wow fadeIn animated">
 						<span class="fa-stack fa-lg">
 							<em class="fa fa-circle fa-stack-2x"></em>
 							<em class="fa fa-sitemap fa-stack-1x fa-inverse"></em>
 						</span>
 					</div>
-					<!-- FEATURE TEXT-->
 					<div class="feature-details">
 						<h4 class="main-color">UI Router States</h4>
 						<p>Lorem ipsum dolor sit amet, ed do eiusmod tempor incididunt ut labore et dolore magna.</p>
 					</div>
 				</div>
-				<!-- FEATURE-->
 				<div class="feature">
-					<!-- FEATURE ICON-->
 					<div data-wow-offset="15" data-wow-duration="1.3s" class="feature-icon wow fadeIn animated">
 						<span class="fa-stack fa-lg">
 							<em class="fa fa-circle fa-stack-2x"></em>
 							<em class="fa fa-wrench fa-stack-1x fa-inverse"></em>
 						</span>
 					</div>
-					<!-- FEATURE TEXT-->
 					<div class="feature-details">
 						<h4 class="main-color">Great Build Tools</h4>
 						<p>Lorem ipsum dolor sit amet, ed do eiusmod tempor incididunt ut labore et dolore magna.</p>
 					</div>
 				</div>
 			</div>
-			<!-- END FEATURES RIGHT-->
+			<!-- }}} -->
 		</div>
 	</div>
 </section>
-<!-- END FEATURE LIST-->
-<!-- START PIC TEXT LEFT-->
-<section id="desc2" class="pic-text pic-text-left">
-	<div class="container">
-		<div class="row">
-			<!-- LEFT PIC-->
-			<div data-wow-offset="15" data-wow-duration="1.2s" class="col-md-6 wow fadeInLeft animated">
-				<div class="mockup-mobile">
-					<img src="img/ipad-air.png" alt="" data-no-retina>
-				</div>
-			</div>
-			<!-- RIGHT TEXT-->
-			<div class="col-md-6">
-				<!-- SECTION TITLE-->
-				<h2>Mobile first approach</h2>
-				<p>Nulla feugiat tempor lorem, in vehicula tortor consequat sed. Ut consectetur ullamcorper purus a rutrum. Mauris ut est lorem. Cras pellentesque, est ac faucibus tincidunt, nunc urna vestibulum nulla, in luctus ligula purus in eros.</p>
-				<!-- FEATURE LIST-->
-				<ul class="featured-list">
-					<li>
-						<span class="fa-stack fa-lg">
-							<em class="fa fa-circle fa-stack-2x"></em>
-							<em class="fa fa-code fa-stack-1x fa-inverse"></em>
-						</span>
-						<p>Well organized &amp; commented code</p>
-					</li>
-					<li>
-						<span class="fa-stack fa-lg">
-							<em class="fa fa-circle fa-stack-2x"></em>
-							<em class="fa fa-bullhorn fa-stack-1x fa-inverse"></em>
-						</span>
-						<p>LESS, JADE &amp; modular Javascript</p>
-					</li>
-					<li>
-						<span class="fa-stack fa-lg">
-							<em class="fa fa-circle fa-stack-2x"></em>
-							<em class="fa fa-compass fa-stack-1x fa-inverse"></em>
-						</span>
-						<p>Multiple layout options</p>
-					</li>
-					<li>
-						<span class="fa-stack fa-lg">
-							<em class="fa fa-circle fa-stack-2x"></em>
-							<em class="fa fa-paint-brush fa-stack-1x fa-inverse"></em>
-						</span>
-						<p>Multiple color options</p>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- END PIC TEXT LEFT-->
-<!-- START PIC TEXT RIGHT-->
-<section id="desc1" class="pic-text pic-text-right">
-	<div class="container">
-		<div class="row">
-			<!-- LEFT TEXT-->
-			<div class="col-md-6">
-				<!-- SECTION TITLE-->
-				<h2>Translation ready and RTL support</h2>
-				<p>Suspendisse luctus, nisl a venenatis sagittis, ante odio pellentesque erat, ac bibendum felis est quis odio. Pellentesque odio purus, egestas ac luctus gravida, rutrum ut quam. Cras tristique metus nec diam ornare vitae placerat sapien
-					pellentesque.</p>
-				<p>Praesent nec metus eu urna tempor varius id quis mauris. Mauris porttitor tincidunt odio, id facilisis tortor auctor et. In urna nisl, convallis et malesuada quis, scelerisque at est.</p>
-				<p>Vivamus et urna magna. Suspendisse tincidunt orci nec arcu semper imperdiet volutpat elit faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-					<br>
-					<br>
-				</p>
-				<p>
-					<em>Laoreet vitae pretium eget, lobortis sit amet ante.</em>
-				</p>
-			</div>
-			<!-- RIGHT PIC-->
-			<div data-wow-offset="15" data-wow-duration="1.2s" class="col-md-6 wow fadeInRight animated">
-				<div class="mockup-mobile">
-					<img src="img/iphone-angle.png" alt="" data-no-retina>
-				</div>
-			</div>
-			<!-- /END PHONES IMAGE-->
-		</div>
-	</div>
-</section>
-<!-- END PIC TEXT RIGHT-->
-<!-- START APP SHOTS-->
-<section id="shots" class="appshots">
-	<div class="container">
-		<!-- SECTION HEADER-->
-		<div class="section-header">
-			<h2>App Shots</h2>
-			<div class="section-description">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices</div>
-		</div>
-		<!-- END SECTION HEADER-->
-		<div class="row">
-			<div id="appshots" class="owl-carousel owl-theme">
-				<div class="shot">
-					<a href="img/shots/01.jpg" data-lightbox-gallery="appshots">
-						<img src="img/shots/01.jpg" alt="App Shot" data-no-retina>
-					</a>
-				</div>
-				<div class="shot">
-					<a href="img/shots/03.jpg" data-lightbox-gallery="appshots">
-						<img src="img/shots/03.jpg" alt="App Shot" data-no-retina>
-					</a>
-				</div>
-				<div class="shot">
-					<a href="img/shots/02.jpg" data-lightbox-gallery="appshots">
-						<img src="img/shots/02.jpg" alt="App Shot" data-no-retina>
-					</a>
-				</div>
-				<div class="shot">
-					<a href="img/shots/04.jpg" data-lightbox-gallery="appshots">
-						<img src="img/shots/04.jpg" alt="App Shot" data-no-retina>
-					</a>
-				</div>
-				<div class="shot">
-					<a href="img/shots/01.jpg" data-lightbox-gallery="appshots">
-						<img src="img/shots/01.jpg" alt="App Shot" data-no-retina>
-					</a>
-				</div>
-				<div class="shot">
-					<a href="img/shots/03.jpg" data-lightbox-gallery="appshots">
-						<img src="img/shots/03.jpg" alt="App Shot" data-no-retina>
-					</a>
-				</div>
-				<div class="shot">
-					<a href="img/shots/02.jpg" data-lightbox-gallery="appshots">
-						<img src="img/shots/02.jpg" alt="App Shot" data-no-retina>
-					</a>
-				</div>
-				<div class="shot">
-					<a href="img/shots/04.jpg" data-lightbox-gallery="appshots">
-						<img src="img/shots/04.jpg" alt="App Shot" data-no-retina>
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- END APP SHOTS-->
+<!-- }}} -->
 <!-- START TESTIMONIAL SLIDER-->
 <section id="feedbacks" class="feedbacks">
 	<div data-wow-offset="15" data-wow-duration="1.3s" class="container wow fadeIn animated">
@@ -449,20 +298,13 @@
 						</h2>
 					</div>
 					<ul class="plan-features">
-						<li>
-							<em class="fa fa-check"></em>Unlimited Styles</li>
-						<li>
-							<em class="fa fa-check"></em>RTL &amp; Translation</li>
-						<li>
-							<em class="fa fa-check"></em>Customer support</li>
-						<li>
-							<em class="fa fa-check"></em>Free Updates</li>
-						<li>
-							<em class="fa fa-check"></em>Limited to one client</li>
-						<li>
-							<em class="fa fa-times plan-feature-disable"></em>Multiple installation</li>
-						<li>
-							<em class="fa fa-times plan-feature-disable"></em>Not ready for resale</li>
+						<li><em class="fa fa-check"></em>Unlimited Styles</li>
+						<li><em class="fa fa-check"></em>RTL &amp; Translation</li>
+						<li><em class="fa fa-check"></em>Customer support</li>
+						<li><em class="fa fa-check"></em>Free Updates</li>
+						<li><em class="fa fa-check"></em>Limited to one client</li>
+						<li><em class="fa fa-times plan-feature-disable"></em>Multiple installation</li>
+						<li><em class="fa fa-times plan-feature-disable"></em>Not ready for resale</li>
 					</ul>
 					<hr>
 					<div class="text-center">
@@ -480,20 +322,13 @@
 						</h2>
 					</div>
 					<ul class="plan-features">
-						<li>
-							<em class="fa fa-check"></em>Unlimited Styles</li>
-						<li>
-							<em class="fa fa-check"></em>RTL &amp; Translation</li>
-						<li>
-							<em class="fa fa-check"></em>Customer support</li>
-						<li>
-							<em class="fa fa-check"></em>Free Updates</li>
-						<li>
-							<em class="fa fa-check"></em>Unlimited clients</li>
-						<li>
-							<em class="fa fa-check"></em>Multiple installation</li>
-						<li>
-							<em class="fa fa-times plan-feature-disable"></em>Not ready for resale</li>
+						<li><em class="fa fa-check"></em>Unlimited Styles</li>
+						<li><em class="fa fa-check"></em>RTL &amp; Translation</li>
+						<li><em class="fa fa-check"></em>Customer support</li>
+						<li><em class="fa fa-check"></em>Free Updates</li>
+						<li><em class="fa fa-check"></em>Unlimited clients</li>
+						<li><em class="fa fa-check"></em>Multiple installation</li>
+						<li><em class="fa fa-times plan-feature-disable"></em>Not ready for resale</li>
 					</ul>
 					<hr>
 					<p class="plan-description">The perfect price for all your project solutions.</p>
@@ -512,20 +347,13 @@
 						</h2>
 					</div>
 					<ul class="plan-features">
-						<li>
-							<em class="fa fa-check"></em>Unlimited Styles</li>
-						<li>
-							<em class="fa fa-check"></em>RTL &amp; Translation</li>
-						<li>
-							<em class="fa fa-check"></em>Customer support</li>
-						<li>
-							<em class="fa fa-check"></em>Free Updates</li>
-						<li>
-							<em class="fa fa-check"></em>Unlimited clients</li>
-						<li>
-							<em class="fa fa-check"></em>Multiple installation</li>
-						<li>
-							<em class="fa fa-check"></em>Ready for resale</li>
+						<li><em class="fa fa-check"></em>Unlimited Styles</li>
+						<li><em class="fa fa-check"></em>RTL &amp; Translation</li>
+						<li><em class="fa fa-check"></em>Customer support</li>
+						<li><em class="fa fa-check"></em>Free Updates</li>
+						<li><em class="fa fa-check"></em>Unlimited clients</li>
+						<li><em class="fa fa-check"></em>Multiple installation</li>
+						<li><em class="fa fa-check"></em>Ready for resale</li>
 					</ul>
 					<hr>
 					<div class="text-center">
@@ -550,10 +378,9 @@
 	</div>
 </section>
 <!-- END DOWNLOAD-->
-<!-- START PLAN TABLE-->
+<!-- Contact Us {{{ -->
 <section id="contact" class="contact">
 	<div class="container">
-		<!-- SECTION HEADER-->
 		<div data-wow-offset="15" data-wow-duration="1.3s" class="section-header wow fadeIn animated">
 			<h2>Get in contact with Us</h2>
 			<div class="text-center">
@@ -568,7 +395,6 @@
 		<div class="row">
 			<img src="img/contact.map.jpg" alt="Map" data-no-retina class="img-responsive img-rounded">
 		</div>
-		<!-- SOCIAL SHARE-->
 		<ul class="list-icons">
 			<li>
 				<a href="">
@@ -603,6 +429,7 @@
 		</ul>
 	</div>
 </section>
+<!-- }}} -->
 <!-- START FOOTER-->
 <footer id="footer">
 	<div class="container">
