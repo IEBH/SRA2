@@ -7,6 +7,7 @@ var app = angular.module('app', [
 	'ng-collection-assistant',
 	'ngResource',
 	'prettyBytes',
+	'ui.gravatar',
 	'ui.router',
 	'uiSwitch',
 	'smartArea',

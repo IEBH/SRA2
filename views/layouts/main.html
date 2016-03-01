@@ -46,6 +46,7 @@
 	<script src="/bower_components/angular-bs-tooltip/angular-bs-tooltip.js"></script>
 	<script src="/bower_components/angular-async-chainable/async-chainable.js"></script>
 	<script src="/bower_components/angular-async-chainable/angular-async-chainable.js"></script>
+	<script src="/bower_components/angular-gravatar/build/angular-gravatar.js"></script>
 	<link rel="stylesheet" href="/bower_components/angular-ui-switch/angular-ui-switch.min.css">
 	<script src="/bower_components/angular-ui-switch/angular-ui-switch.min.js"></script>
 
@@ -93,6 +94,7 @@
 
 <body ng-app="app" ng-controller="globalController">
 	<div class="wrapper">
+		<!-- Navbar {{{ -->
 		<header class="topnavbar-wrapper">
 			<nav role="navigation" class="navbar navbar-fixed-top topnavbar">
 				<div class="navbar-header">
@@ -107,7 +109,6 @@
 				</div>
 
 				<div class="nav-wrapper">
-					<!-- START Left navbar-->
 					<ul class="nav navbar-nav">
 						<!-- Sidebar collapse toggle {{{ -->
 						<li>
@@ -122,7 +123,7 @@
 						</li>
 						<!-- }}} -->
 						<!-- User avatar toggle {{{ -->
-						<li>
+						<li class="hidden-xs">
 							<!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
 							<a id="user-block-toggle" data-toggle="collapse" data-target="#user-block">
 								<i class="fa fa-user"></i>
@@ -130,100 +131,51 @@
 						</li>
 						<!-- }}} -->
 					</ul>
-					<!-- END Left navbar-->
-					<!-- START Right Navbar-->
-					<ul class="nav navbar-nav navbar-right">
-						<!-- Search icon-->
-						<li>
-							<a href="#" data-search-open="">
-								<em class="icon-magnifier"></em>
-							</a>
-						</li>
-						<!-- Fullscreen (only desktops)-->
-						<li class="visible-lg">
-							<a href="#" data-toggle-fullscreen="">
-								<em class="fa fa-expand"></em>
-							</a>
-						</li>
-						<!-- START Alert menu-->
+					<ul class="nav navbar-nav navbar-right hidden-xs">
+						<!-- User dropdown {{{ -->
 						<li class="dropdown dropdown-list">
-							<a href="#" data-toggle="dropdown">
-								<em class="icon-bell"></em>
-								<div class="label label-danger">11</div>
+							<a data-toggle="dropdown" class="nav-no-pad">
+								<img gravatar-src="{{user.email}}" gravatar-size="40" gravatar-default="identicon" class="img-thumbnail img-circle">
 							</a>
-							<!-- START Dropdown menu-->
 							<ul class="dropdown-menu animated flipInX">
 								<li>
-									<!-- START list group-->
 									<div class="list-group">
-										<!-- list item-->
-										<a href="#" class="list-group-item">
+										<a href="#/libraries" class="list-group-item">
 											<div class="media-box">
 												<div class="pull-left">
-													<em class="fa fa-twitter fa-2x text-info"></em>
+													<em class="fa fa-tags fa-2x text-info"></em>
 												</div>
 												<div class="media-box-body clearfix">
-													<p class="m0">New followers</p>
+													<p class="m0">Libraries</p>
 													<p class="m0 text-muted">
-														<small>1 new follower</small>
+														<small>View all libraries</small>
 													</p>
 												</div>
 											</div>
 										</a>
-										<!-- list item-->
-										<a href="#" class="list-group-item">
+										<a href="#/logout" class="list-group-item">
 											<div class="media-box">
 												<div class="pull-left">
-													<em class="fa fa-envelope fa-2x text-warning"></em>
+													<em class="fa fa-sign-out fa-2x text-info"></em>
 												</div>
 												<div class="media-box-body clearfix">
-													<p class="m0">New e-mails</p>
+													<p class="m0">Sign out</p>
 													<p class="m0 text-muted">
-														<small>You have 10 new emails</small>
+														<small>Log out of the SRA</small>
 													</p>
 												</div>
 											</div>
-										</a>
-										<!-- list item-->
-										<a href="#" class="list-group-item">
-											<div class="media-box">
-												<div class="pull-left">
-													<em class="fa fa-tasks fa-2x text-success"></em>
-												</div>
-												<div class="media-box-body clearfix">
-													<p class="m0">Pending Tasks</p>
-													<p class="m0 text-muted">
-														<small>11 pending task</small>
-													</p>
-												</div>
-											</div>
-										</a>
-										<!-- last list item -->
-										<a href="#" class="list-group-item">
-											<small>More notifications</small>
-											<span class="label label-danger pull-right">14</span>
 										</a>
 									</div>
-									<!-- END list group-->
 								</li>
 							</ul>
-							<!-- END Dropdown menu-->
 						</li>
-						<!-- END Alert menu-->
-						<!-- START Offsidebar button-->
-						<li>
-							<a href="#" data-toggle-state="offsidebar-open" data-no-persist="true">
-								<em class="icon-notebook"></em>
-							</a>
-						</li>
-						<!-- END Offsidebar menu-->
+						<!-- }}} -->
 					</ul>
-					<!-- END Right Navbar-->
 				</div>
-				<!-- END Nav wrapper-->
 			</nav>
-			<!-- END Top Navbar-->
 		</header>
+		<!-- }}} -->
 
 		<!-- Sidebar {{{ -->
 		<aside class="aside">
@@ -237,7 +189,7 @@
 									<!-- User picture-->
 									<div class="user-block-picture">
 										<div class="user-block-status">
-											<img src="img/user/02.jpg" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
+											<img gravatar-src="{{user.email}}" gravatar-size="60" gravatar-default="identicon" class="img-thumbnail img-circle">
 											<div class="circle circle-success circle-lg"></div>
 										</div>
 									</div>

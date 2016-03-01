@@ -15,6 +15,16 @@ a {
 .navbar-brand > .brand-logo {
 	padding-top: 15px !important;
 }
+
+/* Navbar links have exterme padding {{{ */
+.navbar-nav.navbar-right {
+	margin-right: 0px;
+}
+
+.navbar-nav > li > a.nav-no-pad {
+	padding: 0;
+}
+/* }}} */
 /* }}} */
 /* Sidebar icons should get big when sidebar is in collapsed state {{{ */
 body.aside-collapsed .sidebar > ul.nav > li > a > i.fa {
