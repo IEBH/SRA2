@@ -83,7 +83,7 @@ module.exports = function(finish, task) {
 					_id: {"$in": task.references},
 				}, function(err, refs) {
 					if (err) return next(err);
-					refs.forEach(ref => references.push(ref)); // Append to array so original pointer doesnt break
+					refs.forEach(ref => references.push(ref)); // Push to references so the pointer doesnt break
 					next(null, references);
 				});
 			},
@@ -198,6 +198,9 @@ module.exports = function(finish, task) {
 		// Finish {{{
 		.parallel([
 			function(next) { // Finalize task data
+				task.destination = config.url + '/#/libraries/' + this.library._id + '/dedupe/review';
+				task.completed = new Date();
+				task.status = 'completed';
 				task.history.push({type: 'completed', response: 'Completed dedupe. Scanned ' + scanned + ' with ' + comparisons + ' comparisons. Which found ' + dupesFound + ' dupes'});
 				task.save(next);
 			},

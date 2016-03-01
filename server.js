@@ -77,7 +77,6 @@ passport.serializeUser(function(user, next) {
 passport.deserializeUser(function(id, next) {
 	Users
 		.findOne({username: id})
-		.populate('country')
 		.exec(function(err, user) {
 			return next(err, user);
 		});
@@ -167,7 +166,7 @@ app.use(function(err, req, res, next){
 
 // Init {{{
 var server = app.listen(config.port, config.host, function() {
-	console.log('Web interface listening at', colors.cyan('http://' + (config.host || 'localhost') + (config.port == 80 ? '' : ':' + config.port)));
+	console.log('Web interface listening at', colors.cyan(config.url));
 });
 // }}}
 // Init cron {{{

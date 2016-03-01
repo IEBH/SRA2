@@ -80,7 +80,7 @@
 		<h3><i class="fa fa-bell-o icon-animated-bell"></i> De-duplication in progress</h3>
 		<p>This library is still marked as having duplicate references.</p>
 		<div class="text-center pad-top">
-			<a class="btn" href="#/libraries/{{library._id}}/dedupe"><i class="fa fa-compress"></i> Examine duplicates</a>
+			<a class="btn" href="#/libraries/{{library._id}}/dedupe/review"><i class="fa fa-compress"></i> Examine duplicates</a>
 			<a class="btn" ng-click="set('dedupeStatus', 'none')"><i class="fa fa-stop"></i> Stop de-duping</a>
 			<a class="btn" data-dismiss="alert"><i class="fa fa-times-sign"></i> Not right now</a>
 		</div>
@@ -119,12 +119,20 @@
 		</ul>
 	</div>
 
-	<div ng-if="loading" class="alert alert-info text-center">
-		<h3><i class="fa fa-spinner fa-spin fa-1.5x"></i> Loading reference library...</h3>
-		<div class="progress">
-			<div class="progress-bar progress-bar-info progress-bar-striped active" style="width: {{references.length / library.referenceCount | percentage}}"></div>
+	<div id="modal-loading" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><i class="fa fa-spinner fa-spin fa-1.5x"></i> Loading reference library...</h4>
+				</div>
+				<div class="modal-body">
+					<div class="progress">
+						<div class="progress-bar progress-bar-info progress-bar-striped active" style="width: {{references.length / library.referenceCount | percentage}}"></div>
+					</div>
+					<p class="text-center">{{references.length | number}} / {{library.referenceCount | number}} loaded</p>
+				</div>
+			</div>
 		</div>
-		<p>{{references.length | number}} / {{library.referenceCount | number}} loaded</p>
 	</div>
 
 	<ul ng-if="hasTags" class="nav nav-tabs" id="tag-filter">
