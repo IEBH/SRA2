@@ -13,6 +13,7 @@ notify.logLevel(0);
 // Configure / Paths {{{
 // All paths should be relative to the project root directory
 global.paths = {
+	root: __dirname + '/', // Root directory of the project
 	ignore: [ // Do not monitor these paths for changes
 		'app/', // No need to watch this with nodemon as its handled seperately
 		'views/partials',
@@ -53,7 +54,6 @@ gulp.on('stop', function() { process.exit(0) });
 
 gulp.task('build', function(finish) {
 	runSequence(
-		'clean',
 		['scripts', 'css'],
 		finish
 	);

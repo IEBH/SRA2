@@ -14,10 +14,7 @@ gulp.task('pm2-deploy', ['load:config'], function(finish) {
 	async()
 		// Sub-process config {{{
 		.use(asyncExec)
-		.execDefaults({
-			style: 'passthru',
-			log: function(cmd) { gutil.log('[RUN]', cmd.cmd + ' ' + cmd.params.join(' ')) },
-		})
+		.execDefaults(config.execDefaults)
 		// }}}
 
 		// External execs required to refresh project {{{

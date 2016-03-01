@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var path = require('path');
 var fs = require('fs');
+var url = require('url');
 
 // Determine 'ENV' {{{
 var env = 'dev';
@@ -47,7 +48,7 @@ var defaults = {
 		}
 	},
 	newrelic: {
-		enabled: true,
+		enabled: false,
 		name: 'CREBP-SRA',
 		license: 'c71e85e2d852cb4962d8b47dcad90de117501a07',
 	},
@@ -86,7 +87,8 @@ var defaults = {
 	},
 };
 
-module.exports = _.merge(
+
+var config = _.merge(
 	// Adopt defaults...
 	defaults,
 
@@ -96,3 +98,19 @@ module.exports = _.merge(
 	// Whish are overriden by the NODE_ENV.js file if its present
 	fs.existsSync(__dirname + '/' + defaults.env + '.js') ? require(__dirname + '/' + defaults.env + '.js') : {}
 );
+
+// Sanity checks {{{
+// If config.url doesn't contain a port append it {{{
+if (config.port != 80 && url.parse(config.url).port != config.port) {
+	var parsedURL = url.parse(config.url);
+	parsedURL.host = undefined; // Have to set this to undef to force a hostname rebuild
+	parsedURL.port = config.port;
+	config.url = url.format(parsedURL);
+}
+// }}}
+// Trim remaining '/' from url {{{
+config.url = _.trimEnd(config.url, '/');
+// }}}
+// }}}
+
+module.exports = config;
