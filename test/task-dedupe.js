@@ -116,7 +116,7 @@ describe('Task: DeDupe', function(){
 		agent.get(config.url + '/api/references')
 			.query({
 				library: library._id,
-				select: '-_id,-created,-edited,-library,-status,-tags',
+				select: '-_id,-created,-edited,-library,-tags,-duplicateData',
 			})
 			.end(function(err, res) {
 				if (err) return finish(err);
@@ -129,6 +129,7 @@ describe('Task: DeDupe', function(){
 	});
 
 	it('should dump the sorted libraries', function(finish) {
+		this.timeout(30 * 1000);
 		async()
 			.parallel([
 				function(next) {
@@ -137,7 +138,8 @@ describe('Task: DeDupe', function(){
 					var collection = _(refs)
 						.sortBy(['isbn', 'title'])
 						.map(function(i) {
-							return _.keyArrange(i);
+							i.status = 'active'; // Force the status to exist so we can compare against it later
+							return _.omit(_.keyArrange(i), 'recNumber');
 						})
 						.value();
 
@@ -149,7 +151,7 @@ describe('Task: DeDupe', function(){
 					var collection = _(refsPost)
 						.sortBy(['isbn', 'title'])
 						.map(function(i) {
-							return _.keyArrange(i);
+							return _.omit(_.keyArrange(i), '_v');
 						})
 						.value();
 

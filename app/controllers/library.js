@@ -20,9 +20,8 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 			// }}}
 			// .referenceCount {{{
 			$scope.library.referenceCount = null;
-			References.count({library: $scope.library._id}).$promise.then(function(countData) {
-				$scope.library.referenceCount = countData.count;
-			});
+			References.count({library: $scope.library._id}).$promise
+				.then(countData => $scope.library.referenceCount = countData.count);
 			// }}}
 			// Files {{{
 			if ($scope.library.files) {
@@ -124,7 +123,12 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	// }}}
 
 	// Settters {{{
-	$scope.set = function(key, value) {
+	/**
+	* Quickly set a property of the library object
+	* @param string key The key to set
+	* @param string value The value to set
+	*/
+	$scope.set = function(key, value, url) {
 		$scope.library[key] = value;
 		$scope.save(key);
 	};

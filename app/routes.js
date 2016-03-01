@@ -136,11 +136,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
+		.state('library-dedupe-review', {
+			url: '/libraries/:id/{operation:dedupe}/review',
+			views: {main: {templateUrl: '/partials/libraries/dedupe-review.html'}},
+			data: {
+				title: 'De-duplicate',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
 		.state('library-dedupe', {
 			url: '/libraries/:id/{operation:dedupe}',
-			views: {main: {templateUrl: '/partials/fixme.html'}},
+			views: {main: {templateUrl: '/partials/libraries/dedupe.html'}},
 			data: {
-				title: 'Deduplicate',
+				title: 'De-duplicate',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})

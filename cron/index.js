@@ -21,6 +21,7 @@ function Cron() {
 			.set({
 				toProcess: 0,
 				processed: 0,
+				processNames: [],
 			})
 			.then('tasks', function(next) {
 				Tasks.find({status: 'pending'})
@@ -52,6 +53,7 @@ function Cron() {
 					})
 					.then(function(next) {
 						outer.processed++;
+						outer.processNames.push(item.worker);
 						item.touched = new Date();
 						item.status = 'completed';
 						item.save(next);
@@ -72,7 +74,7 @@ function Cron() {
 			})
 			.end(function(err) {
 				if (err) self.emit('err', err);
-				if (this.toProcess) self.emit('info', this.processed.toString() + '/' + this.toProcess.toString() + ' profiles processed');
+				if (this.toProcess) self.emit('info', this.processed.toString() + '/' + this.toProcess.toString() + ' tasks processed: ' + this.processNames.join(','));
 
 				if (!this.toProcess) {
 					self.emit('idle', 'Nothing to do');

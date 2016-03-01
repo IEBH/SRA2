@@ -31,6 +31,10 @@ var schema = new mongoose.Schema({
 		parent: {type: mongoose.Schema.ObjectId, ref: 'references', index: true},
 		fingerPrint: {type: String},
 	},
+	duplicateData: [{
+		reference: {type: mongoose.Schema.ObjectId, ref: 'references'},
+		conflicting: {type: mongoose.Schema.Types.Mixed, default: {}},
+	}],
 });
 
 module.exports = mongoose.model(name, schema);

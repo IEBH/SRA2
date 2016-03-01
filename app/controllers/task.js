@@ -2,7 +2,9 @@ app.controller('taskController', function($scope, $location, $stateParams, $time
 	if (!$stateParams.id) return $location.path('/libraries');
 
 	// Data refresher {{{
-	$scope.task = null;
+	$scope.task = {
+		status: 'loading',
+	};
 
 	$scope.refreshTimer = null;
 	$scope.refresh = function() {
@@ -34,6 +36,6 @@ app.controller('taskController', function($scope, $location, $stateParams, $time
 				$scope.refreshTimer = $timeout($scope.refresh, Settings.poll.task);
 			});
 	};
-	$scope.refresh();
+	$scope.refreshTimer = $timeout($scope.refresh, Settings.poll.task);
 	// }}}
 });

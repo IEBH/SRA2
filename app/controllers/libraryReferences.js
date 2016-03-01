@@ -17,6 +17,13 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 	$scope.refreshReferences = function() {
 		$scope.references = [];
 		$scope.refChunk = 0;
+		$scope.loading = true;
+		var loadingUnwatch = $scope.$watch('loading', () => {
+			if ($scope.loading) return; // Still loading;
+			$('#modal-loading').modal('hide') 
+			loadingUnwatch();
+		});
+		$('#modal-loading').modal('show');
 		$scope._refreshReferenceChunk();
 	};
 
@@ -52,7 +59,6 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 			if (data.length < $scope.refChunk) { // Exhausted refs from server
 				$scope.loading = false;
 			} else {
-				console.log('REQ', $scope.refChunk);
 				$scope.refChunk++;
 				$scope.$evalAsync($scope._refreshReferenceChunk);
 			}
