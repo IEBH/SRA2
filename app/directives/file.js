@@ -30,7 +30,6 @@ app.directive('fileUpload', function() {
 				'{{text}}' +
 			'</a>',
 		link: function($scope, elem, attr, ctrl) {
-			console.log('My name is', $scope.name);
 			elem
 				.find('input[type=file]')
 				.css({

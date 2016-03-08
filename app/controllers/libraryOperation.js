@@ -260,14 +260,14 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 					},
 					uploadProgress: function(event, position, total, percentComplete) {
 						$scope.$apply(function() {
-							if (position < total) {
-								Loader
-									.text(position + ' / ' + total + ' bytes uploaded')
-									.progress(percentComplete);
-							} else {
+							if (percentComplete >= 100 || position >= total) {
 								Loader
 									.text('Processing library file...')
 									.progress(100);
+							} else {
+								Loader
+									.text(position + ' / ' + total + ' bytes uploaded')
+									.progress(percentComplete);
 							}
 						});
 					},
