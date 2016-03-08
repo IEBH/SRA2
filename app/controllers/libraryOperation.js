@@ -235,7 +235,29 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 	}
 	// }}}
 
+	// Importer {{{
+	// Change imported library name to match selected file name
 	$scope.$on('fileUploadChange', function(e, name) {
 		$scope.newLibrary.name = name.replace(/\.(csv|txt|xml)$/, '');
 	});
+
+	$scope.import = function() {
+		$('form')
+			.ajaxForm({
+				url: '/api/libraries/import',
+				type: 'POST',
+				dataType: 'json',
+				beforeSend: function() {
+					console.log('SET 0');
+				},
+				uploadProgress: function(event, position, total, percentComplete) {
+					console.log('SET', percentComplete);
+				},
+				complete: function(xhr) {
+					console.log('SET 100!');
+				},
+			})
+			.trigger('submit');
+	};
+	// }}}
 });

@@ -21,6 +21,7 @@
     "font-awesome": "^4.5.0",
     "lodash": "~3.9.0",
     "moment": "~2.10.3",
-    "smart-area": "~1.1.0"
+    "smart-area": "~1.1.0",
+    "jquery-form": "^3.46.0"
   }
 }
