@@ -1,4 +1,4 @@
-app.controller('libraryOperation', function($scope, $rootScope, $location, $stateParams, Libraries, References) {
+app.controller('libraryOperation', function($scope, $rootScope, $location, $stateParams, $timeout, Libraries, Loader, References) {
 	// Operations {{{
 	// NOTE: Dont forget to also update app/routes if any of these change
 	$scope.operations = [
@@ -242,22 +242,40 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 	});
 
 	$scope.import = function() {
-		$('form')
-			.ajaxForm({
-				url: '/api/libraries/import',
-				type: 'POST',
-				dataType: 'json',
-				beforeSend: function() {
-					console.log('SET 0');
-				},
-				uploadProgress: function(event, position, total, percentComplete) {
-					console.log('SET', percentComplete);
-				},
-				complete: function(xhr) {
-					console.log('SET 100!');
-				},
-			})
-			.trigger('submit');
+		console.log('SUBMIT!');
+		$timeout(function() {
+			$('form')
+				.ajaxSubmit({
+					url: '/api/libraries/import',
+					type: 'POST',
+					dataType: 'json',
+					forceSync: true,
+					beforeSubmit: function() {
+						$scope.$apply(function() {
+							Loader
+								.start()
+								.title('Uploading library...')
+								.text('Prepairing to upload file...');
+						});
+					},
+					uploadProgress: function(event, position, total, percentComplete) {
+						$scope.$apply(function() {
+							Loader
+								.text(position + ' / ' + total + ' bytes uploaded')
+								.progress(percentComplete);
+						});
+					},
+					complete: function(res) {
+						if (res.responseJSON && res.responseJSON.url) {
+							window.location = res.responseJSON.url;
+						} else {
+							window.location = '/#/libraries';
+						}
+					},
+				});
+		});
+
+		return false;
 	};
 	// }}}
 });
