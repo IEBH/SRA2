@@ -20,6 +20,7 @@ app.directive('fileUpload', function() {
 
 			$scope.setFile = function(name) {
 				$scope.text = name;
+				$scope.$emit('fileUploadChange', name);
 			};
 		},
 		template: 

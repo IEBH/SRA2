@@ -234,4 +234,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 		$scope.operation = _.find($scope.operations, {id: $stateParams.operation});
 	}
 	// }}}
+
+	$scope.$on('fileUploadChange', function(e, name) {
+		$scope.newLibrary.name = name.replace(/\.(csv|txt|xml)$/, '');
+	});
 });
