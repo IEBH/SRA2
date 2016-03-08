@@ -16,7 +16,7 @@ var References = require('../models/references');
 * @return string The input string with all noise removed
 */
 function stripNoise(a) {
-	return a
+	return (a || '')
 		.replace(/[^a-z0-9]+/i, ' ')
 		.replace(/ (the|a) /, ' ');
 }
