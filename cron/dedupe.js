@@ -16,9 +16,10 @@ var References = require('../models/references');
 * @return string The input string with all noise removed
 */
 function stripNoise(a) {
-	return (a || '')
-		.replace(/[^a-z0-9]+/i, ' ')
-		.replace(/ (the|a) /, ' ');
+	return (a)
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/gi, ' ')
+		.replace(/\b(the|a)\b/gi, ' ');
 }
 
 function compareRef(ref1, ref2) {
@@ -26,13 +27,17 @@ function compareRef(ref1, ref2) {
 	// Since these fields are usually numeric its fairly likely that if these dont match its not a duplicate
 	if (['year', 'pages', 'volume', 'number', 'isbn'].some(function(f) {
 		if (ref1[f] && ref2[f]) { // Both refs possess the comparitor
+			// If both fields look numeric (excepting hyphans and dots) {{{
+			if (!/^[^0-9\.\-]+$/.test(ref1[f])) return false;
+			if (!/^[^0-9\.\-]+$/.test(ref2[f])) return false;
+			// }}}
 			// Strip all non-numerics out {{{
 			var cf1 = ref1[f].replace(/[^0-9]+/g, '');
 			if (!cf1) return; // Skip out if nothing is left anyway
 			var cf2 = ref2[f].replace(/[^0-9]+/g, '');
 			if (!cf2) return;
 			// }}}
-			return cf1 != cf2;
+			return (cf1 != cf2);
 		}
 	})) return false;
 	// }}}
@@ -61,6 +66,8 @@ function fuzzyStringCompare(a, b) {
 	if (bs.length > 255) bs = bs.substr(0, 255);
 
 	if (levenshtein(as, bs) < 10) return true;
+
+	return false;
 }
 
 // }}}
@@ -118,10 +125,12 @@ module.exports = function(finish, task) {
 		// Dedupe worker (outer) {{{
 		.limit(config.limits.dedupeOuter)
 		.forEach(references, function(nextRef, ref1, ref1Offset) { // Compare each reference...
+			var compareToSlice = references.slice(ref1Offset + 1);
 			scanned++;
+
 			async()
-				.limit(config.limits.dedupeInner)
-				.forEach(references.slice(ref1Offset + 1), function(next, ref2) { // To the references after it
+				.forEach(references.slice(ref1Offset+1), function(next, ref2, ref2Offset) {
+					// console.log('COMPARE', ref1._id, ref1Offset, 'AGAINST', ref2._id, ref2Offset);
 					// Dedupe worker (inner - actual comparison between ref1 + ref2) {{{
 					comparisons++;
 					if (compareRef(ref1, ref2)) { // Is a dupe - process
@@ -157,7 +166,7 @@ module.exports = function(finish, task) {
 						// }}}
 						next();
 					} else { // Not a dupe - move on
-						next('NOTDUPE');
+						next();
 					}
 					// }}}
 				})
@@ -165,11 +174,7 @@ module.exports = function(finish, task) {
 					task.progress.current++;
 					task.save(next);
 				})
-				.end(function(err) {
-					// Ignore NOTDUPE errors
-					if (err && err != 'NOTDUPE') return nextRef(err);
-					nextRef();
-				});
+				.end(nextRef);
 		})
 		// }}}
 
