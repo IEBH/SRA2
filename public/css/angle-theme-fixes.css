@@ -2,6 +2,10 @@
 a, [data-toggle], [data-collapse] {
 	cursor: pointer;
 }
+
+a:hover {
+	text-decoration: none;
+}
 /* }}} */
 /* Branding fixes {{{ */
 .navbar-brand, .navbar-brand:active {
@@ -16,7 +20,7 @@ a, [data-toggle], [data-collapse] {
 	padding-top: 15px !important;
 }
 
-/* Navbar links have exterme padding {{{ */
+/* Navbar links have extreme padding {{{ */
 .navbar-nav.navbar-right {
 	margin-right: 0px;
 }
@@ -40,4 +44,166 @@ body.aside-collapsed .sidebar > ul.nav > li > a > i.fa {
 .content-wrapper {
 	margin-top: 50px !important;
 }
+/* }}} */
+/* .content-heading - Page headers {{{ */
+/* Breadcrumbs in headers {{{ */
+.content-heading > .breadcrumbs {
+	margin-top: 5px;
+}
+
+.content-heading > .breadcrumbs > .breadcrumb {
+	padding: 0;
+	background: none;
+	margin-bottom: 0;
+}
+/* }}} */
+/* }}} */
+/* .tag badge class {{{ */
+.tag {
+	text-shadow: none;
+	font-size: 10px;
+	font-weight: normal;
+	line-height: 15px;
+	display: inline-block;
+	min-width: 10px;
+	padding: 2px 5px;
+	color: #000;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: 10px;
+	border: 1px solid #777;
+	margin-bottom: 2px;
+}
+
+.tag.tag-lg {
+	font-size: 14px;
+	padding: 4px 8px;
+}
+
+.tag + .tag {
+	margin-left: 2px;
+}
+/* }}} */
+/* Badges {{{ */
+/* Badges should not overflow table boundries {{{ */
+table.table td .badge {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-width: 100px;
+}
+/* }}} */
+/* Badges next to each other are too cramped {{{ */
+.badge + .badge {
+	margin-left: 2px;
+}
+/* }}} */
+/* }}} */
+/* Dropdowns {{{ */
+/* Alerts within dropdowns {{{ */
+.dropdown-menu .alert {
+	padding: 2px 10px;
+	margin: 5px;
+}
+/* }}} */
+/* Margin is quite extreme for menu items {{{ */
+.dropdown-menu > li > a {
+	padding: 3px 10px;
+}
+
+.dropdown-menu > li > a > i {
+	margin-right: 5px;
+}
+/* }}} */
+/* }}} */
+/* Modals {{{ */
+#modal-loader {
+	top: 25%;
+}
+/* }}} */
+/* Navbars {{{ */
+/* Buttons within navbars {{{ */
+.navbar .btn-group + .btn-group {
+	margin-right: 5px;
+}
+
+.navbar .btn-primary {
+	color: #fff !important;
+	background-color: #286090 !important;
+}
+
+.navbar .btn-primary:hover {
+	background-color: #204d74 !important;
+}
+
+.navbar .btn-info {
+	color: #fff !important;
+	background-color: #5bc0de !important;
+}
+
+.navbar .btn-info:hover {
+	background-color: #31b0d5 !important;
+}
+/* }}} */
+/* }}} */
+/* Panel fixes {{{ */
+/* Buttons in header should be right aligned, muted and large {{{ */
+.panel > .panel-heading {
+	font-size: 14px;
+	padding: 0 15px;
+	line-height: 40px;
+}
+
+.panel > .panel-heading > .btn-group, .panel > .panel-heading > a {
+	float: right;
+	padding-top: 2px;
+	height: 100%;
+}
+
+.panel > .panel-heading > .btn-group > a, .panel > .panel-heading > a {
+	font-size: 2em;
+}
+
+.panel-default > .panel-heading > .btn-group > a {
+	color: #c1c2c3;
+}
+
+.panel-default > .panel-heading .btn-group.open > a {
+	color: #23527c;
+	box-shadow: none;
+}
+
+.panel .panel-heading a + a {
+	margin-right: 15px;
+}
+/* }}} */
+/* }}} */
+/* Tables within panels loose their border {{{ */
+.panel-body > table.table {
+	border: 1px solid #ddd !important;
+}
+/* }}} */
+/* Tables {{{ */
+/* All links within TD's should act as click-anywhere links {{{ */
+table.table td {
+	padding: 0 !important;
+}
+
+table.table td a {
+	display: block;
+	padding: 8px;
+}
+
+table.table td a.btn {
+	display: block;
+	margin: 6px;
+	padding: 2px;
+}
+/* }}} */
+/* Checkboxes within tables are too small {{{ */
+input[type=checkbox] {
+	width: 20px;
+	height: 20px;
+}
+/* }}} */
 /* }}} */
