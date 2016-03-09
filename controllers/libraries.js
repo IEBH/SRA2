@@ -101,7 +101,7 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 
 			console.log(colors.blue('Upload complete'), 'imported', colors.cyan(this.count), 'items');
 			if (req.body.json) return res.send(this.library);
-			res.redirect('/#/libraries/' + this.library._id);
+			res.send({error: false, url: '/#/libraries/' + this.library._id});
 		});
 });
 

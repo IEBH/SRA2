@@ -31,7 +31,6 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 			}
 		});
 		Loader.start();
-		$('#modal-loading').modal('show');
 		$scope._refreshReferenceChunk();
 	};
 

@@ -95,38 +95,54 @@
 		</div>
 		<div class="panel-body">
 
-			<div ng-style="{visibility: selected.length ? 'visible' : 'hidden'}" class="navbar navbar-default">
-				<ul class="nav navbar-nav">
-					<li class="btn-group">
-						<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">{{selected.length}} selected <i class="fa fa-chevron-down"></i></a>
-						<ul class="dropdown-menu">
-							<li><a ng-click="selectAction('all')">Select all</a></li>
-							<li><a ng-click="selectAction('none')">Select none</a></li>
-							<li><a ng-click="selectAction('invert')">Invert selection</a></li>
-						</ul>
-					</li>
-					<li ng-if="isEditable && hasTags" class="btn-group">
-						<a class="btn btn-info dropdown-toggle" data-toggle="dropdown">Tag <i class="fa fa-chevron-down"></i></a>
-						<ul class="dropdown-menu">
-							<li ng-repeat="tag in tags | filter:{meta:false}"><a ng-click="selectAction('tag', tag)"><i class="fa fa-tag"></i> {{tag.title}}</a></li>
-							<li class="divider"></li>
-							<li><a ng-click="selectAction('tag-clear')"><i class="fa fa-eraser"></i> Clear tags</a></li>
-						</ul>
-					</li>
-					<li class="btn-group">
-						<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action <i class="fa fa-chevron-down"></i></a>
-						<ul class="dropdown-menu">
-							<li><a ng-click="selectAction('export')"><i class="fa fa-cloud-download"></i> Export selected</a></li>
-							<li ng-if="isEditable"><a ng-click="selectAction('request')"><i class="fa fa-envelope-o"></i> Journal request</a></li>
-							<li ng-if="isEditable"><a ng-click="selectAction('dedupe')"><i class="fa fa-compress"></i> Deduplicate</a></li>
-							<li ng-if="isEditable"><a ng-click="selectAction('screen')"><i class="fa fa-filter"></i> Screen</a></li>
-							<li ng-if="isEditable"><a ng-click="selectAction('word-freq')"><i class="fa fa-sort-numeric-desc"></i> Word-frequency analysis</a></li>
-							<li ng-if="isEditable" class="divider"></li>
-							<li ng-if="isEditable"><a ng-click="selectAction('delete')"><i class="fa fa-trash"></i> Delete</a></li>
-						</ul>
-					</li>
+	<div ng-style="{visibility: selected.length ? 'visible' : 'hidden'}" class="navbar navbar-default">
+		<ul class="nav navbar-nav">
+			<li class="btn-group">
+				<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">{{selected.length}} selected <i class="fa fa-chevron-down"></i></a>
+				<ul class="dropdown-menu">
+					<li><a ng-click="selectAction('all')">Select all</a></li>
+					<li><a ng-click="selectAction('none')">Select none</a></li>
+					<li><a ng-click="selectAction('invert')">Invert selection</a></li>
 				</ul>
+			</li>
+			<li ng-if="isEditable && hasTags" class="btn-group">
+				<a class="btn btn-info dropdown-toggle" data-toggle="dropdown">Tag <i class="fa fa-chevron-down"></i></a>
+				<ul class="dropdown-menu">
+					<li ng-repeat="tag in tags | filter:{meta:false}"><a ng-click="selectAction('tag', tag)"><i class="fa fa-tag"></i> {{tag.title}}</a></li>
+					<li class="divider"></li>
+					<li><a ng-click="selectAction('tag-clear')"><i class="fa fa-eraser"></i> Clear tags</a></li>
+				</ul>
+			</li>
+			<li class="btn-group">
+				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action <i class="fa fa-chevron-down"></i></a>
+				<ul class="dropdown-menu">
+					<li><a ng-click="selectAction('export')"><i class="fa fa-cloud-download"></i> Export selected</a></li>
+					<li ng-if="isEditable"><a ng-click="selectAction('request')"><i class="fa fa-envelope-o"></i> Journal request</a></li>
+					<li ng-if="isEditable"><a ng-click="selectAction('dedupe')"><i class="fa fa-compress"></i> Deduplicate</a></li>
+					<li ng-if="isEditable"><a ng-click="selectAction('screen')"><i class="fa fa-filter"></i> Screen</a></li>
+					<li ng-if="isEditable"><a ng-click="selectAction('word-freq')"><i class="fa fa-sort-numeric-desc"></i> Word-frequency analysis</a></li>
+					<li ng-if="isEditable" class="divider"></li>
+					<li ng-if="isEditable"><a ng-click="selectAction('delete')"><i class="fa fa-trash"></i> Delete</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+	<div id="modal-loading" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><i class="fa fa-spinner fa-spin fa-1.5x"></i> Loading reference library...</h4>
+				</div>
+				<div class="modal-body">
+					<div class="progress">
+						<div class="progress-bar progress-bar-info progress-bar-striped active" style="width: {{references.length / library.referenceCount | percentage}}"></div>
+					</div>
+					<p class="text-center">{{references.length | number}} / {{library.referenceCount | number}} loaded</p>
+				</div>
 			</div>
+		</div>
+	</div>
 
 			<ul ng-if="hasTags" class="nav nav-tabs" id="tag-filter">
 				<li ng-repeat="tag in tags track by tag._id" ng-class="activeTag._id == tag._id && 'active'">

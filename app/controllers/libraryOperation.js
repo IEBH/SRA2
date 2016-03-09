@@ -1,4 +1,4 @@
-app.controller('libraryOperation', function($scope, $rootScope, $location, $stateParams, Libraries, References) {
+app.controller('libraryOperation', function($scope, $rootScope, $location, $stateParams, $timeout, Libraries, Loader, References) {
 	// Operations {{{
 	// NOTE: Dont forget to also update app/routes if any of these change
 	$scope.operations = [
@@ -233,5 +233,55 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 	} else if ($stateParams.operation) {
 		$scope.operation = _.find($scope.operations, {id: $stateParams.operation});
 	}
+	// }}}
+
+	// Importer {{{
+	// Change imported library name to match selected file name
+	$scope.$on('fileUploadChange', function(e, name) {
+		$scope.newLibrary.name = name.replace(/\.(csv|txt|xml)$/, '');
+	});
+
+	$scope.import = function() {
+		console.log('SUBMIT!');
+		$timeout(function() {
+			$('form')
+				.ajaxSubmit({
+					url: '/api/libraries/import',
+					type: 'POST',
+					dataType: 'json',
+					forceSync: true,
+					beforeSubmit: function() {
+						$scope.$apply(function() {
+							Loader
+								.start()
+								.title('Uploading library...')
+								.text('Prepairing to upload file...');
+						});
+					},
+					uploadProgress: function(event, position, total, percentComplete) {
+						$scope.$apply(function() {
+							if (percentComplete >= 100 || position >= total) {
+								Loader
+									.text('Processing library file...')
+									.progress(100);
+							} else {
+								Loader
+									.text(position + ' / ' + total + ' bytes uploaded')
+									.progress(percentComplete);
+							}
+						});
+					},
+					complete: function(res) {
+						if (res.responseJSON && res.responseJSON.url) {
+							window.location = res.responseJSON.url;
+						} else {
+							window.location = '/#/libraries';
+						}
+					},
+				});
+		});
+
+		return false;
+	};
 	// }}}
 });
