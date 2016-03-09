@@ -1,5 +1,5 @@
 /* All <a> elements should be clickable {{{ */
-a {
+a, [data-toggle], [data-collapse] {
 	cursor: pointer;
 }
 /* }}} */

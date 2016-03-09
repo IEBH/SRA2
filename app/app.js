@@ -4,6 +4,7 @@ var app = angular.module('app', [
 	'angular-bs-text-highlight',
 	'angular-bs-tooltip',
 	'colorpicker.module',
+	'monospaced.elastic',
 	'ng-collection-assistant',
 	'ngResource',
 	'prettyBytes',

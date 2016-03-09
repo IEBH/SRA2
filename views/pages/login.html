@@ -8,13 +8,16 @@
 			</div>
 			<div class="panel-body">
 				<p class="text-center pv">Sign in to continue</p>
-				<form role="form">
+				<form action="/login" method="POST" role="form">
+					<% if (message.length > 0) { %>
+						<div class="alert alert-danger"><%= message %></div>
+					<% } %>
 					<div class="form-group has-feedback">
-						<input id="exampleInputEmail1" type="email" autofocus placeholder="Email address" required class="form-control"/>
+						<input name="username" type="text" autofocus placeholder="Email address" required class="form-control"/>
 						<span class="fa fa-envelope form-control-feedback text-muted"></span>
 					</div>
 					<div class="form-group has-feedback">
-						<input id="exampleInputPassword1" type="password" placeholder="Password" required class="form-control"/>
+						<input name="password" type="password" placeholder="Password" required class="form-control"/>
 						<span class="fa fa-lock form-control-feedback text-muted"></span>
 					</div>
 					<button type="submit" class="btn btn-block btn-sm btn-primary">Login</button>

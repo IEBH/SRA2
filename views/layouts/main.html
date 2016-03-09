@@ -52,7 +52,7 @@
 
 	<!-- Angular-venn -->
 	<script src="/bower_components/d3/d3.min.js"></script>
-	<script src="/bower_components/venn.js/venn.min.js"></script>
+	<script src="/bower_components/venn.js/venn.js"></script>
 	<script src="/bower_components/angular-venn/angular-venn.js"></script>
 
 	<!-- lodash -->
@@ -87,12 +87,28 @@
 	<!-- smart-area -->
 	<script src="/bower_components/smart-area/dist/smart-area.js"></script>
 	<link href="/bower_components/smart-area/dist/smart-area.css" rel="stylesheet" type="text/css"/>
+	<script src="/bower_components/angular-elastic/elastic.js"></script>
 
 	<script src="/build/site.min.js"></script>
 	<link href="/build/site.min.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body ng-app="app" ng-controller="globalController">
+	<div id="modal-loader" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><i class="fa fa-spinner fa-spin fa-1.5x"></i> {{loader.title}}</h4>
+				</div>
+				<div class="modal-body">
+					<div class="progress">
+						<div class="progress-bar progress-bar-info progress-bar-striped active" style="width: {{loader.progress}}%"></div>
+					</div>
+					<p class="text-center">{{loader.text}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="wrapper">
 		<!-- Navbar {{{ -->
 		<header class="topnavbar-wrapper">

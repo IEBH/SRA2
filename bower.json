@@ -32,6 +32,7 @@
     "html5shiv": "^3.7.3",
     "respond": "^1.4.2",
     "jQuery-One-Page-Nav": "^3.0.0",
-    "angular-gravatar": "^0.4.1"
+    "angular-gravatar": "^0.4.1",
+    "angular-elastic": "^2.5.1"
   }
 }

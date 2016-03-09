@@ -1,5 +1,5 @@
 // App global controller (also $rootScope)
-app.controller('globalController', function($scope, $rootScope, $debounce, $location, $timeout, Settings, Users) {
+app.controller('globalController', function($scope, $rootScope, $debounce, $location, $timeout, Loader, Settings, Users) {
 	// .user {{{
 	$scope.user = {};
 
@@ -81,5 +81,9 @@ app.controller('globalController', function($scope, $rootScope, $debounce, $loca
 	$scope.getReferenceBucket = function() {
 		return $scope.referenceBucket;
 	};
+	// }}}
+
+	// Service hooks {{{
+	$rootScope.loader = Loader.loaderData;
 	// }}}
 });

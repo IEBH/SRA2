@@ -2,7 +2,7 @@
 * Load references belonging to a library
 * NOTE: Requires nesting within a controller that provides $scope.library
 */
-app.controller('libraryReferencesController', function($scope, $filter, $httpParamSerializer, $location, $rootScope, $window, References, Settings) {
+app.controller('libraryReferencesController', function($scope, $filter, $httpParamSerializer, $location, $rootScope, $window, Loader, References, Settings) {
 	$scope.references = null;
 	
 	// Data loading {{{
@@ -18,11 +18,19 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 		$scope.references = [];
 		$scope.refChunk = 0;
 		$scope.loading = true;
-		var loadingUnwatch = $scope.$watch('loading', () => {
-			if ($scope.loading) return; // Still loading;
-			$('#modal-loading').modal('hide') 
-			loadingUnwatch();
+		var loadingUnwatch = $scope.$watchGroup(['loading', 'references', 'library.referenceCount'], function() {
+			if ($scope.loading) {
+				Loader
+					.start()
+					.title('Loading reference library')
+					.text($filter('number')($scope.references.length) + ' / ' + $filter('number')($scope.library.referenceCount || 0) + ' loaded')
+					.progress(($scope.references.length / $scope.library.referenceCount) * 100)
+			} else {
+				Loader.finish();
+				loadingUnwatch();
+			}
 		});
+		Loader.start();
 		$('#modal-loading').modal('show');
 		$scope._refreshReferenceChunk();
 	};
