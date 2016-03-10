@@ -69,7 +69,7 @@
     "passport-local": "^1.0.0",
     "pm2": "^1.0.1",
     "readfilebyline": "^0.1.2",
-    "reflib": "^1.1.3",
+    "reflib": "^1.2.4",
     "require-dir": "^0.3.0",
     "rimraf": "^2.5.2",
     "run-sequence": "^1.1.5",

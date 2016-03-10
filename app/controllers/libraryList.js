@@ -1,5 +1,4 @@
 app.controller('libraryListController', function($scope, Libraries, References, Users, $location) {
-	$scope.loading = true;
 	$scope.libraries = null;
 
 	$scope.$watch('libraryAllowNew + libraries', function() {
@@ -17,6 +16,7 @@ app.controller('libraryListController', function($scope, Libraries, References, 
 	});
 
 	// Data refresher {{{
+	$scope.loading = true;
 	$scope.refresh = function() {
 		if (!$scope.user) return;
 		Libraries.query({status: 'active', owners: $scope.user._id}).$promise
