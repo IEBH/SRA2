@@ -62,7 +62,7 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 			$scope.references = $filter('orderBy')($scope.references, $scope.sort, $scope.sortReverse);
 			$scope.determineSelected();
 
-			if (data.length >= $scope.library.referenceCount) { // Exhausted refs from server
+			if ($scope.references.length >= $scope.library.referenceCount) { // Exhausted refs from server
 				$scope.loading = false;
 			} else {
 				$scope.refChunk++;
