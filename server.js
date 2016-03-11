@@ -116,31 +116,8 @@ global.ensure = {
 app.use(passport.initialize());
 app.use(passport.session());
 // }}}
-// Settings / Restify {{{
-// Add express-restify-mongoose-queryizer to fix ERM not supporting `?filter=value` format any more
-app.use(require('express-restify-mongoose-queryizer')({
-	rewriteQuery: true,
-	rewriteQueryDeleteKeys: false,
-	postToPatch: true,
-	postToPatchUrl: /^\/api\/.+\/[0-9a-f]{24}$/,
-}));
-
-global.restify = require('express-restify-mongoose');
-var ERMGuard = require('express-restify-mongoose-guard')({
-	// Forbid any field that begins with '_'
-	removeFields: [/^_/],
-
-	// Allow _id and __v (but map to _v)
-	renameFields: {_id: '_id', __v: '_v'},
-
-	// Remap all DELETE methods to UPDATE setting status=deleted
-	deleteUpdateRemap: {status: 'deleted'},
-});
-restify.defaults({
-	version: '',
-	middleware: ERMGuard.preHook,
-	outputFn: ERMGuard.postHook,
-});
+// Settings / ReST (Monoxide) {{{
+var monoxide = require('monoxide');
 // }}}
 // Settings / Logging {{{
 app.use(require('express-log-url'));

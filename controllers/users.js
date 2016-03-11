@@ -152,6 +152,3 @@ app.post('/api/users/logout', function(req, res) {
 	req.logout();
 	res.status(200).send({});
 });
-
-// FIXME: Security needed here to ensure only admins can get CRUD access
-restify.serve(app, Users);

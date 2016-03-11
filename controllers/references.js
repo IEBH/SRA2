@@ -1,16 +1,15 @@
-var References = require('../models/references');
+var monoxide = require('monoxide');
 
-restify.serve(app, References, {
-	preRead: function(req, res, next) {
-		var q = req.query.query ? JSON.parse(req.query.query) : {};
+app.use('/api/references/:id?', monoxide.express.middleware('references', {
+	save: true,
+	delete: true,
 
-		if (req.method.toUpperCase() == 'GET') {
-			if (req.params.id || q.id) return next(); // Read a specific ID - allowed
-			if (q.library) return next(); // Requesting from a specific library - allowed
-			// If we got here the requester is probably trying to spy on another library
-			return res.send('Either ID or library is required to query references').status(403).end();
-		} else {
-			return next();
-		}
+	restrict: function(req, res, next) {
+		// FIXME: Test to ensure the user owns the library that this reference belongs to
+		next();
 	},
-});
+	restrictQuery: function(req, res, next) {
+		if (!req.query.library) return res.send('Either a specific reference ID OR the library ID must be specified').status(403).end();
+		next();
+	},
+}));

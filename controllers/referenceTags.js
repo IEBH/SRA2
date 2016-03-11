@@ -1,3 +1,4 @@
-var ReferenceTags = require('../models/referenceTags');
+var monoxide = require('monoxide');
 
-restify.serve(app, ReferenceTags);
+app.use('/api/referenceTags/:id?', monoxide.express.middleware('referenceTags', {
+}));

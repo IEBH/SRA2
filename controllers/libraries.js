@@ -6,6 +6,7 @@ var fs = require('fs');
 var Libraries = require('../models/libraries');
 var multer = require('multer');
 var moment = require('moment');
+var monoxide = require('monoxide');
 var References = require('../models/references');
 var ReferenceTags = require('../models/referenceTags');
 var rl = require('reflib');
@@ -238,22 +239,13 @@ app.post('/api/libraries/:id/share', function(req, res) {
 });
 
 
-restify.serve(app, Libraries, {
-	middleware: function(req, res, next) {
-		if (req.method == 'GET') return next(); // Allow all GET actions reguardless of whether the user is logged in
-
+app.use('/api/libraries/:id?', monoxide.express.middleware('libraries', {
+	restrict: function(req, res, next) {
 		if (!req.user) return res.status(400).send('You must be logged in to do that');
-
-		// Ensure that .owners is either specified OR glue it to the query if not {{{
-		if (req.user.role == 'user' && req.body.owners) {
-			var owners = req.body.owners || req.query.owners;
-			if (_.isString(owners)) {
-				if (owners != req.user._id) return res.status(400).send('Owners must be the current user id');
-			} else {
-				req.query.owners = req.user._id;
-			}
-		}
-		// }}}
 		next();
 	},
-});
+	restrictWrite: function(req, res, next) {
+		// FIXME: Ensure only people owning the library can write
+		next();
+	},
+}));
