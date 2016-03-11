@@ -109,7 +109,7 @@ app.controller('referenceEditController', function($scope, $async, $location, $q
 
 	// Form submission {{{
 	$scope.submit = function() {
-		$scope.save().then(() => $location.path('/libraries/' + $scope.reference.library._id));
+		$scope.save().then(() => $location.path('/libraries/' + $scope.reference.library));
 	};
 	// }}}
 
