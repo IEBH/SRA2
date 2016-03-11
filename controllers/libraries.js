@@ -241,11 +241,11 @@ app.post('/api/libraries/:id/share', function(req, res) {
 
 app.use('/api/libraries/:id?', monoxide.express.middleware('libraries', {
 	restrict: function(req, res, next) {
-		if (!req.user) return res.status(400).send('You must be logged in to do that');
-		next();
-	},
-	restrictWrite: function(req, res, next) {
-		// FIXME: Ensure only people owning the library can write
+		if (!req.user) return res.send('You must be logged in to do that').status(400).end;
+
+		// Limit querying to only those owned by this user
+		req.query.owners = req.user._id;
+
 		next();
 	},
 }));
