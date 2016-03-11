@@ -20,7 +20,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 			// }}}
 			// .referenceCount {{{
 			$scope.library.referenceCount = null;
-			References.count({library: $scope.library._id}).$promise
+			References.count({library: $scope.library._id, status: 'active'}).$promise
 				.then(countData => $scope.library.referenceCount = countData.count);
 			// }}}
 			// Files {{{
