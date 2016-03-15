@@ -4,12 +4,19 @@
 */
 var _ = require('lodash');
 var async = require('async-chainable');
+var colors = require('colors');
 var compareNames = require('compare-names');
 var Libraries = require('../models/libraries');
 var levenshtein = require('levenshtein-dist');
 var References = require('../models/references');
 
 // Utility functions {{{
+// Cache various regular expressions so they are faster
+var reAlphaNumeric = /[^a-z0-9]+/g;
+var reJunkWords = /\b(the|a)\b/g;
+var reLooksNumeric = /^[^0-9\.\-]+$/;
+var reOnlyNumeric = /[^0-9]+/g;
+
 /**
 * Remove reference 'noise' from a string
 * @param string a The string to remove the noise from
@@ -18,8 +25,8 @@ var References = require('../models/references');
 function stripNoise(a) {
 	return (a)
 		.toLowerCase()
-		.replace(/[^a-z0-9]+/gi, ' ')
-		.replace(/\b(the|a)\b/gi, ' ');
+		.replace(reAlphaNumeric, ' ')
+		.replace(reJunkWords, ' ');
 }
 
 function compareRef(ref1, ref2) {
@@ -27,14 +34,11 @@ function compareRef(ref1, ref2) {
 	// Since these fields are usually numeric its fairly likely that if these dont match its not a duplicate
 	if (['year', 'pages', 'volume', 'number', 'isbn'].some(function(f) {
 		if (ref1[f] && ref2[f]) { // Both refs possess the comparitor
-			// If both fields look numeric (excepting hyphans and dots) {{{
-			if (!/^[^0-9\.\-]+$/.test(ref1[f])) return false;
-			if (!/^[^0-9\.\-]+$/.test(ref2[f])) return false;
-			// }}}
+			if (!reLooksNumeric.test(ref1[f]) || !reLooksNumeric.test(ref2[f])) return false;
 			// Strip all non-numerics out {{{
-			var cf1 = ref1[f].replace(/[^0-9]+/g, '');
+			var cf1 = ref1[f].replace(reOnlyNumeric, '');
 			if (!cf1) return; // Skip out if nothing is left anyway
-			var cf2 = ref2[f].replace(/[^0-9]+/g, '');
+			var cf2 = ref2[f].replace(reOnlyNumeric, '');
 			if (!cf2) return;
 			// }}}
 			return (cf1 != cf2);

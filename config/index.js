@@ -53,9 +53,7 @@ var defaults = {
 		license: 'c71e85e2d852cb4962d8b47dcad90de117501a07',
 	},
 	limits: {
-		references: 100, // How many references to hold in memory at once during operations such as export, dedupe etc.
-		dedupeOuter: 1, // How many comparison threads to allow at once (ref1). Ideally this should be '1' as anything else increases stack size n^n
-		dedupeInner: 10, // How many comparison threads to allow against dedupeOuter (total is dedupeOuter * dedupeInner)
+		dedupe: 20, // How many comparison threads to allow at once for the dedupe task
 	},
 	library: {
 		request: {
