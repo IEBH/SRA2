@@ -53,7 +53,7 @@ var defaults = {
 		license: 'c71e85e2d852cb4962d8b47dcad90de117501a07',
 	},
 	limits: {
-		dedupe: 20, // How many comparison threads to allow at once for the dedupe task
+		references: 100, // How many references to hold in memory at once during operations such as export, dedupe etc.
 	},
 	library: {
 		request: {
