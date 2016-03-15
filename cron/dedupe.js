@@ -6,8 +6,8 @@ var _ = require('lodash');
 var async = require('async-chainable');
 var colors = require('colors');
 var compareNames = require('compare-names');
+var natural = require('natural');
 var Libraries = require('../models/libraries');
-var levenshtein = require('levenshtein-dist');
 var References = require('../models/references');
 
 // Utility functions {{{
@@ -16,18 +16,6 @@ var reAlphaNumeric = /[^a-z0-9]+/g;
 var reJunkWords = /\b(the|a)\b/g;
 var reLooksNumeric = /^[^0-9\.\-]+$/;
 var reOnlyNumeric = /[^0-9]+/g;
-
-/**
-* Remove reference 'noise' from a string
-* @param string a The string to remove the noise from
-* @return string The input string with all noise removed
-*/
-function stripNoise(a) {
-	return (a)
-		.toLowerCase()
-		.replace(reAlphaNumeric, ' ')
-		.replace(reJunkWords, ' ');
-}
 
 function compareRef(ref1, ref2) {
 	// Stage 1 - Basic sanity checks - do not match if year, page, volume, isbn or number is present BUT mismatch exactly {{{
@@ -46,37 +34,33 @@ function compareRef(ref1, ref2) {
 	})) return false;
 	// }}}
 
+	/*
+	if (
+		natural.JaroWinklerDistance(ref1.title, ref2.title) >= config.tasks.dedupe.stringDistance.jaroWinklerMin &&
+		natural.LevenshteinDistance(ref1.title, ref2.title) <= config.tasks.dedupe.stringDistance.levenshteinMax
+	) {
+		console.log('---');
+		console.log('1', ref1.title);
+		console.log('2', ref2.title);
+		console.log('JWD', colors.cyan(natural.JaroWinklerDistance(ref1.title, ref2.title)));
+		console.log('Lev', colors.cyan(natural.LevenshteinDistance(ref1.title, ref2.title)));
+		console.log('---');
+	}
+	*/
+
 	// Stage 2 - Comparison of title + authors {{{
 	return (
 		(
 			ref1.title == ref2.title ||
-			levenshtein(ref1.title, ref2.title) < 10
+			(
+				natural.JaroWinklerDistance(ref1.title, ref2.title) >= config.tasks.dedupe.stringDistance.jaroWinklerMin &&
+				natural.LevenshteinDistance(ref1.title, ref2.title) <= config.tasks.dedupe.stringDistance.levenshteinMax
+			)
 		) &&
 		compareNames(ref1.authors, ref2.authors)
 	);
 	// }}}
 }
-
-/**
-* Fuzzily compare strings a and b
-* @param string a The first string to compare
-* @param string b The second string to compare
-* @return boolean True if a ≈ b
-*/
-function fuzzyStringCompare(a, b) {
-	if (a == b) return true;
-
-	var as = stripNoise(a);
-	if (as.length > 255) as = as.substr(0, 255);
-
-	var bs = stripNoise(b);
-	if (bs.length > 255) bs = bs.substr(0, 255);
-
-	if (levenshtein(as, bs) < 10) return true;
-
-	return false;
-}
-
 // }}}
 
 
@@ -130,7 +114,7 @@ module.exports = function(finish, task) {
 		// }}}
 
 		// Dedupe worker {{{
-		.limit(config.limits.dedupe)
+		.limit(config.tasks.dedupe.limit)
 		.forEach(references, function(nextRef, ref1, ref1Offset) { // Compare each reference...
 			scanned++;
 
