@@ -129,59 +129,52 @@ module.exports = function(finish, task) {
 		})
 		// }}}
 
-		// Dedupe worker (outer) {{{
-		.limit(config.limits.dedupeOuter)
+		// Dedupe worker {{{
+		.limit(config.limits.dedupe)
 		.forEach(references, function(nextRef, ref1, ref1Offset) { // Compare each reference...
-			var compareToSlice = references.slice(ref1Offset + 1);
 			scanned++;
 
-			async()
-				.forEach(references.slice(ref1Offset+1), function(next, ref2, ref2Offset) {
+			references
+				.slice(ref1Offset+1)
+				.forEach(function(ref2, ref2Offset) {
 					// console.log('COMPARE', ref1._id, ref1Offset, 'AGAINST', ref2._id, ref2Offset);
-					// Dedupe worker (inner - actual comparison between ref1 + ref2) {{{
 					comparisons++;
-					if (compareRef(ref1, ref2)) { // Is a dupe - process
-						dupesFound++;
-						var conflicting = {};
-						// Merge conflicting keys {{{
-						// For each key in either ref1 or ref2...
-						_(Object.keys(ref1.toObject()).concat(Object.keys(ref2.toObject())))
-							.uniq()
-							.filter(function(key) {
-								// Don't try to merge if the key is...
-								return ! (
-									_.startsWith(key, '_') ||
-									key == 'duplicateData' ||
-									key == 'created' ||
-									key == 'edited' ||
-									key == 'library' ||
-									key == 'status' ||
-									key == 'tags'
-								);
-							})
-							.forEach(function(key) {
-								if (ref1[key] && !ref2[key]) { // Ref1 has the key ref2 does not
-									// Pass
-								} else if (!ref1[key] && ref2[key]) { // Ref 1 does not have the key ref2 does
-									ref1[key] = ref2[key];
-								} else if (!_.isEqual(ref1[key], ref2[key])) { // Both have the key and it conflicts
-									conflicting[key] = ref2[key];
-								}
-							});
-						ref1.duplicateData.push({reference: ref2._id, conflicting: conflicting});
-						ref2.status = 'dupe';
-						// }}}
-						next();
-					} else { // Not a dupe - move on
-						next();
-					}
+					if (!compareRef(ref1, ref2)) return; // Is not a dupe - ignore
+					dupesFound++;
+					// Merge conflicting keys {{{
+					// For each key in either ref1 or ref2...
+					var conflicting = {};
+					_(_.keys(ref1.toObject()).concat(_.keys(ref2.toObject())))
+						.filter(function(key) {
+							// Don't try to merge if the key is...
+							return ! (
+								_.startsWith(key, '_') ||
+								key == 'duplicateData' ||
+								key == 'created' ||
+								key == 'edited' ||
+								key == 'library' ||
+								key == 'status' ||
+								key == 'tags'
+							);
+						})
+						.uniq()
+						.forEach(function(key) {
+							if (ref1[key] && !ref2[key]) { // Ref1 has the key ref2 does not
+								// Pass
+							} else if (!ref1[key] && ref2[key]) { // Ref 1 does not have the key ref2 does
+								ref1[key] = ref2[key];
+							} else if (!_.isEqual(ref1[key], ref2[key])) { // Both have the key and it conflicts
+								conflicting[key] = ref2[key];
+							}
+						});
+					ref1.duplicateData.push({reference: ref2._id, conflicting: conflicting});
+					ref2.status = 'dupe';
 					// }}}
-				})
-				.then(function(next) { // Update progress
-					task.progress.current++;
-					task.save(next);
-				})
-				.end(nextRef);
+				});
+
+			task.progress.current++;
+			task.save(nextRef);
+			console.log(colors.blue('DEDUPE'), 'Lib:', colors.cyan(this.library._id), '@', task.progress.current + '/' + references.length + ' = ' + colors.cyan(Math.ceil((task.progress.current / references.length) * 100) + '%'), 'deduped with', colors.cyan(dupesFound), 'dupes found');
 		})
 		// }}}
 
