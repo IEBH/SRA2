@@ -48,7 +48,10 @@ function compareRef(ref1, ref2) {
 
 	// Stage 2 - Comparison of title + authors {{{
 	return (
-		fuzzyStringCompare(ref1.title, ref2.title) &&
+		(
+			ref1.title == ref2.title ||
+			levenshtein(ref1.title, ref2.title) < 10
+		) &&
 		compareNames(ref1.authors, ref2.authors)
 	);
 	// }}}
