@@ -58,7 +58,7 @@
     "mocha-logger": "^1.0.2",
     "moment": "^2.11.2",
     "mongoose": "^4.4.5",
-    "monoxide": "0.0.1",
+    "monoxide": "0.0.4",
     "multer": "^1.1.0",
     "newrelic": "^1.25.4",
     "nodemailer": "^2.2.1",
