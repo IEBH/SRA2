@@ -54,8 +54,6 @@ var defaults = {
 	},
 	limits: {
 		references: 100, // How many references to hold in memory at once during operations such as export, dedupe etc.
-		dedupeOuter: 1, // How many comparison threads to allow at once (ref1). Ideally this should be '1' as anything else increases stack size n^n
-		dedupeInner: 10, // How many comparison threads to allow against dedupeOuter (total is dedupeOuter * dedupeInner)
 	},
 	library: {
 		request: {
@@ -83,6 +81,15 @@ var defaults = {
 	tasks: {
 		'library-cleaner': {
 			enabled: true,
+		},
+		dedupe: {
+			limit: 20, // How many comparison threads to allow at once for the dedupe task
+			stringDistance: {
+				// String distance between titles before its considered a match
+				// The following tests are performed in series - the idea being the least CPU costly are up first
+				jaroWinklerMin: 0.80, // natural.JaroWinklerDistance 
+				levenshteinMax: 10, // natural.LevenshteinDistance 
+			},
 		},
 	},
 };

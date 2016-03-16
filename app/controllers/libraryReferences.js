@@ -6,12 +6,11 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 	$scope.references = null;
 	
 	// Data loading {{{
-	$scope.$watch('library', function() {
-		if (!$scope.library || !$scope.library._id) return;
-		if (!$scope._initialLoad) {
-			$scope.refreshReferences();
-			$scope._initialLoad = true;
-		}
+	// Init loading when we have the (complete) library object
+	var loadInitUnwatch = $scope.$watch('library.referenceCount', function() {
+		if (!$scope.library || !$scope.library.referenceCount) return;
+		$scope.refreshReferences();
+		loadInitUnwatch();
 	});
 
 	$scope.refreshReferences = function() {
@@ -63,7 +62,7 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 			$scope.references = $filter('orderBy')($scope.references, $scope.sort, $scope.sortReverse);
 			$scope.determineSelected();
 
-			if (data.length < $scope.refChunk) { // Exhausted refs from server
+			if ($scope.references.length >= $scope.library.referenceCount) { // Exhausted refs from server
 				$scope.loading = false;
 			} else {
 				$scope.refChunk++;
