@@ -11,6 +11,10 @@ a:hover {
 	color: #fff;
 }
 
+.panel.widget > a:active {
+	text-decoration: none;
+}
+
 a.a-block {
 	display: block;
 }
