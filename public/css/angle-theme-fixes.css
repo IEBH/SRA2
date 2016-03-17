@@ -6,6 +6,14 @@ a, [data-toggle], [data-collapse] {
 a:hover {
 	text-decoration: none;
 }
+
+.panel.widget > a {
+	color: #fff;
+}
+
+a.a-block {
+	display: block;
+}
 /* }}} */
 /* Branding fixes {{{ */
 .navbar-brand, .navbar-brand:active {

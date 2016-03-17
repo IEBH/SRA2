@@ -1,14 +1,94 @@
-<div class="pad">
-	<div class="hero-unit">
-		<h1>CREBP SRA</h1>
-		<p>Welcome to the CREBP Systematic Review Creator</p>
-		<div ng-if="user._id" class="pad-top-lg text-center">
-			<a class="btn btn-large" href="#/help/getting-started"><i class="fa fa-book"></i> Getting started</a>
-			<a class="btn btn-large" href="#/libraries"><i class="fa fa-tags"></i> View your Libraries</a>
+<div class="row">
+	 <div class="col-lg-4 col-sm-12">
+		<div class="panel widget bg-primary">
+			 <a href="#/libraries" class="row row-table">
+				<div class="col-xs-4 text-center bg-primary-dark pv-lg">
+					 <em class="fa fa-tags fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-lg">
+					 <div class="h2 mt0">{{user.stats.libraries | number}}</div>
+					 <div class="text-uppercase">Libraries</div>
+				</div>
+			 </a>
 		</div>
-		<div ng-if="!user._id" class="pad-top-lg text-center">
-			<a class="btn btn-large" href="#/signup"><i class="fa fa-asterisk"></i> Create an account</a>
-			<a class="btn btn-large" href="#/login"><i class="fa fa-user"></i> Login</a>
+	 </div>
+	 <div class="col-lg-4 col-sm-12">
+		<div class="panel widget bg-purple">
+			 <a href="#/libraries" class="row row-table">
+					<div class="col-xs-4 text-center bg-purple-dark pv-lg">
+						 <em class="fa fa-bars fa-3x"></em>
+					</div>
+					<div class="col-xs-8 pv-lg">
+						 <div class="h2 mt0">{{user.stats.references | number}}</div>
+						 <div class="text-uppercase">References</div>
+					</div>
+			 </a>
+		</div>
+	 </div>
+	 <div class="col-lg-4 col-sm-12">
+		<div class="panel widget bg-green">
+			 <a href="#/libraries" class="row row-table">
+				<div class="col-xs-4 text-center bg-green-dark pv-lg">
+					 <em class="fa fa-share-alt fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-lg">
+					 <div class="h2 mt0">{{user.stats.librariesShared | number}}</div>
+					 <div class="text-uppercase">Libraries Shared</div>
+				</div>
+			 </a>
+		</div>
+	 </div>
+</div>
+<div ng-if="user.recentLibraries.length" class="row">
+	<div class="col-md-9">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Most recently viewed libraries
+				<div class="btn-group">
+					<a class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-cog"></i></span></a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="#/libraries/import"><i class="fa fa-cloud-upload"></i> Import references</a></li>
+						<li><a href="#/libraries/export"><i class="fa fa-cloud-download"></i> Export references</a></li>
+						<li class="divider"></li>
+						<li><a href="#/libraries/dedupe"><i class="fa fa-compress"></i> Eliminate Duplicates</a></li>
+						<li><a href="#/libraries/screen"><i class="fa fa-filter"></i> Screen references</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped table-bordered table-hover">
+					<tr>
+						<th width="40px">&nbsp;</th>
+						<th>Title</th>
+						<th width="60px">References</th>
+					</tr>
+					<tr ng-repeat="library in user.recentLibraries track by library._id">
+						<td>
+							<div class="dropdown">
+								<a class="btn btn-primary" data-toggle="dropdown"><i class="fa fa-tags"></i></a>
+								<ul class="dropdown-menu" ng-include="'/partials/libraries/verbs.html'"></ul>
+							</div>
+						</td>
+						<td><a href="#/libraries/{{library._id}}">{{library.title}}</a></td>
+						<td class="text-center"><a href="#/libraries/{{library._id}}">
+							<span class="badge badge-info">{{library.referenceCount}}</span>
+						</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="panel widget">
+			<div class="panel-body text-center">
+				<img gravatar-src="user.email" gravatar-size="128" gravatar-default="identicon" class="img-thumbnail img-circle">
+				<h3 class="m0">{{user.name}}</h3>
+				<p ng-if="user.faculty" class="text-muted">{{user.faculty}}</p>
+				<p>Proin metus justo, commodo in ultrices at, lobortis sit amet dui. Fusce dolor purus, adipiscing a tempus at, gravida vel purus.</p>
+			</div>
+			<div class="panel-body text-center bg-gray-dark">
+				<a class="bg-gray-dark a-block" href="#/profile">Edit profile</a>	
+			 </div>
 		</div>
 	</div>
 </div>
