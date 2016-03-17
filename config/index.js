@@ -54,6 +54,7 @@ var defaults = {
 	},
 	limits: {
 		references: 100, // How many references to hold in memory at once during operations such as export, dedupe etc.
+		recentLibraries: 10,
 	},
 	library: {
 		request: {

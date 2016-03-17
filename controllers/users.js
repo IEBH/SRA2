@@ -1,6 +1,8 @@
 var _ = require('lodash');
 var async = require('async-chainable');
 var colors = require('chalk');
+var Libraries = require('../models/libraries');
+var References = require('../models/references');
 var Users = require('../models/users');
 
 app.post('/login', passport.authenticate('local', {
@@ -94,10 +96,48 @@ app.post('/signup', function(req, res, finish) {
 app.get('/api/users/profile', function(req, res) {
 	if (!req.user) return res.status(200).send({});
 
-	var user = _.clone(req.user.data);
-	user.settings = req.user.settings;
+	async()
+		.parallel({
+			recentLibraries: function(next) {
+				Libraries.find({status: 'active'})
+					.select('_id viewed title')
+					.sort('-viewed -edited')
+					.limit(config.limits.recentLibraries)
+					.exec(next);
+			},
+			libraries: function(next) {
+				Libraries.find({
+					owners: req.user._id,
+					status: 'active',
+				})
+					.sort('name')
+					.exec(next);
+			},
+		})
+		.parallel({
+			referenceCount: function(next) {
+				References.count({library: {$in: this.libraries.map(l => l._id)}}, next);
+			},
+			librariesSharedCount: function(next) {
+				Libraries.count({
+					library: {$in: this.libraries.map(l => l._id)},
+					'owners.1': {$exists: true},
+				}, next);
+			},
+		})
+		.end(function(err) {
+			if (err) return res.status(400).send(err.toString());
 
-	res.send(user);
+			var user = _.clone(req.user.data);
+			user.settings = req.user.settings;
+			user.recentLibraries = this.recentLibraries;
+			user.stats = {
+				libraries: this.libraries.length,
+				librariesShared: this.librariesSharedCount,
+				references: this.referenceCount,
+			};
+			res.send(user);
+		});
 });
 
 app.post('/api/users/profile', function(req, res) {
