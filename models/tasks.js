@@ -1,8 +1,8 @@
-var name = 'tasks';
-var schema = new mongoose.Schema({
-	id: mongoose.Schema.ObjectId,
+var monoxide = require('monoxide');
+
+module.exports = monoxide.schema('tasks', {
 	created: {type: Date, default: Date.now},
-	creator: {type: mongoose.Schema.ObjectId, ref: 'users'},
+	creator: {type: 'pointer', ref: 'users'},
 	touched: {type: Date, default: Date.now},
 	worker: {type: String, index: true},
 	completed: {type: Date},
@@ -17,10 +17,8 @@ var schema = new mongoose.Schema({
 		created: {type: Date, default: Date.now},
 		response: {type: String},
 	}],
-	library: {type: mongoose.Schema.ObjectId, ref: 'libraries'},
-	references: [{type: mongoose.Schema.ObjectId, ref: 'references'}],
-	settings: {type: mongoose.Schema.Types.Mixed},
-	result: {type: mongoose.Schema.Types.Mixed},
+	library: {type: 'pointer', ref: 'libraries'},
+	references: [{type: 'pointer', ref: 'references'}],
+	settings: {type: 'any'},
+	result: {type: 'any'},
 });
-
-module.exports = mongoose.model(name, schema);

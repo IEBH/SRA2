@@ -1,10 +1,10 @@
-var name = 'references';
-var schema = new mongoose.Schema({
-	id: mongoose.Schema.ObjectId,
-	library: {type: mongoose.Schema.ObjectId, ref: 'libraries', indexed: true},
+var monoxide = require('monoxide');
+
+module.exports = monoxide.schema('references', {
+	library: {type: 'pointer', ref: 'libraries', indexed: true},
 	created: {type: Date, default: Date.now},
 	edited: {type: Date, default: Date.now},
-	tags: [{type: mongoose.Schema.ObjectId, ref: 'referenceTags', indexed: true}],
+	tags: [{type: 'pointer', ref: 'referenceTags', indexed: true}],
 	type: {type: String, default: 'report'},
 	title: {type: String},
 	journal: {type: String},
@@ -28,13 +28,11 @@ var schema = new mongoose.Schema({
 		weight: {type: Number},
 	},
 	parentage: { // see libraries model for a description of this structure
-		parent: {type: mongoose.Schema.ObjectId, ref: 'references', index: true},
+		parent: {type: 'pointer', ref: 'references', index: true},
 		fingerPrint: {type: String},
 	},
 	duplicateData: [{
-		reference: {type: mongoose.Schema.ObjectId, ref: 'references'},
-		conflicting: {type: mongoose.Schema.Types.Mixed, default: {}},
+		reference: {type: 'pointer', ref: 'references'},
+		conflicting: {type: 'object', default: {}},
 	}],
 });
-
-module.exports = mongoose.model(name, schema);
