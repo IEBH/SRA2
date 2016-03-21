@@ -59,6 +59,11 @@ app.post('/login', passport.authenticate('local', {
 	failureFlash: true
 }));
 
+app.get('/logout', function(req, res) {
+	req.logout();
+	res.redirect('/');
+});
+
 app.get('/login', function(req, res) {
 	if (req.user) // Already logged in
 		return res.redirect('/');
@@ -150,6 +155,7 @@ app.get('/api/users/profile', function(req, res) {
 		username: req.user.username,
 		email: req.user.email,
 		name: req.user.name,
+		role: req.user.role,
 		isAdmin: (req.user.role != 'user'),
 		isRoot: (req.user.role == 'root'),
 		title: req.user.title,

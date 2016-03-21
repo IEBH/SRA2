@@ -1,6 +1,6 @@
 var monoxide = require('monoxide');
 
-var User = module.exports = monoxide.schema('user', {
+var User = module.exports = monoxide.schema('users', {
 	username: {type: String, required: true, index: {unique: true}},
 	email: {type: String, required: true, index: {unique: true}},
 	_passhash: {type: String},
