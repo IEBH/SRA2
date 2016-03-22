@@ -88,7 +88,7 @@ var defaults = {
 			stringDistance: {
 				// String distance between titles before its considered a match
 				// The following tests are performed in series - the idea being the least CPU costly are up first
-				jaroWinklerMin: 0.80, // natural.JaroWinklerDistance 
+				jaroWinklerMin: 0.9, // natural.JaroWinklerDistance 
 				levenshteinMax: 10, // natural.LevenshteinDistance 
 			},
 		},
