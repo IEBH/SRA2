@@ -5,7 +5,10 @@
 
 var _ = require('lodash');
 var async = require('async-chainable');
+var colors = require('colors');
 var events = require('events');
+var moment = require('moment');
+var pm2 = require('pm2');
 var Tasks = require('../models/tasks');
 var request = require('superagent');
 var requireDir = require('require-dir');
@@ -23,6 +26,41 @@ function Cron() {
 				processed: 0,
 				processNames: [],
 			})
+			// Clean up PM2 tasks {{{
+			.then(function(next) {
+				async()
+					.then('pm2', function(next) {
+						pm2.connect(next);
+					})
+					.then('pm2Procs', function(next) {
+						pm2.list(next);
+					})
+					.forEach('pm2Procs', function(next, pm2Proc) {
+						if (!/^sra-task-/.test(pm2Proc.name)) return next();
+						if (pm2Proc.pm2_env.status == 'stopped') {
+							if (moment(pm2Proc.pm2_env.created_at).isAfter(moment().subtract(10, 'minutes'))) {
+								console.log(colors.blue('[PM2]'), 'Clean up process', colors.cyan(pm2Proc.name));
+								pm2.delete(pm2Proc.name, next);
+							} else {
+								console.log(colors.blue('[PM2]'), 'Process', colors.cyan(pm2Proc.name), 'stopped but not old enough for cleaning');
+								next();
+							}
+						} else {
+							console.log(colors.blue('[PM2]'), 'Process', colors.cyan(pm2Proc.name), 'status is', colors.cyan(pm2Proc.pm2_env.status));
+							next();
+						}
+					})
+					.end(function(err) {
+						if (err) {
+							pm2.disconnect(function() {
+								next('PM2 cleanup err: ' + err.toString());
+							});
+						} else {
+							pm2.disconnect(next);
+						}
+					});
+			})
+			// }}}
 			.then('tasks', function(next) {
 				Tasks.find({status: 'pending'})
 					.limit(config.cron.queryLimit) // Scoop out only so many records at a time
@@ -34,45 +72,31 @@ function Cron() {
 				if (!this.toProcess) return next('Nothing to do');
 				next();
 			})
-			.forEach('tasks', function(nextItem, item) {
+			.then(function(next) {
+				pm2.connect(next);
+			})
+			.forEach('tasks', function(nextTask, task) {
 				var outer = this;
-				async()
-					.then(function(next) {
-						// Sanity Checks {{{
-						if (!self.workers[item.worker]) return next('Unknown worker: ' + item.worker);
-						if (item.status != 'pending') return next('Grabbed task with invalid status: ' + item.status);
-						next();
-						// }}}
-					})
-					.then(function(next) { // Mark as processing so the next cycle doesn't grab it
-						item.status = 'processing';
-						item.save(next);
-					})
-					.then(function(next) {
-						self.workers[item.worker](next, item);
-					})
-					.then(function(next) {
-						outer.processed++;
-						outer.processNames.push(item.worker);
-						item.touched = new Date();
-						item.status = 'completed';
-						item.save(next);
-					})
-					.end(function(err) {
-						if (err) {
-							self.emit('err', err);
-							item.status = 'error';
-							item.history.push({
-								type: 'error',
-								response: err.toString(),
-							});
-							item.save(nextItem);
-						} else {
-							nextItem();
-						}
-					});
+				if (!self.workers[task.worker]) return next('Unknown worker: ' + task.worker);
+				if (task.status != 'pending') return next('Grabbed task with invalid status: ' + task.status);
+
+				//self.workers[task.worker](next, task);
+				console.log(colors.blue('[PM2]'), 'Launch task', colors.cyan(task._id), 'with worker', colors.cyan(task.worker));
+				pm2.start({
+					name: 'sra-task-' + task.worker + '-' + task._id,
+					script: './runtask.js',
+					args: ['-t', task._id],
+					autorestart: false,
+					env: {NODE_ENV: config.env},
+				}, function(err) {
+					if (err) return nextTask(err);
+					outer.processed++;
+					outer.processNames.push(task.worker);
+					nextTask();
+				});
 			})
 			.end(function(err) {
+				pm2.disconnect();
 				if (err) self.emit('err', err);
 				if (this.toProcess) self.emit('info', this.processed.toString() + '/' + this.toProcess.toString() + ' tasks processed: ' + this.processNames.join(','));
 
@@ -111,7 +135,7 @@ function Cron() {
 				Tasks.update({status: 'processing'}, {status: 'pending'}, next);
 			})
 			.then(function(next) {
-				cronRunner();
+				setTimeout(cronRunner);
 				next();
 			})
 			.end(function(err) {
