@@ -17,13 +17,13 @@
 	</div>
 
 	<div ng-if="query" id="engines" class="accordion-style1 panel-group">
-		<div ng-repeat="engine in engines" class="panel panel-default">
+		<div ng-repeat="engine in engines track by engine.id" class="panel panel-default">
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#engines" data-target="#engine-{{engine.id}}" aria-expanded="false">
 						{{engine.title}}
 					</a>
-					<a ng-click="openEngine(engine)" class="btn btn-sm btn-success pull-right"><i class="fa fa-search"></i></a>
+					<a ng-if="engine.allowSearch" ng-click="openEngine(engine)" class="btn btn-sm btn-success pull-right"><i class="fa fa-search"></i></a>
 				</h4>
 			</div>
 			<div class="panel-collapse collapse" id="engine-{{engine.id}}" aria-expanded="false" style="height: 0px;">

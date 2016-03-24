@@ -207,10 +207,12 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 
 	// Search engines {{{
 	$scope.engines = [
+		// PubMed {{{
 		{
 			id: 'pubmed',
 			aliases: ['pubmed', 'p', 'pm', 'pubm'],
 			title: 'PubMed',
+			allowSearch: true,
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
@@ -236,10 +238,13 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return '';
 			},
 		},
+		// }}}
+		// Ovid Medline {{{
 		{
 			id: 'ovid',
 			aliases: ['ovid', 'o', 'ov'],
 			title: 'Ovid Medline',
+			allowSearch: true,
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
@@ -265,10 +270,13 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return 'adj' + number;
 			},
 		},
+		// }}}
+		// Cochrane CENTRAL {{{
 		{
 			id: 'cochrane',
 			aliases: ['cochrane', 'c'],
 			title: 'Cochrane CENTRAL',
+			allowSearch: false,
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
@@ -320,10 +328,13 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return 'NEAR' + number;
 			},
 		},
+		// }}}
+		// Embase {{{
 		{
 			id: 'embase',
 			title: 'Embase',
 			aliases: ['embase', 'e', 'eb'],
+			allowSearch: false,
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
@@ -351,10 +362,13 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return 'NEAR/' + number;
 			},
 		},
+		// }}}
+		// Web of Science {{{
 		{
 			id: 'webofscience',
 			title: 'Web of Science',
 			aliases: ['webofscience', 'w', 'wos', 'websci'],
+			allowSearch: false,
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
@@ -412,10 +426,13 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return '';
 			},
 		},
+		// }}}
+		// CINAHL {{{
 		{
 			id: 'cinahl',
 			title: 'CINAHL',
 			aliases: ['cinahl', 'ci', 'cnal'],
+			allowSearch: false,
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
@@ -443,6 +460,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return 'N' + number;
 			},
 		},
+		// }}}
 	];
 	// }}}
 
