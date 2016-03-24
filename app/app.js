@@ -1,4 +1,5 @@
 var app = angular.module('app', [
+	'angular-clipboard',
 	'angular-venn',
 	'angular-async-chainable',
 	'angular-bs-text-highlight',

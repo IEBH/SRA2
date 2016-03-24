@@ -24,7 +24,10 @@
 						<i class="fa fa-fw" ng-class="engine.expanded ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
 						{{engine.title}}
 					</a>
-					<a ng-if="engine.allowSearch" ng-click="openEngine(engine)" class="btn btn-sm btn-success pull-right"><i class="fa fa-search"></i></a>
+					<div class="pull-right">
+						<a ng-if="engine.allowSearch" ng-click="engineOpen(engine)" class="btn btn-sm btn-success" tooltip="Open this search in a new tab"><i class="fa fa-search"></i></a>
+						<a ng-click="engineClipboard(engine)" class="btn btn-sm btn-success"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
+					</div>
 				</h4>
 			</div>
 			<div class="panel-collapse collapse" ng-class="engine.expanded && 'in'">

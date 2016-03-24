@@ -165,7 +165,7 @@ _.mixin({
 });
 // }}}
 
-app.controller('PolyglotSearchController', function($scope, $httpParamSerializer, $window, Assets) {
+app.controller('PolyglotSearchController', function($scope, $httpParamSerializer, $window, Assets, clipboard) {
 	$scope.query = '';
 
 	// MeSH auto-complete {{{
@@ -475,7 +475,11 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 		engine.expanded = !engine.expanded;
 	};
 
-	$scope.openEngine = function(engine) {
+	$scope.engineClipboard = function(engine) {
+		clipboard.copyText(engine.query);
+	};
+
+	$scope.engineOpen = function(engine) {
 		var linker = engine.linker(engine);
 		switch (linker.method) {
 			case 'POST':
