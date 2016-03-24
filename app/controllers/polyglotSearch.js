@@ -471,6 +471,10 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 		});
 	});
 
+	$scope.toggleExpandEngine = function(engine) {
+		engine.expanded = !engine.expanded;
+	};
+
 	$scope.openEngine = function(engine) {
 		var linker = engine.linker(engine);
 		switch (linker.method) {
