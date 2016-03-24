@@ -93,8 +93,21 @@ _.mixin({
 		[
 			/"(.+?)"\[(TIAB|TW|AB)\]/ig, // Pubmed style
 			/"(.+?)"\.(TW|TI|AB)\./ig, // Ovid style
+			/(\b|AND |OR )(.+?)\[(TIAB|TW|AB)\]/ig, // Pubmed style without quote enclosure
 		].forEach(function(re) {
-			q = q.replace(re, function(line, term, fields) {
+			q = q.replace(re, function(line) {
+				var prefix, term, fields;
+				// If we are passed the optional prefix argument we need to stash that
+				if (arguments.length == 6) {
+					prefix = arguments[1];
+					term = arguments[2];
+					fields = arguments[3];
+				} else {
+					prefix = '';
+					term = arguments[1];
+					fields = arguments[2];
+				}
+
 				switch (fields.toLowerCase()) {
 					case 'ti':
 						fields = settings.title;
@@ -110,12 +123,16 @@ _.mixin({
 						fields = settings.unknown;
 				}
 
-				return replacement
+				var out = replacement
 					.replace('$1', term)
 					.replace('$2', fields);
+
+				if (prefix) out = prefix + out; // Add optional prefix back, if any
+				return out;
 			});
 		});
-		return q;
+
+		return q.replace(/"{2,}/g, '"'); // Remove doubled up speachmarks (inserted during Ovid term rewrite above)
 	},
 
 
