@@ -93,7 +93,8 @@ _.mixin({
 		[
 			/"(.+?)"\[(TIAB|TW|AB)\]/ig, // Pubmed style
 			/"(.+?)"\.(TW|TI|AB)\./ig, // Ovid style
-			/(\b|AND |OR )(.+?)\[(TIAB|TW|AB)\]/ig, // Pubmed style without quote enclosure
+			/(AND |OR )(.+?)\[(TIAB|TW|AB)\]/ig, // Pubmed style without quote enclosure
+			/(AND |OR )(.+?)\.(TIAB|TW|AB)\./ig, // Ovid style without quote enclosure
 		].forEach(function(re) {
 			q = q.replace(re, function(line) {
 				var prefix, term, fields;
@@ -262,7 +263,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.wrapLines()
 					.replaceJunk()
 					.replaceMesh('exp $1/', this)
-					.replaceSearchFields('"$1"[$2]', this, {title: 'ti', abstract: 'ab', titleAbstract: 'tiab'})
+					.replaceSearchFields('"$1".$2.', this, {title: 'ti', abstract: 'ab', titleAbstract: 'tw'})
 					.replaceAdjacency(this)
 					.replaceRedundentEncasing(this)
 					.value();
@@ -349,7 +350,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceJunk()
 					.replace("'", '')
 					.replaceMesh("'$1'/exp", this)
-					.replaceSearchFields('"$1":$2', this, {title: 'ti', abstract: 'ab', titleAbstract: 'ti;ab'})
+					.replaceSearchFields('"$1":$2', this, {title: 'ti', abstract: 'ab', titleAbstract: 'ti,ab'})
 					.replaceAdjacency(this)
 					.replaceRedundentEncasing(this)
 					.value();
@@ -443,7 +444,8 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 					.replaceJunk()
 					.replace("'", '')
 					.replaceMesh('(MH "$1+")', this)
-					.replaceSearchFields('', this, {})
+					// FIXME: TIAB =~ TI term AND AB term
+					.replaceSearchFields('$2 "$1"', this, {title: 'ti', abstract: 'ab', titleAbstract: ''})
 					.replaceAdjacency(this)
 					.replaceRedundentEncasing(this)
 					.value();
