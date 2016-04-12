@@ -19,7 +19,7 @@ gulp.task('scenario', ['load:models'], function(finish) {
 				return monoxide.models[collection];
 			},
 			getCollectionSchema: function(collection) {
-				return monoxide.connection.base.models[collection].schema;
+				return monoxide.models[collection].$mongooseModel.schema;
 			},
 			nuke: true,
 		}))
@@ -28,7 +28,7 @@ gulp.task('scenario', ['load:models'], function(finish) {
 		})
 		.on('end', function(err) {
 			notify({
-				title: config.title,
+				title: config.title + ' - Scenario',
 				message: 'Build database',
 				icon: __dirname + '/icons/mongodb.png',
 			}).write(0);
