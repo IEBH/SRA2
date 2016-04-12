@@ -17,7 +17,6 @@ global.paths = {
 	ignore: [ // Do not monitor these paths for changes
 		'app/', // No need to watch this with nodemon as its handled seperately
 		'views/partials',
-		'bower_components/',
 		'node_modules/',
 		'build/',
 		'data/',
@@ -48,7 +47,7 @@ global.paths = {
 		'npm://lodash',
 		'file://node_modules/bootstrap/dist/css/bootstrap.css',
 		'file://node_modules/bootstrap/dist/js/bootstrap.js',
-		// 'npm://angular-async-chainable',
+		'npm://angular-async-chainable',
 		'npm://angular-bootstrap-colorpicker',
 		'npm://angular-bs-text-highlight',
 		'npm://angular-bs-tooltip',
@@ -66,7 +65,7 @@ global.paths = {
 		'file://node_modules/font-awesome/css/font-awesome.css', // NOTE: Font files are handled in controllers/vendors.js
 		'npm://moment',
 		'npm://smart-area',
-		'file://node_modules/venn/venn.js',
+		'npm://venn.js',
 	],
 };
 // }}}
