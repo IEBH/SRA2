@@ -2,6 +2,7 @@ app.controller('libraryWordFreqController', function($scope, $location, $rootSco
 	$scope.comparisons = [];
 
 	$scope.deburr = true;
+	$scope.combineWords = 1;
 	$scope.weights = {
 		title: 1,
 		keywords: 1,
@@ -34,6 +35,7 @@ app.controller('libraryWordFreqController', function($scope, $location, $rootSco
 			weights: $scope.weights,
 			ignore: $scope.ignore,
 			min: $scope.min,
+			combineWords: $scope.combineWords,
 		}}).$promise.then(function(data) {
 			$location.path('/libraries/task/' + data._id);
 		});
