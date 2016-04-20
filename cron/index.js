@@ -5,6 +5,7 @@
 
 var _ = require('lodash');
 var async = require('async-chainable');
+var asyncExec = require('async-chainable-exec');
 var colors = require('colors');
 var events = require('events');
 var moment = require('moment');
@@ -28,6 +29,7 @@ function Cron() {
 			})
 			// Clean up PM2 tasks {{{
 			.then(function(next) {
+				if (config.cron.runMode != 'pm2') return next();
 				async()
 					.then('pm2', function(next) {
 						pm2.connect(next);
@@ -73,6 +75,7 @@ function Cron() {
 				next();
 			})
 			.then(function(next) {
+				if (config.cron.runMode != 'pm2') return next();
 				pm2.connect(next);
 			})
 			.forEach('tasks', function(nextTask, task) {
@@ -80,23 +83,42 @@ function Cron() {
 				if (!self.workers[task.worker]) return next('Unknown worker: ' + task.worker);
 				if (task.status != 'pending') return next('Grabbed task with invalid status: ' + task.status);
 
-				//self.workers[task.worker](next, task);
-				console.log(colors.blue('[PM2]'), 'Launch task', colors.cyan(task._id), 'with worker', colors.cyan(task.worker));
-				pm2.start({
-					name: 'sra-task-' + task.worker + '-' + task._id,
-					script: './runtask.js',
-					args: ['-t', task._id],
-					autorestart: false,
-					env: {NODE_ENV: config.env},
-				}, function(err) {
-					if (err) return nextTask(err);
-					outer.processed++;
-					outer.processNames.push(task.worker);
-					nextTask();
-				});
+				console.log(colors.blue('[Cron]'), 'Launch task', colors.cyan(task._id), 'with worker', colors.cyan(task.worker));
+
+				switch (config.cron.runMode) {
+					case 'pm2':
+						pm2.start({
+							name: 'sra-task-' + task.worker + '-' + task._id,
+							script: './runtask.js',
+							args: ['-t', task._id],
+							autorestart: false,
+							env: {NODE_ENV: config.env},
+						}, function(err) {
+							if (err) return nextTask(err);
+							outer.processed++;
+							outer.processNames.push(task.worker);
+							nextTask();
+						});
+						break;
+					case 'inline':
+						async()
+							.use(asyncExec)
+							.execDefaults({
+								log: function(cmd) { console.log(colors.blue('[Cron]', 'RUN'), cmd.cmd + ' ' + cmd.params.join(' ')) },
+								out: function(data) { console.log(colors.blue('[Cron]', '-->'), data) }
+							})
+							.exec([
+								'node',
+								'./runtask.js',
+								'--task',
+								task._id,
+							])
+							.end(nextTask);
+						break;
+				}
 			})
 			.end(function(err) {
-				pm2.disconnect();
+				if (config.cron.runMode == 'pm2') pm2.disconnect();
 				if (err) self.emit('err', err);
 				if (this.toProcess) self.emit('info', this.processed.toString() + '/' + this.toProcess.toString() + ' tasks processed: ' + this.processNames.join(','));
 

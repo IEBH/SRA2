@@ -71,6 +71,11 @@ var defaults = {
 		enabled: true,
 		queryLimit: 10, // How many tasks to work on in one cron cycle
 		waitTime: 3 * 1000,
+
+		// How to execute tasks
+		// 'pm2' - run as seperated process via PM2
+		// 'inline' - run within this thread
+		runMode: 'pm2',
 	},
 	search: {
 		pubmed: {
