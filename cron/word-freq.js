@@ -64,7 +64,7 @@ module.exports = function(finish, task) {
 				if (task.settings.deburr) val = _.deburr(val);
 
 				// Strip punctuation
-				val = val.replace(/[=\+\-\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.]+/g, '');
+				val = val.replace(/[=\+\-\?\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.\/]+/g, '');
 
 				// Split up if not already an array
 				if (!_.isArray(val)) val = val.split(/\s+/);
