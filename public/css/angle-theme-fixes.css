@@ -128,6 +128,11 @@ table.table td .badge {
 }
 /* }}} */
 /* }}} */
+/* Forms {{{ */
+.form-control.no-border {
+	border: none;
+}
+/* }}} */
 /* Modals {{{ */
 #modal-loader {
 	top: 25%;
@@ -182,6 +187,11 @@ table.table td .badge {
 
 .panel-default > .panel-heading .btn-group.open > a {
 	color: #23527c;
+	box-shadow: none;
+}
+
+.panel-primary > .panel-heading > .btn-group > a {
+	color: #fff;
 	box-shadow: none;
 }
 
