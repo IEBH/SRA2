@@ -15,7 +15,7 @@ gulp.task('scenario', ['load:models'], function(finish) {
 		})
 		.on('end', function(err) {
 			notify({
-				title: config.title,
+				title: config.title + ' - Scenario',
 				message: 'Build database',
 				icon: __dirname + '/icons/mongodb.png',
 			}).write(0);

@@ -24,6 +24,11 @@ gulp.task('nodemon', ['load:config', 'build'], function(finish) {
 		gulp.start('partials');
 	});
 
+	watch('gulpfile.js', function() {
+		gutil.log('Rebuild Vendors...');
+		gulp.start('vendors');
+	});
+
 	var runCount = 0;
 	nodemon({
 		script: 'server.js',
