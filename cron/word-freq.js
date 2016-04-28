@@ -23,8 +23,15 @@ module.exports = function(finish, task) {
 					points: 3,
 					unique: 0,
 				},
+				max: {
+					results: 300, // Anything above this limit gets truncated by the resultsTruncate field
+					resultsTruncate: 'points',
+				},
+				combineWords: 1, // How many word combinations should be examined (1=one word,2=two words etc.)
 			});
+
 			if (!task.settings) return next('.settings object must be present for request');
+			if (task.settings.combineWords > 5) next('combineWords has a maximum of 5');
 			next();
 		})
 		// }}}
@@ -64,44 +71,63 @@ module.exports = function(finish, task) {
 				if (task.settings.deburr) val = _.deburr(val);
 
 				// Strip punctuation
-				val = val.replace(/[=\+\-\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.]+/g, '');
+				val = val.replace(/[=\+\-\?\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.\/]+/g, '');
 
 				// Split up if not already an array
 				if (!_.isArray(val)) val = val.split(/\s+/);
 
 				// Count all the words
-				val.forEach(function(word) {
+				var lastWords = [];
+				val.forEach(function(word, wordIndex) {
 					// Ignore rules {{{
-					if (!word) return;
 					if (
-						task.settings.ignore.common &&
-						/^(a|also|am|an|and|any|are|as|at|be|been|but|by|can|could|did|do|for|get|had|has|have|he|him|i|if|in|into|is|it|its|itself|last|may|me|met|more|n|no|not|p|of|on|only|or|our|over|see|set|she|should|some|such|than|that|them|then|their|there|these|the|they|this|to|up|upon|use|used|was|well|were|which|who|will|with|we|vs)$/.test(word)
-					) return;
-
-					if (task.settings.ignore.numbers) {
-						if (/^[0-9\.,]+$/.test(word)) return;
-						if (/^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)/.test(word)) return;
-						if (/(one|two|three|four|five|six|seven|eight|nine|teen)$/.test(word)) return;
-						if (/^(twenty|thirty|fourty|fifty|sixty|seventy|eighty|ninety)/.test(word)) return;
+						!word || // Is blank
+						( // Is a common word?
+							task.settings.ignore.common &&
+							/^(a|also|am|an|and|any|are|as|at|be|been|but|by|can|could|did|do|for|get|had|has|have|he|him|i|if|in|into|is|it|its|itself|last|may|me|met|more|n|no|not|p|of|on|only|or|our|over|see|set|she|should|some|such|than|that|them|then|their|there|these|the|they|this|to|up|upon|use|used|was|well|were|which|who|will|with|we|v|vs)$/.test(word)
+						) ||
+						( // Is a number?
+							task.settings.ignore.numbers &&
+							(
+								/^[0-9\.,]+$/.test(word) ||
+								/^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)/.test(word) ||
+								/(one|two|three|four|five|six|seven|eight|nine|teen)$/.test(word) ||
+								/^(twenty|thirty|fourty|fifty|sixty|seventy|eighty|ninety)/.test(word)
+							)
+						)
+					) {
+						lastWords = []; // Reset buffer
+						return;
 					}
 					// }}}
 
-					if (!self.words[word]) {
-						self.words[word] = {
-							points: 0,
-							unique: 0,
-						};
-						_.keys(task.settings.weights).forEach(function(key) {
-							self.words[word][key] = 0;
-						});
-					}
 
-					self.words[word].points += (task.settings.weights[key] || 1);
-					self.words[word][key]++;
-					if (!uniques[word]) {
-						self.words[word].unique++;
-						uniques[word] = true;
-					}
+					lastWords.push(word); // Add last word to stack
+					if (lastWords.length > task.settings.combineWords) lastWords.shift(); // Turn stack into circular array where we clip from the beginning (FILO)
+
+					_.times(task.settings.combineWords, function(offset) {
+						if (lastWords.length < offset) return;
+						var sentence = lastWords.slice(0 - (offset+1));
+
+						var wordGroup = sentence.join(' ');
+
+						if (!self.words[wordGroup]) {
+							self.words[wordGroup] = {
+								points: 0,
+								unique: 0,
+							};
+							_.keys(task.settings.weights).forEach(function(key) {
+								self.words[wordGroup][key] = 0;
+							});
+						}
+
+						self.words[wordGroup].points += (task.settings.weights[key] || 1);
+						self.words[wordGroup][key]++;
+						if (!uniques[wordGroup]) {
+							self.words[wordGroup].unique++;
+							uniques[wordGroup] = true;
+						}
+					});
 				});
 			});
 
@@ -116,6 +142,19 @@ module.exports = function(finish, task) {
 				data.word = word;
 				return data;
 			}));
+		})
+
+		// Truncate if we have too many results
+		.then('words', function(next) {
+			if (this.words.length <= task.settings.max.results) return next(null, this.words);
+
+			next(null, 
+				_(this.words)
+					.sortBy(task.settings.max.resultsTruncate)
+					.reverse()
+					.slice(0, task.settings.max.results)
+					.value()
+			);
 		})
 
 		// Apply settings.min

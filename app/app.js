@@ -1,6 +1,7 @@
 var app = angular.module('app', [
-	'angular-venn',
 	'angular-async-chainable',
+	'angular-clipboard',
+	'angular-venn',
 	'angular-bs-text-highlight',
 	'angular-bs-tooltip',
 	'colorpicker.module',

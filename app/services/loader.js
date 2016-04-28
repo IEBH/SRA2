@@ -55,7 +55,11 @@ app.factory('Loader', function() {
 		* @return object This chainable object
 		*/
 		start: function() {
-			$('#modal-loader').modal('show');
+			$('#modal-loader').modal({
+				backdrop: 'static', // Dont close modal on backdrop click
+				keyboard: false, // Dont close modal on keyboard
+				show: true,
+			});
 			this.loaderData.shown = true;
 			return this;
 		},

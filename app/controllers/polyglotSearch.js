@@ -69,57 +69,71 @@ _.mixin({
 		return q;
 	},
 
-	/**
-	* Replace search times for titles
-	* e.g. "Something"[ti] => "Something".tw.
-	* @param string q The query to operate on
-	* @param string engine The currently active engine
-	* @return string The query string with replacements applied
-	*/
-	replaceSearchTitles: function(q, replacement, engine) {
-		[
-			/"(.+?)"\[TI\]/ig, // Pubmed style
-			/"(.+?)"\.TI\./ig, // Ovid style
-		].forEach(function(re) {
-			q = q.replace(re, (line, term) => replacement.replace('$1', term));
-		});
-		return q;
-	},
-
 
 	/**
-	* Replace search times for abstracts
-	* e.g. "Something"[ab] => "Something".tw.
-	* @param string q The query to operate on
-	* @param string engine The currently active engine
-	* @return string The query string with replacements applied
-	*/
-	replaceSearchAbstracts: function(q, replacement, engine) {
-		[
-			/"(.+?)"\[AB\]/ig, // Pubmed style
-			/"(.+?)"\.AB\./ig, // Ovid style
-		].forEach(function(re) {
-			q = q.replace(re, (line, term) => replacement.replace('$1', term));
-		});
-		return q;
-	},
-
-
-	/**
-	* Replace search times for titles + abstracts
+	* Replace search fields for titles + abstracts
 	* e.g. "Something"[tiab] => "Something".tw.
-	* @param string q The query to operate on
-	* @param string engine The currently active engine
-	* @return string The query string with replacements applied
+	* @param {string} q The query to operate on
+	* @param {string} engine The currently active engine
+	* @param {Object} options Additional options to parse
+	* @param {string} [options.title=ti] What to replace title based syntax with
+	* @param {string} [options.abstract=ab] What to replace abstract based syntax with
+	* @param {string} [options.titleAbstract=tiab] What to replace combined title + abstract based syntax with
+	* @param {string} [options.unknown=?] What to replace unknown filed syntax with
+	* @return {string} The query string with replacements applied
 	*/
-	replaceSearchTitleAbstracts: function(q, replacement, engine) {
-		[
-			/"(.+?)"\[TIAB\]/ig, // Pubmed style
-			/"(.+?)"\.TW\./ig, // Ovid style
-		].forEach(function(re) {
-			q = q.replace(re, (line, term) => replacement.replace('$1', term));
+	replaceSearchFields: function(q, replacement, engine, options) {
+		var settings = _.defaults(options, {
+			title: 'ti',
+			abstract: 'ab',
+			titleAbstract: 'tiab',
+			unknown: '?',
 		});
-		return q;
+
+		[
+			/"(.+?)"\[(TIAB|TW|AB)\]/ig, // Pubmed style
+			/"(.+?)"\.(TW|TI|AB)\./ig, // Ovid style
+			/(AND |OR )(.+?)\[(TIAB|TW|AB)\]/ig, // Pubmed style without quote enclosure
+			/(AND |OR )(.+?)\.(TIAB|TW|AB)\./ig, // Ovid style without quote enclosure
+		].forEach(function(re) {
+			q = q.replace(re, function(line) {
+				var prefix, term, fields;
+				// If we are passed the optional prefix argument we need to stash that
+				if (arguments.length == 6) {
+					prefix = arguments[1];
+					term = arguments[2];
+					fields = arguments[3];
+				} else {
+					prefix = '';
+					term = arguments[1];
+					fields = arguments[2];
+				}
+
+				switch (fields.toLowerCase()) {
+					case 'ti':
+						fields = settings.title;
+						break;
+					case 'ab':
+						fields = settings.abstract;
+						break;
+					case 'tiab':
+					case 'tw':
+						fields = settings.titleAbstract;
+						break;
+					default:
+						fields = settings.unknown;
+				}
+
+				var out = replacement
+					.replace('$1', term)
+					.replace('$2', fields);
+
+				if (prefix) out = prefix + out; // Add optional prefix back, if any
+				return out;
+			});
+		});
+
+		return q.replace(/"{2,}/g, '"'); // Remove doubled up speachmarks (inserted during Ovid term rewrite above)
 	},
 
 
@@ -165,10 +179,11 @@ _.mixin({
 });
 // }}}
 
-app.controller('PolyglotSearchController', function($scope, $httpParamSerializer, $window, Assets) {
+app.controller('PolyglotSearchController', function($scope, $httpParamSerializer, $window, Assets, clipboard) {
 	$scope.query = '';
 
 	// MeSH auto-complete {{{
+	// NOTE: Need to add `smart-area="smartArea"` back to main <textarea/> input in view to activate
 	$scope.smartArea = {
 		autocomplete: [{
 			words: [],
@@ -207,18 +222,18 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 
 	// Search engines {{{
 	$scope.engines = [
+		// PubMed {{{
 		{
 			id: 'pubmed',
 			aliases: ['pubmed', 'p', 'pm', 'pubm'],
 			title: 'PubMed',
+			allowSearch: true,
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
 					.replaceMesh('"$1"[MESH]', this)
-					.replaceSearchTitles('"$1"[ti]', this)
-					.replaceSearchAbstracts('"$1"[ab]', this)
-					.replaceSearchTitleAbstracts('"$1"[tiab]', this)
+					.replaceSearchFields('"$1"[$2]', this, {title: 'ti', abstract: 'ab', titleAbstract: 'tiab'})
 					.replaceAdjacency(this)
 					.replaceRedundentEncasing(this)
 					.value();
@@ -236,18 +251,19 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return '';
 			},
 		},
+		// }}}
+		// Ovid Medline {{{
 		{
 			id: 'ovid',
 			aliases: ['ovid', 'o', 'ov'],
 			title: 'Ovid Medline',
+			allowSearch: true,
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
 					.replaceMesh('exp $1/', this)
-					.replaceSearchTitles('"$1".ti.', this)
-					.replaceSearchAbstracts('"$1".ab.', this)
-					.replaceSearchTitleAbstracts('"$1".tw.', this)
+					.replaceSearchFields('"$1".$2.', this, {title: 'ti', abstract: 'ab', titleAbstract: 'tw'})
 					.replaceAdjacency(this)
 					.replaceRedundentEncasing(this)
 					.value();
@@ -265,18 +281,19 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return 'adj' + number;
 			},
 		},
+		// }}}
+		// Cochrane CENTRAL {{{
 		{
 			id: 'cochrane',
 			aliases: ['cochrane', 'c'],
 			title: 'Cochrane CENTRAL',
+			allowSearch: false,
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
 					.replaceMesh('[mh "$1"]', this)
-					.replaceSearchTitles('"$1":ti', this)
-					.replaceSearchAbstracts('"$1":ab', this)
-					.replaceSearchTitleAbstracts('"$1":ti;ab', this)
+					.replaceSearchFields('"$1":$2', this, {title: 'ti', abstract: 'ab', titleAbstract: 'ti,ab'})
 					.replaceAdjacency(this)
 					.replaceRedundentEncasing(this)
 					.value();
@@ -320,19 +337,20 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return 'NEAR' + number;
 			},
 		},
+		// }}}
+		// Embase {{{
 		{
 			id: 'embase',
 			title: 'Embase',
 			aliases: ['embase', 'e', 'eb'],
+			allowSearch: false,
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
 					.replace("'", '')
 					.replaceMesh("'$1'/exp", this)
-					.replaceSearchTitles('"$1":ti', this)
-					.replaceSearchAbstracts('"$1":ab', this)
-					.replaceSearchTitleAbstracts('"$1":ti;ab', this)
+					.replaceSearchFields('"$1":$2', this, {title: 'ti', abstract: 'ab', titleAbstract: 'ti,ab'})
 					.replaceAdjacency(this)
 					.replaceRedundentEncasing(this)
 					.value();
@@ -351,19 +369,20 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return 'NEAR/' + number;
 			},
 		},
+		// }}}
+		// Web of Science {{{
 		{
 			id: 'webofscience',
 			title: 'Web of Science',
 			aliases: ['webofscience', 'w', 'wos', 'websci'],
+			allowSearch: false,
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
 					.replace(/"(.+?)"\[MESH\] (AND|OR) /ig, '')
 					.replace(/"(.+?)"\[MESH\]/ig, '')
-					.replaceSearchTitles('', this)
-					.replaceSearchAbstracts('', this)
-					.replaceSearchTitleAbstracts('', this)
+					.replaceSearchFields('', this, {})
 					.replaceAdjacency(this)
 					.replaceRedundentEncasing(this)
 					.value();
@@ -412,20 +431,21 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return '';
 			},
 		},
+		// }}}
+		// CINAHL {{{
 		{
 			id: 'cinahl',
 			title: 'CINAHL',
 			aliases: ['cinahl', 'ci', 'cnal'],
+			allowSearch: false,
 			rewriter: function(q) { 
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
 					.replace("'", '')
 					.replaceMesh('(MH "$1+")', this)
-					// FIXME: Needs combining like this: TI (title1 OR title2 OR title3) OR AB (ab1 OR ab2 OR ab3)
-					.replaceSearchTitles('', this)
-					.replaceSearchAbstracts('', this)
-					.replaceSearchTitleAbstracts('', this)
+					// FIXME: TIAB =~ TI term AND AB term
+					.replaceSearchFields('$2 "$1"', this, {title: 'ti', abstract: 'ab', titleAbstract: ''})
 					.replaceAdjacency(this)
 					.replaceRedundentEncasing(this)
 					.value();
@@ -443,16 +463,28 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				return 'N' + number;
 			},
 		},
+		// }}}
 	];
 	// }}}
 
+	// Query watcher + refresher {{{
 	$scope.$watch('query', function() {
 		$scope.engines.forEach(function(engine) {
 			engine.query = engine.rewriter.call(engine, _.clone($scope.query));
 		});
 	});
+	// }}}
 
-	$scope.openEngine = function(engine) {
+	// Engine interaction {{{
+	$scope.toggleExpandEngine = function(engine) {
+		engine.expanded = !engine.expanded;
+	};
+
+	$scope.engineClipboard = function(engine) {
+		clipboard.copyText(engine.query);
+	};
+
+	$scope.engineOpen = function(engine) {
 		var linker = engine.linker(engine);
 		switch (linker.method) {
 			case 'POST':
@@ -472,4 +504,5 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				$window.open(linker.action + '?' + $httpParamSerializer(linker.fields), '_blank');
 		}
 	};
+	// }}}
 });

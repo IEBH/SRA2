@@ -49,7 +49,7 @@ gulp.task('scripts', ['load:config'], function() {
 		.on('end', function() {
 			if (!hasErr)
 				notify({
-					title: config.title,
+					title: config.title + ' - Scripts',
 					message: 'Rebuilt frontend scripts' + (++scriptBootCount > 1 ? ' #' + scriptBootCount : ''),
 					icon: __dirname + '/icons/angular.png',
 				}).write(0);

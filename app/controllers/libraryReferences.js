@@ -42,6 +42,7 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 			status: 'active',
 			limit: Settings.getLimits.references,
 			skip: Settings.getLimits.references * $scope.refChunk,
+			select: '_id,tags,type,title,authors,journal',
 		};
 		if ($scope.activeTag && !$scope.activeTag.meta) rQuery.tags = $scope.activeTag._id;
 

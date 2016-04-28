@@ -249,7 +249,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			url: '/textselect',
 			views: {main: {templateUrl: '/partials/textselect/textselect.html'}},
 			data: {
-				title: 'Text Select'
+				title: 'Text Select',
+			}
+		})
+		// }}}
+		// Help {{{
+		.state('help-getting-started', {
+			url: '/help/getting-started',
+			views: {main: {templateUrl: '/partials/help/getting-started.html'}},
+			data: {
+				title: 'Getting Started',
 			}
 		})
 		// }}}

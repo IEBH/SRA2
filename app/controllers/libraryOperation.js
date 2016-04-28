@@ -242,7 +242,6 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 	});
 
 	$scope.import = function() {
-		console.log('SUBMIT!');
 		$timeout(function() {
 			$('form')
 				.ajaxSubmit({

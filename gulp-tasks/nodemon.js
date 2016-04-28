@@ -24,6 +24,11 @@ gulp.task('nodemon', ['load:config', 'build'], function(finish) {
 		gulp.start('partials');
 	});
 
+	watch('gulpfile.js', function() {
+		gutil.log('Rebuild Vendors...');
+		gulp.start('vendors');
+	});
+
 	var runCount = 0;
 	nodemon({
 		script: 'server.js',
@@ -33,7 +38,7 @@ gulp.task('nodemon', ['load:config', 'build'], function(finish) {
 		.on('start', function() {
 			if (runCount > 0) return;
 			notify({
-				title: config.title,
+				title: config.title + ' - Nodemon',
 				message: 'Server started',
 				icon: __dirname + '/icons/node.png',
 			}).write(0);
@@ -41,7 +46,7 @@ gulp.task('nodemon', ['load:config', 'build'], function(finish) {
 		.on('restart', function() {
 			runCount++;
 			notify({
-				title: config.title,
+				title: config.title + ' - Nodemon',
 				message: 'Server restart' + (++runCount > 1 ? ' #' + runCount : ''),
 				icon: __dirname + '/icons/nodemon.png',
 			}).write(0);

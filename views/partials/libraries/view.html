@@ -95,54 +95,54 @@
 		</div>
 		<div class="panel-body">
 
-	<div ng-style="{visibility: selected.length ? 'visible' : 'hidden'}" class="navbar navbar-default">
-		<ul class="nav navbar-nav">
-			<li class="btn-group">
-				<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">{{selected.length}} selected <i class="fa fa-chevron-down"></i></a>
-				<ul class="dropdown-menu">
-					<li><a ng-click="selectAction('all')">Select all</a></li>
-					<li><a ng-click="selectAction('none')">Select none</a></li>
-					<li><a ng-click="selectAction('invert')">Invert selection</a></li>
+			<div class="navbar navbar-default">
+				<ul class="nav navbar-nav">
+					<li class="btn-group">
+						<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">{{selected.length}} selected <i class="fa fa-chevron-down"></i></a>
+						<ul class="dropdown-menu">
+							<li><a ng-click="selectAction('all')">Select all</a></li>
+							<li><a ng-click="selectAction('none')">Select none</a></li>
+							<li><a ng-click="selectAction('invert')">Invert selection</a></li>
+						</ul>
+					</li>
+					<li ng-show="selected.length" ng-if="isEditable && hasTags" class="btn-group">
+						<a class="btn btn-info dropdown-toggle" data-toggle="dropdown">Tag <i class="fa fa-chevron-down"></i></a>
+						<ul class="dropdown-menu">
+							<li ng-repeat="tag in tags | filter:{meta:false}"><a ng-click="selectAction('tag', tag)"><i class="fa fa-tag"></i> {{tag.title}}</a></li>
+							<li class="divider"></li>
+							<li><a ng-click="selectAction('tag-clear')"><i class="fa fa-eraser"></i> Clear tags</a></li>
+						</ul>
+					</li>
+					<li ng-show="selected.length" class="btn-group">
+						<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action <i class="fa fa-chevron-down"></i></a>
+						<ul class="dropdown-menu">
+							<li><a ng-click="selectAction('export')"><i class="fa fa-cloud-download"></i> Export selected</a></li>
+							<li ng-if="isEditable"><a ng-click="selectAction('request')"><i class="fa fa-envelope-o"></i> Journal request</a></li>
+							<li ng-if="isEditable"><a ng-click="selectAction('dedupe')"><i class="fa fa-compress"></i> Deduplicate</a></li>
+							<li ng-if="isEditable"><a ng-click="selectAction('screen')"><i class="fa fa-filter"></i> Screen</a></li>
+							<li ng-if="isEditable"><a ng-click="selectAction('word-freq')"><i class="fa fa-sort-numeric-desc"></i> Word-frequency analysis</a></li>
+							<li ng-if="isEditable" class="divider"></li>
+							<li ng-if="isEditable"><a ng-click="selectAction('delete')"><i class="fa fa-trash"></i> Delete</a></li>
+						</ul>
+					</li>
 				</ul>
-			</li>
-			<li ng-if="isEditable && hasTags" class="btn-group">
-				<a class="btn btn-info dropdown-toggle" data-toggle="dropdown">Tag <i class="fa fa-chevron-down"></i></a>
-				<ul class="dropdown-menu">
-					<li ng-repeat="tag in tags | filter:{meta:false}"><a ng-click="selectAction('tag', tag)"><i class="fa fa-tag"></i> {{tag.title}}</a></li>
-					<li class="divider"></li>
-					<li><a ng-click="selectAction('tag-clear')"><i class="fa fa-eraser"></i> Clear tags</a></li>
-				</ul>
-			</li>
-			<li class="btn-group">
-				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action <i class="fa fa-chevron-down"></i></a>
-				<ul class="dropdown-menu">
-					<li><a ng-click="selectAction('export')"><i class="fa fa-cloud-download"></i> Export selected</a></li>
-					<li ng-if="isEditable"><a ng-click="selectAction('request')"><i class="fa fa-envelope-o"></i> Journal request</a></li>
-					<li ng-if="isEditable"><a ng-click="selectAction('dedupe')"><i class="fa fa-compress"></i> Deduplicate</a></li>
-					<li ng-if="isEditable"><a ng-click="selectAction('screen')"><i class="fa fa-filter"></i> Screen</a></li>
-					<li ng-if="isEditable"><a ng-click="selectAction('word-freq')"><i class="fa fa-sort-numeric-desc"></i> Word-frequency analysis</a></li>
-					<li ng-if="isEditable" class="divider"></li>
-					<li ng-if="isEditable"><a ng-click="selectAction('delete')"><i class="fa fa-trash"></i> Delete</a></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
+			</div>
 
-	<div id="modal-loading" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title"><i class="fa fa-spinner fa-spin fa-1.5x"></i> Loading reference library...</h4>
-				</div>
-				<div class="modal-body">
-					<div class="progress">
-						<div class="progress-bar progress-bar-info progress-bar-striped active" style="width: {{references.length / library.referenceCount | percentage}}"></div>
+			<div id="modal-loading" class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title"><i class="fa fa-spinner fa-spin fa-1.5x"></i> Loading reference library...</h4>
+						</div>
+						<div class="modal-body">
+							<div class="progress">
+								<div class="progress-bar progress-bar-info progress-bar-striped active" style="width: {{references.length / library.referenceCount | percentage}}"></div>
+							</div>
+							<p class="text-center">{{references.length | number}} / {{library.referenceCount | number}} loaded</p>
+						</div>
 					</div>
-					<p class="text-center">{{references.length | number}} / {{library.referenceCount | number}} loaded</p>
 				</div>
 			</div>
-		</div>
-	</div>
 
 			<ul ng-if="hasTags" class="nav nav-tabs" id="tag-filter">
 				<li ng-repeat="tag in tags track by tag._id" ng-class="activeTag._id == tag._id && 'active'">
@@ -173,76 +173,80 @@
 			</div>
 
 			<table ng-if="references && references.length" class="table table-striped table-bordered" id="reference-table">
-				<thead><tr>
-					<th width="40px" class="text-center">
-						<div class="btn-group">
-							<a class="dropdown-toggle" data-toggle="dropdown">
-								<i class="fa fa-2x" ng-class="references && references.length && selected.length == references.length ? 'fa-check-square-o' : 'fa-square-o'"></i>
+				<thead>
+					<tr>
+						<th width="40px" class="text-center">
+							<div class="btn-group">
+								<a class="dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-2x" ng-class="references && references.length && selected.length == references.length ? 'fa-check-square-o' : 'fa-square-o'"></i>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a ng-click="selectAction('all')">Select all</a></li>
+									<li><a ng-click="selectAction('none')">Select none</a></li>
+									<li><a ng-click="selectAction('invert')">Invert selection</a></li>
+									<li ng-if="hasTags">
+										<a>Select by tag <i class="pull-right fa fa-caret-right"></i></a>
+										<ul class="dropdown-menu">
+											<li ng-repeat="tag in tags | filter:{meta:false}"><a ng-click="selectAction('byTag', tag)">
+												<i class="fa fa-tag"></i>
+												{{tag.title}}
+											</a></li>
+											<li class="divider"></li>
+											<li><a ng-click="selectAction('byNoTag')">
+												<i class="fa fa-tag"></i>
+												Untagged
+											</a></li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							
+						</th>
+						<th><a ng-click="setSort('title')">
+							Title
+							<i ng-if="sort=='title'" ng-class="!sortReverse ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
+						</a></th>
+						<th>Authors</th>
+						<th ng-if="hasTags" width="150px">Tags</th>
+						<th ng-if="isScreening" width="70px"><a ng-click="setSort('screening.weight')">
+							Weight
+							<i ng-if="sort=='screening.weight'" ng-class="!sortReverse ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
+						</th>
+						<th><i class="fa fa-file-pdf-o"></i></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="reference in references track by reference._id" ng-class="{info: reference.selected}">
+						<td class="text-center">
+							<input type="checkbox" ng-model="reference.selected" ng-change="determineSelected()"/>
+						</td>
+						<td><a href="#/references/{{reference._id}}">{{::reference.title}}</a></td>
+						<td>
+							<a href="#/references/{{reference._id}}">
+								<span ng-repeat="author in reference.authors | limitTo:3" class="badge badge-info">
+									<i class="fa fa-user"></i>
+									{{author}}
+								</span>
+								<span ng-if="::reference.authors.length > 3" class="badge badge-default">
+									<i class="fa fa-group"></i>
+									+{{::reference.authors.length - 3}}
+								</span>
+								<em ng-if="::(!reference.authors || !reference.authors.length)">none</em>
 							</a>
-							<ul class="dropdown-menu">
-								<li><a ng-click="selectAction('all')">Select all</a></li>
-								<li><a ng-click="selectAction('none')">Select none</a></li>
-								<li><a ng-click="selectAction('invert')">Invert selection</a></li>
-								<li ng-if="hasTags">
-									<a>Select by tag <i class="pull-right fa fa-caret-right"></i></a>
-									<ul class="dropdown-menu">
-										<li ng-repeat="tag in tags | filter:{meta:false}"><a ng-click="selectAction('byTag', tag)">
-											<i class="fa fa-tag"></i>
-											{{tag.title}}
-										</a></li>
-										<li class="divider"></li>
-										<li><a ng-click="selectAction('byNoTag')">
-											<i class="fa fa-tag"></i>
-											Untagged
-										</a></li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-						
-					</th>
-					<th><a ng-click="setSort('title')">
-						Title
-						<i ng-if="sort=='title'" ng-class="!sortReverse ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
-					</a></th>
-					<th>Authors</th>
-					<th ng-if="hasTags" width="150px">Tags</th>
-					<th ng-if="isScreening" width="70px"><a ng-click="setSort('screening.weight')">
-						Weight
-						<i ng-if="sort=='screening.weight'" ng-class="!sortReverse ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
-					</th>
-					<th><i class="fa fa-file-pdf-o"></i></th>
-				</tr></thead>
-				<tr ng-repeat="reference in references | filter:{status:'active'} track by reference._id" ng-class="{info: reference.selected}">
-					<td class="text-center">
-						<input type="checkbox" ng-model="reference.selected" ng-change="determineSelected()"/>
-					</td>
-					<td><a href="#/references/{{reference._id}}">{{::reference.title}}</a></td>
-					<td>
-						<a href="#/references/{{reference._id}}">
-							<span ng-repeat="author in reference.authors | limitTo:3" class="badge badge-info">
-								<i class="fa fa-user"></i>
-								{{author}}
-							</span>
-							<span ng-if="::reference.authors.length > 3" class="badge badge-default">
-								<i class="fa fa-group"></i>
-								+{{::reference.authors.length - 3}}
-							</span>
-							<em ng-if="::(!reference.authors || !reference.authors.length)">none</em>
-						</a>
-					</td>
-					<td ng-if="hasTags">
-						<a ng-click="editTags(reference)"> 
-							<span ng-repeat="tag in reference.tags" class="tag" style="background: {{tagsObj[tag].color}}">{{tagsObj[tag].title}}</span>
-							<i class="fa fa-pencil show-on-hover"></i>
-						</a>
-					</td>
-					<td ng-if="isScreening" class="text-center">
-						<span class="badge badge-default">{{reference.screening.weight | number}}</span>
-					</td>
-					<td><a ng-click="openFullText(reference)">
-						<i ng-class="isFullTextDownloaded(reference) ? '' : 'text-muted'" class="fa fa-file-pdf-o"></i>
-					</a></td>
+						</td>
+						<td ng-if="hasTags">
+							<a ng-click="editTags(reference)"> 
+								<span ng-repeat="tag in reference.tags" class="tag" style="background: {{tagsObj[tag].color}}">{{tagsObj[tag].title}}</span>
+								<i class="fa fa-pencil show-on-hover"></i>
+							</a>
+						</td>
+						<td ng-if="isScreening" class="text-center">
+							<span class="badge badge-default">{{reference.screening.weight | number}}</span>
+						</td>
+						<td><a ng-click="openFullText(reference)">
+							<i ng-class="isFullTextDownloaded(reference) ? '' : 'text-muted'" class="fa fa-file-pdf-o"></i>
+						</a></td>
+					</tr>
 				</tr>
 			</table>
 		</div>

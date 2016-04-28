@@ -15,10 +15,15 @@ var References = require('../models/references');
 var reAlphaNumeric = /[^a-z0-9]+/g;
 var reJunkWords = /\b(the|a)\b/g;
 var reLooksNumeric = /^[^0-9\.\-]+$/;
+var reLooksNumericWhitespace = /^\s*[^0-9\.\-]+\s*$/;
 var reOnlyNumeric = /[^0-9]+/g;
 
 function compareRef(ref1, ref2) {
-	// Stage 1 - Basic sanity checks - do not match if year, page, volume, isbn or number is present BUT mismatch exactly {{{
+	// Stage 1 - Very basic sanity checks - do not match if title is absent on either side {{{
+	if (!ref1.title || !ref2.title) return false;
+	// }}}
+
+	// Stage 2 - Basic sanity checks - do not match if year, page, volume, isbn or number is present BUT mismatch exactly {{{
 	// Since these fields are usually numeric its fairly likely that if these dont match its not a duplicate
 	if (['year', 'pages', 'volume', 'number', 'isbn'].some(function(f) {
 		if (ref1[f] && ref2[f]) { // Both refs possess the comparitor
@@ -34,27 +39,54 @@ function compareRef(ref1, ref2) {
 	})) return false;
 	// }}}
 
-	/*
+	// Stage 3 - Extraction of years from titles + comparison {{{
+	// Extract an array of years from each title and check that ref2 contains the same years if the years mismatch its not a dupe
+	var ref1Years = ref1.title.match(/\b([0-9]{4})\b/g) || [];
+	var ref2Years = ref2.title.match(/\b([0-9]{4})\b/g) || [];
 	if (
-		natural.JaroWinklerDistance(ref1.title, ref2.title) >= config.tasks.dedupe.stringDistance.jaroWinklerMin &&
-		natural.LevenshteinDistance(ref1.title, ref2.title) <= config.tasks.dedupe.stringDistance.levenshteinMax
-	) {
-		console.log('---');
-		console.log('1', ref1.title);
-		console.log('2', ref2.title);
-		console.log('JWD', colors.cyan(natural.JaroWinklerDistance(ref1.title, ref2.title)));
-		console.log('Lev', colors.cyan(natural.LevenshteinDistance(ref1.title, ref2.title)));
-		console.log('---');
-	}
-	*/
+		(ref1Years.length || ref2Years.length) && // At least one has a year set
+		_.intersection(ref1Years, ref2Years).length != _.max([ref1Years.length, ref2Years.length])
+	) return false;
+	// }}}
 
-	// Stage 2 - Comparison of title + authors {{{
+	// Stage 4 - Extract numbers from ISBNs on either side and compare {{{
+	// This comparison only works if each side has a 'perfect' ISBN - i.e. /^\s*[0-9\.\-\s]+\s*$/
+	// This test uses the certainty that ISBN numbers are unlikely to be mangled
+	// If both (de-noised) ISBNs match the ref is declared a dupe, if not they are declared a NON dupe
+	if (
+		ref1.isbn &&
+		ref2.isbn &&
+		reLooksNumericWhitespace.test(ref1.isbn) &&
+		reLooksNumericWhitespace.test(ref2.isbn)
+	) {
+		var r1ISBN = ref1.replace(reOnlyNumeric, '');
+		var r2ISBN = ref2.replace(reOnlyNumeric, '');
+		return (r1ISBN == r2ISBN); // If direct match its a dupe, if not its NOT a dupe
+	}
+	// }}}
+
+	// Stage 4 - Comparison of title + authors via string distance checking {{{
+	var r1Title = ref1.title.toLowerCase();
+	var r2Title = ref2.title.toLowerCase();
+
+	/*if (
+		natural.JaroWinklerDistance(r1Title, r2Title) >= config.tasks.dedupe.stringDistance.jaroWinklerMin &&
+		natural.LevenshteinDistance(r1Title, r2Title) <= config.tasks.dedupe.stringDistance.levenshteinMax
+	) {
+		console.log('---DUPE---');
+		console.log('REF1', r1Title);
+		console.log('REF2', r2Title);
+		console.log('JWD', colors.cyan(natural.JaroWinklerDistance(r1Title, r2Title)));
+		console.log('Lev', colors.cyan(natural.LevenshteinDistance(r1Title, r2Title)));
+		console.log('---');
+	}*/
+
 	return (
 		(
 			ref1.title == ref2.title ||
 			(
-				natural.JaroWinklerDistance(ref1.title, ref2.title) >= config.tasks.dedupe.stringDistance.jaroWinklerMin &&
-				natural.LevenshteinDistance(ref1.title, ref2.title) <= config.tasks.dedupe.stringDistance.levenshteinMax
+				natural.JaroWinklerDistance(r1Title, r2Title) >= config.tasks.dedupe.stringDistance.jaroWinklerMin &&
+				natural.LevenshteinDistance(r1Title, r2Title) <= config.tasks.dedupe.stringDistance.levenshteinMax
 			)
 		) &&
 		compareNames(ref1.authors, ref2.authors)

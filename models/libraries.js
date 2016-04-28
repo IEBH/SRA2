@@ -2,6 +2,7 @@ var name = 'libraries';
 var schema = new mongoose.Schema({
 	id: mongoose.Schema.ObjectId,
 	created: {type: Date, default: Date.now},
+	viewed: {type: Date, default: Date.now},
 	edited: {type: Date, default: Date.now},
 	expiry: {type: Date},
 	owners: [{type: mongoose.Schema.ObjectId, ref: 'users', indexed: true}],

@@ -150,11 +150,10 @@ requireDir('./controllers');
 // }}}
 
 // Static pages {{{
-app.use(express.static(__dirname + '/public'));
-app.use('/app', express.static(__dirname + '/app'));
-app.use('/build', express.static(__dirname + '/build'));
-app.use('/partials', express.static(__dirname + '/views/partials'));
-app.use('/bower_components', express.static(__dirname + '/bower_components'));
+app.use(express.static(config.root + '/public'));
+app.use('/app', express.static(config.root + '/app'));
+app.use('/build', express.static(config.root + '/build'));
+app.use('/partials', express.static(config.root + '/views/partials'));
 // }}}
 
 // Error catcher {{{

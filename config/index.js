@@ -54,6 +54,7 @@ var defaults = {
 	},
 	limits: {
 		references: 100, // How many references to hold in memory at once during operations such as export, dedupe etc.
+		recentLibraries: 10,
 	},
 	library: {
 		request: {
@@ -70,6 +71,11 @@ var defaults = {
 		enabled: true,
 		queryLimit: 10, // How many tasks to work on in one cron cycle
 		waitTime: 3 * 1000,
+
+		// How to execute tasks
+		// 'pm2' - run as seperated process via PM2
+		// 'inline' - run within this thread
+		runMode: 'pm2',
 	},
 	search: {
 		pubmed: {
@@ -87,7 +93,7 @@ var defaults = {
 			stringDistance: {
 				// String distance between titles before its considered a match
 				// The following tests are performed in series - the idea being the least CPU costly are up first
-				jaroWinklerMin: 0.80, // natural.JaroWinklerDistance 
+				jaroWinklerMin: 0.9, // natural.JaroWinklerDistance 
 				levenshteinMax: 10, // natural.LevenshteinDistance 
 			},
 		},

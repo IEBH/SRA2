@@ -6,7 +6,7 @@ app.controller('taskController', function($scope, $location, $stateParams, $time
 		status: 'loading',
 	};
 
-	$scope.refreshTimer = null;
+	$scope.refreshTimer;
 	$scope.refresh = function() {
 		$timeout.cancel($scope.refreshTimer);
 
@@ -37,5 +37,9 @@ app.controller('taskController', function($scope, $location, $stateParams, $time
 			});
 	};
 	$scope.refreshTimer = $timeout($scope.refresh, Settings.poll.task);
+
+	$scope.$on('$destroy', function() {
+		$timeout.cancel($scope.refreshTimer);
+	});
 	// }}}
 });
