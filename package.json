@@ -9,7 +9,6 @@
   },
   "scripts": {
     "deploy": "gulp deploy",
-    "postinstall": "gulp build",
     "start": "node server.js"
   },
   "dependencies": {
