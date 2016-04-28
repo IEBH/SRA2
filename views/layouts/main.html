@@ -184,7 +184,6 @@
 						<!-- }}} -->
 						<li class="active">
 							<a href="#/">
-								<div class="pull-right label label-info">3</div>
 								<i class="fa fa-fw fa-dashboard"></i>
 								<span class="menu-text">Dashboard</span>
 							</a>
@@ -197,7 +196,6 @@
 						</li>
 						<li>
 							<a href="#/" data-toggle="collapse" data-target="#sidebar-tools">
-								<div class="pull-right label label-info">3</div>
 								<i class="fa fa-fw fa-wrench"></i>
 								<span class="menu-text">Tools</span>
 							</a>
@@ -219,7 +217,7 @@
 						</li>
 						<li ng-if="user._id" ng-controller="libraryListController">
 							<a href="#/libraries" data-toggle="collapse" data-target="#sidebar-libraries">
-								<div class="pull-right label label-info">3</div>
+								<div class="pull-right label label-info">{{user.stats.libraries | number}}</div>
 								<i class="fa fa-tags"></i>
 								<span class="menu-text">Libraries</span>
 							</a>
