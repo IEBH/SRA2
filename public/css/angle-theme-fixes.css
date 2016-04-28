@@ -171,6 +171,10 @@ table.table td .badge {
 	line-height: 40px;
 }
 
+.panel > .panel-heading > .btn-group + .btn-group {
+	margin-right: 8px;
+}
+
 .panel > .panel-heading > .btn-group, .panel > .panel-heading > a {
 	float: right;
 	padding-top: 2px;

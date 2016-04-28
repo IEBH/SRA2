@@ -45,7 +45,7 @@
 			<div class="panel-heading">
 				Most recently viewed libraries
 				<div class="btn-group">
-					<a class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-cog"></i></span></a>
+					<a class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-cog"></i></a>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li><a href="#/libraries/import"><i class="fa fa-cloud-upload"></i> Import references</a></li>
 						<li><a href="#/libraries/export"><i class="fa fa-cloud-download"></i> Export references</a></li>
@@ -53,6 +53,9 @@
 						<li><a href="#/libraries/dedupe"><i class="fa fa-compress"></i> Eliminate Duplicates</a></li>
 						<li><a href="#/libraries/screen"><i class="fa fa-filter"></i> Screen references</a></li>
 					</ul>
+				</div>
+				<div class="btn-group">
+					<a href="#/libraries" tooltip="View all libraries"><i class="fa fa-table"></i></a>
 				</div>
 			</div>
 			<div class="panel-body">
@@ -80,7 +83,6 @@
 				<img gravatar-src="user.email" gravatar-size="128" gravatar-default="identicon" class="img-thumbnail img-circle">
 				<h3 class="m0">{{user.name}}</h3>
 				<p ng-if="user.faculty" class="text-muted">{{user.faculty}}</p>
-				<p>Proin metus justo, commodo in ultrices at, lobortis sit amet dui. Fusce dolor purus, adipiscing a tempus at, gravida vel purus.</p>
 			</div>
 			<div class="panel-body text-center bg-gray-dark">
 				<a class="bg-gray-dark a-block" href="#/profile">Edit profile</a>	
