@@ -4,7 +4,7 @@ var email = require('email').Email;
 var Libraries = require('../models/libraries');
 var moment = require('moment');
 var nodemailer = require('nodemailer');
-var nodemailerSendmail = require('nodemailer-sendmail-transport');
+var nodemailerMailgun = require('nodemailer-mailgun-transport');
 var References = require('../models/references');
 
 module.exports = function(finish, task) {
@@ -94,14 +94,23 @@ module.exports = function(finish, task) {
 					);
 				})
 				.then(function(next) {
-					nodemailer.createTransport(nodemailerSendmail()).sendMail({
-						from: config.library.request.email.from || task.settings.user.email,
-						to: config.library.request.email.to,
-						cc: config.library.request.email.cc,
-						bcc: config.library.request.email.bcc,
-						subject: 'Document delivery request',
-						html: this.html,
-					}, next);
+					var cc = config.library.request.email.cc;
+					if (task.settings.ccUser && task.settings.user.email) cc.push(task.settings.user.email);
+
+					nodemailer
+						.createTransport(nodemailerMailgun({
+							auth: {
+								api_key: config.mailgun.apiKey,
+								domain: config.mailgun.domain,
+							},
+						}))
+						.sendMail({
+							from: config.library.request.email.from || task.settings.user.email,
+							to: config.library.request.email.to,
+							cc: cc,
+							subject: 'Document delivery request',
+							html: this.html,
+						}, next);
 				})
 				.then(function(next) {
 					task.history.push({type: 'response', response: this.response});

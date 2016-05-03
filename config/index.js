@@ -39,6 +39,10 @@ var defaults = {
 		debugCSS: true,
 		minifyCSS: false,
 	},
+	mailgun: {
+		apiKey: 'FIXME:STORE THIS IN THE PRIVATE.JS FILE!!!',
+		domain: 'FIXME:STORE THIS IN THE PRIVATE.JS FILE!!!',
+	},
 	mongo: {
 		uri: 'mongodb://localhost/sra',
 		options: {
@@ -61,8 +65,7 @@ var defaults = {
 			email: {
 				from: null, // Set to falsy to use users own email
 				to: 'ddeliver@bond.edu.au',
-				cc: undefined,
-				bcc: 'matt_carter@bond.edu.au',
+				cc: [],
 			},
 			timeout: 30 * 1000,
 		},
