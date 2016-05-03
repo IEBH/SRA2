@@ -17,6 +17,7 @@ var schema = new mongoose.Schema({
 	label: {type: String},
 	caption: {type: String},
 	address: {type: String},
+	keywords: [{type: String}],
 	urls: [{type: String}],
 	abstract: {type: String},
 	notes: {type: String},
