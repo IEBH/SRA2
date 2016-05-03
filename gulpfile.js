@@ -42,9 +42,10 @@ global.paths = {
 		// Vendor dependencies (all must follow the protocol://path format)
 		// Dependencies maintain order so list pre-requisites first
 		// Do not include minified files here! Minification happens automatically
-		'file://node_modules/angular/angular.js',
 		'npm://jquery',
+		'file://node_modules/angular/angular.js',
 		'npm://lodash',
+		// --- less important vendors below this line --- //
 		'file://node_modules/bootstrap/dist/css/bootstrap.css',
 		'file://node_modules/bootstrap/dist/js/bootstrap.js',
 		'npm://angular-async-chainable',
