@@ -5,9 +5,9 @@ app.controller('referenceEditController', function($scope, $async, $location, $q
 	
 	// Data refresher {{{
 	$scope.refresh = function() {
-		if (!$stateParams.id) return $location.path('/libraries');
+		if (!$stateParams.refId) return $location.path('/libraries');
 		References.get({
-			id: $stateParams.id,
+			id: $stateParams.refId,
 			populate: 'library,tags',
 		}).$promise.then(function(data) {
 			$scope.loading = false;

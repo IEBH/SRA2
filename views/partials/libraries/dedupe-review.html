@@ -71,7 +71,7 @@
 				<table class="table table-bordered table-striped table-hover table-dupes">
 					<thead>
 						<th width="10%">Field</th>
-						<th ng-repeat="dupe in reference.duplicateData" ng-style="{width: (90 / (reference.duplicateData.length)) + '%'}"><a href="/references/{{reference._id}}" target="_blank">#{{$index + 1}}</a></th>
+						<th ng-repeat="dupe in reference.duplicateData" ng-style="{width: (90 / (reference.duplicateData.length)) + '%'}"><a href="/libraries/{{library._id}}/ref/{{reference._id}}" target="_blank">#{{$index + 1}}</a></th>
 					</thead>
 					<tr ng-repeat="field in reference.duplicateDataFields">
 						<th>{{field.key}}</th>

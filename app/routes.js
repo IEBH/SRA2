@@ -233,10 +233,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
-		// }}}
-		// Reference {{{
-		.state('reference-view', {
-			url: '/references/:id',
+		.state('library-reference-edit', {
+			url: '/libraries/:id/ref/:refId',
 			views: {main: {templateUrl: '/partials/references/edit.html'}},
 			data: {
 				title: 'Reference',
