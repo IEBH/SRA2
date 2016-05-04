@@ -10,6 +10,7 @@ var schema = new mongoose.Schema({
 	journal: {type: String},
 	authors: [{type: String}],
 	date: {type: String},
+	year: {type: String},
 	pages: {type: String},
 	volume: {type: String},
 	number: {type: String},
