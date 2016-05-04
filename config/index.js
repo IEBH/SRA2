@@ -68,6 +68,7 @@ var defaults = {
 				cc: [],
 			},
 			timeout: 30 * 1000,
+			maxReferences: 100, // Set to 0 to disable
 		},
 	},
 	cron: {

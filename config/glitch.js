@@ -15,6 +15,7 @@ module.exports = {
 			email: {
 				to: 'matt_carter@bond.edu.au',
 			},
+			maxReferences: 10,
 		},
 	},
 };
