@@ -16,9 +16,9 @@
 						Unique
 						<i ng-if="sortCol == 'unique'" class="fa" ng-class="sortAZ ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
 					</a></th>
-					<th ng-repeat="field in task.result.fields"><a ng-click="setSort(field)">
-						{{field | ucwords}}
-						<i ng-if="sortCol == field" class="fa" ng-class="sortAZ ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+					<th ng-repeat="field in task.result.fields track by field.id"><a ng-click="setSort(field.id)">
+						{{field.title}}
+						<i ng-if="sortCol == field.id" class="fa" ng-class="sortAZ ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
 					</a></th>
 					<th style="min-width: 150px"><a ng-click="setSort('points')">
 						Points
@@ -28,7 +28,7 @@
 				<tr ng-repeat="word in task.result.words | orderBy:sortCol:!sortAZ track by word.word">
 					<td>{{::word.word}}</td>
 					<td>{{::word.unique | number}}</td>
-					<th ng-repeat="field in task.result.fields">{{::word[field] | number}}</th>
+					<th ng-repeat="field in task.result.fields track by field.id">{{::word[field.id] | number}}</th>
 					<td>
 						<div class="progress active">
 							<div class="progress-bar" style="width: {{::word.width}}%;">

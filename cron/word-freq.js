@@ -169,7 +169,11 @@ module.exports = function(finish, task) {
 			task.completed = new Date();
 			task.status = 'completed';
 			task.result = {
-				fields: _.keys(task.settings.weights),
+				fields: [
+					{id: 'title', title: 'Title'},
+					{id: 'abstract', title: 'Abstract'},
+					{id: 'keywords', title: 'Keywords'},
+				],
 				words: this.words,
 			};
 			task.save(next);
