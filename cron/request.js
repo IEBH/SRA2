@@ -4,7 +4,7 @@ var email = require('email').Email;
 var Libraries = require('../models/libraries');
 var moment = require('moment');
 var nodemailer = require('nodemailer');
-var nodemailerSendmail = require('nodemailer-sendmail-transport');
+var nodemailerMailgun = require('nodemailer-mailgun-transport');
 var References = require('../models/references');
 
 module.exports = function(finish, task) {
@@ -50,6 +50,14 @@ module.exports = function(finish, task) {
 		})
 		// }}}
 
+		// Final sanity checks {{{
+		.then(function(next) {
+			if (!config.library.request.maxReferences) return next();
+			if (this.references.length > config.library.request.maxReferences) return next('Refusing to submit ' + this.references.length + ' journal requests. ' + config.library.request.maxReferences + ' is the maximum allowed.');
+			next();
+		})
+		// }}}
+
 		// Send requests {{{
 		.forEach('references', function(nextRef, ref) {
 			async()
@@ -82,7 +90,7 @@ module.exports = function(finish, task) {
 							'<tr><td>Issue</td><td>=</td><td>' + (ref.issue || '') + '</td></tr>' +
 							'<tr><td>ISSN</td><td>=</td><td>' + (ref.isbn || '') + '</td></tr>' +
 							'<tr><td>Month</td><td>=</td><td>' + (refDate ? refDate.format('MMMM') : '') + '</td></tr>' +
-							'<tr><td>Year</td><td>=</td><td>' + (refDate ? refDate.format('YYYY') : '') + '</td></tr>' +
+							'<tr><td>Year</td><td>=</td><td>' + (ref.year || refDate ? refDate.format('YYYY') : '') + '</td></tr>' +
 							'<tr><td>Pages</td><td>=</td><td>' + (ref.pages || '') + '</td></tr>' +
 							'<tr><td>Article_Author2</td><td>=</td><td>' + (ref.authors ? ref.authors.join(', ') : '') + '</td></tr>' +
 							'<tr><td>Article_Title2</td><td>=</td><td>' + (ref.title || '') + '</td></tr>' +
@@ -94,14 +102,23 @@ module.exports = function(finish, task) {
 					);
 				})
 				.then(function(next) {
-					nodemailer.createTransport(nodemailerSendmail()).sendMail({
-						from: config.library.request.email.from || task.settings.user.email,
-						to: config.library.request.email.to,
-						cc: config.library.request.email.cc,
-						bcc: config.library.request.email.bcc,
-						subject: 'Document delivery request',
-						html: this.html,
-					}, next);
+					var cc = config.library.request.email.cc;
+					if (task.settings.ccUser && task.settings.user.email) cc.push(task.settings.user.email);
+
+					nodemailer
+						.createTransport(nodemailerMailgun({
+							auth: {
+								api_key: config.mailgun.apiKey,
+								domain: config.mailgun.domain,
+							},
+						}))
+						.sendMail({
+							from: config.library.request.email.from || task.settings.user.email,
+							to: config.library.request.email.to,
+							cc: cc,
+							subject: 'Document delivery request',
+							html: this.html,
+						}, next);
 				})
 				.then(function(next) {
 					task.history.push({type: 'response', response: this.response});

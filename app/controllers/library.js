@@ -182,7 +182,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	$scope.isEditable = false;
 	$scope.$watchGroup(['library', 'user'], function() {
 		if (!$scope.library || !$scope.library.title || !$scope.user || !$scope.user._id) return; // Not loaded yet
-		if (_.indexOf($scope.library.owners, $scope.user._id) >= 0) { // User is already an owner
+		if (_.includes($scope.library.owners, $scope.user._id)) { // User is already an owner
 			$scope.isOwner = true;
 			$scope.isEditable = true;
 		} else {

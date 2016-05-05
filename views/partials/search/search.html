@@ -64,9 +64,9 @@
 				<td class="text-center">
 					<input type="checkbox" ng-model="reference.selected" ng-change="determineSelected()"/>
 				</td>
-				<td><a href="#/references/{{reference._id}}">{{::reference.title}}</a></td>
+				<td><a href="#/libraries/{{reference.library}}/ref/{{reference._id}}">{{::reference.title}}</a></td>
 				<td>
-					<a href="#/references/{{reference._id}}">
+					<a href="#/libraries/{{reference.library}}/ref/{{reference._id}}">
 						<span ng-repeat="author in reference.authors | limitTo:3" class="badge badge-info">
 							<i class="fa fa-user"></i>
 							{{author}}

@@ -65,70 +65,63 @@ module.exports = function(finish, task) {
 			_.keys(task.settings.weights).forEach(function(key) {
 				if (!ref[key]) return;
 
-				var val = ref[key].toLowerCase();
-
-				// Deburr?
-				if (task.settings.deburr) val = _.deburr(val);
-
-				// Strip punctuation
-				val = val.replace(/[=\+\-\?\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.\/]+/g, '');
-
-				// Split up if not already an array
-				if (!_.isArray(val)) val = val.split(/\s+/);
-
-				// Count all the words
 				var lastWords = [];
-				val.forEach(function(word, wordIndex) {
-					// Ignore rules {{{
-					if (
-						!word || // Is blank
-						( // Is a common word?
-							task.settings.ignore.common &&
-							/^(a|also|am|an|and|any|are|as|at|be|been|but|by|can|could|did|do|for|get|had|has|have|he|him|i|if|in|into|is|it|its|itself|last|may|me|met|more|n|no|not|p|of|on|only|or|our|over|see|set|she|should|some|such|than|that|them|then|their|there|these|the|they|this|to|up|upon|use|used|was|well|were|which|who|will|with|we|v|vs)$/.test(word)
-						) ||
-						( // Is a number?
-							task.settings.ignore.numbers &&
-							(
-								/^[0-9\.,]+$/.test(word) ||
-								/^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)/.test(word) ||
-								/(one|two|three|four|five|six|seven|eight|nine|teen)$/.test(word) ||
-								/^(twenty|thirty|fourty|fifty|sixty|seventy|eighty|ninety)/.test(word)
+				
+				_(_.isArray(ref[key]) ? ref[key] : ref[key].split(/\s+/)) // Split up if not already an array
+					.map(v => v.toLowerCase()) // Lower case everything
+					.map(v => task.settings.deburr ? _.deburr(v) : v) // Deburr?
+					.map(v => v.replace(/[=\+\-\?\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.\/]+/g, '')) // Strip punctuation
+					.forEach(function(word, wordIndex) {
+						// Ignore rules {{{
+						if (
+							!word || // Is blank
+							( // Is a common word?
+								task.settings.ignore.common &&
+								/^(a|also|am|an|and|any|are|as|at|be|been|but|by|can|could|did|do|for|get|had|has|have|he|him|i|if|in|into|is|it|its|itself|last|may|me|met|more|n|no|not|p|of|on|only|or|our|over|see|set|she|should|some|such|than|that|them|then|their|there|these|the|they|this|to|up|upon|use|used|was|well|were|which|who|will|with|we|v|vs)$/.test(word)
+							) ||
+							( // Is a number?
+								task.settings.ignore.numbers &&
+								(
+									/^[0-9\.,]+$/.test(word) ||
+									/^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)/.test(word) ||
+									/(one|two|three|four|five|six|seven|eight|nine|teen)$/.test(word) ||
+									/^(twenty|thirty|fourty|fifty|sixty|seventy|eighty|ninety)/.test(word)
+								)
 							)
-						)
-					) {
-						lastWords = []; // Reset buffer
-						return;
-					}
-					// }}}
-
-
-					lastWords.push(word); // Add last word to stack
-					if (lastWords.length > task.settings.combineWords) lastWords.shift(); // Turn stack into circular array where we clip from the beginning (FILO)
-
-					_.times(task.settings.combineWords, function(offset) {
-						if (lastWords.length < offset) return;
-						var sentence = lastWords.slice(0 - (offset+1));
-
-						var wordGroup = sentence.join(' ');
-
-						if (!self.words[wordGroup]) {
-							self.words[wordGroup] = {
-								points: 0,
-								unique: 0,
-							};
-							_.keys(task.settings.weights).forEach(function(key) {
-								self.words[wordGroup][key] = 0;
-							});
+						) {
+							lastWords = []; // Reset buffer
+							return;
 						}
+						// }}}
 
-						self.words[wordGroup].points += (task.settings.weights[key] || 1);
-						self.words[wordGroup][key]++;
-						if (!uniques[wordGroup]) {
-							self.words[wordGroup].unique++;
-							uniques[wordGroup] = true;
-						}
+
+						lastWords.push(word); // Add last word to stack
+						if (lastWords.length > task.settings.combineWords) lastWords.shift(); // Turn stack into circular array where we clip from the beginning (FILO)
+
+						_.times(task.settings.combineWords, function(offset) {
+							if (lastWords.length < offset) return;
+							var sentence = lastWords.slice(0 - (offset+1));
+
+							var wordGroup = sentence.join(' ');
+
+							if (!self.words[wordGroup]) {
+								self.words[wordGroup] = {
+									points: 0,
+									unique: 0,
+								};
+								_.keys(task.settings.weights).forEach(function(key) {
+									self.words[wordGroup][key] = 0;
+								});
+							}
+
+							self.words[wordGroup].points += (task.settings.weights[key] || 1);
+							self.words[wordGroup][key]++;
+							if (!uniques[wordGroup]) {
+								self.words[wordGroup].unique++;
+								uniques[wordGroup] = true;
+							}
+						});
 					});
-				});
 			});
 
 			// Update progress
