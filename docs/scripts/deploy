@@ -1,0 +1,16 @@
+#!/bin/bash
+# Deploy a server setup on a EC2 / DO instance
+#
+# @author Matt Carter <m@ttcarter.com>
+# @date 2016-04-11
+
+# Stop on errors
+set -euo pipefail
+
+cd ~/crebp-sra.com
+
+echo "Stopping all PM2 child processes..."
+pm2 kill
+
+echo "Booting main web server"
+pm2 start server.js
