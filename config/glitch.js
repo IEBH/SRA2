@@ -13,7 +13,7 @@ module.exports = {
 	library: {
 		request: {
 			email: {
-				to: 'matt_carter@bond.edu.au',
+				to: 'matt.crtr@gmail.com',
 			},
 			maxReferences: 10,
 		},
