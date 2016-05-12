@@ -6,6 +6,16 @@
 	<div ng-if="!loading" class="alert">
 		<h1>Word-frequency analysis results</h1>
 		<div class="pad-top">
+			<div class="form-group">
+				<div class="input-group input-group-lg col-sm-12">
+					<input ng-model="query" type="search" class="form-control" placeholder="Quick-search..." autofocus/>
+					<div class="input-group-btn">
+						<button class="btn btn-primary" type="submit"><i class="fa fa-search"/></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="pad-top">
 			<table class="table table-bordered table-striped">
 				<thead><tr>
 					<th><a ng-click="setSort('word')">
@@ -25,7 +35,7 @@
 						<i ng-if="sortCol == 'points'" class="fa" ng-class="sortAZ ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
 					</a></th>
 				</tr></thead>
-				<tr ng-repeat="word in task.result.words | orderBy:sortCol:!sortAZ track by word.word">
+				<tr ng-repeat="word in results = (task.result.words | filter:query | orderBy:sortCol:!sortAZ) track by word.word">
 					<td>{{::word.word}}</td>
 					<td>{{::word.unique | number}}</td>
 					<th ng-repeat="field in task.result.fields track by field.id">{{::word[field.id] | number}}</th>
@@ -35,6 +45,11 @@
 								{{::word.points | number}}
 							</div>
 						</div>
+					</td>
+				</tr>
+				<tr ng-show="!results.length">
+					<td colspan="6">
+						<div class="alert alert-warning">No results matching that query</div>
 					</td>
 				</tr>
 			</table>
