@@ -68,7 +68,14 @@ module.exports = function(finish, task) {
 
 				var lastWords = [];
 				
-				_(_.isArray(ref[key]) ? ref[key] : ref[key].split(/\s+/)) // Split up if not already an array
+				_(
+					_.isArray(ref[key]) ? // Is an array - split each element by whitespace
+						_(ref[key])
+							.map(x => x.split(/\s+/))
+							.flatten()
+							.value()
+						: ref[key].split(/[\s\-]+/) // Is a string - split by whitespace
+				)
 					.map(v => v.toLowerCase()) // Lower case everything
 					.map(v => task.settings.deburr ? _.deburr(v) : v) // Deburr?
 					.map(v => v.replace(/[=\+\-\?\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.\/]+/g, '')) // Strip punctuation

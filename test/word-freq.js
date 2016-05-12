@@ -257,7 +257,7 @@ describe('Task: word-freq (big library, combineWords=5)', function(){
 });
 
 
-describe('Task: word-freq (big library, combineWords=5, known counts)', function(){
+describe.only('Task: word-freq (big library, combineWords=5, known EndNote counts)', function(){
 	// Library specific info
 	var libraryFile = __dirname + '/data/endnote-3.xml';
 	var libraryCount = 3082;
