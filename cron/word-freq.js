@@ -107,7 +107,7 @@ module.exports = function(finish, task) {
 						if (lastWords.length > task.settings.combineWords) lastWords.shift(); // Turn stack into circular array where we clip from the beginning (FILO)
 
 						_.times(task.settings.combineWords, function(offset) {
-							if (lastWords.length < offset) return;
+							if (lastWords.length - 1 < offset) return;
 							var sentence = lastWords.slice(0 - (offset+1));
 
 							var wordGroup = sentence.join(' ');
