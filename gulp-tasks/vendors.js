@@ -1,12 +1,7 @@
 /**
 * Matt's little "I Cant do WebPack but this will do for now" script
 * This script will include frontend vendor resources from a variety of sources and splat them into ./build/vendor.min.{js,css} etc
-* Vendor resources are read from paths.vendors and can be composed of the following formats:
-* | Prefix         | Description                                                                                                |
-* |----------------|------------------------------------------------------------------------------------------------------------|
-* | bower://pkg    | Read in the resources of a Bower package (requires the `bower.json`/.main relationship to be correctly set |
-* | file://pkg     | Raw file address (relative to root directory of site)                                                      |
-* | npm://pkg      | Regular NPM package (requires `package.json`/.main relationship to be correctly set)                       |
+* Vendor resources are read from paths.vendors and are relative paths from the project root
 *
 * @author Matt Carter <m@ttcarter.com>
 * @date 2016-04-07
@@ -58,38 +53,10 @@ var readJSON = function(path, callback) {
 gulp.task('vendors', ['load:config'], function(finish) {
 	async()
 		.set('includes', []) // Array of all JS / CSS files we need to include in the project
-		.forEach(paths.vendors, function(next, dep, depIndex) {
-			var self = this;
-			var depBits = /^(.+?):\/\/(.+)$/.exec(dep);
-			if (!depBits) return next('Unknown frontend depdency format: ' + dep + '. Format needs to be in SOMETHING://PATH format.');
-			var depProtocol = depBits[1];
-			var depPath = depBits[2];
-
-			if (depProtocol == 'bower') {
-				var base = config.root + '/bower_components/' + depPath;
-				readJSON(base + '/bower.json', function(err, pkg) {
-					if (err) return next(err);
-					if (!pkg.main) return next('Cannot include Bower dependency "' + depPath + '" as there is no "main" key within its bower.json schema');
-					gutil.log(gutil.colors.blue('[Vendors]'), 'Bower dependency', gutil.colors.cyan(depPath));
-					self.includes[depIndex] = _.castArray(pkg.main).map(f => base + '/' + f);
-					next();
-				});
-			} else if (depProtocol == 'file') {
-				gutil.log(gutil.colors.blue('[Vendors]'), 'File dependency', gutil.colors.cyan(depPath));
-				self.includes[depIndex] = config.root + '/' + depPath;
-				next();
-			} else if (depProtocol == 'npm') {
-				var base = config.root + '/node_modules/' + depPath;
-				readJSON(base + '/package.json', function(err, pkg) {
-					if (err) return next(err);
-					if (!pkg.main) return next('Cannot include NPM dependency "' + depPath + '" as there is no "main" key within its package.json schema');
-					gutil.log(gutil.colors.blue('[Vendors]'), 'NPM dependency', gutil.colors.cyan(depPath));
-					self.includes[depIndex] = base + '/' + pkg.main;
-					next();
-				});
-			} else {
-				next('Unknown vendor protocol: ' + depProtocol + ' for depedency ' + dep);
-			}
+		.forEach(paths.vendors, function(next, dep, depIndex) { // Process all strings into paths
+			// At the moment this doesn't surve a purpose but we could add extra properties here that do things like transpose individual files based on options
+			this.includes[depIndex] = config.root + '/' + dep;
+			next();
 		})
 		.then('includes', function(next) {
 			// Flatten include array (so we keep the order)
