@@ -24,7 +24,7 @@ module.exports = function(finish, task) {
 					unique: 0,
 				},
 				max: {
-					results: 300, // Anything above this limit gets truncated by the resultsTruncate field
+					results: 500, // Anything above this limit gets truncated by the resultsTruncate field
 					resultsTruncate: 'points',
 				},
 				combineWords: 1, // How many word combinations should be examined (1=one word,2=two words etc.)
@@ -32,6 +32,7 @@ module.exports = function(finish, task) {
 
 			if (!task.settings) return next('.settings object must be present for request');
 			if (task.settings.combineWords > 5) next('combineWords has a maximum of 5');
+			if (task.settings.max.results > 500) next('Maximum number of references is too high');
 			next();
 		})
 		// }}}

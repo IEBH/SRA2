@@ -246,7 +246,7 @@ describe('Task: word-freq (big library, combineWords=5)', function(){
 		this.timeout(5 * 1000);
 		expect(task.result).to.be.an.object;
 		expect(task.result.words).to.be.an.array;
-		expect(task.result.words).to.have.length(300); // it should truncate to this as the result length will be enormous
+		expect(task.result.words).to.have.length(500); // it should truncate to this as the result length will be enormous
 
 		expect(_.find(task.result.words, {word: 'clinical'}).points).to.equal(1798);
 		expect(_.find(task.result.words, {word: 'randomized controlled'}).title).to.equal(86);
@@ -361,7 +361,7 @@ describe('Task: word-freq (big library, combineWords=5, known counts)', function
 		this.timeout(5 * 1000);
 		expect(task.result).to.be.an.object;
 		expect(task.result.words).to.be.an.array;
-		expect(task.result.words).to.have.length(300); // it should truncate to this as the result length will be enormous
+		expect(task.result.words).to.have.length(500); // it should truncate to this as the result length will be enormous
 
 		expect(_.find(task.result.words, {word: 'pegaptanib'}).title).to.equal(36);
 		expect(_.find(task.result.words, {word: 'macular degeneration'}).title).to.equal(583);
