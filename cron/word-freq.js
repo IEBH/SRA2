@@ -75,11 +75,11 @@ module.exports = function(finish, task) {
 							.map(x => x.split(/\s+/))
 							.flatten()
 							.value()
-						: ref[key].split(/[\s\-]+/) // Is a string - split by whitespace
+						: ref[key].split(/[\s\=\+\-\?\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\"\<\>\,\.\/]+/) // Is a string - split by whitespace or punctuation
 				)
 					.map(v => v.toLowerCase()) // Lower case everything
 					.map(v => task.settings.deburr ? _.deburr(v) : v) // Deburr?
-					.map(v => v.replace(/[=\+\-\?\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.\/]+/g, '')) // Strip punctuation
+					.map(v => v.replace(/[\=\+\-\?\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.\/]+/g, '')) // Strip punctuation
 					.forEach(function(word, wordIndex) {
 						// Ignore rules {{{
 						if (
