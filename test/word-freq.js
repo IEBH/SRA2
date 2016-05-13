@@ -80,7 +80,14 @@ describe('Task: word-freq (tiny library)', function(){
 	it('should queue up the word-frequency task', function(finish) {
 		this.timeout(60 * 1000);
 		agent.post(config.url + '/api/tasks/library/' + library._id + '/word-freq')
-			.send({settings: {debug: true}})
+			.send({settings: {
+				debug: true,
+				weights: {
+					title: 1,
+					abstract: 2,
+					keywords: 3,
+				},
+			}})
 			.end(function(err, res) {
 				if (err) return finish(err);
 				task = res.body;
@@ -125,7 +132,6 @@ describe('Task: word-freq (tiny library)', function(){
 		this.timeout(5 * 1000);
 		expect(task.result).to.be.an.object;
 		expect(task.result.words).to.be.an.array;
-		expect(task.result.words).to.have.length(39);
 		/*console.log('Top 10 results:',
 			_(task.result.words)
 				.sortBy('-points')
@@ -133,16 +139,40 @@ describe('Task: word-freq (tiny library)', function(){
 				.value()
 		);*/
 
-		expect(_.find(task.result.words, {word: 'carcinomas'}).points).to.equal(4);
-		expect(_.find(task.result.words, {word: 'female'}).points).to.equal(3);
-		expect(_.find(task.result.words, {word: 'breast'}).points).to.equal(17);
-		expect(_.find(task.result.words, {word: 'histological'}).points).to.equal(3);
+		var word = _.find(task.result.words, {word: 'cancer'});
+		expect(word).to.be.an.object;
+		expect(word.title).to.equal(2);
+		expect(word.abstract).to.equal(3);
+		expect(word.keywords).to.equal(1);
+		expect(word.points).to.equal((2*1) + (3*2) + (1*3)); // Check weights have also been applied
+
+		word = _.find(task.result.words, {word: 'female'});
+		expect(word).to.be.an.object;
+		expect(word.title).to.equal(2);
+		expect(word.abstract).to.equal(1);
+		expect(word.keywords).to.equal(4);
+		expect(word.points).to.equal((2*1) + (1*2) + (4*3));
+
+		word = _.find(task.result.words, {word: 'breast'});
+		expect(word).to.be.an.object;
+		expect(word.title).to.equal(3);
+		expect(word.abstract).to.equal(3);
+		expect(word.keywords).to.equal(4);
+		expect(word.points).to.equal((3*1) + (3*2) + (4*3));
+
+		word = _.find(task.result.words, {word: 'histological'});
+		expect(word).to.be.an.object;
+		expect(word.title).to.equal(1);
+		expect(word.abstract).to.equal(2);
+		expect(word.keywords).to.equal(0);
+		expect(word.points).to.equal((1*1) + (2*2) + (0*3));
+
 		finish();
 	});
 });
 
 
-describe('Task: word-freq (big library, combineWords=5)', function(){
+describe.skip('Task: word-freq (big library, combineWords=5)', function(){
 	// Library specific info
 	var libraryFile = __dirname + '/data/endnote-1.xml';
 	var libraryCount = 1988;
@@ -248,16 +278,40 @@ describe('Task: word-freq (big library, combineWords=5)', function(){
 		expect(task.result.words).to.be.an.array;
 		expect(task.result.words).to.have.length(500); // it should truncate to this as the result length will be enormous
 
-		expect(_.find(task.result.words, {word: 'clinical'}).points).to.equal(1798);
-		expect(_.find(task.result.words, {word: 'randomized controlled'}).title).to.equal(86);
-		expect(_.find(task.result.words, {word: 'randomly assigned'}).abstract).to.equal(315);
-		expect(_.find(task.result.words, {word: 'regimen'}).points).to.equal(298);
+		var word = _.find(task.result.words, {word: 'clinical'});
+		expect(word).to.be.an.object;
+		expect(word.title).to.equal(2);
+		expect(word.abstract).to.equal(3);
+		expect(word.keywords).to.equal(1);
+		expect(word.points).to.equal((2*1) + (3*2) + (1*3)); // Check weights have also been applied
+
+		word = _.find(task.result.words, {word: 'randomized controlled'});
+		expect(word).to.be.an.object;
+		expect(word.title).to.equal(2);
+		expect(word.abstract).to.equal(1);
+		expect(word.keywords).to.equal(4);
+		expect(word.points).to.equal((2*1) + (1*2) + (4*3));
+
+		word = _.find(task.result.words, {word: 'randomly assigned'});
+		expect(word).to.be.an.object;
+		expect(word.title).to.equal(3);
+		expect(word.abstract).to.equal(3);
+		expect(word.keywords).to.equal(4);
+		expect(word.points).to.equal((3*1) + (3*2) + (4*3));
+
+		word = _.find(task.result.words, {word: 'regimen'});
+		expect(word).to.be.an.object;
+		expect(word.title).to.equal(1);
+		expect(word.abstract).to.equal(2);
+		expect(word.keywords).to.equal(0);
+		expect(word.points).to.equal((1*1) + (2*2) + (0*3));
+
 		finish();
 	});
 });
 
 
-describe.only('Task: word-freq (big library, combineWords=5, known EndNote counts)', function(){
+describe('Task: word-freq (big library, combineWords=5, known EndNote counts)', function(){
 	// Library specific info
 	var libraryFile = __dirname + '/data/endnote-3.xml';
 	var libraryCount = 3082;
@@ -363,8 +417,20 @@ describe.only('Task: word-freq (big library, combineWords=5, known EndNote count
 		expect(task.result.words).to.be.an.array;
 		expect(task.result.words).to.have.length(500); // it should truncate to this as the result length will be enormous
 
-		expect(_.find(task.result.words, {word: 'pegaptanib'}).title).to.equal(36);
-		expect(_.find(task.result.words, {word: 'macular degeneration'}).title).to.equal(583);
+		var word = _.find(task.result.words, {word: 'pegaptanib'});
+		expect(word).to.be.an.object;
+		expect(word.title).to.equal(36);
+		//expect(word.abstract).to.equal(3);
+		//expect(word.keywords).to.equal(1);
+		//expect(word.points).to.equal((2*1) + (3*2) + (1*3)); // Check weights have also been applied
+
+		word = _.find(task.result.words, {word: 'macular degeneration'});
+		expect(word).to.be.an.object;
+		expect(word.title).to.equal(583);
+		//expect(word.abstract).to.equal(1);
+		//expect(word.keywords).to.equal(4);
+		//expect(word.points).to.equal((2*1) + (1*2) + (4*3));
+
 		finish();
 	});
 });
