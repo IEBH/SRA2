@@ -12,8 +12,8 @@ module.exports = function(finish, task) {
 				deburr: true,
 				weights: { // Indicates the fields to be extracted and their weights
 					title: 1,
-					keywords: 1,
 					abstract: 1,
+					keywords: 1,
 				},
 				ignore: {
 					common: true,
@@ -66,6 +66,7 @@ module.exports = function(finish, task) {
 			_.keys(task.settings.weights).forEach(function(key) {
 				if (!ref[key]) return;
 
+				var counted = {}; // Object `${sentence}`=>true storage of keys we have already seen
 				var lastWords = [];
 				
 				_(
@@ -121,12 +122,15 @@ module.exports = function(finish, task) {
 									self.words[wordGroup][key] = 0;
 								});
 							}
-
-							self.words[wordGroup].points += (task.settings.weights[key] || 1);
-							self.words[wordGroup][key]++;
-							if (!uniques[wordGroup]) {
-								self.words[wordGroup].unique++;
-								uniques[wordGroup] = true;
+							
+							if (!counted[wordGroup]) {
+								self.words[wordGroup].points += (task.settings.weights[key] || 1);
+								self.words[wordGroup][key]++;
+								counted[wordGroup] = true; // Keep track of whether we have seen this word grouping before in this reference so we dont count it twice
+								if (!uniques[wordGroup]) {
+									self.words[wordGroup].unique++;
+									uniques[wordGroup] = true;
+								}
 							}
 						});
 					});
