@@ -15,6 +15,14 @@ var References = require('../models/references');
 var reflib = require('reflib');
 
 module.exports = function(finish, task) {
+	// Create throttled update function {{{
+	var progressUpdate = _.throttle(function(cur, max) {
+		task.progress.current = cur;
+		task.progress.max = max;
+		task.save();
+	}, 2000);
+	// }}}
+
 	async()
 		// Sanity checks {{{
 		.then(function(next) {
@@ -38,7 +46,6 @@ module.exports = function(finish, task) {
 			}
 		})
 		// }}}
-
 		// Setup {{{
 		.then(function(next) { // Setup task data
 			task.progress.current = 0;
@@ -47,14 +54,13 @@ module.exports = function(finish, task) {
 			task.save(next);
 		})
 		// }}}
-
 		// Worker / Setup {{{
 		.set('tags', {}) // Lookup array for tags
 		.set('refs', []) // References to create
 		// }}}
 		// Worker / Parse files {{{
 		.forEach(task.settings.blobIDs, function(next, blobID) {
-			var task = this;
+			var self = this;
 			var library = this.library;
 			var blobFile = os.tmpDir() + '/blob-' + blobID;
 			reflib.parseFile(blobFile, {
@@ -68,9 +74,10 @@ module.exports = function(finish, task) {
 				.on('error', next)
 				.on('ref', function(ref) {
 					ref.library = library._id;
-					if (ref.tags) ref.tags.forEach(tag => task.tags[tag] = true);
-					task.refs.push(_.omit(ref, ['_id', 'created', 'edited', 'status']));
-				});
+					if (ref.tags) ref.tags.forEach(tag => self.tags[tag] = true);
+					self.refs.push(_.omit(ref, ['_id', 'created', 'edited', 'status']));
+				})
+				.on('progress', progressUpdate)
 		})
 		// }}}
 		// Create Tags {{{
@@ -88,8 +95,8 @@ module.exports = function(finish, task) {
 		// }}}
 		// Create References {{{
 		.forEach('refs', function(nextRef, ref) {
-			var task = this;
-			if (ref.tags) ref.tags = ref.tags.map(tag => task.tags[tag]._id)
+			var self = this;
+			if (ref.tags) ref.tags = ref.tags.map(tag => self.tags[tag]._id)
 			References.create(ref, nextRef);
 		})
 		// }}}
