@@ -1,4 +1,4 @@
-app.controller('libraryOperation', function($scope, $rootScope, $location, $stateParams, $timeout, Libraries, Loader, References) {
+app.controller('libraryOperation', function($scope, $rootScope, $filter, $location, $stateParams, $timeout, Libraries, Loader, References) {
 	// Operations {{{
 	// NOTE: Dont forget to also update app/routes if any of these change
 	$scope.operations = [
@@ -265,7 +265,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $location, $stat
 									.progress(100);
 							} else {
 								Loader
-									.text(position + ' / ' + total + ' bytes uploaded')
+									.text($filter('filesize')(position) + ' / ' + $filter('filesize')(total) + ' uploaded')
 									.progress(percentComplete);
 							}
 						});
