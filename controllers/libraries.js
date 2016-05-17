@@ -1,15 +1,20 @@
 var _ = require('lodash');
 var async = require('async-chainable');
 var colors = require('chalk');
+var copy = require('fs-copy-simple');
 var email = require('email').Email;
 var fs = require('fs');
+var fspath = require('path');
 var Libraries = require('../models/libraries');
 var multer = require('multer');
 var moment = require('moment');
+var os = require('os');
 var References = require('../models/references');
 var ReferenceTags = require('../models/referenceTags');
-var rl = require('reflib');
+var reflib = require('reflib');
 var strtotime = require('strtotime');
+var Tasks = require('../models/tasks');
+var temp = require('temp');
 
 /**
 * Accept a file and upload it either into a new or existing library
@@ -33,7 +38,7 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 		})
 		.forEach(req.files, function(next, file) {
 			// File sanity checks {{{
-			var rlDriver = rl.identify(file.originalname);
+			var rlDriver = reflib.identify(file.originalname);
 			console.log(colors.blue('Upload'), colors.cyan(file.originalname), 'using driver', colors.cyan(rlDriver));
 			if (file.originalname && !rlDriver) return next('File type not supported');
 			next();
@@ -62,7 +67,7 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 		.set('tags', {}) // Lookup array for tags
 		.forEach(req.files, function(next, file) {
 			var self = this;
-			rl.parse(rl.identify(file.originalname) || 'endnotexml', file.buffer.toString(), {
+			reflib.parse(reflib.identify(file.originalname) || 'endnotexml', file.buffer.toString(), {
 				fixes: {
 					authors: true,
 					dates: true,
@@ -113,6 +118,68 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 
 
 /**
+* Accept a file and schedule an import task to process it a new or existing library
+* @param {array} req.files Array of files to process
+* @param {string} [req.body.library] The library ID to upload into, if omitted a new one is created (using req.body.library)
+* @param {string} [req.body.libraryTitle] Alternate method to populate library.title within a POST operation
+*/
+app.post('/api/libraries/import2', multer().any(), function(req, res) {
+	async()
+		// Sanity checks {{{
+		.then(function(next) {
+			if (!req.files) return next('No files were uploaded');
+			if (!req.user) return next('You are not logged in');
+			if (req.body.library && !_.isString(req.body.library)) return next('library must be a string');
+			if (req.body.libraryTitle && !_.isString(req.body.libraryTitle)) return next('libraryTitle must be a string');
+			next();
+		})
+		// }}}
+		// File sanity checks {{{
+		.forEach(req.files, function(next, file) {
+			var rlDriver = reflib.identify(file.originalname);
+			console.log(colors.blue('Upload'), colors.cyan(file.originalname), 'using driver', colors.cyan(rlDriver));
+			if (file.originalname && !rlDriver) return next('File type not supported');
+			next();
+		})
+		// }}}
+		// Copy each file into a valid blob path {{{
+		.set('blobIDs', [])
+		.forEach(req.files, function(next, file) {
+			var blobPath = temp.path({suffix: fspath.parse(file.originalname).ext, prefix: 'blob-', dir: os.tmpDir()});
+			var blobID = fspath.basename(blobPath).substr(5);
+			this.blobIDs.push(blobID);
+			console.log(colors.blue('Upload'), colors.cyan(file.originalname), 'into blob', colors.cyan(blobID));
+			copy(file.buffer, blobPath, next);
+		})
+		// }}}
+		// Create task to actually do the work {{{
+		.then('task', function(next) {
+			Tasks.create({
+				creator: req.user,
+				worker: 'library-import',
+				owner: req.user._id,
+				history: [{type: 'queued'}],
+				settings: {
+					blobIDs: this.blobIDs,
+					library: req.body.library || undefined,
+					libraryTitle: req.body.libraryTitle || undefined,
+				},
+			}, next);
+		})
+		// }}}
+		// End {{{
+		.end(function(err) {
+			if (err) {
+				console.log(colors.blue('Upload'), colors.red('ERROR'), err.toString());
+				return res.status(400).send(err.toString()).end();
+			}
+			res.send({_id: this.task._id});
+		});
+		// }}}
+});
+
+
+/**
 * Export a library into the provided container format
 * @param string req.params.id The library ID to export
 * @param string req.params.format The library output format (must be supported by Reflib)
@@ -128,7 +195,7 @@ app.get('/api/libraries/:id/export/:format', function(req, res) {
 			// }}}
 		})
 		.then('format', function(next) {
-			var format = _.find(rl.supported, {id: req.params.format});
+			var format = _.find(reflib.supported, {id: req.params.format});
 			if (!format) return next('format is unsupported: ' + req.params.format);
 			res.attachment(format.filename);
 			next(null, format);
@@ -137,7 +204,7 @@ app.get('/api/libraries/:id/export/:format', function(req, res) {
 			Libraries.findOne({_id: req.params.id, status: 'active'}, next);
 		})
 		.then(function(next) {
-			rl.output({
+			reflib.output({
 				format: req.params.format,
 				stream: res,
 				content: function(next, batch) {
@@ -164,7 +231,7 @@ app.get('/api/libraries/:id/export/:format', function(req, res) {
 * This really just returns the reflib.supported structure
 */
 app.get('/api/libraries/formats', function(req, res) {
-	res.send(rl.supported.map(function(format) {
+	res.send(reflib.supported.map(function(format) {
 		return {
 			id: format.id,
 			name: format.name,
