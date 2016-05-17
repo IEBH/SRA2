@@ -55,7 +55,6 @@ global.paths = {
 		'node_modules/angular-bs-tooltip/angular-bs-tooltip.js',
 		'node_modules/angular-clipboard/angular-clipboard.js',
 		'node_modules/angular-collection-assistant/ng-collection-assistant.js',
-		'node_modules/angular-pretty-bytes/angular-pretty-bytes.js',
 		'node_modules/angular-resource/angular-resource.js',
 		'node_modules/angular-ui-router/release/angular-ui-router.js',
 		'node_modules/angular-ui-switch/angular-ui-switch.css',
@@ -65,6 +64,7 @@ global.paths = {
 		'node_modules/angular-xeditable/dist/css/xeditable.css',
 		'node_modules/d3/d3.js',
 		'node_modules/jquery-form/jquery.form.js',
+		'node_modules/filesize/lib/filesize.js',
 		'node_modules/font-awesome/css/font-awesome.css', // NOTE: Font files are handled in controllers/vendors.js
 		'node_modules/smart-area/dist/smart-area.js',
 		'node_modules/smart-area/dist/smart-area.css',

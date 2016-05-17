@@ -69,7 +69,7 @@
 				</tr></thead>
 				<tr ng-repeat="file in library.files">
 					<td><a href="{{file.url}}"><i class="{{file.icon}}"></i> {{file.name}}</a></td>
-					<td><a href="{{file.url}}">{{file.size | prettyBytes}}</a></td>
+					<td><a href="{{file.url}}">{{file.size | filesize}}</a></td>
 				</tr>
 			</table>
 		</div>
