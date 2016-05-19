@@ -23,7 +23,7 @@ app.controller('libraryListController', function($scope, Libraries, References, 
 				// Decorators {{{
 				// .referenceCount {{{
 				.map(function(library) {
-					library.referenceCount = null;
+					library.referenceCount = 'loading';
 					References.count({library: library._id}).$promise.then(function(countData) {
 						library.referenceCount = countData.count;
 					});
