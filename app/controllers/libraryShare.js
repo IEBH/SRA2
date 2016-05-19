@@ -29,7 +29,7 @@ app.controller('libraryShareController', function($scope, $interpolate, $locatio
 		$scope.body = 
 			$scope.user.name + " would like to share a reference library with you via CREBP-SRA:\n\n" +
 			"Library: " + $scope.library.title + "\n\n" +
-			"    " + $scope.library.url + "\n\n" +
+			"   http://crebp-sra.com/#/libraries/" + $scope.library._id + "\n\n" +
 			"The CREBP-SRA team";
 	});
 	// }}}
