@@ -36,7 +36,8 @@
 				</td>
 				<td><a href="#/libraries/{{library._id}}">{{library.title}}</a></td>
 				<td class="text-center"><a href="#/libraries/{{library._id}}">
-					<span class="badge badge-info">{{library.referenceCount}}</span>
+					<i ng-show="library.referenceCount == 'loading'" class="fa fa-spinner fa-spin"></i>
+					<span ng-show="library.referenceCount != 'loading'" class="badge badge-info">{{library.referenceCount}}</span>
 				</a></td>
 			</tr>
 		</table>

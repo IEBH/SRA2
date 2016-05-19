@@ -62,6 +62,7 @@ var defaults = {
 	},
 	library: {
 		request: {
+			method: 'sendmail', // sendmail, mailgun
 			email: {
 				from: null, // Set to falsy to use users own email
 				to: 'ddeliver@bond.edu.au',

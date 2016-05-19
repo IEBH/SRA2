@@ -12,8 +12,8 @@ module.exports = function(finish, task) {
 				deburr: true,
 				weights: { // Indicates the fields to be extracted and their weights
 					title: 1,
-					keywords: 1,
 					abstract: 1,
+					keywords: 1,
 				},
 				ignore: {
 					common: true,
@@ -24,7 +24,7 @@ module.exports = function(finish, task) {
 					unique: 0,
 				},
 				max: {
-					results: 300, // Anything above this limit gets truncated by the resultsTruncate field
+					results: 500, // Anything above this limit gets truncated by the resultsTruncate field
 					resultsTruncate: 'points',
 				},
 				combineWords: 1, // How many word combinations should be examined (1=one word,2=two words etc.)
@@ -32,6 +32,7 @@ module.exports = function(finish, task) {
 
 			if (!task.settings) return next('.settings object must be present for request');
 			if (task.settings.combineWords > 5) next('combineWords has a maximum of 5');
+			if (task.settings.max.results > 500) next('Maximum number of references is too high');
 			next();
 		})
 		// }}}
@@ -65,12 +66,20 @@ module.exports = function(finish, task) {
 			_.keys(task.settings.weights).forEach(function(key) {
 				if (!ref[key]) return;
 
+				var counted = {}; // Object `${sentence}`=>true storage of keys we have already seen
 				var lastWords = [];
 				
-				_(_.isArray(ref[key]) ? ref[key] : ref[key].split(/\s+/)) // Split up if not already an array
+				_(
+					_.isArray(ref[key]) ? // Is an array - split each element by whitespace
+						_(ref[key])
+							.map(x => x.split(/\s+/))
+							.flatten()
+							.value()
+						: ref[key].split(/[\s\=\+\-\?\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\"\<\>\,\.\/]+/) // Is a string - split by whitespace or punctuation
+				)
 					.map(v => v.toLowerCase()) // Lower case everything
 					.map(v => task.settings.deburr ? _.deburr(v) : v) // Deburr?
-					.map(v => v.replace(/[=\+\-\?\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.\/]+/g, '')) // Strip punctuation
+					.map(v => v.replace(/[\=\+\-\?\!\@\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\"\<\>\,\.\/]+/g, '')) // Strip punctuation
 					.forEach(function(word, wordIndex) {
 						// Ignore rules {{{
 						if (
@@ -99,7 +108,7 @@ module.exports = function(finish, task) {
 						if (lastWords.length > task.settings.combineWords) lastWords.shift(); // Turn stack into circular array where we clip from the beginning (FILO)
 
 						_.times(task.settings.combineWords, function(offset) {
-							if (lastWords.length < offset) return;
+							if (lastWords.length - 1 < offset) return;
 							var sentence = lastWords.slice(0 - (offset+1));
 
 							var wordGroup = sentence.join(' ');
@@ -113,12 +122,15 @@ module.exports = function(finish, task) {
 									self.words[wordGroup][key] = 0;
 								});
 							}
-
-							self.words[wordGroup].points += (task.settings.weights[key] || 1);
-							self.words[wordGroup][key]++;
-							if (!uniques[wordGroup]) {
-								self.words[wordGroup].unique++;
-								uniques[wordGroup] = true;
+							
+							if (!counted[wordGroup]) {
+								self.words[wordGroup].points += (task.settings.weights[key] || 1);
+								self.words[wordGroup][key]++;
+								counted[wordGroup] = true; // Keep track of whether we have seen this word grouping before in this reference so we dont count it twice
+								if (!uniques[wordGroup]) {
+									self.words[wordGroup].unique++;
+									uniques[wordGroup] = true;
+								}
 							}
 						});
 					});
@@ -169,7 +181,11 @@ module.exports = function(finish, task) {
 			task.completed = new Date();
 			task.status = 'completed';
 			task.result = {
-				fields: _.keys(task.settings.weights),
+				fields: [
+					{id: 'title', title: 'Title'},
+					{id: 'abstract', title: 'Abstract'},
+					{id: 'keywords', title: 'Keywords'},
+				],
 				words: this.words,
 			};
 			task.save(next);

@@ -1,7 +1,7 @@
 app.controller('libraryListController', function($scope, Libraries, References, Users, $location) {
 	$scope.libraries = null;
 
-	$scope.$watch('libraryAllowNew + libraries', function() {
+	$scope.$watchGroup(['libraryAllowNew', 'libraries'], function() {
 		if (!$scope.libraries) return;
 		if ($scope.libraryAllowNew && $scope.libraries.length > 0 && $scope.libraries[0]._id == 'new') { // Already present
 			return;

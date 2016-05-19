@@ -8,7 +8,6 @@ var app = angular.module('app', [
 	'monospaced.elastic',
 	'ng-collection-assistant',
 	'ngResource',
-	'prettyBytes',
 	'ui.gravatar',
 	'ui.router',
 	'uiSwitch',

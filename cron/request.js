@@ -5,6 +5,7 @@ var Libraries = require('../models/libraries');
 var moment = require('moment');
 var nodemailer = require('nodemailer');
 var nodemailerMailgun = require('nodemailer-mailgun-transport');
+var nodemailerSendmail = require('nodemailer-sendmail-transport');
 var References = require('../models/references');
 
 module.exports = function(finish, task) {
@@ -105,20 +106,31 @@ module.exports = function(finish, task) {
 					var cc = config.library.request.email.cc;
 					if (task.settings.ccUser && task.settings.user.email) cc.push(task.settings.user.email);
 
-					nodemailer
-						.createTransport(nodemailerMailgun({
-							auth: {
-								api_key: config.mailgun.apiKey,
-								domain: config.mailgun.domain,
-							},
-						}))
-						.sendMail({
-							from: config.library.request.email.from || task.settings.user.email,
-							to: config.library.request.email.to,
-							cc: cc,
-							subject: 'Document delivery request',
-							html: this.html,
-						}, next);
+					// Work out mail transport {{{
+					switch (config.library.request.method) {
+						case 'mailgun':
+							nodemailer.createTransport(nodemailerMailgun({
+								auth: {
+									api_key: config.mailgun.apiKey,
+									domain: config.mailgun.domain,
+								},
+							}));
+							break
+						case 'sendmail':
+							nodemailer.createTransport(nodemailerSendmail());
+							break;
+						default:
+							return next('Unknown mail transport method: ' + config.library.request.method);
+					}
+					// }}}
+
+					nodemailer.sendMail({
+						from: config.library.request.email.from || task.settings.user.email,
+						to: config.library.request.email.to,
+						cc: cc,
+						subject: 'Document delivery request',
+						html: this.html,
+					}, next);
 				})
 				.then(function(next) {
 					task.history.push({type: 'response', response: this.response});
