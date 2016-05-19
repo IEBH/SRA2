@@ -146,6 +146,7 @@ restify.defaults({
 app.use(require('express-log-url'));
 // }}}
 // Controllers {{{
+require('./controllers/users'); // Invoke users first as it needs to install its passport middleware
 requireDir('./controllers');
 // }}}
 

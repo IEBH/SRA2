@@ -11,8 +11,8 @@ if (process.env.VCAP_SERVICES) {
 	env = 'openshift';
 } else if (process.env.MONGOLAB_URI) {
 	env = 'heroku';
-} else if (/-e\s*([a-z0-9\-]+)/i.test(process.argv.slice(1).join(' '))) { // exec with '-e env'
-	var eargs = /-e\s*([a-z0-9\-]+)/i.exec(process.argv.slice(1).join(' '));
+} else if (/-e\s*([a-z0-9\-\.]+)/i.test(process.argv.slice(1).join(' '))) { // exec with '-e env'
+	var eargs = /-e\s*([a-z0-9\-\.]+)/i.exec(process.argv.slice(1).join(' '));
 	env = eargs[1];
 } else if (process.env.NODE_ENV) { // Inherit from NODE_ENV
 	env = process.env.NODE_ENV;
@@ -25,7 +25,7 @@ var defaults = {
 	env: env,
 	root: path.normalize(__dirname + '/..'),
 	host: null, // Listen to all host requests
-	port: process.env.PORT || 80,
+	port: process.env.PORT || 8080,
 	url: 'http://localhost',
 	secret: "dT2CsWwmEBPnggihyKlY3IXONBIY4Db/yt5y1qcRHXkylDxHfEPGAsPkG1ikpFMgPnE9TrghA4hXSmuf8DvrdwtXZHY4Zmg8VVFs9Ei2NRK3N",
 	access: {
