@@ -2,7 +2,7 @@ var _ = require('lodash');
 var async = require('async-chainable');
 var colors = require('chalk');
 var copy = require('fs-copy-simple');
-var email = require('email').Email;
+var email = require('../lib/email');
 var fs = require('fs');
 var fspath = require('path');
 var Libraries = require('../models/libraries');
@@ -286,13 +286,12 @@ app.post('/api/libraries/:id/share', function(req, res) {
 		})
 		.then(function(next) {
 			var self = this;
-			new email({
+			email.send({
 				from: req.user.name + ' <' + req.user.email + '>',
-				to: _.isArray(req.body.email) ? req.body.email.join('; ') : req.body.email,
+				to: req.body.email,
 				subject: 'CREP-SRA Library Share - ' + (self.library.title || 'Untitled'),
-				body: req.body.body,
-				bodyType: 'text/plain',
-			}).send(function(err) {
+				text: req.body.body,
+			}, function(err) {
 				if (err) return next(err);
 				console.log(colors.blue('[SHARE]'), colors.cyan(self.library._id), 'With', req.body.email);
 				next();

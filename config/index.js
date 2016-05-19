@@ -39,6 +39,13 @@ var defaults = {
 		debugCSS: true,
 		minifyCSS: false,
 	},
+	email: {
+		enabled: true,
+		method: 'mailgun',
+		from: 'noreply@crebp-sra.com',
+		to: 'ddeliver@bond.edu.au',
+		cc: [],
+	},
 	mailgun: {
 		apiKey: 'FIXME:STORE THIS IN THE PRIVATE.JS FILE!!!',
 		domain: 'FIXME:STORE THIS IN THE PRIVATE.JS FILE!!!',
@@ -62,12 +69,6 @@ var defaults = {
 	},
 	library: {
 		request: {
-			method: 'sendmail', // sendmail, mailgun
-			email: {
-				from: null, // Set to falsy to use users own email
-				to: 'ddeliver@bond.edu.au',
-				cc: [],
-			},
 			timeout: 30 * 1000,
 			maxReferences: 100, // Set to 0 to disable
 		},

@@ -39,7 +39,6 @@
     "cookie-parser": "^1.4.1",
     "d3": "^3.5.17",
     "ejs": "^2.4.1",
-    "email": "^0.2.6",
     "express": "^4.13.4",
     "express-ejs-layouts": "^2.0.0",
     "express-log-url": "^1.0.4",
