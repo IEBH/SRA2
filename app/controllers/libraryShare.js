@@ -23,8 +23,8 @@ app.controller('libraryShareController', function($scope, $interpolate, $locatio
 	};
 
 	// Setup default message {{{
-	$scope.$watchGroup(['user', 'library'], function() {
-		if (!$scope.user || !$scope.user.name || !$scope.library || !$scope.library.title) return; // We dont have all the data yet
+	$scope.$watchGroup(['user._id', 'library'], function() {
+		if (!$scope.user._id || !$scope.library || !$scope.library.title) return; // We dont have all the data yet
 		if ($scope.body) return; // We already have a body
 		$scope.body = 
 			$scope.user.name + " would like to share a reference library with you via CREBP-SRA:\n\n" +
