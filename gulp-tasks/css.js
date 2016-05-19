@@ -32,7 +32,7 @@ gulp.task('css', ['load:config'], function() {
 		.on('end', function() {
 			if (!hasErr)
 				notify({
-					title: config.title,
+					title: config.title + ' - CSS',
 					message: 'Rebuilt frontend CSS' + (++cssBootCount > 1 ? ' #' + cssBootCount : ''),
 					icon: __dirname + '/icons/css.png',
 				}).write(0);

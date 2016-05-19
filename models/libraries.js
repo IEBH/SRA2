@@ -3,6 +3,7 @@ var monoxide = require('monoxide');
 module.exports = monoxide
 	.schema('libraries', {
 		created: {type: Date, default: Date.now},
+		viewed: {type: Date, default: Date.now},
 		edited: {type: Date, default: Date.now},
 		expiry: {type: Date},
 		owners: [{type: 'pointer', ref: 'users', indexed: true}],

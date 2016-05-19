@@ -2,6 +2,9 @@
 module.exports = {
 	port: 80,
 	url: 'http://glitch',
+	cron: {
+		runMode: 'inline',
+	},
 	tasks: {
 		'library-cleaner': {
 			enabled: false,
@@ -10,8 +13,9 @@ module.exports = {
 	library: {
 		request: {
 			email: {
-				to: 'matt_carter@bond.edu.au',
+				to: 'matt.crtr@gmail.com',
 			},
+			maxReferences: 10,
 		},
 	},
 };

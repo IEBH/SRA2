@@ -5,9 +5,9 @@ app.controller('referenceEditController', function($scope, $async, $location, $q
 	
 	// Data refresher {{{
 	$scope.refresh = function() {
-		if (!$stateParams.id) return $location.path('/libraries');
+		if (!$stateParams.refId) return $location.path('/libraries');
 		References.get({
-			id: $stateParams.id,
+			id: $stateParams.refId,
 			populate: 'library,tags',
 		}).$promise.then(function(data) {
 			$scope.loading = false;
@@ -46,7 +46,7 @@ app.controller('referenceEditController', function($scope, $async, $location, $q
 		// }}}
 
 		// Compress textareas back into arrays {{{
-		['authors', 'urls'].forEach(field => {
+		['authors', 'keywords', 'urls'].forEach(field => {
 			if (obj[field]) {
 				obj[field] = obj[field]
 					.toString()
@@ -76,7 +76,6 @@ app.controller('referenceEditController', function($scope, $async, $location, $q
 			obj.tags = [];
 
 		async.forEach(makeTags, (next, tag) => {
-			console.log('BUILD TAG', tag);
 			ReferenceTags.create({
 				library: $scope.reference.library._id,
 				title: tag,

@@ -39,6 +39,10 @@ var defaults = {
 		debugCSS: true,
 		minifyCSS: false,
 	},
+	mailgun: {
+		apiKey: 'FIXME:STORE THIS IN THE PRIVATE.JS FILE!!!',
+		domain: 'FIXME:STORE THIS IN THE PRIVATE.JS FILE!!!',
+	},
 	mongo: {
 		uri: 'mongodb://localhost/sra',
 		options: {
@@ -54,24 +58,29 @@ var defaults = {
 	},
 	limits: {
 		references: 100, // How many references to hold in memory at once during operations such as export, dedupe etc.
-		dedupeOuter: 1, // How many comparison threads to allow at once (ref1). Ideally this should be '1' as anything else increases stack size n^n
-		dedupeInner: 10, // How many comparison threads to allow against dedupeOuter (total is dedupeOuter * dedupeInner)
+		recentLibraries: 10,
 	},
 	library: {
 		request: {
+			method: 'sendmail', // sendmail, mailgun
 			email: {
 				from: null, // Set to falsy to use users own email
 				to: 'ddeliver@bond.edu.au',
-				cc: undefined,
-				bcc: 'matt_carter@bond.edu.au',
+				cc: [],
 			},
 			timeout: 30 * 1000,
+			maxReferences: 100, // Set to 0 to disable
 		},
 	},
 	cron: {
 		enabled: true,
 		queryLimit: 10, // How many tasks to work on in one cron cycle
 		waitTime: 3 * 1000,
+
+		// How to execute tasks
+		// 'pm2' - run as seperated process via PM2
+		// 'inline' - run within this thread
+		runMode: 'pm2',
 	},
 	search: {
 		pubmed: {
@@ -83,6 +92,15 @@ var defaults = {
 	tasks: {
 		'library-cleaner': {
 			enabled: true,
+		},
+		dedupe: {
+			limit: 20, // How many comparison threads to allow at once for the dedupe task
+			stringDistance: {
+				// String distance between titles before its considered a match
+				// The following tests are performed in series - the idea being the least CPU costly are up first
+				jaroWinklerMin: 0.9, // natural.JaroWinklerDistance 
+				levenshteinMax: 10, // natural.LevenshteinDistance 
+			},
 		},
 	},
 };

@@ -233,10 +233,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})
-		// }}}
-		// Reference {{{
-		.state('reference-view', {
-			url: '/references/:id',
+		.state('library-reference-edit', {
+			url: '/libraries/:id/ref/:refId',
 			views: {main: {templateUrl: '/partials/references/edit.html'}},
 			data: {
 				title: 'Reference',
@@ -249,7 +247,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			url: '/textselect',
 			views: {main: {templateUrl: '/partials/textselect/textselect.html'}},
 			data: {
-				title: 'Text Select'
+				title: 'Text Select',
+			}
+		})
+		// }}}
+		// Help {{{
+		.state('help-getting-started', {
+			url: '/help/getting-started',
+			views: {main: {templateUrl: '/partials/help/getting-started.html'}},
+			data: {
+				title: 'Getting Started',
 			}
 		})
 		// }}}

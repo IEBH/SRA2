@@ -1,0 +1,27 @@
+#!/bin/bash
+# Re-Deploy an existing instance - pulling in all new NPM updates
+#
+# @author Matt Carter <m@ttcarter.com>
+# @date 2016-04-11
+
+# Stop on errors
+set -euo pipefail
+
+cd ~/crebp-sra.com
+
+echo "Pulling latest Git repo..."
+git pull
+
+echo "Installing NPM packages..."
+npm install
+
+echo "Cleaning up dead NPM packages..."
+npm prune
+
+echo "Building via Gulp..."
+gulp build
+
+echo "Rebooting PM2 process..."
+pm2 restart all
+
+echo "done."

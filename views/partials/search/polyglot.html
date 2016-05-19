@@ -10,23 +10,27 @@
 		<form class="form-horizontal">
 			<div class="form-group">
 				<div class="col-sm-12">
-					<textarea class="form-control" rows="10" ng-model="query" ng-trim="false" smart-area="smartArea"></textarea>
+					<textarea class="form-control" rows="10" ng-model="query" ng-trim="false"></textarea>
 				</div>
 			</div>
 		</form>
 	</div>
 
-	<div ng-if="query" id="engines" class="accordion-style1 panel-group">
-		<div ng-repeat="engine in engines" class="panel panel-default">
+	<div ng-if="query" class="accordion-style1 panel-group">
+		<div ng-repeat="engine in engines track by engine.id" class="panel panel-default">
 			<div class="panel-heading">
 				<h4 class="panel-title">
-					<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#engines" data-target="#engine-{{engine.id}}" aria-expanded="false">
+					<a ng-click="toggleExpandEngine(engine)" class="accordion-toggle collapsed">
+						<i class="fa fa-fw" ng-class="engine.expanded ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
 						{{engine.title}}
 					</a>
-					<a ng-click="openEngine(engine)" class="btn btn-sm btn-success pull-right"><i class="fa fa-search"></i></a>
+					<div class="pull-right">
+						<a ng-if="engine.allowSearch" ng-click="engineOpen(engine)" class="btn btn-sm btn-success" tooltip="Open this search in a new tab"><i class="fa fa-search"></i></a>
+						<a ng-click="engineClipboard(engine)" class="btn btn-sm btn-success"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
+					</div>
 				</h4>
 			</div>
-			<div class="panel-collapse collapse" id="engine-{{engine.id}}" aria-expanded="false" style="height: 0px;">
+			<div class="panel-collapse collapse" ng-class="engine.expanded && 'in'">
 				<div class="panel-body">
 					<pre>{{engine.query}}</pre>
 				</div>

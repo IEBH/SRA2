@@ -1,6 +1,8 @@
 var _ = require('lodash');
 var async = require('async-chainable');
 var colors = require('chalk');
+var Libraries = require('../models/libraries');
+var References = require('../models/references');
 var Users = require('../models/users');
 
 // Passport setup {{{
@@ -149,21 +151,48 @@ app.post('/signup', function(req, res, finish) {
 app.get('/api/users/profile', function(req, res) {
 	if (!req.user) return res.status(200).send({});
 
-	// Decide what gets exposed to the front-end
-	res.send({
-		_id: req.user._id,
-		username: req.user.username,
-		email: req.user.email,
-		name: req.user.name,
-		role: req.user.role,
-		isAdmin: (req.user.role != 'user'),
-		isRoot: (req.user.role == 'root'),
-		title: req.user.title,
-		libraryNo: req.user.libraryNo,
-		faculty: req.user.faculty,
-		position: req.user.position,
-		settings: req.user.settings,
-	});
+	async()
+		.parallel({
+			recentLibraries: function(next) {
+				Libraries.find({status: 'active'})
+					.select('_id viewed title')
+					.sort('-viewed -edited')
+					.limit(config.limits.recentLibraries)
+					.exec(next);
+			},
+			libraries: function(next) {
+				Libraries.find({
+					owners: req.user._id,
+					status: 'active',
+				})
+					.sort('name')
+					.exec(next);
+			},
+		})
+		.parallel({
+			referenceCount: function(next) {
+				References.count({library: {$in: this.libraries.map(l => l._id)}}, next);
+			},
+			librariesSharedCount: function(next) {
+				Libraries.count({
+					library: {$in: this.libraries.map(l => l._id)},
+					'owners.1': {$exists: true},
+				}, next);
+			},
+		})
+		.end(function(err) {
+			if (err) return res.status(400).send(err.toString());
+
+			var user = _.clone(req.user.data);
+			user.settings = req.user.settings;
+			user.recentLibraries = this.recentLibraries;
+			user.stats = {
+				libraries: this.libraries.length,
+				librariesShared: this.librariesSharedCount,
+				references: this.referenceCount,
+			};
+			res.send(user);
+		});
 });
 
 app.post('/api/users/profile', function(req, res) {
