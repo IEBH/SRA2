@@ -204,12 +204,24 @@ app.get('/api/libraries/:id/export/:format', function(req, res) {
 			Libraries.findOne({_id: req.params.id, status: 'active'}, next);
 		})
 		.then(function(next) {
+			var library = this.library;
+
+			// Try to determine a helpful filename {{{
+			switch (req.params.format) {
+				case 'endnotexml':
+					res.attachment(this.library.title + '.xml');
+					break;
+				case 'json':
+					res.attachment(this.library.title + '.json');
+					break;
+			}
+			// }}}
+
 			reflib.output({
 				format: req.params.format,
 				stream: res,
 				content: function(next, batch) {
-					console.log('Fetch batch', batch);
-					References.find({library: this.library._id, status: 'active'})
+					References.find({library: library._id, status: 'active'})
 						.limit(config.limits.references)
 						.skip(config.limits.references * batch)
 						.exec(next);
