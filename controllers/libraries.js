@@ -186,14 +186,14 @@ app.post('/api/libraries/import2', multer().any(), function(req, res) {
 */
 app.get('/api/libraries/:id/export/:format', function(req, res) {
 	async()
+		// Sanity checks {{{
 		.then(function(next) {
-			// Sanity checks {{{
-			if (!req.user) return next('You are not logged in');
+			// if (!req.user) return next('You are not logged in');
 			if (!req.params.id) return next('id must be specified');
 			if (!req.params.format) return next('format must be specified');
 			next();
-			// }}}
 		})
+		// }}}
 		.then('format', function(next) {
 			var format = _.find(reflib.supported, {id: req.params.format});
 			if (!format) return next('format is unsupported: ' + req.params.format);
@@ -203,10 +203,8 @@ app.get('/api/libraries/:id/export/:format', function(req, res) {
 		.then('library', function(next) {
 			Libraries.findOne({_id: req.params.id, status: 'active'}, next);
 		})
+		// Try to determine a helpful filename {{{
 		.then(function(next) {
-			var library = this.library;
-
-			// Try to determine a helpful filename {{{
 			switch (req.params.format) {
 				case 'endnotexml':
 					res.attachment(this.library.title + '.xml');
@@ -215,7 +213,13 @@ app.get('/api/libraries/:id/export/:format', function(req, res) {
 					res.attachment(this.library.title + '.json');
 					break;
 			}
-			// }}}
+			next();
+		})
+		// }}}
+		// Stream the output via reflib {{{
+		.then(function(next) {
+			var library = this.library;
+
 
 			reflib.output({
 				format: req.params.format,
@@ -224,17 +228,23 @@ app.get('/api/libraries/:id/export/:format', function(req, res) {
 					References.find({library: library._id, status: 'active'})
 						.limit(config.limits.references)
 						.skip(config.limits.references * batch)
-						.exec(next);
+						.exec(function(err, res) {
+							if (err) return next(err);
+							next(null, res, res.length < config.limits.references);
+						});
 				},
 			})
 				.on('finish', function() {
 					next();
 				})
 		})
+		// }}}
+		// End {{{
 		.end(function(err) {
 			if (err) return res.status(400).send(err);
 			res.end();
 		});
+		// }}}
 });
 
 
