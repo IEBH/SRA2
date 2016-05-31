@@ -13,4 +13,5 @@ echo "Stopping all PM2 child processes..."
 pm2 kill
 
 echo "Booting main web server"
+NODE_ENV=production
 pm2 start server.js
