@@ -27,23 +27,24 @@ var temp = require('temp');
 app.post('/api/libraries/import', multer().any(), function(req, res) {
 	async()
 		.set('count', 0)
+		// Sanity checks {{{
 		.then(function(next) {
-			// Sanity checks {{{
 			if (!req.files) return next('No files were uploaded');
 			if (!req.user) return next('You are not logged in');
 			if (req.body.libraryId && !_.isString(req.body.libraryId)) return next('libraryId must be a string');
 			if (req.body.library && !_.isObject(req.body.library)) return next('library must be an object');
 			next();
-			// }}}
 		})
+		// }}}
+		// Per-File sanity checks {{{
 		.forEach(req.files, function(next, file) {
-			// File sanity checks {{{
 			var rlDriver = reflib.identify(file.originalname);
 			console.log(colors.blue('Upload'), colors.cyan(file.originalname), 'using driver', colors.cyan(rlDriver));
 			if (file.originalname && !rlDriver) return next('File type not supported');
 			next();
-			// }}}
 		})
+		// }}}
+		// Create / get existing library {{{
 		.then('library', function(next) {
 			// Import into existing
 			if (req.body.libraryId && req.body.libraryId != 'new') return Libraries.findOne({_id: req.body.libraryId}, next);
@@ -63,6 +64,8 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 
 			Libraries.create(proto, next);
 		})
+		// }}}
+		// For each file - import references {{{
 		.set('refs', []) // References to create
 		.set('tags', {}) // Lookup array for tags
 		.forEach(req.files, function(next, file) {
@@ -82,12 +85,15 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 					if (ref.tags) ref.tags.forEach(function(tag) { self.tags[tag] = true });
 					self.refs.push(_.omit(ref, ['_id', 'created', 'edited', 'status']));
 					self.count++;
+					if ((self.count % 500) == 0) console.log(colors.blue('Upload'), 'Imported', colors.cyan(self.count), 'refs from', colors.cyan(file.originalname));
 				})
 				.on('end', function() {
 					next();
 				});
 		})
+		// }}}
 		.limit(50)
+		// Create tags {{{
 		.forEach('tags', function(nextTag, junk, tag) {
 			var self = this;
 			ReferenceTags.create({
@@ -99,11 +105,15 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 				nextTag();
 			});
 		})
+		// }}}
+		// Create references {{{
 		.forEach('refs', function(nextRef, ref) {
 			var self = this;
 			if (ref.tags) ref.tags = ref.tags.map(function(tag) { return self.tags[tag]._id })
 			References.create(ref, nextRef);
 		})
+		// }}}
+		// End {{{
 		.end(function(err) {
 			if (err) {
 				console.log(colors.blue('Upload'), colors.red('ERROR'), err.toString());
@@ -114,6 +124,7 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 			if (req.body.json) return res.send(this.library);
 			res.send({error: false, url: '/#/libraries/' + this.library._id});
 		});
+		// }}}
 });
 
 
