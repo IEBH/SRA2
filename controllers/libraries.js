@@ -18,13 +18,14 @@ var temp = require('temp');
 
 /**
 * Accept a file and upload it either into a new or existing library
+* @depreciated 2016-06-07 Replaced with /import process below - this used to try to do the processing during upload rather than splitting into a task first
 * @param array req.files Array of files to process
 * @param string req.body.libraryId The library ID to upload into, if omitted a new one is created (using req.body.library)
 * @param object req.body.library Library prototype object to create (e.g. 'title')
 * @param object req.body.libraryTitle Alternate method to populate library.title within a POST operation
 * @param string req.body.json If set the created (or modified) library record is returned instead of redirecting to the library page
 */
-app.post('/api/libraries/import', multer().any(), function(req, res) {
+app.post('/api/libraries/importOLD', multer().any(), function(req, res) {
 	async()
 		.set('count', 0)
 		// Sanity checks {{{
@@ -134,7 +135,7 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 * @param {string} [req.body.library] The library ID to upload into, if omitted a new one is created (using req.body.library)
 * @param {string} [req.body.libraryTitle] Alternate method to populate library.title within a POST operation
 */
-app.post('/api/libraries/import2', multer().any(), function(req, res) {
+app.post('/api/libraries/import', multer().any(), function(req, res) {
 	async()
 		// Sanity checks {{{
 		.then(function(next) {
@@ -184,7 +185,10 @@ app.post('/api/libraries/import2', multer().any(), function(req, res) {
 				console.log(colors.blue('Upload'), colors.red('ERROR'), err.toString());
 				return res.status(400).send(err.toString()).end();
 			}
-			res.send({_id: this.task._id});
+			res.send({
+				_id: this.task._id,
+				url: '/#/libraries/task/' + this.task._id,
+			});
 		});
 		// }}}
 });

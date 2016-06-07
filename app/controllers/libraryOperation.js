@@ -271,6 +271,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 						});
 					},
 					complete: function(res) {
+						Loader.finish();
 						if (res.responseJSON && res.responseJSON.url) {
 							window.location = res.responseJSON.url;
 						} else {
