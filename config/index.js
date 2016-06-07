@@ -63,6 +63,10 @@ var defaults = {
 		name: 'CREBP-SRA',
 		license: 'c71e85e2d852cb4962d8b47dcad90de117501a07',
 	},
+	analytics: {
+		enabled: false,
+		insert: '',
+	},
 	limits: {
 		references: 100, // How many references to hold in memory at once during operations such as export, dedupe etc.
 		recentLibraries: 10,
