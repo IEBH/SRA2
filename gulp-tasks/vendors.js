@@ -51,7 +51,7 @@ var readJSON = function(path, callback) {
 };
 // }}}
 
-gulp.task('vendors', ['vendors-core', 'vendors-main']);
+gulp.task('vendors', ['vendors-core', 'vendors-main', 'vendors-landing']);
 
 /**
 * Load 'core' vendor files
@@ -172,6 +172,69 @@ gulp.task('vendors-main', ['load:config'], function(finish) {
 				title: config.title + ' - Main vendors',
 				message: 'Rebuilt ' + (this.js.length + this.css.length) + ' vendor files' + (++vendorBootCount > 1 ? ' #' + vendorBootCount : ''),
 				icon: __dirname + '/icons/ng.png',
+			}).write(0);
+
+			finish();
+		});
+});
+
+
+gulp.task('vendors-landing', ['load:config'], function(finish) {
+	async()
+		.set('includes', []) // Array of all JS / CSS files we need to include in the project
+		.forEach(paths.vendors.landing, function(next, dep, depIndex) { // Process all strings into paths
+			// At the moment this doesn't surve a purpose but we could add extra properties here that do things like transpose individual files based on options
+			this.includes[depIndex] = config.root + '/' + dep;
+			next();
+		})
+		.then('includes', function(next) {
+			// Flatten include array (so we keep the order)
+			next(null, _(this.includes)
+				.map(path => braceExpansion(path))
+				.flatten()
+				.map(path => fspath.normalize(path))
+				.value()
+			);
+		})
+		.forEach('includes', function(next, path) {
+			fs.stat(path, function(err, stats) {
+				if (err) return next('Error loading depdency path "' + path + '". Maybe you should specify the file directly with file://PATH - ' + err.toString());
+				if (stats.isDirectory()) return next('Depdendency path "' + path + '" is a directory. This should be a file');
+				next();
+			});
+		})
+		.parallel({
+			js: function(next) {
+				var sources = this.includes.filter(i => /\.js$/.test(i));
+				return gulp.src(sources)
+					.pipe(gulpIf(config.gulp.debugJS, sourcemaps.init()))
+					.pipe(concat('vendors-landing.min.js'))
+					.pipe(replace("\"app\/", "\"\/app\/")) // Rewrite all literal paths to relative ones
+					.pipe(gulpIf(config.gulp.minifyJS, uglify({mangle: false})))
+					.pipe(gulpIf(config.gulp.debugJS, sourcemaps.write()))
+					.pipe(gulp.dest(paths.build))
+					.on('end', () => next(null, sources));
+			},
+			css: function(next) {
+				var sources = this.includes.filter(i => /\.css$/.test(i));
+				return gulp.src(sources)
+					.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.init()))
+					.pipe(concat('vendors-landing.min.css'))
+					.pipe(gulpIf(config.gulp.minifyCSS, minifyCSS()))
+					.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.write()))
+					.pipe(gulp.dest(paths.build))
+					.on('end', () => next(null, sources));
+			},
+		})
+		.end(function(err) {
+			if (err) return finish(err);
+			gutil.log('Compiled', gutil.colors.cyan(this.js.length), 'landing vendor JS scripts');
+			gutil.log('Compiled', gutil.colors.cyan(this.css.length), 'landing vendor CSS files');
+
+			notify({
+				title: config.title + ' - Landing page vendors',
+				message: 'Rebuilt ' + (this.js.length + this.css.length) + ' landing vendor files' + (++vendorBootCount > 1 ? ' #' + vendorBootCount : ''),
+				icon: __dirname + '/icons/html5.png',
 			}).write(0);
 
 			finish();

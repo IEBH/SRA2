@@ -23,10 +23,10 @@
 	// Site Preloader
 	// -----------------------------------
 
-	NProgress.start();
+	Loader.start();
 
 	$('#header').waitForImages(function() {
-		NProgress.done();
+		Loader.stop();
 		$body.addClass('site-loaded');
 	});
 
@@ -116,7 +116,7 @@
 
 	// setup global config
 	window.wow = (
-			new WOW({
+		new WOW({
 			mobile: false
 		})
 	).init();

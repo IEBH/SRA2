@@ -79,6 +79,22 @@ global.paths = {
 			'node_modules/font-awesome/css/font-awesome.css', // NOTE: Font files are handled in controllers/vendors.js
 			'node_modules/venn.js/venn.js',
 		],
+		landing: [
+			// Main vendor dependencies - these include pretty much everything else below-the-fold
+			// Injected as a <script defer/> at the end of the <head/>
+			// Dependencies maintain order so list pre-requisites first
+			// --- critical dependency parent packages below this line --- //
+			'node_modules/jquery/dist/jquery.js',
+			// --- packages with dependents below this line --- //
+			'node_modules/bootstrap/dist/js/bootstrap.js',
+			// --- less important vendors below this line (alphabetical) --- //
+			'node_modules/animate.css/animate.css',
+			'node_modules/font-awesome/css/font-awesome.css', // NOTE: Font files are handled in controllers/vendors.js
+			'node_modules/jquery.waitforimages/dist/jquery.waitforimages.js',
+			'public/landing/css/site.css',
+			'public/landing/css/theme-a.css',
+			'public/landing/js/site.js',
+		],
 	},
 };
 // }}}
