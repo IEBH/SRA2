@@ -1,9 +1,10 @@
 var app = angular.module('app', [
 	'angular-async-chainable',
-	'angular-clipboard',
-	'angular-venn',
 	'angular-bs-text-highlight',
 	'angular-bs-tooltip',
+	'angular-clipboard',
+	'angular-ui-loader',
+	'angular-venn',
 	'colorpicker.module',
 	'ng-collection-assistant',
 	'ngResource',
