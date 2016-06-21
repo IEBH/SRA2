@@ -134,6 +134,12 @@ if (config.port != 80 && url.parse(config.url).port != config.port) {
 // Trim remaining '/' from url {{{
 config.url = _.trimEnd(config.url, '/');
 // }}}
+// Calculate config.publicUrl - same as config.url with port forced to 80 {{{
+var parsedURL = url.parse(config.url);
+parsedURL.host = undefined; // Have to set this to undef to force a hostname rebuild
+parsedURL.port = undefined; // Have to set this to reset the port to default (80 doesn't work for some reason)
+config.publicUrl = _.trimEnd(url.format(parsedURL), '/');
+// }}}
 // }}}
 
 module.exports = config;
