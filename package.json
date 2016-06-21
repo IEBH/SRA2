@@ -90,7 +90,6 @@
     "rimraf": "^2.5.2",
     "run-sequence": "^1.1.5",
     "sha1": "^1.1.1",
-    "smart-area": "^1.1.0",
     "strtotime": "^1.0.0",
     "superagent": "^1.8.0-beta.2",
     "temp": "^0.8.3",

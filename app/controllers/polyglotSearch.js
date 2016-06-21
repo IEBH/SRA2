@@ -183,14 +183,6 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 	$scope.query = '';
 
 	// MeSH auto-complete {{{
-	// NOTE: Need to add `smart-area="smartArea"` back to main <textarea/> input in view to activate
-	$scope.smartArea = {
-		autocomplete: [{
-			words: [],
-			autocompleteOnSpace: 0
-		}]
-	};
-
 	$scope.refreshMeSH = function() {
 		Assets.mesh().$promise.then(function(data) {
 			$scope.smartArea.autocomplete[0].words = data;
