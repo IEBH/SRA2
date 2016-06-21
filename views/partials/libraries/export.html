@@ -46,7 +46,7 @@
 						<i class="fa fa-chevron-down"></i>
 					</a>
 					<ul class="dropdown-menu">
-						<li ng-repeat="format in formats track by format._id">
+						<li ng-repeat="format in formats track by format.id">
 							<a ng-click="setFormat(format)">
 								<i class="fa fa-file"></i>
 								{{format.name}}

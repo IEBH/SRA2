@@ -13,14 +13,22 @@ var moment = require('moment');
 var os = require('os');
 var References = require('../models/references');
 var reflib = require('reflib');
+var Tasks = require('../models/tasks');
 
 module.exports = function(finish, task) {
 	// Create throttled update function {{{
+	var lastPercent = 0;
+	var updating = false;
 	var progressUpdate = _.throttle(function(cur, max) {
+		if (updating) return;
+		var thisPercent = _.round((cur / max) * 100);
+		if (thisPercent == lastPercent) return; // No real point updating everything
+		console.log('PROGRESS', task._id, thisPercent);
 		task.progress.current = cur;
 		task.progress.max = max;
+		lastPercent = thisPercent;
 		task.save();
-	}, 2000);
+	}, 1000, {leading: false, trailing: true});
 	// }}}
 
 	async()

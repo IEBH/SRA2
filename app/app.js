@@ -42,6 +42,19 @@ app.run(function($rootScope) {
 });
 // }}}
 
+// Google Analytics {{{
+app.run(function($rootScope, $location, $window) {
+	$rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
+		if (!$window.ga) return;
+		$window.ga('set', {
+			page: $location.path(),
+			title: toState.name,
+		});
+		$window.ga('send', 'pageview');
+	});
+});
+// }}}
+
 // Config: editable-text {{{
 app.run(function(editableThemes, editableOptions) {
 	editableThemes.bs3.inputClass = 'input-sm';

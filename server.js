@@ -146,23 +146,21 @@ restify.defaults({
 app.use(require('express-log-url'));
 // }}}
 // Controllers {{{
+require('./controllers/users'); // Invoke users first as it needs to install its passport middleware
 requireDir('./controllers');
 // }}}
-
 // Static pages {{{
 app.use(express.static(config.root + '/public'));
 app.use('/app', express.static(config.root + '/app'));
 app.use('/build', express.static(config.root + '/build'));
 app.use('/partials', express.static(config.root + '/views/partials'));
 // }}}
-
 // Error catcher {{{
 app.use(function(err, req, res, next){
 	console.error(err.stack);
 	res.send(500, 'Something broke!').end();
 });
 // }}}
-
 // Init {{{
 var server = app.listen(config.port, config.host, function() {
 	console.log('Web interface listening at', colors.cyan(config.url));

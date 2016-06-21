@@ -2,7 +2,7 @@ var _ = require('lodash');
 var async = require('async-chainable');
 var colors = require('chalk');
 var copy = require('fs-copy-simple');
-var email = require('email').Email;
+var email = require('../lib/email');
 var fs = require('fs');
 var fspath = require('path');
 var Libraries = require('../models/libraries');
@@ -18,32 +18,34 @@ var temp = require('temp');
 
 /**
 * Accept a file and upload it either into a new or existing library
+* @depreciated 2016-06-07 Replaced with /import process below - this used to try to do the processing during upload rather than splitting into a task first
 * @param array req.files Array of files to process
 * @param string req.body.libraryId The library ID to upload into, if omitted a new one is created (using req.body.library)
 * @param object req.body.library Library prototype object to create (e.g. 'title')
 * @param object req.body.libraryTitle Alternate method to populate library.title within a POST operation
 * @param string req.body.json If set the created (or modified) library record is returned instead of redirecting to the library page
 */
-app.post('/api/libraries/import', multer().any(), function(req, res) {
+app.post('/api/libraries/importOLD', multer().any(), function(req, res) {
 	async()
 		.set('count', 0)
+		// Sanity checks {{{
 		.then(function(next) {
-			// Sanity checks {{{
 			if (!req.files) return next('No files were uploaded');
 			if (!req.user) return next('You are not logged in');
 			if (req.body.libraryId && !_.isString(req.body.libraryId)) return next('libraryId must be a string');
 			if (req.body.library && !_.isObject(req.body.library)) return next('library must be an object');
 			next();
-			// }}}
 		})
+		// }}}
+		// Per-File sanity checks {{{
 		.forEach(req.files, function(next, file) {
-			// File sanity checks {{{
 			var rlDriver = reflib.identify(file.originalname);
 			console.log(colors.blue('Upload'), colors.cyan(file.originalname), 'using driver', colors.cyan(rlDriver));
 			if (file.originalname && !rlDriver) return next('File type not supported');
 			next();
-			// }}}
 		})
+		// }}}
+		// Create / get existing library {{{
 		.then('library', function(next) {
 			// Import into existing
 			if (req.body.libraryId && req.body.libraryId != 'new') return Libraries.findOne({_id: req.body.libraryId}, next);
@@ -63,6 +65,8 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 
 			Libraries.create(proto, next);
 		})
+		// }}}
+		// For each file - import references {{{
 		.set('refs', []) // References to create
 		.set('tags', {}) // Lookup array for tags
 		.forEach(req.files, function(next, file) {
@@ -82,12 +86,15 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 					if (ref.tags) ref.tags.forEach(function(tag) { self.tags[tag] = true });
 					self.refs.push(_.omit(ref, ['_id', 'created', 'edited', 'status']));
 					self.count++;
+					if ((self.count % 500) == 0) console.log(colors.blue('Upload'), 'Imported', colors.cyan(self.count), 'refs from', colors.cyan(file.originalname));
 				})
 				.on('end', function() {
 					next();
 				});
 		})
+		// }}}
 		.limit(50)
+		// Create tags {{{
 		.forEach('tags', function(nextTag, junk, tag) {
 			var self = this;
 			ReferenceTags.create({
@@ -99,11 +106,15 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 				nextTag();
 			});
 		})
+		// }}}
+		// Create references {{{
 		.forEach('refs', function(nextRef, ref) {
 			var self = this;
 			if (ref.tags) ref.tags = ref.tags.map(function(tag) { return self.tags[tag]._id })
 			References.create(ref, nextRef);
 		})
+		// }}}
+		// End {{{
 		.end(function(err) {
 			if (err) {
 				console.log(colors.blue('Upload'), colors.red('ERROR'), err.toString());
@@ -114,6 +125,7 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 			if (req.body.json) return res.send(this.library);
 			res.send({error: false, url: '/#/libraries/' + this.library._id});
 		});
+		// }}}
 });
 
 
@@ -123,7 +135,7 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 * @param {string} [req.body.library] The library ID to upload into, if omitted a new one is created (using req.body.library)
 * @param {string} [req.body.libraryTitle] Alternate method to populate library.title within a POST operation
 */
-app.post('/api/libraries/import2', multer().any(), function(req, res) {
+app.post('/api/libraries/import', multer().any(), function(req, res) {
 	async()
 		// Sanity checks {{{
 		.then(function(next) {
@@ -173,7 +185,10 @@ app.post('/api/libraries/import2', multer().any(), function(req, res) {
 				console.log(colors.blue('Upload'), colors.red('ERROR'), err.toString());
 				return res.status(400).send(err.toString()).end();
 			}
-			res.send({_id: this.task._id});
+			res.send({
+				_id: this.task._id,
+				url: '/#/libraries/task/' + this.task._id,
+			});
 		});
 		// }}}
 });
@@ -186,14 +201,14 @@ app.post('/api/libraries/import2', multer().any(), function(req, res) {
 */
 app.get('/api/libraries/:id/export/:format', function(req, res) {
 	async()
+		// Sanity checks {{{
 		.then(function(next) {
-			// Sanity checks {{{
-			if (!req.user) return next('You are not logged in');
+			// if (!req.user) return next('You are not logged in');
 			if (!req.params.id) return next('id must be specified');
 			if (!req.params.format) return next('format must be specified');
 			next();
-			// }}}
 		})
+		// }}}
 		.then('format', function(next) {
 			var format = _.find(reflib.supported, {id: req.params.format});
 			if (!format) return next('format is unsupported: ' + req.params.format);
@@ -203,26 +218,48 @@ app.get('/api/libraries/:id/export/:format', function(req, res) {
 		.then('library', function(next) {
 			Libraries.findOne({_id: req.params.id, status: 'active'}, next);
 		})
+		// Try to determine a helpful filename {{{
 		.then(function(next) {
+			switch (req.params.format) {
+				case 'endnotexml':
+					res.attachment(this.library.title + '.xml');
+					break;
+				case 'json':
+					res.attachment(this.library.title + '.json');
+					break;
+			}
+			next();
+		})
+		// }}}
+		// Stream the output via reflib {{{
+		.then(function(next) {
+			var library = this.library;
+
+
 			reflib.output({
 				format: req.params.format,
 				stream: res,
 				content: function(next, batch) {
-					console.log('Fetch batch', batch);
-					References.find({library: this.library._id, status: 'active'})
+					References.find({library: library._id, status: 'active'})
 						.limit(config.limits.references)
 						.skip(config.limits.references * batch)
-						.exec(next);
+						.exec(function(err, res) {
+							if (err) return next(err);
+							next(null, res, res.length < config.limits.references);
+						});
 				},
 			})
 				.on('finish', function() {
 					next();
 				})
 		})
+		// }}}
+		// End {{{
 		.end(function(err) {
 			if (err) return res.status(400).send(err);
 			res.end();
 		});
+		// }}}
 });
 
 
@@ -286,13 +323,12 @@ app.post('/api/libraries/:id/share', function(req, res) {
 		})
 		.then(function(next) {
 			var self = this;
-			new email({
+			email.send({
 				from: req.user.name + ' <' + req.user.email + '>',
-				to: _.isArray(req.body.email) ? req.body.email.join('; ') : req.body.email,
+				to: req.body.email,
 				subject: 'CREP-SRA Library Share - ' + (self.library.title || 'Untitled'),
-				body: req.body.body,
-				bodyType: 'text/plain',
-			}).send(function(err) {
+				text: req.body.body,
+			}, function(err) {
 				if (err) return next(err);
 				console.log(colors.blue('[SHARE]'), colors.cyan(self.library._id), 'With', req.body.email);
 				next();
