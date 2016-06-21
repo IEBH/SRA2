@@ -77,7 +77,6 @@ global.paths = {
 			'node_modules/jquery-form/jquery.form.js',
 			'node_modules/filesize/lib/filesize.js',
 			'node_modules/font-awesome/css/font-awesome.css', // NOTE: Font files are handled in controllers/vendors.js
-			'node_modules/smart-area/dist/smart-area.{css,js}',
 			'node_modules/venn.js/venn.js',
 		],
 	},
