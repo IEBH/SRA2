@@ -1,3 +1,8 @@
+/* Global elements {{{ */
+*[ng-click] {
+	cursor: pointer;
+}
+/* }}} */
 /* Header {{{ */
 .header {
 	float: right;

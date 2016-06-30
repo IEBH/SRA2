@@ -260,4 +260,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		})
 		// }}}
+		// RevMan Replicant {{{
+		.state('replicant-upload', {
+			url: '/replicant',
+			views: {main: {templateUrl: '/partials/replicant/upload.html'}},
+			data: {
+				title: 'RevMan Replicant',
+			}
+		})
+		.state('replicant-options', {
+			url: '/replicant/:id',
+			views: {main: {templateUrl: '/partials/replicant/options.html'}},
+			data: {
+				title: 'RevMan Replicant',
+			}
+		})
+		// }}}
 });
