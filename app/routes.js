@@ -275,5 +275,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'RevMan Replicant',
 			}
 		})
+		.state('replicant-generate', {
+			url: '/replicant/:id/generate',
+			views: {main: {templateUrl: '/partials/replicant/generate.html'}},
+			data: {
+				title: 'RevMan Replicant',
+			}
+		})
 		// }}}
 });

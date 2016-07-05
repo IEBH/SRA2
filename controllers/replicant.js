@@ -81,6 +81,43 @@ app.get('/api/replicant/:id/comparisons', function(req, res) {
 });
 
 
+/**
+* Save an objects details
+*/
+// FIXME: This is currently a patch method - change this back to .post when Monoxide gets merged - MC 2016-07-05
+app.patch('/api/replicant/:id', function(req, res) {
+	async()
+		// Fetch data {{{
+		.then('replicant', next => Replicants.findOne({_id: req.params.id}, next))
+		// }}}
+		// Save data {{{
+		.then(function(next) {
+			_.extend(this.replicant, _.pick(req.body, ['grammar', 'primary']));
+			this.replicant.save(next);
+		})
+		// }}}
+		// End {{{
+		.end(function(err) {
+			if (err) return res.status(400).send(err);
+			res.send({
+				_id: this.replicant._id,
+				url: '/#/replicant/' + this.replicant._id,
+			});
+		});
+		// }}}
+});
+
+
+/**
+* Generate an abstract via RevMan-Replicant using the ID of the Replicant object and the provided settings
+*/
+app.get('/api/replicant/:id/generate', function(req, res) {
+	res.send({
+		content: 'Hello World'
+	});
+});
+
+
 app.get('/api/replicant/grammars', function(req, res) {
 	res.send(require(config.root + '/node_modules/revman-replicant/grammars/index.json'));
 });

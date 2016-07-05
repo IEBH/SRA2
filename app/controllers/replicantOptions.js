@@ -51,7 +51,9 @@ app.controller('replicantOptionsController', function($scope, $location, $q, $st
 			});
 		});
 
-		console.log($scope.options);
+		Replicant.save({id: $stateParams.id}, $scope.options).$promise
+			.then(data => $location.path(`/replicant/${data._id}/generate`))
+			.finally(Loader.finish());
 	};
 
 	// .counts - count of studies, comparisons, subcomparisons {{{
