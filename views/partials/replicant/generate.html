@@ -1,7 +1,8 @@
 <div ng-controller="replicantGenerateController" class="row-fluid">
 	<legend>RevMan Replicant - Generate</legend>
 	<div ng-if="error" class="alert alert-danger">{{error}}</div>
-	<div class="well">
-		{{generated.content}}
+	<div class="text-center pad-bottom">
+		<a ng-click="refresh()" class="btn btn-success btn-lg"><i class="fa fa-refresh"></i> Regenerate</a>
 	</div>
+	<div class="well replicant" ng-bind-html="generated.content"></div>
 </div>

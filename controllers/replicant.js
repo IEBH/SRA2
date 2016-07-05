@@ -112,9 +112,27 @@ app.patch('/api/replicant/:id', function(req, res) {
 * Generate an abstract via RevMan-Replicant using the ID of the Replicant object and the provided settings
 */
 app.get('/api/replicant/:id/generate', function(req, res) {
-	res.send({
-		content: 'Hello World'
-	});
+	async()
+		// Fetch data {{{
+		.then('replicant', next => Replicants.findOne({_id: req.params.id}, next))
+		// }}}
+		// Generate {{{
+		.then('content', function(next) {
+			revmanReplicant({
+				revman: this.replicant.revman,
+				grammar: config.root + '/node_modules/revman-replicant/grammars/' + this.replicant.grammar,
+			}, next);
+		})
+		// }}}
+		// End {{{
+		.end(function(err) {
+			if (err) return res.status(400).send(err);
+			res.send({
+				_id: this.replicant._id,
+				content: this.content,
+			});
+		});
+		// }}}
 });
 
 
