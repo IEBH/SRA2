@@ -2,7 +2,8 @@
 	<legend>RevMan Replicant - Generate</legend>
 	<div ng-if="error" class="alert alert-danger">{{error}}</div>
 	<div class="text-center pad-bottom">
-		<a ng-click="refresh()" class="btn btn-success btn-lg"><i class="fa fa-refresh"></i> Regenerate</a>
+		<a ng-click="refresh(true)" class="btn btn-success btn-lg"><i class="fa fa-refresh"></i> Regenerate</a>
 	</div>
 	<div class="well replicant" ng-bind-html="generated.content"></div>
+	<div ng-if="generated.randomSeed" class="text-muted text-center">Generated using random seed '{{generated.randomSeed}}'</div>
 </div>

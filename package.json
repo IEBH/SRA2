@@ -90,7 +90,7 @@
     "reflib": "^1.4.5",
     "require-dir": "^0.3.0",
     "revman": "^1.2.0",
-    "revman-replicant": "0.0.2",
+    "revman-replicant": "0.0.3",
     "rimraf": "^2.5.2",
     "run-sequence": "^1.2.1",
     "sha1": "^1.1.1",

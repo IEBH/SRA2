@@ -110,15 +110,24 @@ app.patch('/api/replicant/:id', function(req, res) {
 
 /**
 * Generate an abstract via RevMan-Replicant using the ID of the Replicant object and the provided settings
+* @param {boolean} [req.query.randomize=false] Whether to rescamble the random seed (if false the same result will be generated each time)
 */
 app.get('/api/replicant/:id/generate', function(req, res) {
 	async()
 		// Fetch data {{{
 		.then('replicant', next => Replicants.findOne({_id: req.params.id}, next))
 		// }}}
+		// Rengerate random seed? {{{
+		.then(function(next) {
+			if (!req.query.randomize) return next();
+			this.replicant.randomSeed = _.random(1, 9999999);
+			this.replicant.save(next);
+		})
+		// }}}
 		// Generate {{{
 		.then('content', function(next) {
 			revmanReplicant({
+				seed: this.replicant.randomSeed,
 				revman: this.replicant.revman,
 				grammar: config.root + '/node_modules/revman-replicant/grammars/' + this.replicant.grammar,
 			}, next);
@@ -129,6 +138,7 @@ app.get('/api/replicant/:id/generate', function(req, res) {
 			if (err) return res.status(400).send(err);
 			res.send({
 				_id: this.replicant._id,
+				randomSeed: this.replicant.randomSeed || 0,
 				content: this.content,
 			});
 		});
