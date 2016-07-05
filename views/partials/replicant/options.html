@@ -10,30 +10,46 @@
 				</div>
 			</label>
 			<div class="col-sm-10 form-control-static">
-				<ul>
-					<li ng-repeat="study in revman track by study.id">
-						<div ng-class="study.selected && 'bg-info'" ng-click="toggle(study, 'selected')">
-							{{study.name}}
+				<div class="panel-group" id="accordion-primary">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title" data-toggle="collapse" data-parent="#accordion-primary" data-target="#accordion-primary-list">
+								<div class="pull-right"><i class="fa fa-caret-down"></i></div>
+								{{counts.text}}
+							</h4>
 						</div>
-
-						<ul ng-if="study.comparisons">
-							<li ng-repeat="comparison in study.comparisons track by comparison.id">
-								<div ng-class="comparison.selected && 'bg-info'" ng-click="toggle(comparison, 'selected')">
-									{{comparison.name}}
-								</div>
-
-								<ul ng-if="comparison.subComparisons">
-									<li ng-repeat="subComparison in comparison.subComparisons track by subComparison.id">
-										<div ng-class="subComparison.selected && 'bg-info'" ng-click="toggle(subComparison, 'selected')">
-											{{subComparison.name}}
+						<div id="accordion-primary-list" class="panel-collapse collapse">
+							<div class="panel-body">
+								<ul>
+									<li ng-repeat="study in revman track by study.id">
+										<div ng-class="study.selected && 'bg-info'" ng-click="toggle(study, 'selected')">
+											{{study.name}}
 										</div>
+
+										<ul ng-if="study.comparisons">
+											<li ng-repeat="comparison in study.comparisons track by comparison.id">
+												<div ng-class="comparison.selected && 'bg-info'" ng-click="toggle(comparison, 'selected')">
+													{{comparison.name}}
+												</div>
+
+												<ul ng-if="comparison.subComparisons">
+													<li ng-repeat="subComparison in comparison.subComparisons track by subComparison.id">
+														<div ng-class="subComparison.selected && 'bg-info'" ng-click="toggle(subComparison, 'selected')">
+															{{subComparison.name}}
+														</div>
+													</li>
+												</ul>
+											</li>
+										</ul>
 									</li>
 								</ul>
-							</li>
-						</ul>
-					</li>
-				</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
+		</div>
+		<div class="form-group">
 			<label class="col-sm-2 control-label">
 				Grammar file
 			</label>
