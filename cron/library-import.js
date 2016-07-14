@@ -50,6 +50,7 @@ module.exports = function(finish, task) {
 			} else {
 				Libraries.create({
 					title: task.settings.libraryTitle || moment().format("MMM Do YYYY, h:mma"),
+					owners: [task.settings.owner],
 				}, next);
 			}
 		})

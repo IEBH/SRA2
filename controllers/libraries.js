@@ -25,7 +25,7 @@ var temp = require('temp');
 * @param object req.body.libraryTitle Alternate method to populate library.title within a POST operation
 * @param string req.body.json If set the created (or modified) library record is returned instead of redirecting to the library page
 */
-app.post('/api/libraries/importOLD', multer().any(), function(req, res) {
+app.post('/api/libraries/importDirect', multer().any(), function(req, res) {
 	async()
 		.set('count', 0)
 		// Sanity checks {{{
@@ -175,6 +175,7 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 					blobIDs: this.blobIDs,
 					library: req.body.library || undefined,
 					libraryTitle: req.body.libraryTitle || undefined,
+					owner: req.user._id.toString(),
 				},
 			}, next);
 		})
