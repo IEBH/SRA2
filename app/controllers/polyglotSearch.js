@@ -5,7 +5,7 @@ _.mixin({
 	* @param string q The input query to wrap
 	* @return string The output query wrapped with brackets
 	*/
-	wrapLines: function(q) { 
+	wrapLines: function(q) {
 		return q.split("\n").map(function(line) {
 			line = _.trim(line);
 			if (!line) return line; // Empty line
@@ -228,7 +228,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 			aliases: ['pubmed', 'p', 'pm', 'pubm'],
 			title: 'PubMed',
 			allowSearch: true,
-			rewriter: function(q) { 
+			rewriter: function(q) {
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
@@ -258,7 +258,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 			aliases: ['ovid', 'o', 'ov'],
 			title: 'Ovid Medline',
 			allowSearch: true,
-			rewriter: function(q) { 
+			rewriter: function(q) {
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
@@ -288,7 +288,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 			aliases: ['cochrane', 'c'],
 			title: 'Cochrane CENTRAL',
 			allowSearch: false,
-			rewriter: function(q) { 
+			rewriter: function(q) {
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
@@ -344,7 +344,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 			title: 'Embase',
 			aliases: ['embase', 'e', 'eb'],
 			allowSearch: false,
-			rewriter: function(q) { 
+			rewriter: function(q) {
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
@@ -376,7 +376,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 			title: 'Web of Science',
 			aliases: ['webofscience', 'w', 'wos', 'websci'],
 			allowSearch: false,
-			rewriter: function(q) { 
+			rewriter: function(q) {
 				return _(q)
 					.wrapLines()
 					.replaceJunk()
@@ -438,7 +438,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 			title: 'CINAHL',
 			aliases: ['cinahl', 'ci', 'cnal'],
 			allowSearch: false,
-			rewriter: function(q) { 
+			rewriter: function(q) {
 				return _(q)
 					.wrapLines()
 					.replaceJunk()

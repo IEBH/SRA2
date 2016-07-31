@@ -102,7 +102,13 @@
     "venn.js": "^0.2.10"
   },
   "devDependencies": {
+    "angular-mocks": "^1.5.8",
     "chai": "^3.5.0",
-    "mocha": "^2.5.3"
+    "karma": "^1.1.1",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-mocha": "^1.1.1",
+    "mocha": "^2.5.3",
+    "protractor": "^4.0.0"
   }
 }
