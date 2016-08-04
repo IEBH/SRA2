@@ -12,347 +12,968 @@ describe('PolyglotSearchController', function(){
 	}));
 
 	describe.skip('should translate', function(){//init in a separate describe?
-		it.skip('should translate when query has a value', function(){
+		it('should translate when query has a value', function(){
 			//digest has updated engine values
 		});
 
-		it.skip('should translate for each engine', function(){
+		it('should translate for each engine', function(){
 			//Spy on engine.rewrite
 			expect(true).to.be.true
 		});
 	});
 	describe('should translate Double subject (MESH) terms', function(){
-		var query;
+		describe('from PubMed syntax', function(){
+			var query;
 
-		beforeEach(function(){
-			query = '"Term1 term2"[Mesh]';
+			beforeEach(function(){
+				query = '"Term1 term2"[Mesh]';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('(exp Term1 term2/)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('([mh "Term1 term2"])');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(\'Term1 term2\'/exp)');//Should this be lowercase?
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('((MH "Term1 term2+"))');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('("Term1 term2")');
+			});
 		});
 
-		it('ovid medline syntax', function(){
-			var ovidMedline = _.find($scope.engines, {id: 'ovid'});
-			var translation = ovidMedline.rewriter(query);
-			expect(translation).to.equal('(exp Term1 term2/)');
+		describe('from Ovid medline syntax', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'exp Term1 term2/';
+			});
+
+			it('to PubMed syntax', function(){
+				var pubMed = _.find($scope.engines, {id: 'pubmed'});
+				var translation = pubMed.rewriter(query);
+				expect(translation).to.equal('("Term1 term2"[MESH])');
+			});
+
+			it('to cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('([mh "Term1 term2"])');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(\'Term1 term2\'/exp)');//Should this be lowercase?
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('((MH "Term1 term2+"))');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('("Term1 term2")');
+			});
 		});
 
-		it('cochrane subject term', function(){
-			var cochrane = _.find($scope.engines, {id: 'cochrane'});
-			var translation = cochrane.rewriter(query);
-			expect(translation).to.equal('([mh "Term1 term2"])');
-		});
-
-		it('embase subject term', function(){
-			var embase = _.find($scope.engines, {id: 'embase'});
-			var translation = embase.rewriter(query);
-			expect(translation).to.equal('(\'Term1 term2\'/exp)');//Should this be lowercase?
-		});
-
-		it('CINAHL subject term', function(){
-			var cinahl = _.find($scope.engines, {id: 'cinahl'});
-			var translation = cinahl.rewriter(query);
-			expect(translation).to.equal('((MH "Term1 term2+"))');
-		});
-
-		it.skip('web of science subject term', function(){
-			var webofscience = _.find($scope.engines, {id: 'webofscience'});
-			var translation = webofscience.rewriter(query);
-			expect(translation).to.equal('(Term1 Term2)');//FIXME: pdf says it should be "Term1 Term2" +Capitalization?
-		});
 	});
 	describe('should translate Subject terms', function(){
-		var query;
+		describe('from PubMed syntax 1', function(){
+			var query;
 
-		beforeEach(function(){
-			query = '"Term"[Mesh]';
+			beforeEach(function(){
+				query = '"Term"[Mesh]';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('(exp Term/)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('([mh Term])');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(\'Term\'/exp)');//Should this be lowercase?
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('((MH "Term+"))');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
 		});
+		describe('from PubMed syntax 2', function(){
+			var query;
 
-		it('should translate to ovid medline syntax', function(){
-			var ovidMedline = _.find($scope.engines, {id: 'ovid'});
-			var translation = ovidMedline.rewriter(query);
-			expect(translation).to.equal('(exp Term/)');
+			beforeEach(function(){
+				query = '"Term"[Mesh fields]';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('(exp Term/)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('([mh Term])');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(\'Term\'/exp)');//Should this be lowercase?
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('((MH "Term+"))');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
 		});
+		describe('from PubMed syntax 3', function(){
+			var query;
 
-		it('cochrane subject term', function(){
-			var cochrane = _.find($scope.engines, {id: 'cochrane'});
-			var translation = cochrane.rewriter(query);
-			expect(translation).to.equal('([mh Term])');
+			beforeEach(function(){
+				query = '"Term"[mh]';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('(exp Term/)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('([mh Term])');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(\'Term\'/exp)');//Should this be lowercase?
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('((MH "Term+"))');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
 		});
+		describe('from Ovid medline syntax', function(){
+			var query;
 
-		it('embase subject term', function(){
-			var embase = _.find($scope.engines, {id: 'embase'});
-			var translation = embase.rewriter(query);
-			expect(translation).to.equal('(\'Term\'/exp)');//Should this be lowercase?
-		});
+			beforeEach(function(){
+				query = 'exp Term/';
+			});
 
-		it('CINAHL subject term', function(){
-			var cinahl = _.find($scope.engines, {id: 'cinahl'});
-			var translation = cinahl.rewriter(query);
-			expect(translation).to.equal('((MH "Term+"))');
-		});
+			it('to PubMed syntax', function(){
+				var pubMed = _.find($scope.engines, {id: 'pubmed'});
+				var translation = pubMed.rewriter(query);
+				expect(translation).to.equal('(Term[MESH])');
+			});
 
-		it('web of science subject term', function(){
-			var webofscience = _.find($scope.engines, {id: 'webofscience'});
-			var translation = webofscience.rewriter(query);
-			expect(translation).to.equal('()');
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('([mh Term])');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(\'Term\'/exp)');//Should this be lowercase?
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('((MH "Term+"))');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
 		});
 	});
 	describe('should translate Phrase search', function(){
-		var query;
+		describe('from PubMed syntax', function(){
+			var query;
 
-		beforeEach(function(){
-			query = '"Word1 word2"';
+			beforeEach(function(){
+				query = '"Word1 word2"';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('(Word1 word2)');//FIXME: double quotes missing in pdf??
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('("Word1 word2")');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('("Word1 word2")');//Should this be lowercase?
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('("Word1 word2")');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('("Word1 word2")');
+			});
+		});
+		describe('from Ovid medline syntax', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'Word1 word2';
+			});
+
+			it('to PubMed syntax', function(){
+				var pubMed = _.find($scope.engines, {id: 'pubmed'});
+				var translation = pubMed.rewriter(query);
+				expect(translation).to.equal('("Word1 word2")');//FIXME: double quotes missing in pdf??
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('("Word1 word2")');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('("Word1 word2")');//Should this be lowercase?
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('("Word1 word2")');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('("Word1 word2")');
+			});
 		});
 
-		it('should translate to ovid medline syntax', function(){
-			var ovidMedline = _.find($scope.engines, {id: 'ovid'});
-			var translation = ovidMedline.rewriter(query);
-			expect(translation).to.equal('("Word1 word2")');//FIXME: double quotes missing in pdf??
+	});
+	describe('should translate Title/abstract search', function(){
+		describe('from PubMed syntax', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'Term[tiab]';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('(Term:ti,ab)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term:ti,ab)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term:ti,ab)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(TI Term AB Term)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+		});
+		describe('from Ovid medline syntax 1', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'Term:ti,ab';
+			});
+
+			it('to PubMed syntax', function(){
+				var pubMed = _.find($scope.engines, {id: 'pubmed'});
+				var translation = pubMed.rewriter(query);
+				expect(translation).to.equal('(Term[tiab])');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term:ti,ab)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term:ti,ab)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(TI Term AB Term)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+		});
+		describe('from Ovid medline syntax 2', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'Term.tw.';
+			});
+
+			it('to PubMed syntax', function(){
+				var pubMed = _.find($scope.engines, {id: 'pubmed'});
+				var translation = pubMed.rewriter(query);
+				expect(translation).to.equal('(Term[tiab])');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term:ti,ab)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term:ti,ab)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(TI Term AB Term)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
 		});
 
-		it('cochrane subject term', function(){
-			var cochrane = _.find($scope.engines, {id: 'cochrane'});
-			var translation = cochrane.rewriter(query);
-			expect(translation).to.equal('("Word1 word2")');
-		});
+	});
+	describe('should translate Title search', function(){
+		describe('from PubMed syntax', function(){
+			var query;
 
-		it('embase subject term', function(){
-			var embase = _.find($scope.engines, {id: 'embase'});
-			var translation = embase.rewriter(query);
-			expect(translation).to.equal('("Word1 word2")');//Should this be lowercase?
-		});
+			beforeEach(function(){
+				query = 'Term[ti]';
+			});
 
-		it('CINAHL subject term', function(){
-			var cinahl = _.find($scope.engines, {id: 'cinahl'});
-			var translation = cinahl.rewriter(query);
-			expect(translation).to.equal('("Word1 word2")');
-		});
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('(Term:ti)');
+			});
 
-		it('web of science subject term', function(){
-			var webofscience = _.find($scope.engines, {id: 'webofscience'});
-			var translation = webofscience.rewriter(query);
-			expect(translation).to.equal('("Word1 word2")');
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term:ti)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term:ti)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(TI Term)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+		});
+		describe('from Ovid medline syntax', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'Term:ti';
+			});
+
+			it('to PubMed syntax', function(){
+				var pubMed = _.find($scope.engines, {id: 'pubmed'});
+				var translation = pubMed.rewriter(query);
+				expect(translation).to.equal('(Term[ti])');
+			});
+
+			it('to cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term:ti)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term:ti)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(TI Term)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
 		});
 	});
-	describe.skip('should translate Title/abstract search', function(){
-		var query;
+	describe('should translate Abstract search', function(){
+		describe('from PubMed syntax', function(){
+			var query;
 
-		beforeEach(function(){
-			query = 'Term[tiab]';
+			beforeEach(function(){
+				query = 'Term[ab]';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('(Term:ab)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term:ab)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term:ab)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(AB Term)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+		});
+		describe('from Ovid medline syntax', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'Term:ab';
+			});
+
+			it('to PubMed syntax', function(){
+				var pubMed = _.find($scope.engines, {id: 'pubmed'});
+				var translation = pubMed.rewriter(query);
+				expect(translation).to.equal('(Term:ab)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term:ab)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term:ab)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(AB Term)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
 		});
 
-		it('should translate to ovid medline syntax', function(){
-			var ovidMedline = _.find($scope.engines, {id: 'ovid'});
-			var translation = ovidMedline.rewriter(query);
-			expect(translation).to.equal('(Term:ti,ab)');
-		});
-
-		it('cochrane subject term', function(){
-			var cochrane = _.find($scope.engines, {id: 'cochrane'});
-			var translation = cochrane.rewriter(query);
-			expect(translation).to.equal('(Term:ti,ab)');
-		});
-
-		it('embase subject term', function(){
-			var embase = _.find($scope.engines, {id: 'embase'});
-			var translation = embase.rewriter(query);
-			expect(translation).to.equal('(Term:ti,ab)');
-		});
-
-		it('CINAHL subject term', function(){
-			var cinahl = _.find($scope.engines, {id: 'cinahl'});
-			var translation = cinahl.rewriter(query);
-			expect(translation).to.equal('(TI Term AB Term)');
-		});
-
-		it('web of science subject term', function(){
-			var webofscience = _.find($scope.engines, {id: 'webofscience'});
-			var translation = webofscience.rewriter(query);
-			expect(translation).to.equal('()');
-		});
 	});
-	describe.skip('should translate Title search', function(){
-		var query;
+	describe('should translate All fields', function(){
+		describe('from PubMed syntax 1', function(){
+			var query;
 
-		beforeEach(function(){
-			query = 'Term[ti]';
+			beforeEach(function(){
+				query = 'Term';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+		});
+		describe('from PubMed syntax 2', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'Term[all fields]';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+		});
+		describe('from Ovid medline syntax 1', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'Term';
+			});
+
+			it('to PubMed syntax', function(){
+				var pubMed = _.find($scope.engines, {id: 'pubmed'});
+				var translation = pubMed.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+		});
+		describe('from Ovid medline syntax 2', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'Term.mp.';
+			});
+
+			it('to PubMed syntax', function(){
+				var pubMed = _.find($scope.engines, {id: 'pubmed'});
+				var translation = pubMed.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('(Term)');
+			});
 		});
 
-		it('should translate to ovid medline syntax', function(){
-			var ovidMedline = _.find($scope.engines, {id: 'ovid'});
-			var translation = ovidMedline.rewriter(query);
-			expect(translation).to.equal('(Term:ti)');
-		});
-
-		it('cochrane subject term', function(){
-			var cochrane = _.find($scope.engines, {id: 'cochrane'});
-			var translation = cochrane.rewriter(query);
-			expect(translation).to.equal('(Term:ti)');
-		});
-
-		it('embase subject term', function(){
-			var embase = _.find($scope.engines, {id: 'embase'});
-			var translation = embase.rewriter(query);
-			expect(translation).to.equal('(Term:ti)');
-		});
-
-		it('CINAHL subject term', function(){
-			var cinahl = _.find($scope.engines, {id: 'cinahl'});
-			var translation = cinahl.rewriter(query);
-			expect(translation).to.equal('(TI Term)');
-		});
-
-		it('web of science subject term', function(){
-			var webofscience = _.find($scope.engines, {id: 'webofscience'});
-			var translation = webofscience.rewriter(query);
-			expect(translation).to.equal('()');
-		});
 	});
-	describe.skip('should translate Abstract search', function(){
-		var query;
+	describe('should translate Adjacency search', function(){
+		describe('from PubMed syntax', function(){
+			var query;
 
-		beforeEach(function(){
-			query = 'Term[ab]';
+			beforeEach(function(){
+				query = 'Term1 AND Term2';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+		});
+		describe('from Ovid medline syntax', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'Term1 AND Term2';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var pubMed = _.find($scope.engines, {id: 'pubmed'});
+				var translation = pubMed.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('()');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('()');
+			});
 		});
 
-		it('should translate to ovid medline syntax', function(){
-			var ovidMedline = _.find($scope.engines, {id: 'ovid'});
-			var translation = ovidMedline.rewriter(query);
-			expect(translation).to.equal('(Term:ab)');
-		});
-
-		it('cochrane subject term', function(){
-			var cochrane = _.find($scope.engines, {id: 'cochrane'});
-			var translation = cochrane.rewriter(query);
-			expect(translation).to.equal('(Term:ab)');
-		});
-
-		it('embase subject term', function(){
-			var embase = _.find($scope.engines, {id: 'embase'});
-			var translation = embase.rewriter(query);
-			expect(translation).to.equal('(Term:ab)');
-		});
-
-		it('CINAHL subject term', function(){
-			var cinahl = _.find($scope.engines, {id: 'cinahl'});
-			var translation = cinahl.rewriter(query);
-			expect(translation).to.equal('(AB Term)');
-		});
-
-		it('web of science subject term', function(){
-			var webofscience = _.find($scope.engines, {id: 'webofscience'});
-			var translation = webofscience.rewriter(query);
-			expect(translation).to.equal('()');
-		});
-	});
-	describe.skip('should translate Adjacency search', function(){
-		var query;
-
-		beforeEach(function(){
-			query = 'Term1 AND Term2';
-		});
-
-		it('should translate to ovid medline syntax', function(){
-			var ovidMedline = _.find($scope.engines, {id: 'ovid'});
-			var translation = ovidMedline.rewriter(query);
-			expect(translation).to.equal('()');
-		});
-
-		it('cochrane subject term', function(){
-			var cochrane = _.find($scope.engines, {id: 'cochrane'});
-			var translation = cochrane.rewriter(query);
-			expect(translation).to.equal('()');
-		});
-
-		it('embase subject term', function(){
-			var embase = _.find($scope.engines, {id: 'embase'});
-			var translation = embase.rewriter(query);
-			expect(translation).to.equal('()');
-		});
-
-		it('CINAHL subject term', function(){
-			var cinahl = _.find($scope.engines, {id: 'cinahl'});
-			var translation = cinahl.rewriter(query);
-			expect(translation).to.equal('()');
-		});
-
-		it('web of science subject term', function(){
-			var webofscience = _.find($scope.engines, {id: 'webofscience'});
-			var translation = webofscience.rewriter(query);
-			expect(translation).to.equal('()');
-		});
 	});
 	describe('should translate Wildcard search', function(){
-		var query;
+		describe('from PubMed syntax', function(){
+			var query;
 
-		beforeEach(function(){
-			query = 'Term*';
+			beforeEach(function(){
+				query = 'Term*';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('(Term*)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term*)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term*)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(Term*)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('(Term*)');
+			});
+		});
+		describe('from Ovid medline syntax', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'Term*';
+			});
+
+			it('to PubMed syntax', function(){
+				var pubMed = _.find($scope.engines, {id: 'pubmed'});
+				var translation = pubMed.rewriter(query);
+				expect(translation).to.equal('(Term*)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term*)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term*)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(Term*)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('(Term*)');
+			});
 		});
 
-		it('should translate to ovid medline syntax', function(){
-			var ovidMedline = _.find($scope.engines, {id: 'ovid'});
-			var translation = ovidMedline.rewriter(query);
-			expect(translation).to.equal('(Term*)');
-		});
-
-		it('cochrane subject term', function(){
-			var cochrane = _.find($scope.engines, {id: 'cochrane'});
-			var translation = cochrane.rewriter(query);
-			expect(translation).to.equal('(Term*)');
-		});
-
-		it('embase subject term', function(){
-			var embase = _.find($scope.engines, {id: 'embase'});
-			var translation = embase.rewriter(query);
-			expect(translation).to.equal('(Term*)');
-		});
-
-		it('CINAHL subject term', function(){
-			var cinahl = _.find($scope.engines, {id: 'cinahl'});
-			var translation = cinahl.rewriter(query);
-			expect(translation).to.equal('(Term*)');
-		});
-
-		it('web of science subject term', function(){
-			var webofscience = _.find($scope.engines, {id: 'webofscience'});
-			var translation = webofscience.rewriter(query);
-			expect(translation).to.equal('(Term*)');
-		});
 	});
 	describe('single search', function(){
-		var query;
+		describe('from PubMed syntax', function(){
+			var query;
 
-		beforeEach(function(){
-			query = 'Term?';
+			beforeEach(function(){
+				query = 'Term?';
+			});
+
+			it('to Ovid medline syntax', function(){
+				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
+				var translation = ovidMedline.rewriter(query);
+				expect(translation).to.equal('(Term$)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term?)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term?)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(Term?)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('(Term?)');
+			});
+		});
+		describe('from Ovid medline syntax', function(){
+			var query;
+
+			beforeEach(function(){
+				query = 'Term$';
+			});
+
+			it('to PubMed syntax', function(){
+				var pubMed = _.find($scope.engines, {id: 'pubmed'});
+				var translation = pubMed.rewriter(query);
+				expect(translation).to.equal('(Term*)');
+			});
+
+			it('to Cochrane syntax', function(){
+				var cochrane = _.find($scope.engines, {id: 'cochrane'});
+				var translation = cochrane.rewriter(query);
+				expect(translation).to.equal('(Term?)');
+			});
+
+			it('to Embase syntax', function(){
+				var embase = _.find($scope.engines, {id: 'embase'});
+				var translation = embase.rewriter(query);
+				expect(translation).to.equal('(Term?)');
+			});
+
+			it('to CINAHL syntax', function(){
+				var cinahl = _.find($scope.engines, {id: 'cinahl'});
+				var translation = cinahl.rewriter(query);
+				expect(translation).to.equal('(Term?)');
+			});
+
+			it('to Web of science syntax', function(){
+				var webofscience = _.find($scope.engines, {id: 'webofscience'});
+				var translation = webofscience.rewriter(query);
+				expect(translation).to.equal('(Term?)');
+			});
 		});
 
-		it('should translate to ovid medline syntax', function(){
-			var ovidMedline = _.find($scope.engines, {id: 'ovid'});
-			var translation = ovidMedline.rewriter(query);
-			expect(translation).to.equal('(Term$)');
-		});
-
-		it('cochrane subject term', function(){
-			var cochrane = _.find($scope.engines, {id: 'cochrane'});
-			var translation = cochrane.rewriter(query);
-			expect(translation).to.equal('(Term?)');
-		});
-
-		it('embase subject term', function(){
-			var embase = _.find($scope.engines, {id: 'embase'});
-			var translation = embase.rewriter(query);
-			expect(translation).to.equal('(Term?)');
-		});
-
-		it('CINAHL subject term', function(){
-			var cinahl = _.find($scope.engines, {id: 'cinahl'});
-			var translation = cinahl.rewriter(query);
-			expect(translation).to.equal('(Term?)');
-		});
-
-		it('web of science subject term', function(){
-			var webofscience = _.find($scope.engines, {id: 'webofscience'});
-			var translation = webofscience.rewriter(query);
-			expect(translation).to.equal('(Term?)');
-		});
 	});
 
 });
