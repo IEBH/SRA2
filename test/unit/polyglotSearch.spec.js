@@ -11,7 +11,7 @@ describe('PolyglotSearchController', function(){
 		})
 	}));
 
-	describe.skip('should translate', function(){//init in a separate describe?
+	describe('should translate', function(){//init in a separate describe?
 		it('should translate when query has a value', function(){
 			//digest has updated engine values
 		});
@@ -260,7 +260,7 @@ describe('PolyglotSearchController', function(){
 			it('to Ovid medline syntax', function(){
 				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
 				var translation = ovidMedline.rewriter(query);
-				expect(translation).to.equal('(Word1 word2)');//FIXME: double quotes missing in pdf??
+				expect(translation).to.equal('("Word1 word2")');//FIXME: double quotes missing in pdf??
 			});
 
 			it('to Cochrane syntax', function(){
@@ -291,7 +291,7 @@ describe('PolyglotSearchController', function(){
 			var query;
 
 			beforeEach(function(){
-				query = 'Word1 word2';
+				query = '"Word1 word2"';
 			});
 
 			it('to PubMed syntax', function(){
@@ -331,13 +331,13 @@ describe('PolyglotSearchController', function(){
 			var query;
 
 			beforeEach(function(){
-				query = 'Term[tiab]';
+				query = '"Term"[tiab]';
 			});
 
 			it('to Ovid medline syntax', function(){
 				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
 				var translation = ovidMedline.rewriter(query);
-				expect(translation).to.equal('(Term:ti,ab)');
+				expect(translation).to.equal('(Term.tw.)');
 			});
 
 			it('to Cochrane syntax', function(){
@@ -405,7 +405,7 @@ describe('PolyglotSearchController', function(){
 			var query;
 
 			beforeEach(function(){
-				query = 'Term.tw.';
+				query = '"Term".tw.';
 			});
 
 			it('to PubMed syntax', function(){
@@ -438,7 +438,6 @@ describe('PolyglotSearchController', function(){
 				expect(translation).to.equal('()');
 			});
 		});
-
 	});
 	describe('should translate Title search', function(){
 		describe('from PubMed syntax', function(){
@@ -521,7 +520,7 @@ describe('PolyglotSearchController', function(){
 			var query;
 
 			beforeEach(function(){
-				query = 'Term[ab]';
+				query = '"Term"[ab]';
 			});
 
 			it('to Ovid medline syntax', function(){
@@ -545,7 +544,7 @@ describe('PolyglotSearchController', function(){
 			it('to CINAHL syntax', function(){
 				var cinahl = _.find($scope.engines, {id: 'cinahl'});
 				var translation = cinahl.rewriter(query);
-				expect(translation).to.equal('(AB Term)');
+				expect(translation).to.equal('(ab Term)');
 			});
 
 			it('to Web of science syntax', function(){
@@ -564,7 +563,7 @@ describe('PolyglotSearchController', function(){
 			it('to PubMed syntax', function(){
 				var pubMed = _.find($scope.engines, {id: 'pubmed'});
 				var translation = pubMed.rewriter(query);
-				expect(translation).to.equal('(Term:ab)');
+				expect(translation).to.equal('(Term[ab])');
 			});
 
 			it('to Cochrane syntax', function(){
@@ -755,13 +754,13 @@ describe('PolyglotSearchController', function(){
 			it('to Ovid medline syntax', function(){
 				var ovidMedline = _.find($scope.engines, {id: 'ovid'});
 				var translation = ovidMedline.rewriter(query);
-				expect(translation).to.equal('()');
+				expect(translation).to.equal('(Term1 ADJ3 Term2)');
 			});
 
 			it('to Cochrane syntax', function(){
 				var cochrane = _.find($scope.engines, {id: 'cochrane'});
 				var translation = cochrane.rewriter(query);
-				expect(translation).to.equal('()');
+				expect(translation).to.equal('(Term1 NEAR3 Term2)');
 			});
 
 			it('to Embase syntax', function(){
@@ -773,32 +772,32 @@ describe('PolyglotSearchController', function(){
 			it('to CINAHL syntax', function(){
 				var cinahl = _.find($scope.engines, {id: 'cinahl'});
 				var translation = cinahl.rewriter(query);
-				expect(translation).to.equal('()');
+				expect(translation).to.equal('(Term1 N3 Term2)');
 			});
 
 			it('to Web of science syntax', function(){
 				var webofscience = _.find($scope.engines, {id: 'webofscience'});
 				var translation = webofscience.rewriter(query);
-				expect(translation).to.equal('()');
+				expect(translation).to.equal('(Term1 Term2)');
 			});
 		});
 		describe('from Ovid medline syntax', function(){
 			var query;
 
 			beforeEach(function(){
-				query = 'Term1 AND Term2';
+				query = 'Term1 ADJ3 Term2';
 			});
 
-			it('to Ovid medline syntax', function(){
+			it('to PubMed syntax', function(){
 				var pubMed = _.find($scope.engines, {id: 'pubmed'});
 				var translation = pubMed.rewriter(query);
-				expect(translation).to.equal('()');
+				expect(translation).to.equal('(Term1 Term2)');
 			});
 
 			it('to Cochrane syntax', function(){
 				var cochrane = _.find($scope.engines, {id: 'cochrane'});
 				var translation = cochrane.rewriter(query);
-				expect(translation).to.equal('()');
+				expect(translation).to.equal('(Term1 NEAR3 Term2)');
 			});
 
 			it('to Embase syntax', function(){
@@ -810,13 +809,13 @@ describe('PolyglotSearchController', function(){
 			it('to CINAHL syntax', function(){
 				var cinahl = _.find($scope.engines, {id: 'cinahl'});
 				var translation = cinahl.rewriter(query);
-				expect(translation).to.equal('()');
+				expect(translation).to.equal('(Term1 N3 Term2)');
 			});
 
 			it('to Web of science syntax', function(){
 				var webofscience = _.find($scope.engines, {id: 'webofscience'});
 				var translation = webofscience.rewriter(query);
-				expect(translation).to.equal('()');
+				expect(translation).to.equal('(Term1 Term2)');
 			});
 		});
 
