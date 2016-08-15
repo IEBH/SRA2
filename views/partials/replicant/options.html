@@ -3,60 +3,65 @@
 	<div ng-if="error" class="alert alert-danger">{{error}}</div>
 	<form ng-submit="submit()" class="form-horizontal">
 		<div class="form-group">
-			<label class="col-sm-2 control-label">
-				Primary studies
-				<div class="help-block">
-					Select all studies that should have output within the abstract
+			<div class="form-group">
+				<label class="col-sm-2 control-label">
+					Grammar file
+				</label>
+				<div class="col-sm-10">
+					<select ng-model="options.grammar" class="form-control">
+						<option ng-repeat="grammar in grammars track by grammar.file" value="{{grammar.file}}">{{grammar.name}}</option>
+					</select>
 				</div>
-			</label>
-			<div class="col-sm-10 form-control-static">
-				<div class="panel-group" id="accordion-primary">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title" data-toggle="collapse" data-parent="#accordion-primary" data-target="#accordion-primary-list">
-								<div class="pull-right"><i class="fa fa-caret-down"></i></div>
-								{{counts.text}}
-							</h4>
-						</div>
-						<div id="accordion-primary-list" class="panel-collapse collapse">
-							<div class="panel-body">
-								<ul>
-									<li ng-repeat="study in revman track by study.id">
-										<div ng-class="study.selected && 'bg-info'" ng-click="toggle(study, 'selected')">
-											{{study.name}}
-										</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">
+					Primary studies
+					<div class="help-block">
+						Select all studies that should have output within the abstract
+					</div>
+				</label>
+				<div class="col-sm-10 form-control-static">
+					<div class="panel-group" id="accordion-primary">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title" data-toggle="collapse" data-parent="#accordion-primary" data-target="#accordion-primary-list">
+									<div class="pull-right"><i class="fa fa-caret-down"></i></div>
+									{{counts.text}}
+								</h4>
+							</div>
+							<div id="accordion-primary-list" class="panel-collapse collapse">
+								<div class="panel-body font-md">
+									<ul class="list-unstyled list-indented">
+										<li ng-repeat="study in revman track by study.id">
+											<div ng-class="study.selected && 'bg-success'" ng-click="toggle(study, 'selected')" class="pad-xs box-rounded-sm">
+												<i class="fa fa-fw" ng-class="study.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
+												{{study.name}}
+											</div>
 
-										<ul ng-if="study.comparisons">
-											<li ng-repeat="comparison in study.comparisons track by comparison.id">
-												<div ng-class="comparison.selected && 'bg-info'" ng-click="toggle(comparison, 'selected')">
-													{{comparison.name}}
-												</div>
+											<ul ng-if="study.comparisons" class="list-unstyled list-indented">
+												<li ng-repeat="comparison in study.comparisons track by comparison.id">
+													<div ng-class="comparison.selected && 'bg-success'" ng-click="toggle(comparison, 'selected')" class="pad-xs box-rounded-sm">
+														<i class="fa fa-fw" ng-class="comparison.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
+														{{comparison.name}}
+													</div>
 
-												<ul ng-if="comparison.subComparisons">
-													<li ng-repeat="subComparison in comparison.subComparisons track by subComparison.id">
-														<div ng-class="subComparison.selected && 'bg-info'" ng-click="toggle(subComparison, 'selected')">
-															{{subComparison.name}}
-														</div>
-													</li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
+													<ul ng-if="comparison.subComparisons" class="list-unstyled list-indented">
+														<li ng-repeat="subComparison in comparison.subComparisons track by subComparison.id">
+															<div ng-class="subComparison.selected && 'bg-success'" ng-click="toggle(subComparison, 'selected')" class="pad-xs box-rounded-sm">
+																<i class="fa fa-fw" ng-class="subComparison.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
+																{{subComparison.name}}
+															</div>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-sm-2 control-label">
-				Grammar file
-			</label>
-			<div class="col-sm-10">
-				<select ng-model="options.grammar" class="form-control">
-					<option ng-repeat="grammar in grammars track by grammar.file" value="{{grammar.file}}">{{grammar.name}}</option>
-				</select>
 			</div>
 		</div>
 

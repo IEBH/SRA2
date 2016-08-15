@@ -134,6 +134,16 @@ table a:hover {
 input[type=checkbox] {
 	opacity: 1 !important;
 }
+
+/* Sub-lists should still be indented even if they are unstyled */
+ul.list-indented li {
+	padding: 2px;
+}
+
+ul.list-indented ul {
+	margin-left: 25px;
+}
+
 /* Radios look weird {{{ */
 .radio {
 	margin-bottom: 10px;

@@ -41,6 +41,11 @@
 .font-lg {font-size: 16pt;}
 .font-xlg {font-size: 20pt;}
 /* }}} */
+/* Div utilities - .box-rounded-* {{{ */
+.box-rounded-sm {
+	border-radius: 5px;
+}
+/* }}} */
 /* Bootstrap sub-menus {{{ */
 /* e.g.
 	<ul class="dropdown-menu">
