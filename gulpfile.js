@@ -73,7 +73,7 @@ global.paths = {
 			'node_modules/angular-venn/angular-venn.js',
 			'node_modules/angular-xeditable/dist/js/xeditable.js',
 			'node_modules/angular-xeditable/dist/css/xeditable.css',
-			'node_modules/d3/d3.js',
+			'node_modules/d3/build/d3.js',
 			'node_modules/jquery-form/jquery.form.js',
 			'node_modules/filesize/lib/filesize.js',
 			'node_modules/font-awesome/css/font-awesome.css', // NOTE: Font files are handled in controllers/vendors.js
