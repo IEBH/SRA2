@@ -18,11 +18,6 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 			if (!$scope.library.screening) $scope.library.screening = {};
 			if (!$scope.library.screening.weightings) $scope.library.screening.weightings = [];
 			// }}}
-			// .referenceCount {{{
-			$scope.library.referenceCount = null;
-			References.count({library: $scope.library._id, status: 'active'}).$promise
-				.then(countData => $scope.library.referenceCount = countData.count);
-			// }}}
 			// Files {{{
 			if ($scope.library.files) {
 				var fileIcons = [
