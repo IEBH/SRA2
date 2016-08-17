@@ -54,6 +54,7 @@ app.get('/api/replicant/:id/comparisons', function(req, res) {
 		.then('replicant', next => Replicants.findOne({_id: req.params.id}, next))
 		// }}}
 		.then('studies', function(next) {
+			if (!_.hasIn(this.replicant, 'revman.analysesAndData.comparison')) return next('No comparisons found in the uploaded RevMan file');
 			next(null, this.replicant.revman.analysesAndData.comparison.map(function(comparison) {
 				return {
 					id: comparison.id,
