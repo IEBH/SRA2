@@ -142,4 +142,4 @@ config.publicUrl = _.trimEnd(url.format(parsedURL), '/');
 // }}}
 // }}}
 
-module.exports = config;
+global.config = module.exports = config;

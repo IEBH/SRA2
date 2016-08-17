@@ -23,17 +23,11 @@ app.controller('replicantOptionsController', function($scope, $location, $q, $st
 			// Load main RevMan comparisons object
 			Replicant.comparisons({id: $stateParams.id}).$promise
 				.then(function(data) {
-					$scope.revman = data.map(function(study, studyIndex) {
-						study.selected = studyIndex < 3;
-						study.comparisons = study.comparisons.map(function(comparison) {
-							comparison.selected = study.selected;
-							comparison.subComparisons = comparison.subComparisons.map(function(subComparison) {
-								subComparison.selected = false;
-								return subComparison;
-							});
-							return comparison;
-						});
-						return study;
+					$scope.revman = data.map(function(comparison, comparisonIndex) {
+						comparison.selected = comparisonIndex < 3;
+						if (comparison.subgroup) comparison.subgroup.forEach(subgroup => subgroup.selected = comparison.selected);
+						if (comparison.study) comparison.study.forEach(study => study.selected = comparison.selected);
+						return comparison;
 					});
 				})
 				.catch(res => $scope.error = res.data.error),
@@ -48,13 +42,21 @@ app.controller('replicantOptionsController', function($scope, $location, $q, $st
 
 	$scope.submit = function() {
 		$scope.options.primary = [];
-		$scope.revman.forEach(function(study) {
-			if (study.selected) $scope.options.primary.push(study.id);
-			study.comparisons.forEach(function(comparison) {
-				if (comparison.selected) $scope.options.primary.push(comparison.id);
-				comparison.subComparisons.forEach(function(subComparison) {
-					if (subComparison.selected) $scope.options.primary.push(subComparison.id);
-				});
+		$scope.revman.forEach(function(comparison) {
+			if (comparison.selected) $scope.options.primary.push(comparison.id);
+			comparison.outcome.forEach(function(outcome) {
+				if (outcome.selected) $scope.options.primary.push(outcome.id);
+				if (outcome.subgroup) {
+					outcome.subgroup.forEach(function(subgroup) {
+						if (subgroup.selected) $scope.options.primary.push(subgroup.id);
+					});
+				}
+
+				if (outcome.study) {
+					outcome.study.forEach(function(study) {
+						if (study.selected) $scope.options.primary.push(study.id);
+					});
+				}
 			});
 		});
 
@@ -65,31 +67,44 @@ app.controller('replicantOptionsController', function($scope, $location, $q, $st
 
 	// .counts - count of studies, comparisons, subcomparisons {{{
 	$scope.counts = {
-		studies: undefined,
 		comparisons: undefined,
-		subComparisons: undefined,
+		outcomes: undefined,
+		subgroups: undefined,
+		studies: undefined,
 		text: '',
 	};
 	$scope.$watch('revman', function() {
 		if (!$scope.revman) return; // Object not yet loaded
-		$scope.counts.studies = 0;
 		$scope.counts.comparisons = 0;
-		$scope.counts.subComparisons = 0;
+		$scope.counts.outcomes = 0;
+		$scope.counts.studies = 0;
+		$scope.counts.subgroups = 0;
 
-		$scope.revman.forEach(function(study) {
-			if (study.selected) $scope.counts.studies++;
-			study.comparisons.forEach(function(comparison) {
-				if (comparison.selected) $scope.counts.comparisons++;
-				comparison.subComparisons.forEach(function(subComparison) {
-					if (subComparison.selected) $scope.counts.subComparisons++;
-				});
+		$scope.revman.forEach(function(comparison) {
+			if (comparison.selected) $scope.counts.comparisons++;
+
+			comparison.outcome.forEach(function(outcome) {
+				if (outcome.selected) $scope.counts.outcomes++;
+
+				if (outcome.subgroup) {
+					outcome.subgroup.forEach(function(subgroup) {
+						if (subgroup.selected) $scope.counts.subgroups++;
+					});
+				}
+
+				if (outcome.study) {
+					outcome.study.forEach(function(study) {
+						if (study.selected) $scope.counts.studies++;
+					});
+				}
 			});
 		});
 
 		$scope.counts.text = _([
-			$scope.counts.studies + ' studies',
 			$scope.counts.comparisons + ' comparisons',
-			$scope.counts.subComparisons + ' sub-comparisons',
+			$scope.counts.outcomes + ' outcomes',
+			$scope.counts.subgroups + ' sub-groups',
+			$scope.counts.studies + ' studies',
 		])
 			.filter()
 			.join(', ');
@@ -101,9 +116,8 @@ app.controller('replicantOptionsController', function($scope, $location, $q, $st
 		if (!$scope.replicant) return; // Not yet loaded
 		$rootScope.$broadcast('setBreadcrumb', [
 			{url: '/replicant', title: 'RevMan Replicant'},
-			{url: '/replicant/' + $scope.replicant._id, title: $scope.replicant.title}
 		]);
-		$rootScope.$broadcast('setTitle', 'Replicant Options');
+		$rootScope.$broadcast('setTitle', $scope.replicant.title);
 	});
 	// }}}
 

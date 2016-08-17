@@ -59,14 +59,26 @@ app.get('/api/replicant/:id/comparisons', function(req, res) {
 				return {
 					id: comparison.id,
 					name: comparison.name,
-					comparisons: comparison.dichOutcome.map(function(study) {
+					outcome: comparison.outcome.map(function(outcome) {
 						return {
-							id: study.id,
-							name: study.name,
-							subComparisons: study.dichSubgroup ? study.dichSubgroup.map(function(subComparison) {
+							id: outcome.id,
+							name: outcome.name,
+							study: outcome.study ? outcome.study.map(function(study) {
 								return {
-									id: subComparison.id,
-									name: subComparison.name,
+									id: study.id,
+									name: study.name,
+								};
+							}) : [],
+							subgroup: outcome.subgroup ? outcome.subgroup.map(function(subgroup) {
+								return {
+									id: subgroup.id,
+									name: subgroup.name,
+									study: subgroup.study ? subgroup.study.map(function(study) {
+										return {
+											id: study.id,
+											name: study.name,
+										};
+									}) : [],
 								};
 							}) : [],
 						};
