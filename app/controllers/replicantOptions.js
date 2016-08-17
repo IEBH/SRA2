@@ -1,8 +1,10 @@
-app.controller('replicantOptionsController', function($scope, $location, $q, $stateParams, Loader, Replicant) {
+app.controller('replicantOptionsController', function($scope, $location, $q, $stateParams, $rootScope, Loader, Replicant) {
 	$scope.options = {
 		grammar: undefined,
 	};
 
+	$scope.error;
+	$scope.replicant;
 	$scope.revman;
 	$scope.grammars;
 
@@ -14,6 +16,10 @@ app.controller('replicantOptionsController', function($scope, $location, $q, $st
 			.start();
 
 		$q.all([
+			// Load in main replicant session object
+			Replicant.get({id: $stateParams.id}).$promise
+				.then(data => $scope.replicant = data),
+
 			// Load main RevMan comparisons object
 			Replicant.comparisons({id: $stateParams.id}).$promise
 				.then(function(data) {
@@ -29,7 +35,8 @@ app.controller('replicantOptionsController', function($scope, $location, $q, $st
 						});
 						return study;
 					});
-				}),
+				})
+				.catch(res => $scope.error = res.data.error),
 
 			// Load Grammars list
 			Replicant.grammars().$promise
@@ -87,6 +94,17 @@ app.controller('replicantOptionsController', function($scope, $location, $q, $st
 			.filter()
 			.join(', ');
 	}, true);
+	// }}}
+
+	// Deal with breadcrumbs {{{
+	$scope.$watch('replicant', function() {
+		if (!$scope.replicant) return; // Not yet loaded
+		$rootScope.$broadcast('setBreadcrumb', [
+			{url: '/replicant', title: 'RevMan Replicant'},
+			{url: '/replicant/' + $scope.replicant._id, title: $scope.replicant.title}
+		]);
+		$rootScope.$broadcast('setTitle', 'Replicant Options');
+	});
 	// }}}
 
 	$scope.$evalAsync($scope.refresh);

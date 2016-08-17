@@ -1,7 +1,7 @@
 <div ng-controller="replicantOptionsController" class="row-fluid">
 	<legend>RevMan Replicant - import options</legend>
 	<div ng-if="error" class="alert alert-danger">{{error}}</div>
-	<form ng-submit="submit()" class="form-horizontal">
+	<form ng-if="!error" ng-submit="submit()" class="form-horizontal">
 		<div class="form-group">
 			<div class="form-group">
 				<label class="col-sm-2 control-label">

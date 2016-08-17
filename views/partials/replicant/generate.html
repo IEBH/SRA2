@@ -5,5 +5,10 @@
 		<a ng-click="refresh(true)" class="btn btn-success btn-lg"><i class="fa fa-refresh"></i> Regenerate</a>
 	</div>
 	<div class="well replicant" ng-bind-html="generated.content"></div>
-	<div ng-if="generated.randomSeed" class="text-muted text-center">Generated using random seed '{{generated.randomSeed}}'</div>
+	<div class="text-center pad-top">
+		<div ng-if="generated.randomSeed" class="text-muted">Generated using random seed '{{generated.randomSeed}}'</div>
+		<div class="pad-top">
+			<a ng-click="refresh(true)" class="btn btn-success btn-lg"><i class="fa fa-refresh"></i> Regenerate</a>
+		</div>
+	</div>
 </div>

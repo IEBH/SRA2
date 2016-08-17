@@ -26,6 +26,7 @@ app.post('/api/replicant/import', multer().any(), function(req, res) {
 		// Create document {{{
 		.then('replicant', function(next) {
 			Replicants.create({
+				title: req.files[0].originalname || 'Untitled RevMan file',
 				owner: req.user._id,
 				revman: this.converted,
 			}, next);
@@ -74,7 +75,7 @@ app.get('/api/replicant/:id/comparisons', function(req, res) {
 		})
 		// End {{{
 		.end(function(err) {
-			if (err) return res.status(400).send(err);
+			if (err) return res.status(400).send({error: err});
 			res.send(this.studies);
 		})
 		// }}}
@@ -148,4 +149,22 @@ app.get('/api/replicant/:id/generate', function(req, res) {
 
 app.get('/api/replicant/grammars', function(req, res) {
 	res.send(require(config.root + '/node_modules/revman-replicant/grammars/index.json'));
+});
+
+
+app.get('/api/replicant/:id', function(req, res) {
+	async()
+		// Fetch data {{{
+		.then('replicant', next => Replicants
+			.findOne({_id: req.params.id})
+			.select('_id created randomSeed title grammar')
+			.exec(next)
+		)
+		// }}}
+		// End {{{
+		.end(function(err) {
+			if (err) return res.status(400).send(err);
+			res.send(this.replicant);
+		});
+		// }}}
 });
