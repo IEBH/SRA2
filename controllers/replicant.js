@@ -60,16 +60,21 @@ app.get('/api/replicant/:id/comparisons', function(req, res) {
 					id: comparison.id,
 					name: comparison.name,
 					outcome: comparison.outcome.map(function(outcome) {
-						return {
+						var obj = {
 							id: outcome.id,
 							name: outcome.name,
-							study: outcome.study ? outcome.study.map(function(study) {
+						};
+
+						if (outcome.study)
+							obj.study = outcome.study.map(function(study) {
 								return {
 									id: study.id,
 									name: study.name,
 								};
-							}) : [],
-							subgroup: outcome.subgroup ? outcome.subgroup.map(function(subgroup) {
+							});
+
+						if (outcome.subgroup)
+							obj.subgroup = outcome.subgroup.map(function(subgroup) {
 								return {
 									id: subgroup.id,
 									name: subgroup.name,
@@ -80,8 +85,9 @@ app.get('/api/replicant/:id/comparisons', function(req, res) {
 										};
 									}) : [],
 								};
-							}) : [],
-						};
+							});
+
+						return obj;
 					}),
 				};
 			}));

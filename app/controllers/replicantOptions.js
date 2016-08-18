@@ -1,4 +1,4 @@
-app.controller('replicantOptionsController', function($scope, $location, $q, $stateParams, $rootScope, Loader, Replicant) {
+app.controller('replicantOptionsController', function($scope, $location, $q, $stateParams, $rootScope, Loader, Replicant, TreeTools) {
 	$scope.options = {
 		grammar: undefined,
 	};
@@ -120,6 +120,20 @@ app.controller('replicantOptionsController', function($scope, $location, $q, $st
 		$rootScope.$broadcast('setTitle', $scope.replicant.title);
 	});
 	// }}}
+
+	$scope.toggleNode = function(item) {
+		if (!item.selected) { // Turning selection on
+			// Iterate down all generations turning them all on
+			TreeTools
+				.findGenerations($scope.revman, {id: item.id}, {childNode: ['outcome', 'study', 'subgroup']})
+				.forEach(node => node.selected = true);
+		} else { // Turning selection off - just disable this one selection
+			item.selected = false;
+			TreeTools
+				.findChildren(item, null, {childNode: ['outcome', 'study', 'subgroup']})
+				.forEach(node => node.selected = false);
+		}
+	};
 
 	$scope.$evalAsync($scope.refresh);
 });

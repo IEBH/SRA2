@@ -33,20 +33,20 @@
 								<div class="panel-body font-md">
 									<ul class="list-unstyled list-indented">
 										<li ng-repeat="comparison in revman track by comparison.id">
-											<div ng-class="comparison.selected && 'bg-success'" ng-click="toggle(comparison, 'selected')" class="pad-xs box-rounded-sm">
+											<div ng-class="comparison.selected && 'bg-success'" ng-click="toggleNode(comparison)" class="pad-xs box-rounded-sm">
 												<i class="fa fa-fw" ng-class="comparison.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
 												{{comparison.name}}
 											</div>
 
 											<ul class="list-unstyled list-indented">
 												<li ng-repeat="outcome in comparison.outcome track by outcome.id">
-													<div ng-class="outcome.selected && 'bg-success'" ng-click="toggle(outcome, 'selected')" class="pad-xs box-rounded-sm">
+													<div ng-class="outcome.selected && 'bg-success'" ng-click="toggleNode(outcome)" class="pad-xs box-rounded-sm">
 														<i class="fa fa-fw" ng-class="outcome.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
 														{{outcome.name}}
 													</div>
 													<ul ng-if="outcome.subgroup" class="list-unstyled list-indented">
 														<li ng-repeat="subgroup in outcome.subgroup track by subgroup.id">
-															<div ng-class="subgroup.selected && 'bg-success'" ng-click="toggle(subgroup, 'selected')" class="pad-xs box-rounded-sm">
+															<div ng-class="subgroup.selected && 'bg-success'" ng-click="toggleNode(subgroup)" class="pad-xs box-rounded-sm">
 																<i class="fa fa-fw" ng-class="subgroup.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
 																{{subgroup.name}}
 															</div>
@@ -57,7 +57,7 @@
 													<ul ng-if="outcome.study" class="list-unstyled list-indented">
 														<ul ng-if="outcome.study" class="list-unstyled list-indented">
 															<li ng-repeat="study in outcome.study track by study.id">
-																<div ng-class="study.selected && 'bg-success'" ng-click="toggle(study, 'selected')" class="pad-xs box-rounded-sm">
+																<div ng-class="study.selected && 'bg-success'" ng-click="toggleNode(study)" class="pad-xs box-rounded-sm">
 																	<i class="fa fa-fw" ng-class="study.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
 																	{{study.name}}
 																</div>
