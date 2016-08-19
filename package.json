@@ -99,6 +99,7 @@
     "strtotime": "^1.0.0",
     "superagent": "^2.2.0",
     "temp": "^0.8.3",
+    "tree-tools": "^1.0.0",
     "uuid": "^2.0.2",
     "venn.js": "^0.2.12"
   },

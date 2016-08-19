@@ -7,6 +7,7 @@ var app = angular.module('app', [
 	'colorpicker.module',
 	'ng-collection-assistant',
 	'ngResource',
+	'ngTreeTools',
 	'ui.router',
 	'uiSwitch',
 	'xeditable'

@@ -125,12 +125,12 @@ app.controller('replicantOptionsController', function($scope, $location, $q, $st
 		if (!item.selected) { // Turning selection on
 			// Iterate down all generations turning them all on
 			TreeTools
-				.findGenerations($scope.revman, {id: item.id}, {childNode: ['outcome', 'study', 'subgroup']})
+				.parents($scope.revman, {id: item.id}, {childNode: ['outcome', 'study', 'subgroup']})
 				.forEach(node => node.selected = true);
 		} else { // Turning selection off - just disable this one selection
 			item.selected = false;
 			TreeTools
-				.findChildren(item, null, {childNode: ['outcome', 'study', 'subgroup']})
+				.children(item, null, {childNode: ['outcome', 'study', 'subgroup']})
 				.forEach(node => node.selected = false);
 		}
 	};
