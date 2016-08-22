@@ -25,14 +25,14 @@
 						{{engine.title}}
 					</a>
 					<div class="pull-right">
-						<a ng-if="engine.allowSearch" ng-click="engineOpen(engine)" class="btn btn-sm btn-success" tooltip="Open this search in a new tab"><i class="fa fa-search"></i></a>
+						<a ng-if="engine.linker" ng-click="engineOpen(engine)" class="btn btn-sm btn-success" tooltip="Open this search in a new tab"><i class="fa fa-search"></i></a>
 						<a ng-click="engineClipboard(engine)" class="btn btn-sm btn-success"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
 					</div>
 				</h4>
 			</div>
 			<div class="panel-collapse collapse" ng-class="engine.expanded && 'in'">
 				<div class="panel-body">
-					<pre>{{engine.query}}</pre>
+					<pre>{{engine.translated}}</pre>
 				</div>
 			</div>
 		</div>

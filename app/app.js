@@ -6,6 +6,7 @@ var app = angular.module('app', [
 	'angular-bs-tooltip',
 	'colorpicker.module',
 	'ng-collection-assistant',
+	'ngPolyglot',
 	'ngResource',
 	'ngTreeTools',
 	'ui.router',
