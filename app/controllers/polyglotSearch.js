@@ -56,13 +56,13 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 	};
 
 	$scope.engineOpen = function(engine) {
-		var linker = engine.open(engine);
-		switch (linker.method) {
+		var opener = engine.open(engine);
+		switch (opener.method) {
 			case 'POST':
 			case 'GET':
 				$('#engineForm').remove();
-				$('<form id="engineForm" target="_blank" action="' + linker.action + '" method="' + linker.method + '" style="display: none"></form>').appendTo($('body'))
-				_.forEach(linker.fields, (v, k) => {
+				$('<form id="engineForm" target="_blank" action="' + opener.action + '" method="' + opener.method + '" style="display: none"></form>').appendTo($('body'))
+				_.forEach(opener.fields, (v, k) => {
 					$('<input name="' + k + '"/>')
 						.attr('value', v)
 						.appendTo($('#engineForm'));
@@ -71,13 +71,13 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 				break;
 			case 'GET-DIRECT':
 				// Special case to just open a new window directly with the search query encoded
-				console.log('URL', linker.action + '?' + $httpParamSerializer(linker.fields));
-				$window.open(linker.action + '?' + $httpParamSerializer(linker.fields), '_blank');
+				console.log('URL', opener.action + '?' + $httpParamSerializer(opener.fields));
+				$window.open(opener.action + '?' + $httpParamSerializer(opener.fields), '_blank');
 		}
 	};
 	// }}}
 
-	$scope.clipboard = clipboard.copyText;
+	$scope.clear = () => $scope.query = '';
 
-	$scope.showExample(); // Pick a random example initially
+	$scope.clipboard = clipboard.copyText;
 });

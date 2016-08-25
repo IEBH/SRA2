@@ -281,6 +281,21 @@ input[type=checkbox] {
 	height: 20px;
 }
 /* }}} */
+/* FIX: Buttons within confirm tool tips are too large {{{ */
+.tooltip-confirm-text {
+	font-size: 12px;
+}
+
+.tooltip-confirm-btn-group {
+	margin-top: 10px;
+}
+
+.tooltip-confirm-btn-group > .btn-xs {
+	margin: 0;
+	padding: 2px 4px !important;
+	height: auto !important;
+}
+/* }}} */
 /* FIX: ng-click doesnt register as clickable within links {{{ */
 a[ng-click] {
 	cursor: pointer;

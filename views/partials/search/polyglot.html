@@ -57,25 +57,24 @@
 				<h4 class="panel-title">
 					Your query
 					<div class="pull-right">
+						<a confirm="clear()" confirm-text="Clear?" class="btn btn-sm btn-default"><i class="fa fa-eraser"></i></a>
 						<a ng-click="clipboard(query)" class="btn btn-sm btn-default"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
 						<a ng-click="showExample()" class="btn btn-sm btn-default"><i class="fa fa-random" tooltip="Show a random example"></i></a>
 						<a data-toggle="modal" data-target="#modal-polyglotOptions" class="btn btn-sm btn-default"><i class="fa fa-cog" tooltip="Configure Polyglot"></i></a>
 					</div>
 				</h4>
 			</div>
-			<div class="panel panel-default">
-				<form class="panel-body form-horizontal">
-					<div class="form-group">
-						<div class="col-sm-12">
-							<textarea class="form-control" rows="10" ng-model="query" ng-trim="false"></textarea>
-						</div>
-					</div>
-				</form>
+			<div class="panel-body form-horizontal pad-none">
+					<textarea class="form-control" rows="10" ng-model="query" ng-trim="false"></textarea>
+			</div>
+			<div ng-show="!query" class="panel-footer text-center">
+				Type a PubMed or Ovid MEDLINE query in the box above to see its translations.
+				<a ng-click="showExample()">Show me an example</a>
 			</div>
 		</div>
 	</div>
 
-	<div ng-if="query" class="accordion-style1 panel-group">
+	<div class="accordion-style1 panel-group">
 		<div ng-repeat="engine in engines track by engine.id" ng-if="!engine.debugging || enginesShowDebugging" class="panel panel-default">
 			<div class="panel-heading">
 				<h4 class="panel-title">
@@ -84,7 +83,7 @@
 						{{engine.title}}
 					</a>
 					<div class="pull-right">
-						<a ng-if="engine.linker" ng-click="engineOpen(engine)" class="btn btn-sm btn-success" tooltip="Open this search in a new tab"><i class="fa fa-search"></i></a>
+						<a ng-if="engine.open" ng-click="engineOpen(engine)" class="btn btn-sm btn-success" tooltip="Open this search in a new tab"><i class="fa fa-search"></i></a>
 						<a ng-click="clipboard(engine.translated)" class="btn btn-sm btn-success"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
 					</div>
 				</h4>

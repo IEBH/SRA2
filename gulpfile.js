@@ -63,6 +63,7 @@ global.paths = {
 			// --- less important vendors below this line (alphabetical) --- //
 			'node_modules/angular-async-chainable/async-chainable.js',
 			'node_modules/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
+			'node_modules/angular-bs-confirm/angular-bs-confirm.js',
 			'node_modules/angular-bs-text-highlight/angular-bs-text-highlight.js',
 			'node_modules/angular-bs-tooltip/angular-bs-tooltip.js',
 			'node_modules/angular-clipboard/angular-clipboard.js',
