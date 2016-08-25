@@ -18,8 +18,14 @@ npm install
 echo "Cleaning up dead NPM packages..."
 npm prune
 
+echo "Cleaning Gulp cache..."
+gulp clean
+
 echo "Building via Gulp..."
 gulp build
+
+echo "Flushing server logs..."
+pm2 flush
 
 echo "Rebooting PM2 server process..."
 pm2 restart server
