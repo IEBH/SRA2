@@ -1,6 +1,17 @@
 app.controller('PolyglotSearchController', function($scope, $httpParamSerializer, $window, Assets, clipboard, Polyglot) {
 	$scope.query = '';
-	$scope.engines = Polyglot.engines;
+	$scope.engines = _.map(Polyglot.engines, (engine, id) => { engine.id = id; return engine });
+	$scope.enginesShowDebugging = false; // Filter engines by debugging status
+
+	$scope.options = {
+		// Parser
+		groupLines: true,
+		groupLinesAlways: false,
+		preserveNewlines: true,
+
+		// Compiler (per engine)
+		replaceWildcards: true,
+	};
 
 	// MeSH auto-complete {{{
 	// NOTE: Need to add `smart-area="smartArea"` back to main <textarea/> input in view to activate
@@ -20,6 +31,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 	// $scope.refreshMeSH();
 	// }}}
 
+	// .example / .showExample() {{{
 	$scope.example = null;
 
 	$scope.showExample = function() {
@@ -33,10 +45,8 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 
 	// Query watcher + refresher {{{
 	$scope.$watch('query', function() {
-		var translations = Polyglot.translateAll($scope.query);
-		$scope.engines.forEach(function(engine) {
-			engine.translated = translations[engine.id];
-		});
+		var translations = Polyglot.translateAll($scope.query, $scope.options);
+		$scope.engines.forEach(engine => engine.translated = translations[engine.id]);
 	});
 	// }}}
 
@@ -45,12 +55,8 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 		engine.expanded = !engine.expanded;
 	};
 
-	$scope.engineClipboard = function(engine) {
-		clipboard.copyText(engine.translated);
-	};
-
 	$scope.engineOpen = function(engine) {
-		var linker = engine.linker(engine);
+		var linker = engine.open(engine);
 		switch (linker.method) {
 			case 'POST':
 			case 'GET':
@@ -70,4 +76,8 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 		}
 	};
 	// }}}
+
+	$scope.clipboard = clipboard.copyText;
+
+	$scope.showExample(); // Pick a random example initially
 });

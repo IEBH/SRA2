@@ -1,23 +1,82 @@
 <div ng-controller="PolyglotSearchController">
-	<div class="alert alert-info">
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
-		<p>Write your search query in the <a target="_blank" href="https://www.ncbi.nlm.nih.gov/books/NBK3827/#pubmedhelp.Advanced_Search">PubMed search format</a> and it will be automatically translated into the syntax used by various other search engines.</p>
-		<p>Non-blank, non-logical lines will be automatically wrapped in brackets.</p>
-		<p ng-if="example">Here's an example about <strong>{{example.title}}</strong>.</p>
-		<p><a ng-click="showExample()">Show me {{!example ? 'a' : 'another'}} random example</a></p>
-	</div>
-	<div class="row-fluid">
-		<form class="form-horizontal">
-			<div class="form-group">
-				<div class="col-sm-12">
-					<textarea class="form-control" rows="10" ng-model="query" ng-trim="false"></textarea>
+	<div id="modal-polyglotOptions" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Polyglot options</h4>
+				</div>
+				<div class="modal-body form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Group lines</label>
+						<div class="col-sm-9">
+							<switch ng-model="options.groupLines" class="green"></switch>
+							<p class="help-block">Assume all lines should be wrapped in brackets automatically</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Group single lines</label>
+						<div class="col-sm-9">
+							<switch ng-model="options.groupLinesAlways" class="green"></switch>
+							<p class="help-block">Always group lines, even if there is only one apparent single-line query</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Preserve new-lines</label>
+						<div class="col-sm-9">
+							<switch ng-model="options.preserveNewlines" class="green"></switch>
+							<p class="help-block">Keep new-line characters in output. Disabling this will return a single line query</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Rewrite wildcard characters</label>
+						<div class="col-sm-9">
+							<switch ng-model="options.replaceWildcards" class="green"></switch>
+							<p class="help-block">Some search engines use unusual wildcard characters for some queries. If this is enabled Polyglot will attempt to change those to the syntax used by that search engine</p>
+						</div>
+					</div>
+					<hr/>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Show lexical tree output</label>
+						<div class="col-sm-9">
+							<switch ng-model="enginesShowDebugging" class="green"></switch>
+							<p class="help-block">If enabled an additional search engines are added showing how the query was compiled internally</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
-		</form>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					Your query
+					<div class="pull-right">
+						<a ng-click="clipboard(query)" class="btn btn-sm btn-default"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
+						<a ng-click="showExample()" class="btn btn-sm btn-default"><i class="fa fa-random" tooltip="Show a random example"></i></a>
+						<a data-toggle="modal" data-target="#modal-polyglotOptions" class="btn btn-sm btn-default"><i class="fa fa-cog" tooltip="Configure Polyglot"></i></a>
+					</div>
+				</h4>
+			</div>
+			<div class="panel panel-default">
+				<form class="panel-body form-horizontal">
+					<div class="form-group">
+						<div class="col-sm-12">
+							<textarea class="form-control" rows="10" ng-model="query" ng-trim="false"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 
 	<div ng-if="query" class="accordion-style1 panel-group">
-		<div ng-repeat="engine in engines track by engine.id" class="panel panel-default">
+		<div ng-repeat="engine in engines track by engine.id" ng-if="!engine.debugging || enginesShowDebugging" class="panel panel-default">
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<a ng-click="toggleExpandEngine(engine)" class="accordion-toggle collapsed">
@@ -26,7 +85,7 @@
 					</a>
 					<div class="pull-right">
 						<a ng-if="engine.linker" ng-click="engineOpen(engine)" class="btn btn-sm btn-success" tooltip="Open this search in a new tab"><i class="fa fa-search"></i></a>
-						<a ng-click="engineClipboard(engine)" class="btn btn-sm btn-success"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
+						<a ng-click="clipboard(engine.translated)" class="btn btn-sm btn-success"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
 					</div>
 				</h4>
 			</div>
