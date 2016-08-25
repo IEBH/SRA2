@@ -44,7 +44,7 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 	// }}}
 
 	// Query watcher + refresher {{{
-	$scope.$watch('query', function() {
+	$scope.$watchGroup(['query', 'options.groupLines', 'options.groupLinesAlways', 'options.preserveNewLines', 'options.replaceWildcards'], function() {
 		var translations = Polyglot.translateAll($scope.query, $scope.options);
 		$scope.engines.forEach(engine => engine.translated = translations[engine.id]);
 	});
