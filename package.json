@@ -96,7 +96,7 @@
     "run-sequence": "^1.2.2",
     "sha1": "^1.1.1",
     "smart-area": "^1.1.0",
-    "sra-polyglot": "^1.1.1",
+    "sra-polyglot": "^2.1.0",
     "strtotime": "^1.0.0",
     "superagent": "^2.2.0",
     "temp": "^0.8.3",
