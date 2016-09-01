@@ -32,7 +32,6 @@ app.controller('libraryListController', function($scope, $element, $q, Libraries
 					.map(function(library) {
 						if (angular.element($element).attr('fetch-counts') != 'true') return library; // Dont fetch if !$element.fetchCounts
 						library.referenceCount = 'loading';
-						// FIXME: This is likely to overwhelm everything
 						countPromises.push(function() {
 							return References.count({library: library._id}).$promise.then(function(countData) {
 								library.referenceCount = countData.count;
