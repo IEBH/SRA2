@@ -1,4 +1,8 @@
-app.controller('libraryListController', function($scope, Libraries, References, Users, $location) {
+/**
+* Fetch a list of libraries
+* @param {boolean} [fetchCounts=false] If the DOM property $element.fetchCounts is true the reference count of each library is fetched
+*/
+app.controller('libraryListController', function($scope, $element, $q, Libraries, References, Users, $location) {
 	$scope.libraries = null;
 
 	$scope.$watchGroup(['libraryAllowNew', 'libraries'], function() {
@@ -18,21 +22,31 @@ app.controller('libraryListController', function($scope, Libraries, References, 
 	// Data refresher {{{
 	$scope.refresh = function() {
 		if (!$scope.user) return;
-		Libraries.query({status: 'active', owners: $scope.user._id}).$promise.then(function(data) {
-			$scope.libraries = data
-				// Decorators {{{
-				// .referenceCount {{{
-				.map(function(library) {
-					library.referenceCount = 'loading';
-					References.count({library: library._id}).$promise.then(function(countData) {
-						library.referenceCount = countData.count;
+		Libraries.query({status: 'active', owners: $scope.user._id}).$promise
+			.then(function(data) {
+				var countPromises = [];
+
+				$scope.libraries = data
+					// Decorators {{{
+					// .referenceCount {{{
+					.map(function(library) {
+						if (angular.element($element).attr('fetch-counts') != 'true') return library; // Dont fetch if !$element.fetchCounts
+						library.referenceCount = 'loading';
+						// FIXME: This is likely to overwhelm everything
+						countPromises.push(function() {
+							return References.count({library: library._id}).$promise.then(function(countData) {
+								library.referenceCount = countData.count;
+							});
+						});
+						return library;
 					});
-					return library;
-				});
-				// }}}
-				// }}}
-		});
+					// }}}
+					// }}}
+
+				$q.allLimit(3, countPromises);
+			});
 	};
-	$scope.$evalAsync($scope.refresh);
 	// }}}
+
+	$scope.$evalAsync($scope.refresh);
 });

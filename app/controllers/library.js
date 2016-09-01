@@ -80,11 +80,9 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 					// Decorators {{{
 					// .referenceCount {{{
 					tag.referenceCount = null;
-					if ($location.path() == '/libraries') { // Only count refs if we are looking at the library list screen
 						References.count({library: $scope.library._id, tags: tag._id}).$promise.then(function(countData) {
 							tag.referenceCount = countData.count;
 						});
-					}
 					// }}}
 					// Add to tagsObj lookup {{{
 					$scope.tagsObj[tag._id] = tag;

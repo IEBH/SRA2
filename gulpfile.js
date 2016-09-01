@@ -68,6 +68,7 @@ global.paths = {
 			'node_modules/angular-bs-tooltip/angular-bs-tooltip.js',
 			'node_modules/angular-clipboard/angular-clipboard.js',
 			'node_modules/angular-collection-assistant/ng-collection-assistant.js',
+			'node_modules/angular-q-limit/angular-q-limit.js',
 			'node_modules/angular-resource/angular-resource.js',
 			'node_modules/angular-ui-router/release/angular-ui-router.js',
 			'node_modules/angular-ui-switch/angular-ui-switch.{css,js}',

@@ -5,6 +5,7 @@ var app = angular.module('app', [
 	'angular-bs-confirm',
 	'angular-bs-text-highlight',
 	'angular-bs-tooltip',
+	'angular-q-limit',
 	'colorpicker.module',
 	'ng-collection-assistant',
 	'ngPolyglot',

@@ -8,6 +8,8 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 	
 	// Data loading {{{
 	// Init loading when we have the (complete) library object
+
+	// Step 1 - load the library
 	var loadInitLibraryUnwatch = $scope.$watch('library', function() {
 		if (!$scope.library) return;
 		References.count({library: $scope.library._id}).$promise
@@ -16,12 +18,14 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 	});
 
 
+	// Step 2 - load the count of references we should load
 	var loadInitUnwatch = $scope.$watchGroup(['library', 'referenceCount'], function() {
 		if (!$scope.library || !$scope.referenceCount) return;
 		$scope.refreshReferences();
 		loadInitUnwatch();
 	});
 
+	// Step 3 - refresh all references
 	$scope.refreshReferences = function() {
 		$scope.references = [];
 		$scope.refChunk = 0;
