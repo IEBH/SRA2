@@ -4,11 +4,20 @@
 */
 app.controller('libraryReferencesController', function($scope, $filter, $httpParamSerializer, $location, $rootScope, $window, Loader, References, Settings) {
 	$scope.references = null;
+	$scope.referenceCount = null;
 	
 	// Data loading {{{
 	// Init loading when we have the (complete) library object
-	var loadInitUnwatch = $scope.$watch('library.referenceCount', function() {
-		if (!$scope.library || !$scope.library.referenceCount) return;
+	var loadInitLibraryUnwatch = $scope.$watch('library', function() {
+		if (!$scope.library) return;
+		References.count({library: $scope.library._id}).$promise
+			.then(data => $scope.referenceCount = data.count);
+		loadInitLibraryUnwatch();
+	});
+
+
+	var loadInitUnwatch = $scope.$watchGroup(['library', 'referenceCount'], function() {
+		if (!$scope.library || !$scope.referenceCount) return;
 		$scope.refreshReferences();
 		loadInitUnwatch();
 	});
@@ -17,13 +26,13 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 		$scope.references = [];
 		$scope.refChunk = 0;
 		$scope.loading = true;
-		var loadingUnwatch = $scope.$watchGroup(['loading', 'references', 'library.referenceCount'], function() {
+		var loadingUnwatch = $scope.$watchGroup(['loading', 'references', 'referenceCount'], function() {
 			if ($scope.loading) {
 				Loader
 					.start()
 					.title('Loading reference library')
-					.text($filter('number')($scope.references.length) + ' / ' + $filter('number')($scope.library.referenceCount || 0) + ' loaded')
-					.progress(($scope.references.length / $scope.library.referenceCount) * 100)
+					.text($filter('number')($scope.references.length) + ' / ' + $filter('number')($scope.referenceCount || 0) + ' loaded')
+					.progress(($scope.references.length / $scope.referenceCount) * 100)
 			} else {
 				Loader.finish();
 				loadingUnwatch();
@@ -63,7 +72,7 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 			$scope.references = $filter('orderBy')($scope.references, $scope.sort, $scope.sortReverse);
 			$scope.determineSelected();
 
-			if ($scope.references.length >= $scope.library.referenceCount) { // Exhausted refs from server
+			if ($scope.references.length >= $scope.referenceCount) { // Exhausted refs from server
 				$scope.loading = false;
 			} else {
 				$scope.refChunk++;
