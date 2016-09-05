@@ -37,10 +37,10 @@
 					</div>
 					<hr/>
 					<div class="form-group">
-						<label class="col-sm-3 control-label">Show lexical tree output</label>
+						<label class="col-sm-3 control-label">Debugging</label>
 						<div class="col-sm-9">
-							<switch ng-model="enginesShowDebugging" class="green"></switch>
-							<p class="help-block">If enabled an additional search engines are added showing how the query was compiled internally</p>
+							<switch ng-model="showDebugging" class="green"></switch>
+							<p class="help-block">Show additional debugging options such as lexical tree output and templates</p>
 						</div>
 					</div>
 				</div>
@@ -58,6 +58,12 @@
 					Your query
 					<div class="pull-right">
 						<a confirm="clear()" confirm-text="Clear?" class="btn btn-sm btn-default"><i class="fa fa-eraser"></i></a>
+						<div class="btn-group">
+							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" tooltip="Insert a search template"> <i class="fa fa-text-width"></i> <i class="fa fa-caret-down"></i></a>
+							<ul class="dropdown-menu pull-right">
+								<li ng-repeat="template in templates | filter:filterDebugging track by template.id"><a ng-click="insertTemplate(template)">{{template.name}}</a></li>
+							</ul>
+						</div>
 						<a ng-click="clipboard(query)" class="btn btn-sm btn-default"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
 						<a ng-click="showExample()" class="btn btn-sm btn-default"><i class="fa fa-random" tooltip="Show a random example"></i></a>
 						<a data-toggle="modal" data-target="#modal-polyglotOptions" class="btn btn-sm btn-default"><i class="fa fa-cog" tooltip="Configure Polyglot"></i></a>
@@ -65,7 +71,7 @@
 				</h4>
 			</div>
 			<div class="panel-body form-horizontal pad-none">
-					<textarea class="form-control" rows="10" ng-model="query" ng-trim="false"></textarea>
+					<textarea class="form-control" rows="12" id="query" ng-model="query" ng-trim="false"></textarea>
 			</div>
 			<div ng-show="!query" class="panel-footer text-center">
 				Type a PubMed or Ovid MEDLINE query in the box above to see its translations.
@@ -75,7 +81,7 @@
 	</div>
 
 	<div class="accordion-style1 panel-group">
-		<div ng-repeat="engine in engines track by engine.id" ng-if="!engine.debugging || enginesShowDebugging" class="panel panel-default">
+		<div ng-repeat="engine in engines track by engine.id" ng-if="!engine.debugging || showDebugging" class="panel panel-default">
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<a ng-click="toggleExpandEngine(engine)" class="accordion-toggle collapsed">

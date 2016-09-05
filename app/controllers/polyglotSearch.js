@@ -1,7 +1,7 @@
 app.controller('PolyglotSearchController', function($scope, $httpParamSerializer, $window, Assets, clipboard, Polyglot) {
 	$scope.query = '';
 	$scope.engines = _.map(Polyglot.engines, (engine, id) => { engine.id = id; return engine });
-	$scope.enginesShowDebugging = false; // Filter engines by debugging status
+	$scope.showDebugging = false; // Filter options by debugging status
 
 	$scope.options = {
 		// Parser
@@ -48,6 +48,21 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 		var translations = Polyglot.translateAll($scope.query, $scope.options);
 		$scope.engines.forEach(engine => engine.translated = translations[engine.id]);
 	});
+	// }}}
+
+	// Template functionality {{{
+	$scope.templates = _.map(Polyglot.templates, (template, id) => { template.id = id; return template });
+	$scope.filterDebugging = function(item) {
+		if ($scope.showDebugging) return true;
+		return !item.debugging;
+	};
+
+	$scope.insertTemplate = function(template) {
+		$scope.query += '\n\nAND\n\n<' + template.id + '>';
+		var endPos = $('#query').val().length;
+		$('#query')[0].setSelectionRange(endPos, endPos);
+		$('#query').select();
+	};
 	// }}}
 
 	// Engine interaction {{{
