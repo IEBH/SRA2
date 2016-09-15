@@ -2,185 +2,222 @@
 * Load references belonging to a library
 * NOTE: Requires nesting within a controller that provides $scope.library
 */
-app.controller('libraryReferencesController', function($scope, $filter, $httpParamSerializer, $location, $rootScope, $window, Loader, References, Settings) {
-	$scope.references = null;
-	$scope.referenceCount = null;
-	
-	// Data loading {{{
-	// Init loading when we have the (complete) library object
+app.controller('libraryReferencesController', function($scope, $location, $q, $rootScope, $stateParams, Loader, References, Settings) {
+	$scope.grid = {
+		data: [],
+		totalItems: null,
+		itemsSelected: null,
 
-	// Step 1 - load the library
-	var loadInitLibraryUnwatch = $scope.$watch('library', function() {
-		if (!$scope.library) return;
-		References.count({library: $scope.library._id}).$promise
-			.then(data => $scope.referenceCount = data.count);
-		loadInitLibraryUnwatch();
-	});
+		// Columns {{{
+		columnDefs: [
+			{name: 'title'},
+			{
+				name: 'authors',
+				cellTemplate: `
+					<div>
+						<span ng-repeat="author in row.entity.authors | limitTo:3 track by $index" class="badge badge-info">
+							<i class="fa fa-user"></i>
+							{{author}}
+						</span>
+						<span ng-if="row.entity.authors.length > 3" class="badge badge-default">
+							<i class="fa fa-group"></i>
+							+{{::row.entity.authors.length - 3}}
+						</span>
+						<em ng-if="!row.entity.authors || !row.entity.authors.length">none</em>
+					</div>
+				`,
+			},
+			{
+				name: 'tags',
+				cellTemplate: `
+					<div> 
+						<span ng-repeat="tag in row.entity.tags" class="tag" style="background: {{tagsObj[tag].color}}">{{tagsObj[tag].title}}</span>
+					</div>
+				`,
+				visible: false,
+			},
+		],
+		// }}}
 
+		// Pagination {{{
+		paginationPageSizes: [25, 50, 100, 300, 1000],
+		paginationPageSize: 100,
+		paginationCurrentPage: 1,
+		// }}}
 
-	// Step 2 - load the count of references we should load
-	var loadInitUnwatch = $scope.$watchGroup(['library', 'referenceCount'], function() {
-		if (!$scope.library || !$scope.referenceCount) return;
-		$scope.refreshReferences();
-		loadInitUnwatch();
-	});
+		// Turns off virtualization (hiding elements in big lists) as we are using pagination anyway and the maximum DOM list length is 100
+		virtualizationThreshold: 100,
+		// }}}
 
-	// Step 3 - refresh all references
-	$scope.refreshReferences = function() {
-		$scope.references = [];
-		$scope.refChunk = 0;
-		$scope.loading = true;
-		var loadingUnwatch = $scope.$watchGroup(['loading', 'references', 'referenceCount'], function() {
-			if ($scope.loading) {
-				Loader
-					.start()
-					.title('Loading reference library')
-					.text($filter('number')($scope.references.length) + ' / ' + $filter('number')($scope.referenceCount || 0) + ' loaded')
-					.progress(($scope.references.length / $scope.referenceCount) * 100)
-			} else {
-				Loader.finish();
-				loadingUnwatch();
-			}
-		});
-		Loader.start();
-		$scope._refreshReferenceChunk();
+		// Sorting {{{
+		enableSorting: true,
+		// }}}
+
+		// Selection {{{
+		multiSelect: true,
+		enableFullRowSelection: true,
+		enableRowHeaderSelection: true,
+		selectionRowHeaderWidth: 35,
+		noUnselect: false,
+		enableSelectAll: true,
+		// }}}
+
+		// Server side config {{{
+		useExternalPagination: true,
+		useExternalSorting: true,
+		useExternalFiltering: true,
+		// }}}
+
+		onRegisterApi: function(gridApi) {
+			$scope.gridApi = gridApi;
+
+			// Filtering changes - refetch on changes {{{
+			$scope.gridApi.core.on.sortChanged($scope, function(grid, sortColumns) {
+				var sortBy = 
+				$scope.refreshReferences({
+					sort: function() {
+						var sortBy = sortColumns
+							.filter(col => !! col.sort.direction)
+							.map(col => (col.sort.direction == 'asc' ? '' : '-') + col.field);
+						return sortBy.length ? sortBy : ['title'];
+					}(),
+				});
+			});
+
+			gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+				$scope.refreshReferences({
+					skip: newPage * pageSize,
+					limit: pageSize,
+				});
+			});
+			// }}}
+
+			// Selection - keep track of totals {{{
+			gridApi.selection.on.rowSelectionChanged($scope,function(row) {
+				$scope.grid.itemsSelected = $scope.gridApi.selection.getSelectedCount();
+			});
+ 
+			gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows) {
+				$scope.grid.itemsSelected = $scope.gridApi.selection.getSelectedCount();
+			});
+			// }}}
+		},
 	};
 
-	/**
-	* Load references in to the system in chunks (determined by Settings.getLimits.references)
-	*/
-	$scope._refreshReferenceChunk = function() {
-		var rQuery = {
-			library: $scope.library._id,
-			status: 'active',
-			limit: Settings.getLimits.references,
-			skip: Settings.getLimits.references * $scope.refChunk,
-			select: '_id,tags,type,title,authors,journal',
-		};
-		if ($scope.activeTag && !$scope.activeTag.meta) rQuery.tags = $scope.activeTag._id;
 
-		References.query(rQuery).$promise.then(function(data) {
-			$scope.references = $scope.references.concat(
-				data.map(ref => {
-					// Decorators {{{
-					// select already selected references (e.g. if changing tabs) {{{
-					if (_.find($scope.selected, {_id: ref._id})) ref.selected = true;
-					// }}}
-					return ref;
-					// }}}
-				})
-			);
-			if ($scope.activeTag && $scope.activeTag.filter) { // Meta tag filtering
-				$scope.references = $scope.references.filter($scope.activeTag.filter);
-			}
-			$scope.references = $filter('orderBy')($scope.references, $scope.sort, $scope.sortReverse);
-			$scope.determineSelected();
+	// Data refresher {{{
+	$scope.refresh = function() {
+		Loader
+			.start()
+			.title('Loading reference library');
 
-			if ($scope.references.length >= $scope.referenceCount) { // Exhausted refs from server
-				$scope.loading = false;
-			} else {
-				$scope.refChunk++;
-				$scope.$evalAsync($scope._refreshReferenceChunk);
-			}
-		});
+		$q.all([
+			// Count references
+			References.count({library: $stateParams.id}).$promise
+				.then(data => $scope.grid.totalItems = data.count),
+
+			// Fetch initial references
+			$scope.refreshReferences(),
+		])
+			.finally(() => Loader.finish());
 	};
+
+	$scope.referenceFilters = {library: $stateParams.id, sort: 'title', skip: 0, limit: $scope.grid.paginationPageSize};
+	$scope.refreshReferences = function(newFilters) {
+		_.merge($scope.referenceFilters, newFilters);
+
+		return References.query($scope.referenceFilters).$promise
+			.then(data => $scope.grid.data = data);
+	};
+
+	// Wait until library is ready to apply some other behaviours
+	var unwatchLibrary = $scope.$watch('library', function() {
+		if (!$scope.library) return; // Not yet loaded
+
+		// Show the tags column if the library has tags
+		if ($scope.hasTags) $scope.gridApi.grid.columns.filter(c => c.field == 'tags')[0].showColumn();
+
+		unwatchLibrary();
+	});
 	// }}}
-
-	// Selected references {{{
-	$scope.selected = [];
-	/**
-	* Called on each references.selected change to populate $scope.selected
-	*/
-	$scope.determineSelected = function() {
-		$scope.selected = $scope.references.filter(ref => { return !! ref.selected });
-	};
-
+	
+	// Selected flags {{{
 	$scope.selectAction = function(what, operand) {
 		switch (what) {
 			case 'all':
-				$scope.references.forEach(ref => { ref.selected = true });
+				$scope.gridApi.selection.selectAllRows();
 				break;
 			case 'none':
-				$scope.references.forEach(ref => { ref.selected = false });
+				$scope.gridApi.selection.clearSelectedRows();
 				break;
 			case 'invert':
-				$scope.references.forEach(ref => { ref.selected = !ref.selected });
+				$scope.grid.data.forEach(row => $scope.gridApi.selection.toggleRowSelection(row));
 				break;
 			case 'byTag':
-				$scope.references.forEach(ref => {
-					ref.selected = _.includes(ref.tags, operand._id);
-				});
+				$scope.gridApi.selection.clearSelectedRows();
+
+				$scope.grid.data
+					.filter(row => _.includes(row.tags, operand._id))
+					.forEach(row => $scope.gridApi.selection.selectRow(row))
+
 				break;
 			case 'byNoTag':
-				$scope.references.forEach(ref => {
-					ref.selected = !ref.tags.length;
-				});
+				$scope.gridApi.selection.clearSelectedRows();
+
+				$scope.grid.data
+					.filter(row => !row.tags.length)
+					.forEach(row => $scope.gridApi.selection.selectRow(row))
 				break;
 			case 'tag':
-				if ($scope.selected.every(ref => { return _.includes(ref.tags, operand._id) })) { // Are we untagging?
-					$scope.selected.forEach(ref => {
-						ref.tags = _.without(ref.tags, operand._id);
-					});
+				if ($scope.gridApi.selection.getSelectedRows().every(row => _.includes(row.tags, operand._id))) { // Are we untagging?
+					$scope.gridApi.selection.getSelectedRows()
+						.forEach(row => row.tags = _.without(row.tags, operand._id));
 				} else { // Tagging
-					$scope.selected.forEach(ref => {
-						if (!_.includes(ref.tags, operand._id)) ref.tags.push(operand._id);
-					});
+					$scope.gridApi.selection.getSelectedRows()
+						.filter(row => _.includes(row.tags, operand._id)) // Doesn't already have the tag
+						.forEach(row => row.tags.push(operand._id));
 				}
-				$scope.selected.forEach(ref => {
-					References.save({id: ref._id}, {tags: ref.tags});
-				});
+
+				// Save everything
+				$scope.gridApi.selection.getSelectedRows()
+					.forEach(row => References.save({id: row._id}, {tags: row.tags}))
+
 				break;
 			case 'tag-clear':
-				$scope.selected.forEach(ref => {
-					ref.tags = [];
-					References.save({id: ref._id}, {tags: ref.tags});
-				});
+				$scope.gridApi.selection.getSelectedRows()
+					.forEach(function(row) {
+						row.tags = [];
+						References.save({id: row._id}, {tags: row.tags});
+					});
 				break;
 			case 'export': // Operation -> Export
-				$rootScope.$broadcast('referenceBucket', $scope.selected.map(r => { return r._id }));
+				$rootScope.$broadcast('referenceBucket', $scope.gridApi.selection.getSelectedRows().map(r => r._id));
 				$location.path('/libraries/' + $scope.library._id + '/export');
 				break;
 			case 'request': // Operation -> Journal request
-				$rootScope.$broadcast('referenceBucket', $scope.selected.map(r => { return r._id }));
+				$rootScope.$broadcast('referenceBucket', $scope.gridApi.selection.getSelectedRows().map(r => r._id));
 				$location.path('/libraries/' + $scope.library._id + '/request');
 				break;
 			case 'dedupe': // Operation -> Dedupe
-				$rootScope.$broadcast('referenceBucket', $scope.selected.map(r => { return r._id }));
+				$rootScope.$broadcast('referenceBucket', $scope.gridApi.selection.getSelectedRows().map(r => r._id));
 				$location.path('/libraries/' + $scope.library._id + '/dedupe');
 				break;
 			case 'screen': // Operation -> Screen
-				$rootScope.$broadcast('referenceBucket', $scope.selected.map(r => { return r._id }));
+				$rootScope.$broadcast('referenceBucket', $scope.gridApi.selection.getSelectedRows().map(r => r._id));
 				$location.path('/libraries/' + $scope.library._id + '/screen');
 				break;
 			case 'word-freq': // Operation -> Word-freq
-				$rootScope.$broadcast('referenceBucket', $scope.selected.map(r => { return r._id }));
+				$rootScope.$broadcast('referenceBucket', $scope.gridApi.selection.getSelectedRows().map(r => r._id));
 				$location.path('/libraries/' + $scope.library._id + '/word-freq');
 				break;
 			case 'delete':
-				$scope.selected.forEach(ref => {
-					ref.status = 'deleted';
-					References.save({id: ref._id}, {status: ref.status});
-				});
+				$scope.gridApi.selection.getSelectedRows()
+					.forEach(function(row) {
+						ref.status = 'deleted';
+						References.save({id: row._id}, {status: row.status});
+					});
 				break;
 		}
-		$scope.determineSelected();
-	};
-	// }}}
-
-	// Sorting {{{
-	$scope.sort = 'title';
-	$scope.sortReverse = false;
-	$scope.setSort = function(method) {
-		if ($scope.sort == method) { // Already set - reverse method
-			$scope.sortReverse = !$scope.sortReverse;
-		} else if (method.substr(0, 1) == '-') { // Set into reverse
-			$scope.sort = method.substr(1);
-			$scope.sortReverse = true;
-		} else { // Changing method
-			$scope.sort = method;
-			$scope.sortReverse = false;
-		}
-		$scope.references = $filter('orderBy')($scope.references, $scope.sort, $scope.sortReverse);
 	};
 	// }}}
 
@@ -246,4 +283,6 @@ app.controller('libraryReferencesController', function($scope, $filter, $httpPar
 		return (/^\/api\/fulltext\//.test(reference.fullTextURL));
 	};
 	// }}}
+
+	$scope.$evalAsync($scope.refresh);
 });

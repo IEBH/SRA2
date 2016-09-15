@@ -58,9 +58,56 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 	};
 
 	$scope.insertTemplate = function(template) {
-		$scope.query += '\n\nAND\n\n<' + template.id + '>';
-		var endPos = $('#query').val().length;
-		$('#query')[0].setSelectionRange(endPos, endPos);
+		var selStart = $('#query')[0].selectionStart;
+		var sel = $('#query').val();
+		var lastLineStart = sel.lastIndexOf('\n', selStart);
+		var nextLineStart = sel.indexOf('\n', selStart);
+		var thisLine = (lastLineStart > -1 && nextLineStart ? sel.substr(lastLineStart, nextLineStart - lastLineStart) : '');
+		var insertAt = 'end'; // ENUM: end, nextLine, here
+
+		// Work out where to insert {{{
+		/*
+		console.log('SEL START', selStart);
+		console.log('SEL LEN', sel.length);
+		console.log('LAST LINE', lastLineStart);
+		console.log('NEXT LINE', nextLineStart);
+		console.log('IS IN LINE', isInLine);
+		*/
+
+		if (nextLineStart == lastLineStart) {
+			console.log('LINE IS [' + thisLine + ']');
+			insertAt = 'nextLine';
+		} else if (lastLineStart == selStart - 1) {
+			insertAt = 'here';
+			console.log('Start of line');
+		} else if (nextLineStart > -1 && lastLineStart > -1 && nextLineStart - lastLineStart > 0) {
+			insertAt = 'nextLine';
+		} else {
+			insertAt = 'end';
+		}
+		// }}}
+
+		console.log('Insert template', insertAt);
+
+		var caretPos;
+
+		switch (insertAt) {
+			case 'here':
+				$scope.query = sel.substr(0, selStart) + '<' + template.id + '>\n' + sel.substr(selStart);
+				caretPos = selStart + template.id.length + 2;
+				break;
+			case 'nextLine':
+				$scope.query = sel.substr(0, nextLineStart) + '\n\nAND\n\n<' + template.id + '>\n' + sel.substr(nextLineStart);
+				caretPos = nextLineStart + template.id.length + 5;
+				break;
+			case 'end':
+			default:
+				caretPos = $('#query').val().length;
+				$scope.query += '\n\nAND\n\n<' + template.id + '>';
+		}
+
+		$('#query')[0].setSelectionRange(caretPos, caretPos);
+
 		$('#query').select();
 	};
 	// }}}

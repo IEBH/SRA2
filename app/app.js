@@ -11,6 +11,9 @@ var app = angular.module('app', [
 	'ngPolyglot',
 	'ngResource',
 	'ngTreeTools',
+	'ui.grid',
+	'ui.grid.pagination',
+	'ui.grid.selection',
 	'ui.router',
 	'uiSwitch',
 	'xeditable'

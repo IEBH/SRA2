@@ -70,6 +70,7 @@ global.paths = {
 			'node_modules/angular-collection-assistant/ng-collection-assistant.js',
 			'node_modules/angular-q-limit/angular-q-limit.js',
 			'node_modules/angular-resource/angular-resource.js',
+			'node_modules/angular-ui-grid/ui-grid.min.{css,js}',
 			'node_modules/angular-ui-router/release/angular-ui-router.js',
 			'node_modules/angular-ui-switch/angular-ui-switch.{css,js}',
 			'node_modules/angular-venn/angular-venn.js',

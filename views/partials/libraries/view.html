@@ -89,14 +89,14 @@
 	<div class="navbar navbar-default">
 		<ul class="nav navbar-nav">
 			<li class="btn-group">
-				<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">{{selected.length ? selected.length + ' selected' : references.length + ' total references'}} <i class="fa fa-chevron-down"></i></a>
+				<a class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{grid.itemsSelected  ? grid.itemsSelected + ' selected' : grid.totalItems + ' total references'}} <i class="fa fa-chevron-down"></i></a>
 				<ul class="dropdown-menu">
 					<li><a ng-click="selectAction('all')">Select all</a></li>
 					<li><a ng-click="selectAction('none')">Select none</a></li>
 					<li><a ng-click="selectAction('invert')">Invert selection</a></li>
 				</ul>
 			</li>
-			<li ng-show="selected.length && isEditable && hasTags" class="btn-group">
+			<li ng-show="grid.itemsSelected && isEditable && hasTags" class="btn-group">
 				<a class="btn btn-info dropdown-toggle" data-toggle="dropdown">Tag <i class="fa fa-chevron-down"></i></a>
 				<ul class="dropdown-menu">
 					<li ng-repeat="tag in tags | filter:{meta:false}"><a ng-click="selectAction('tag', tag)"><i class="fa fa-tag"></i> {{tag.title}}</a></li>
@@ -104,8 +104,8 @@
 					<li><a ng-click="selectAction('tag-clear')"><i class="fa fa-eraser"></i> Clear tags</a></li>
 				</ul>
 			</li>
-			<li ng-show="selected.length" class="btn-group">
-				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action <i class="fa fa-chevron-down"></i></a>
+			<li ng-show="grid.itemsSelected" class="btn-group">
+				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <i class="fa fa-chevron-down"></i></a>
 				<ul class="dropdown-menu">
 					<li><a ng-click="selectAction('export')"><i class="fa fa-cloud-download"></i> Export selected</a></li>
 					<li ng-if="isEditable"><a ng-click="selectAction('request')"><i class="fa fa-envelope-o"></i> Journal request</a></li>
@@ -188,36 +188,8 @@
 			</th>
 			<th><i class="fa fa-file-pdf-o"></i></th>
 		</tr></thead>
-		<tr ng-repeat="reference in references track by reference._id" ng-class="{info: reference.selected}">
-			<td class="text-center">
-				<input type="checkbox" ng-model="reference.selected" ng-change="determineSelected()"/>
-			</td>
-			<td><a href="#/libraries/{{library._id}}/ref/{{reference._id}}">{{::reference.title}}</a></td>
-			<td>
-				<a href="#/libraries/{{library._id}}/ref/{{reference._id}}">
-					<span ng-repeat="author in ::(reference.authors | limitTo:3) track by $index" class="badge badge-info">
-						<i class="fa fa-user"></i>
-						{{author}}
-					</span>
-					<span ng-if="::reference.authors.length > 3" class="badge badge-default">
-						<i class="fa fa-group"></i>
-						+{{::reference.authors.length - 3}}
-					</span>
-					<em ng-if="::(!reference.authors || !reference.authors.length)">none</em>
-				</a>
-			</td>
-			<td ng-if="hasTags">
-				<a ng-click="editTags(reference)"> 
-					<span ng-repeat="tag in reference.tags" class="tag" style="background: {{tagsObj[tag].color}}">{{tagsObj[tag].title}}</span>
-					<i class="fa fa-pencil show-on-hover"></i>
-				</a>
-			</td>
-			<td ng-if="isScreening" class="text-center">
-				<span class="badge badge-default">{{reference.screening.weight | number}}</span>
-			</td>
-			<td><a ng-click="openFullText(reference)">
-				<i ng-class="isFullTextDownloaded(reference) ? '' : 'text-muted'" class="fa fa-file-pdf-o"></i>
-			</a></td>
-		</tr>
 	</table>
+
+	<div ui-grid="grid" ui-grid-selection ui-grid-pagination></div>
+
 </div></div>
