@@ -141,13 +141,16 @@ app.controller('libraryViewController', function($scope, $location, $q, $rootSco
 	// }}}
 
 	// Link opening {{{
+	$scope.refPopup = 0;
 	$scope.openRef = function(ref) {
 		_.castArray(ref)
-			.forEach(ref => $window.open('/#/libraries/' + $stateParams.id + '/ref/' + ref._id));
+			.forEach(ref => {
+				$window.open('/#/libraries/' + $stateParams.id + '/ref/' + ref._id, 'ref' + $scope.refPopup++);
+			});
 	};
 	// }}}
 	
-	// Selected flags {{{
+	// Selection operations {{{
 	$scope.selectAction = function(what, operand) {
 		switch (what) {
 			case 'all':
@@ -173,6 +176,9 @@ app.controller('libraryViewController', function($scope, $location, $q, $rootSco
 				$scope.grid.data
 					.filter(row => !row.tags.length)
 					.forEach(row => $scope.gridApi.selection.selectRow(row))
+				break;
+			case 'open':
+				$scope.openRef($scope.gridApi.selection.getSelectedRows());
 				break;
 			case 'tag':
 				if ($scope.gridApi.selection.getSelectedRows().every(row => _.includes(row.tags, operand._id))) { // Are we untagging?

@@ -107,6 +107,7 @@
 			<li ng-show="grid.itemsSelected" class="btn-group">
 				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <i class="fa fa-chevron-down"></i></a>
 				<ul class="dropdown-menu">
+					<li ng-if="isEditable"><a ng-click="selectAction('open')" > <i class="fa fa-pencil"></i> Edit</a>
 					<li><a ng-click="selectAction('export')"><i class="fa fa-cloud-download"></i> Export selected</a></li>
 					<li ng-if="isEditable"><a ng-click="selectAction('request')"><i class="fa fa-envelope-o"></i> Journal request</a></li>
 					<li ng-if="isEditable"><a ng-click="selectAction('dedupe')"><i class="fa fa-compress"></i> Deduplicate</a></li>
@@ -115,6 +116,9 @@
 					<li ng-if="isEditable" class="divider"></li>
 					<li ng-if="isEditable"><a ng-click="selectAction('delete')"><i class="fa fa-trash"></i> Delete</a></li>
 				</ul>
+			</li>
+			<li ng-show="grid.itemsSelected" class="btn-group">
+				<a class="btn btn-primary" ng-click="selectAction('open')" tooltip="Open all selected references in new tabs (you may need to enable popup windows in your browser)" tooltip-container="body"><i class="fa fa-pencil"></i> Edit</a>
 			</li>
 		</ul>
 	</div>
