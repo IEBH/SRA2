@@ -1,5 +1,5 @@
 /* Global elements {{{ */
-[ng-click], [data-toggle] {
+[ng-click], [data-toggle], .clickable {
 	cursor: pointer;
 }
 /* }}} */

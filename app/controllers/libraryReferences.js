@@ -2,7 +2,7 @@
 * Load references belonging to a library
 * NOTE: Requires nesting within a controller that provides $scope.library
 */
-app.controller('libraryReferencesController', function($scope, $location, $q, $rootScope, $stateParams, Loader, References, Settings) {
+app.controller('libraryViewController', function($scope, $location, $q, $rootScope, $stateParams, $window, Loader, References, Settings) {
 	$scope.grid = {
 		data: [],
 		totalItems: null,
@@ -10,11 +10,14 @@ app.controller('libraryReferencesController', function($scope, $location, $q, $r
 
 		// Columns {{{
 		columnDefs: [
-			{name: 'title'},
+			{
+				name: 'title',
+				cellTemplate: `<div class="clickable ui-grid-cell-contents" ng-click="grid.appScope.openRef(row.entity)" ng-bind="row.entity.title"></div>`,
+			},
 			{
 				name: 'authors',
 				cellTemplate: `
-					<div>
+					<div class="clickable ui-grid-cell-contents" ng-click="grid.appScope.openRef(row.entity)">
 						<span ng-repeat="author in row.entity.authors | limitTo:3 track by $index" class="badge badge-info">
 							<i class="fa fa-user"></i>
 							{{author}}
@@ -30,7 +33,7 @@ app.controller('libraryReferencesController', function($scope, $location, $q, $r
 			{
 				name: 'tags',
 				cellTemplate: `
-					<div> 
+					<div class="clickable ui-grid-cell-contents" ng-click="grid.appScope.openRef(row.entity)"> 
 						<span ng-repeat="tag in row.entity.tags" class="tag" style="background: {{tagsObj[tag].color}}">{{tagsObj[tag].title}}</span>
 					</div>
 				`,
@@ -45,17 +48,13 @@ app.controller('libraryReferencesController', function($scope, $location, $q, $r
 		paginationCurrentPage: 1,
 		// }}}
 
-		// Turns off virtualization (hiding elements in big lists) as we are using pagination anyway and the maximum DOM list length is 100
-		virtualizationThreshold: 100,
-		// }}}
-
 		// Sorting {{{
 		enableSorting: true,
 		// }}}
 
 		// Selection {{{
 		multiSelect: true,
-		enableFullRowSelection: true,
+		enableFullRowSelection: false, // Disables click to select but enables checking the row via the left-side checkbox
 		enableRowHeaderSelection: true,
 		selectionRowHeaderWidth: 35,
 		noUnselect: false,
@@ -139,6 +138,13 @@ app.controller('libraryReferencesController', function($scope, $location, $q, $r
 
 		unwatchLibrary();
 	});
+	// }}}
+
+	// Link opening {{{
+	$scope.openRef = function(ref) {
+		_.castArray(ref)
+			.forEach(ref => $window.open('/#/libraries/' + $stateParams.id + '/ref/' + ref._id));
+	};
 	// }}}
 	
 	// Selected flags {{{
