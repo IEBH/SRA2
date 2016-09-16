@@ -1,0 +1,33 @@
+<div ng-controller="debugController" class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel">
+				<div class="panel-heading"><h3 class="panel-title">Loader</h3></div>
+				<div class="list-group">
+					<a class="list-group-item" ng-click="loaderStart('debug1')">loader.start("debug1")</a>
+					<a class="list-group-item" ng-click="loaderStop('debug1')">loader.stop("debug1")</a>
+					<a class="list-group-item" ng-click="loaderStartBackground('debug2')">loader.startBackground("debug2")</a>
+					<a class="list-group-item" ng-click="loaderStop('debug2')">loader.stop("debug2")</a>
+					<a class="list-group-item" ng-click="loaderStart('debug3', false)">loader.start("debug3", false)</a>
+					<a class="list-group-item" ng-click="loaderStop('debug3')">loader.stop("debug3")</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel">
+				<div class="panel-heading">Notifications</div>
+				<div class="list-group">
+					<a class="list-group-item" ng-click="$notification.primary('Hello World')">$notification.primary('Hello World')</a>
+					<a class="list-group-item" ng-click="$notification.info('Hello World')">$notification.info('Hello World')</a>
+					<a class="list-group-item" ng-click="$notification.success('Hello World')">$notification.success('Hello World')</a>
+					<a class="list-group-item" ng-click="$notification.warning('Hello World')">$notification.warning('Hello World')</a>
+					<a class="list-group-item" ng-click="$notification.error('Hello World')">$notification.error('Hello World')</a>
+					<a class="list-group-item" ng-click="$notification.catch()">$notification.catch()</a>
+					<a class="list-group-item" ng-click="$notification.catch({error: 'Hello World'})">$notification.catch({error: 'Hello World'})</a>
+					<a class="list-group-item" ng-click="$notification.offline(true)">$notification.offline()</a>
+					<a class="list-group-item" ng-click="$notification.offline(false)">$notification.offline(false)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

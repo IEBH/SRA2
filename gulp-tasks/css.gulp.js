@@ -4,12 +4,13 @@ var gplumber = require('gulp-plumber');
 var gulp = require('gulp');
 var gulpIf = require('gulp-if');
 var gutil = require('gulp-util');
-var minifyCSS = require('gulp-minify-css');
+var cleanCSS = require('gulp-clean-css');
 var notify = require('gulp-notify');
 var sourcemaps = require('gulp-sourcemaps');
 
 /**
 * Compile all CSS files into the build directory
+* @return {Stream}
 */
 var cssBootCount = 0;
 gulp.task('css', ['load:config'], function() {
@@ -25,8 +26,10 @@ gulp.task('css', ['load:config'], function() {
 			},
 		}))
 		.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.init()))
-		.pipe(concat('site.min.css'))
-		.pipe(gulpIf(config.gulp.minifyCSS, minifyCSS()))
+		.pipe(concat('app.min.css'))
+		.pipe(gulpIf(config.gulp.minifyCSS, cleanCSS({
+			processImport: false, // Prevents 'Broken @import declaration' error during build task
+		})))
 		.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.write()))
 		.pipe(gulp.dest(paths.build))
 		.on('end', function() {
@@ -34,7 +37,7 @@ gulp.task('css', ['load:config'], function() {
 				notify({
 					title: config.title + ' - CSS',
 					message: 'Rebuilt frontend CSS' + (++cssBootCount > 1 ? ' #' + cssBootCount : ''),
-					icon: __dirname + '/icons/css.png',
+					icon: __dirname + '/icons/block-css.png',
 				}).write(0);
 		});
 });

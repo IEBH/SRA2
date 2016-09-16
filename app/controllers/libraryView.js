@@ -2,7 +2,7 @@
 * Load references belonging to a library
 * NOTE: Requires nesting within a controller that provides $scope.library
 */
-app.controller('libraryViewController', function($scope, $location, $q, $rootScope, $stateParams, $window, Loader, References, Settings) {
+app.controller('libraryViewController', function($scope, $loader, $location, $q, $rootScope, $stateParams, $window, References, Settings) {
 	$scope.grid = {
 		data: [],
 		totalItems: null,
@@ -106,9 +106,7 @@ app.controller('libraryViewController', function($scope, $location, $q, $rootSco
 
 	// Data refresher {{{
 	$scope.refresh = function() {
-		Loader
-			.start()
-			.title('Loading reference library');
+		$loader.start($scope.$id);
 
 		$q.all([
 			// Count references
@@ -118,15 +116,17 @@ app.controller('libraryViewController', function($scope, $location, $q, $rootSco
 			// Fetch initial references
 			$scope.refreshReferences(),
 		])
-			.finally(() => Loader.finish());
+			.finally(() => $loader.stop($scope.$id));
 	};
 
 	$scope.referenceFilters = {library: $stateParams.id, sort: 'title', skip: 0, limit: $scope.grid.paginationPageSize};
 	$scope.refreshReferences = function(newFilters) {
 		_.merge($scope.referenceFilters, newFilters);
 
+		$loader.startBackground($scope.$id + '-refs');
 		return References.query($scope.referenceFilters).$promise
-			.then(data => $scope.grid.data = data);
+			.then(data => $scope.grid.data = data)
+			.finally(() => $loader.stop($scope.$id + '-refs'));
 	};
 
 	// Wait until library is ready to apply some other behaviours

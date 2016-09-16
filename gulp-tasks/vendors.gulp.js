@@ -1,5 +1,5 @@
 /**
-* Matt's little "I Cant do WebPack but this will do for now" script
+* Matt's little "I cant do WebPack but this will do for now" script
 * This script will include frontend vendor resources from a variety of sources and splat them into ./build/vendor.min.{js,css} etc
 * Vendor resources are read from paths.vendors and are relative paths from the project root
 *
@@ -8,15 +8,15 @@
 */
 var _ = require('lodash');
 var async = require('async-chainable');
-var cache = require('gulp-cache');
-var concat = require('gulp-concat');
 var braceExpansion = require('brace-expansion');
+var cache = require('gulp-cache');
+var cleanCSS = require('gulp-clean-css');
+var concat = require('gulp-concat');
+var fs = require('fs');
+var fspath = require('path');
 var gulp = require('gulp');
 var gulpIf = require('gulp-if');
 var gutil = require('gulp-util');
-var fs = require('fs');
-var fspath = require('path');
-var minifyCSS = require('gulp-minify-css');
 var notify = require('gulp-notify');
 var replace = require('gulp-replace');
 var sourcemaps = require('gulp-sourcemaps');
@@ -77,8 +77,8 @@ gulp.task('vendors-core', ['load:config'], function(finish) {
 		})
 		.forEach('includes', function(next, path) {
 			fs.stat(path, function(err, stats) {
-				if (err) return next('Error loading depdency path "' + path + '". Maybe you should specify the file directly with file://PATH - ' + err.toString());
-				if (stats.isDirectory()) return next('Depdendency path "' + path + '" is a directory. This should be a file');
+				if (err) return next('Error loading dependency path "' + path + '". Maybe you should specify the file directly with file://PATH - ' + err.toString());
+				if (stats.isDirectory()) return next('Dependency path "' + path + '" is a directory. This should be a file');
 				next();
 			});
 		})
@@ -95,7 +95,9 @@ gulp.task('vendors-core', ['load:config'], function(finish) {
 				var sources = this.includes.filter(i => /\.css$/.test(i));
 				return gulp.src(sources)
 					.pipe(concat('vendors-core.min.css'))
-					.pipe(minifyCSS())
+					.pipe(cleanCSS({
+						processImport: false, // Prevents 'Broken @import declaration' error during build task
+					}))
 					.pipe(gulp.dest(paths.build))
 					.on('end', () => next(null, sources));
 			},
@@ -135,8 +137,8 @@ gulp.task('vendors-main', ['load:config'], function(finish) {
 		})
 		.forEach('includes', function(next, path) {
 			fs.stat(path, function(err, stats) {
-				if (err) return next('Error loading depdency path "' + path + '". Maybe you should specify the file directly with file://PATH - ' + err.toString());
-				if (stats.isDirectory()) return next('Depdendency path "' + path + '" is a directory. This should be a file');
+				if (err) return next('Error loading dependency path "' + path + '". Maybe you should specify the file directly with file://PATH - ' + err.toString());
+				if (stats.isDirectory()) return next('Dependency path "' + path + '" is a directory. This should be a file');
 				next();
 			});
 		})
@@ -157,7 +159,7 @@ gulp.task('vendors-main', ['load:config'], function(finish) {
 				return gulp.src(sources)
 					.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.init()))
 					.pipe(concat('vendors-main.min.css'))
-					.pipe(gulpIf(config.gulp.minifyCSS, minifyCSS()))
+					.pipe(gulpIf(config.gulp.minifyCSS, cleanCSS()))
 					.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.write()))
 					.pipe(gulp.dest(paths.build))
 					.on('end', () => next(null, sources));
@@ -171,7 +173,7 @@ gulp.task('vendors-main', ['load:config'], function(finish) {
 			notify({
 				title: config.title + ' - Main vendors',
 				message: 'Rebuilt ' + (this.js.length + this.css.length) + ' vendor files' + (++vendorBootCount > 1 ? ' #' + vendorBootCount : ''),
-				icon: __dirname + '/icons/ng.png',
+				icon: __dirname + '/icons/html5.png',
 			}).write(0);
 
 			finish();

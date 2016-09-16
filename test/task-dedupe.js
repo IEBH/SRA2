@@ -7,6 +7,7 @@ var mlog = require('mocha-logger');
 var moment = require('moment');
 var reflib = require('reflib');
 var request = require('superagent');
+var sra = require('sra-api');
 
 describe('Task: DeDupe', function(){
 	// Library specific info

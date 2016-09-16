@@ -57,7 +57,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		})
 		.state('debug', {
 			url: '/debug',
-			views: {main: {templateUrl: '/partials/debug.html'}},
+			views: {main: {templateUrl: '/partials/debug/index.html'}},
 			data: {
 				title: 'Debug testing area',
 			}

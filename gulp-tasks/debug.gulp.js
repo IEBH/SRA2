@@ -1,3 +1,7 @@
+/**
+* Provides tasks that output debugging information or perform debugging tests
+*/
+
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 

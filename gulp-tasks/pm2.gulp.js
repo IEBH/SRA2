@@ -1,3 +1,7 @@
+/**
+* Tasks for deploying and managing pm2 server instances of the app
+*/
+
 var _ = require('lodash');
 var async = require('async-chainable');
 var asyncExec = require('async-chainable-exec');

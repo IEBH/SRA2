@@ -42,6 +42,7 @@ if (config.access && config.access.lockdown) {
 app.use(require('cookie-parser')());
 app.use(bodyParser.json({limit: '150mb'}));
 app.use(bodyParser.urlencoded({limit: '150mb', extended: false}));
+app.use(require('compression')());
 // }}}
 // Settings / Cookies + Sessions {{{
 app.use(require('connect-flash')());
