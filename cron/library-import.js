@@ -116,6 +116,7 @@ module.exports = function(finish, task) {
 			console.log(colors.blue('Upload'), colors.green('Completed'), 'Imported', colors.cyan(this.refs.length), 'references with', colors.cyan(_.size(this.tags)), 'tags');
 			task.completed = new Date();
 			task.status = 'completed';
+			task.result = {library: this.library._id, referenceCount: this.refs.length};
 			task.save(next);
 		})
 		.end(finish);
