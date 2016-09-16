@@ -1,0 +1,17 @@
+/* Force grid to fit vertical height of window {{{ */
+div[ui-grid] {
+	height: calc(100vh - 280px);
+}
+/* }}} */
+
+/* Show a hover effect when mouse is over a row {{{ */
+div[ui-grid] .ui-grid-render-container-body .ui-grid-row:hover .ui-grid-cell {
+	background: #3a87ad;
+	color: white;
+}
+
+div[ui-grid] .ui-grid-render-container-body .ui-grid-row:hover .ui-grid-cell .badge {
+	color: #444 !important;
+	background: #fff !important;
+}
+/* }}} */
