@@ -29,7 +29,7 @@ app.controller('libraryWordFreqController', function($scope, $location, $rootSco
 	// }}}
 
 	$scope.submit = function() {
-		Tasks.fromLibrary({id: $scope.library._id, worker: 'word-freq'}, {settings: {
+		Tasks.fromLibrary({id: $scope.library._id, worker: 'library-word-freq'}, {settings: {
 			references: $scope.filter.references,
 			deburr: $scope.deburr,
 			weights: $scope.weights,
