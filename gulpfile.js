@@ -97,7 +97,6 @@ gulp.task('db', ['scenario']);
 gulp.task('deploy', ['pm2-deploy']);
 gulp.task('serve', ['nodemon']);
 gulp.task('start', ['pm2-start']);
-gulp.on('stop', function() { process.exit(0) });
 
 gulp.task('build', function(finish) {
 	runSequence(

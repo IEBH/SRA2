@@ -4,10 +4,10 @@
  * NOTE: Requires global.paths to be defined from gulp.conf.js
  */
 
-var del = require('del');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var notify = require('gulp-notify');
+var rimraf = require('rimraf');
 var runSequence = require('run-sequence');
 
 /**
@@ -60,6 +60,5 @@ gulp.task('build:includes', function() {
 gulp.task('build:clean', function(finish) {
 	gutil.log('Cleaning: ' + gutil.colors.blue(paths.build));
 
-	var delPaths = [].concat(paths.build, paths.report);
-	return del(delPaths, finish);
+	return rimraf([].concat(paths.build, paths.report), finish);
 });
