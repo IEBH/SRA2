@@ -108,6 +108,10 @@ var defaults = {
 			},
 		},
 	},
+	test: {
+		username: 'mc',
+		password: 'qwaszx',
+	},
 };
 
 
