@@ -6,11 +6,25 @@ var _ = require('lodash');
 var async = require('async-chainable');
 var colors = require('colors');
 var compareNames = require('compare-names');
+var doiMatcher = require('doi-regex');
 var natural = require('natural');
 var Libraries = require('../models/libraries');
 var References = require('../models/references');
 
 // Utility functions {{{
+function findDOI(ref) {
+	if (ref.doi && doiMatcher().test(ref)) return ref.doi;
+
+	if (ref.urls) {
+		var matching = ref.urls.filter(url => doiMatcher().test(url));
+		if (matching.length == 1) return matching[0].match(doiMatcher())[0];
+	}
+
+	return false;
+}
+// }}}
+
+// Comparison function {{{
 // Cache various regular expressions so they are faster
 var reAlphaNumeric = /[^a-z0-9]+/g;
 var reJunkWords = /\b(the|a)\b/g;
@@ -39,7 +53,13 @@ function compareRef(ref1, ref2) {
 	})) return false;
 	// }}}
 
-	// Stage 3 - Extraction of years from titles + comparison {{{
+	// Stage 3 - Extract DOIs from both sides and compare {{{
+	var ref1DOI = findDOI(ref1);
+	var ref2DOI = findDOI(ref2);
+	if (ref1DOI && ref2DOI) return (ref1DOI == ref2DOI); // Both have a DOI so we can be definitive
+	// }}}
+
+	// Stage 4 - Extraction of years from titles + comparison {{{
 	// Extract an array of years from each title and check that ref2 contains the same years if the years mismatch its not a dupe
 	var ref1Years = ref1.title.match(/\b([0-9]{4})\b/g) || [];
 	var ref2Years = ref2.title.match(/\b([0-9]{4})\b/g) || [];
@@ -49,7 +69,7 @@ function compareRef(ref1, ref2) {
 	) return false;
 	// }}}
 
-	// Stage 4 - Extract numbers from ISBNs on either side and compare {{{
+	// Stage 5 - Extract numbers from ISBNs on either side and compare {{{
 	// This comparison only works if each side has a 'perfect' ISBN - i.e. /^\s*[0-9\.\-\s]+\s*$/
 	// This test uses the certainty that ISBN numbers are unlikely to be mangled
 	// If both (de-noised) ISBNs match the ref is declared a dupe, if not they are declared a NON dupe
@@ -65,7 +85,7 @@ function compareRef(ref1, ref2) {
 	}
 	// }}}
 
-	// Stage 4 - Comparison of title + authors via string distance checking {{{
+	// Stage 6 - Comparison of title + authors via string distance checking {{{
 	var r1Title = ref1.title.toLowerCase();
 	var r2Title = ref2.title.toLowerCase();
 
