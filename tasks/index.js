@@ -80,8 +80,8 @@ function Task() {
 			})
 			.forEach('tasks', function(nextTask, task) {
 				var outer = this;
-				if (!self.workers[task.worker]) return next('Unknown worker: ' + task.worker);
-				if (task.status != 'pending') return next('Grabbed task with invalid status: ' + task.status);
+				if (!self.workers[task.worker]) return nextTask('Unknown worker: ' + task.worker);
+				if (task.status != 'pending') return nextTask('Grabbed task with invalid status: ' + task.status);
 
 				console.log(colors.blue('[Tasks]'), 'Launch task', colors.cyan(task._id), 'with worker', colors.cyan(task.worker));
 
