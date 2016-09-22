@@ -8,7 +8,7 @@ var moment = require('moment');
 var reflib = require('reflib');
 var sra = require('sra-api');
 
-describe('Task: DeDupe', function(){
+describe('Task: library-dedupe', function(){
 	// Library specific info
 	var libraryFile = __dirname + '/data/endnote-1.xml';
 	var libraryCount = 1988;
@@ -77,7 +77,7 @@ describe('Task: DeDupe', function(){
 	it('should queue up a library for dedupe processing', function(finish) {
 		this.timeout(60 * 1000);
 
-		sra.taskQueue(library._id, 'dedupe', {debug: true}, function(err, resTask) {
+		sra.taskQueue(library._id, 'library-dedupe', {debug: true}, function(err, resTask) {
 			expect(err).to.be.not.ok;
 			expect(resTask).to.have.property('_id');
 			task = resTask;

@@ -11,7 +11,7 @@ app.controller('libraryDedupeController', function($scope, $location, $rootScope
 	// }}}
 
 	$scope.submit = function() {
-		Tasks.fromLibrary({id: $scope.library._id, worker: 'dedupe'}, {settings: {
+		Tasks.fromLibrary({id: $scope.library._id, worker: 'library-dedupe'}, {settings: {
 			references: $scope.filter.references,
 		}}).$promise.then(function(data) {
 			$location.path('/libraries/task/' + data._id);

@@ -8,7 +8,7 @@ var moment = require('moment');
 var reflib = require('reflib');
 var sra = require('sra-api');
 
-describe('Task: Import', function(){
+describe('Task: library-import', function(){
 	// Library specific info
 	var libraryFile = __dirname + '/data/endnote-1.xml';
 	var libraryCount = 1988;
