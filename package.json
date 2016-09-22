@@ -29,7 +29,7 @@
     "angular-ui-switch": "^0.1.1",
     "angular-venn": "^1.0.1",
     "angular-xeditable": "^0.2.0",
-    "async-chainable": "^1.8.1",
+    "async-chainable": "^2.0.0",
     "async-chainable-exec": "^1.3.0",
     "babel-core": "^6.13.2",
     "babel-preset-es2015": "^6.13.2",
