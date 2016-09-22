@@ -77,16 +77,6 @@ var defaults = {
 			maxReferences: 100, // Set to 0 to disable
 		},
 	},
-	cron: {
-		enabled: true,
-		queryLimit: 10, // How many tasks to work on in one cron cycle
-		waitTime: 3 * 1000,
-
-		// How to execute tasks
-		// 'pm2' - run as seperated process via PM2
-		// 'inline' - run within this thread
-		runMode: 'pm2',
-	},
 	search: {
 		pubmed: {
 			timeout: 20 * 1000,
@@ -95,6 +85,15 @@ var defaults = {
 		},
 	},
 	tasks: {
+		enabled: true,
+		queryLimit: 10, // How many tasks to work on in one task cycle
+		waitTime: 3 * 1000,
+
+		// How to execute tasks
+		// 'pm2' - run as seperated process via PM2
+		// 'inline' - run within this thread
+		runMode: 'pm2',
+
 		'library-cleaner': {
 			enabled: true,
 		},

@@ -170,16 +170,16 @@ var server = app.listen(config.port, config.host, function() {
 	console.log('Web interface listening at', colors.cyan(config.url));
 });
 // }}}
-// Init cron {{{
-if (config.cron.enabled) {
-	var cron = require('./cron');
-	cron
+// Init tasks {{{
+if (config.tasks.enabled) {
+	var tasks = require('./tasks');
+	tasks
 		.on('info', function(msg) {
-			console.log(colors.blue('CRON'), msg);
+			console.log(colors.blue('[Tasks]'), msg);
 		})
 		.on('err', function(msg) {
 			if (msg == 'Nothing to do') return;
-			console.log(colors.blue('CRON'), colors.red('ERROR'), msg);
+			console.log(colors.blue('[Tasks]'), colors.red('ERROR'), msg);
 		})
 		.install();
 }

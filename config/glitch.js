@@ -2,10 +2,8 @@
 module.exports = {
 	port: 80,
 	url: 'http://glitch',
-	cron: {
-		runMode: 'inline',
-	},
 	tasks: {
+		runMode: 'inline',
 		'library-cleaner': {
 			enabled: false,
 		},

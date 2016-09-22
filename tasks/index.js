@@ -1,6 +1,6 @@
 /**
-* Cron core
-* Used as the periodic task runner to poll the tasks collection and distribute tasks out to ./cron/*.js workers
+* Task core
+* Used as the periodic task runner to poll the tasks collection and distribute tasks out to ./tasks/*.js workers
 */
 
 var _ = require('lodash');
@@ -15,7 +15,7 @@ var request = require('superagent');
 var requireDir = require('require-dir');
 var util = require('util');
 
-function Cron() {
+function Task() {
 	this.workers = requireDir('.');
 
 	this.cycle = function(finish) {
@@ -29,7 +29,7 @@ function Cron() {
 			})
 			// Clean up PM2 tasks {{{
 			.then(function(next) {
-				if (config.cron.runMode != 'pm2') return next();
+				if (config.tasks.runMode != 'pm2') return next();
 				async()
 					.then('pm2', function(next) {
 						pm2.connect(next);
@@ -65,7 +65,7 @@ function Cron() {
 			// }}}
 			.then('tasks', function(next) {
 				Tasks.find({status: 'pending'})
-					.limit(config.cron.queryLimit) // Scoop out only so many records at a time
+					.limit(config.tasks.queryLimit) // Scoop out only so many records at a time
 					.sort('touched')
 					.exec(next);
 			})
@@ -75,7 +75,7 @@ function Cron() {
 				next();
 			})
 			.then(function(next) {
-				if (config.cron.runMode != 'pm2') return next();
+				if (config.tasks.runMode != 'pm2') return next();
 				pm2.connect(next);
 			})
 			.forEach('tasks', function(nextTask, task) {
@@ -83,9 +83,9 @@ function Cron() {
 				if (!self.workers[task.worker]) return next('Unknown worker: ' + task.worker);
 				if (task.status != 'pending') return next('Grabbed task with invalid status: ' + task.status);
 
-				console.log(colors.blue('[Cron]'), 'Launch task', colors.cyan(task._id), 'with worker', colors.cyan(task.worker));
+				console.log(colors.blue('[Tasks]'), 'Launch task', colors.cyan(task._id), 'with worker', colors.cyan(task.worker));
 
-				switch (config.cron.runMode) {
+				switch (config.tasks.runMode) {
 					case 'pm2':
 						pm2.start({
 							name: 'sra-task-' + task.worker + '-' + task._id,
@@ -104,8 +104,8 @@ function Cron() {
 						async()
 							.use(asyncExec)
 							.execDefaults({
-								log: function(cmd) { console.log(colors.blue('[Cron]', 'RUN'), cmd.cmd + ' ' + cmd.params.join(' ')) },
-								out: function(data) { console.log(colors.blue('[Cron]', '-->'), data) }
+								log: function(cmd) { console.log(colors.blue('[Tasks]', 'RUN'), cmd.cmd + ' ' + cmd.params.join(' ')) },
+								out: function(data) { console.log(colors.blue('[Tasks]', '-->'), data) }
 							})
 							.exec([
 								'node',
@@ -118,14 +118,14 @@ function Cron() {
 				}
 			})
 			.end(function(err) {
-				if (config.cron.runMode == 'pm2') pm2.disconnect();
+				if (config.tasks.runMode == 'pm2') pm2.disconnect();
 				if (err) self.emit('err', err);
 				if (this.toProcess) self.emit('info', this.processed.toString() + '/' + this.toProcess.toString() + ' tasks processed: ' + this.processNames.join(','));
 
 				if (!this.toProcess) {
 					self.emit('idle', 'Nothing to do');
 				} else if (err) {
-					self.emit('info', 'Cron Error - ' + err);
+					self.emit('info', 'Task Error - ' + err);
 				}
 
 				finish();
@@ -134,38 +134,43 @@ function Cron() {
 
 	this.install = function() {
 		var self = this;
-		// Cron runner process {{{
-		var cronRunner = function() {
+		// Task runner process {{{
+		var taskRunner = function() {
 			setTimeout(function() {
-				// self.emit('info', 'Beginning cron cycle');
+				// self.emit('info', 'Beginning task cycle');
 				self.cycle(function() {
 					// self.emit('info', 'Cycle complete');
-					cronRunner();
+					taskRunner();
 				});
-			}, config.cron.waitTime);
+			}, config.tasks.waitTime);
 		};
 		// }}}
 		async()
+			// Auto-schedule tasks {{{
 			.then(function(next) {
-				// Auto-schedule tasks
 				Tasks.create({worker: 'library-cleaner'});
-				// }}}
 				next();
 			})
+			// }}}
+			// Restart all partially completed tasks as pending {{{
 			.then(function(next) {
-				// Restart all partially completed tasks as pending
 				Tasks.update({status: 'processing'}, {status: 'pending'}, next);
 			})
+			// }}}
+			// Run the initial cycle {{{
 			.then(function(next) {
-				setTimeout(cronRunner);
+				setTimeout(taskRunner);
 				next();
 			})
+			// }}}
+			// End {{{
 			.end(function(err) {
 				if (err) throw new Error(err);
 				self.emit('info', 'Installed');
 			});
+			// }}}
 	};
 }
 
-util.inherits(Cron, events.EventEmitter);
-module.exports = new Cron();
+util.inherits(Task, events.EventEmitter);
+module.exports = new Task();

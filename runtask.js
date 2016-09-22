@@ -40,7 +40,7 @@ async()
 	.then(function(next) {
 		var task = this.task;
 		try {
-			var worker = require('./cron/' + task.worker);
+			var worker = require('./tasks/' + task.worker);
 		} catch (e) {
 			return next('Error loading worker ' + task.worker + ' - ' + e.toString());
 		}
