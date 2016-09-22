@@ -6,7 +6,6 @@ var fs = require('fs');
 var mlog = require('mocha-logger');
 var moment = require('moment');
 var reflib = require('reflib');
-var request = require('superagent');
 var sra = require('sra-api');
 
 describe('Task: DeDupe', function(){
@@ -15,12 +14,12 @@ describe('Task: DeDupe', function(){
 	var libraryCount = 1988;
 	var dumps = {original: '/tmp/sra-original.json', postProcess: '/tmp/sra-final.json'};
 
-	var agent = request.agent();
 	var refs = []; // Collection of original refs extracted from source file
 	var refsPost = [];
 
 	it('should read the original EndNote file', function(finish) {
 		this.timeout(30 * 1000);
+
 		reflib.parseFile(libraryFile)
 			.on('error', finish)
 			.on('ref', function(ref) {
@@ -33,104 +32,90 @@ describe('Task: DeDupe', function(){
 	});
 
 	it('should login', function(finish) {
-		agent.post(config.url + '/api/users/login')
-			.send({username: 'mc', password: 'qwaszx'})
-			.end(function(err, res) {
-				if (err) return finish(err);
-				expect(err).to.be.not.ok;
-				expect(res.body).to.have.property('_id');
-				expect(res.body).to.have.property('username');
-				finish();
-			});
-	});
-
-	var library;
-	it('should upload a test library', function(finish) {
-		this.timeout(60 * 1000);
-		agent.post(config.url + '/api/libraries/import')
-			.field('libraryTitle', 'TEST: dedupe')
-			.field('libraryExpires', '3 hours')
-			.field('json', 'true')
-			.attach('file', libraryFile)
-			.end(function(err, res) {
-				if (err) return finish(err);
-				library = res.body;
-				expect(err).to.be.not.ok;
-				expect(library).to.have.property('_id');
-				expect(library).to.have.property('title');
-				expect(library).to.have.property('url');
-				mlog.log('Library available at', library.url);
-				finish();
-			});
+		sra.login(config.test.username, config.test.password, function(err, user) {
+			expect(err).to.be.not.ok;
+			expect(user).to.have.property('_id');
+			expect(user).to.have.property('username');
+			finish();
+		});
 	});
 
 	var task;
-	it('should queue up a library for dedupe processing', function(finish) {
+	it('should upload a test library', function(finish) {
 		this.timeout(60 * 1000);
-		agent.post(config.url + '/api/tasks/library/' + library._id + '/dedupe')
-			.send({settings: {debug: true}})
-			.end(function(err, res) {
-				if (err) return finish(err);
-				task = res.body;
-				expect(err).to.be.not.ok;
-				expect(task).to.have.property('_id');
-				finish();
-			});
+
+		sra.upload(libraryFile, {
+			libraryTitle: 'TEST: dedupe',
+			libraryExpires: '3 hours',
+		}, function(err, resTask) {
+			expect(err).to.be.not.ok;
+			expect(resTask).to.have.property('_id');
+			task = resTask;
+			finish();
+		});
 	});
 
-	it('should keep checking until the task is complete', function(finish) {
-		var pollInterval = 3 * 1000;
-		this.timeout(5 * 60 * 1000);
-		var checkTask = function() {
-			agent.get(config.url + '/api/tasks/' + task._id)
-				.end(function(err, res) {
-					if (err) {
-						checkTaskComplete(err, res);
-					} else {
-						var progress = res.body.progress;
-						mlog.log('[' + moment().format('HH:mm:ss') + '] Task still pending' + (progress.current ? (' ' + progress.current + ' / ' + progress.max + ' ~ ' + Math.ceil(progress.current / progress.max * 100).toString() + '%') : ''));
-						if (res.body.status == 'completed') {
-							checkTaskComplete(err, res);
-						} else {
-							setTimeout(checkTask, pollInterval);
-						}
-					}
-				});
-		};
-		setTimeout(checkTask, pollInterval);
+	var library;
+	it('should wait until the library has finished processing (upload)', function(finish) {
+		this.timeout(60 * 1000);
 
-		var checkTaskComplete = function(err, res) {
+		sra.taskWait(task._id, function(err, task) {
 			expect(err).to.be.not.ok;
-			expect(res.body).to.have.property('_id');
-			expect(res.body).to.have.property('status', 'completed');
-
-			// Output completed response
-			var statusTask = _.find(res.body.history, {type: 'completed'});
-			if (statusTask) mlog.log(statusTask.response);
+			expect(task).to.have.property('_id');
+			expect(task).to.have.property('status', 'completed');
+			expect(task).to.have.property('result');
+			expect(task.result).to.have.property('library');
+			expect(task.result).to.have.property('referenceCount', libraryCount);
+			library = {_id: task.result.library};
 
 			finish();
-		};
+		}, function(task) {
+			mlog.log('[' + moment().format('HH:mm:ss') + '] Task still pending' + (task.progress.current ? (' ' + task.progress.current + ' / ' + task.progress.max + ' ~ ' + task.progress.percent.toString() + '%') : ''));
+		});
 	});
 
+	it('should queue up a library for dedupe processing', function(finish) {
+		this.timeout(60 * 1000);
+
+		sra.taskQueue(library._id, 'dedupe', {debug: true}, function(err, resTask) {
+			expect(err).to.be.not.ok;
+			expect(resTask).to.have.property('_id');
+			task = resTask;
+			finish();
+		});
+	});
+
+	it('should wait until the library has finished processing (dedupe)', function(finish) {
+		this.timeout(30 * 60 * 1000);
+
+		sra.taskWait(task._id, function(err, task) {
+			expect(err).to.be.not.ok;
+			expect(task).to.have.property('_id');
+			expect(task).to.have.property('status', 'completed');
+			finish();
+		}, function(task) {
+			mlog.log('[' + moment().format('HH:mm:ss') + '] Task still pending' + (task.progress.current ? (' ' + task.progress.current + ' / ' + task.progress.max + ' ~ ' + task.progress.percent.toString() + '%') : ''));
+		});
+	});
+
+	var refsPost;
 	it('should provide the completed reference library', function(finish) {
 		this.timeout(60 * 1000);
-		agent.get(config.url + '/api/references')
-			.query({
-				library: library._id,
-				select: '-_id,-created,-edited,-library,-tags,-duplicateData',
-			})
-			.end(function(err, res) {
-				if (err) return finish(err);
-				expect(err).to.be.not.ok;
-				expect(res.body).to.be.an('array');
-				expect(res.body).to.have.length(libraryCount);
-				refsPost = res.body;
-				finish();
-			});
+
+		sra.getLibraryReferences(library, {
+			select: '-_id,-created,-edited,-library,-tags,-duplicateData'
+		}, function(err, refs) {
+			expect(err).to.be.not.ok;
+			expect(refs).to.be.an('array');
+			expect(refs).to.have.length(libraryCount);
+			refsPost = refs;
+			finish();
+		});
 	});
 
 	it('should dump the sorted libraries', function(finish) {
 		this.timeout(30 * 1000);
+
 		async()
 			.parallel([
 				function(next) {
