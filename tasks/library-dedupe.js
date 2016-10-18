@@ -13,7 +13,6 @@ module.exports = function(finish, task) {
 	var dedupe = sraDedupe();
 	var references = [];
 	var scanned = 0;
-	var comparisons = 0;
 	var dupesFound = 0;
 
 	async()
@@ -37,8 +36,6 @@ module.exports = function(finish, task) {
 		// Setup {{{
 		.parallel([
 			function(next) { // Setup task data
-				task.progress.current = 0;
-				task.progress.max = references.length;
 				task.history.push({type: 'status', response: 'Going to examine ' + references.length + ' references'});
 				task.save(next);
 			},
@@ -60,16 +57,11 @@ module.exports = function(finish, task) {
 		// }}}
 
 		// Dedupe worker {{{
-		.limit(config.tasks.dedupe.limit)
-		.forEach(references, function(nextRef, ref1, ref1Offset) { // Compare each reference...
-			scanned++;
+		.then(function(next) {
+			var dedupe = sraDedupe();
 
-			references
-				.slice(ref1Offset+1)
-				.forEach(function(ref2, ref2Offset) {
-					// console.log('COMPARE', ref1._id, ref1Offset, 'AGAINST', ref2._id, ref2Offset);
-					comparisons++;
-					if (!dedupe.compare(ref1, ref2).isDupe) return; // Is not a dupe - ignore
+			dedupe.compareAll(references)
+				.on('dupe', function(ref1, ref2, result) {
 					dupesFound++;
 					// Merge conflicting keys {{{
 					// For each key in either ref1 or ref2...
@@ -100,11 +92,15 @@ module.exports = function(finish, task) {
 					ref1.duplicateData.push({reference: ref2._id, conflicting: conflicting});
 					ref2.status = 'dupe';
 					// }}}
-				});
-
-			task.progress.current++;
-			task.save(nextRef);
-			console.log(colors.blue('DEDUPE'), 'Lib:', colors.cyan(this.library._id), '@', task.progress.current + '/' + references.length + ' = ' + colors.cyan(Math.ceil((task.progress.current / references.length) * 100) + '%'), 'deduped with', colors.cyan(dupesFound), 'dupes found');
+				})
+				.on('progress', function(current, max) {
+					task.progress.current = current;
+					task.progress.max = max;
+					task.save();
+					console.log(colors.blue('DEDUPE'), current + '/' + max + ' = ' + colors.cyan(Math.ceil((current / max) * 100) + '%'), 'deduped with', colors.cyan(dupesFound), 'dupes found');
+				})
+				.on('error', next)
+				.on('end', next);
 		})
 		// }}}
 
@@ -136,7 +132,7 @@ module.exports = function(finish, task) {
 				task.destination = config.url + '/#/libraries/' + this.library._id + '/dedupe/review';
 				task.completed = new Date();
 				task.status = 'completed';
-				task.history.push({type: 'completed', response: 'Completed dedupe. Scanned ' + scanned + ' with ' + comparisons + ' comparisons. Which found ' + dupesFound + ' dupes'});
+				task.history.push({type: 'completed', response: 'Completed dedupe. Scanned ' + scanned + ' refs and found ' + dupesFound + ' dupes'});
 				task.save(next);
 			},
 
