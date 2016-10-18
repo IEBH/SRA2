@@ -1,4 +1,6 @@
 global.config = require('../config');
+require('../config/db');
+
 var _ = require('lodash').mixin(require('lodash-keyarrange'));
 var async = require('async-chainable');
 var expect = require('chai').expect;
