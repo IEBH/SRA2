@@ -23,7 +23,6 @@ module.exports = function(finish, task) {
 		if (updating) return;
 		var thisPercent = _.round((cur / max) * 100);
 		if (thisPercent == lastPercent) return; // No real point updating everything
-		console.log('PROGRESS', task._id, thisPercent);
 		task.progress.current = cur;
 		task.progress.max = max;
 		lastPercent = thisPercent;
