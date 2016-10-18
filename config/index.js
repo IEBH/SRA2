@@ -68,7 +68,7 @@ var defaults = {
 		insert: '',
 	},
 	limits: {
-		references: 100, // How many references to hold in memory at once during operations such as export, dedupe etc.
+		references: 100, // How many references to hold in memory at once during operations
 		recentLibraries: 10,
 	},
 	library: {
@@ -96,15 +96,6 @@ var defaults = {
 
 		'library-cleaner': {
 			enabled: true,
-		},
-		dedupe: {
-			limit: 20, // How many comparison threads to allow at once for the dedupe task
-			stringDistance: {
-				// String distance between titles before its considered a match
-				// The following tests are performed in series - the idea being the least CPU costly are up first
-				jaroWinklerMin: 0.9, // natural.JaroWinklerDistance 
-				levenshteinMax: 10, // natural.LevenshteinDistance 
-			},
 		},
 	},
 	test: {
