@@ -75,9 +75,20 @@
 		</div>
 	</div>
 
-	<div ng-if="library.dedupeStatus == 'processing' || library.dedupeStatus == 'review'" class="alert alert-info alert-block">
+	<!-- Dedupe headers {{{ -->
+	<div ng-if="library.dedupeStatus == 'processing'" class="alert alert-info alert-block">
 		<a data-dismiss="alert" class="close"><i class="fa fa-times-sign"></i></a>
-		<h3><i class="fa fa-bell-o icon-animated-bell"></i> De-duplication in progress</h3>
+		<h3><i class="fa fa-spinner fa-spin"></i> De-duplication in progress</h3>
+		<p>This library is still being deduplicated.</p>
+		<p>You can edit it while this is happening but you won't see any deduplication results until the process finishes.</p>
+		<div class="text-center pad-top">
+			<a ng-if="taskLink" class="btn" href="{{taskLink}}">View deduplication progress</a>
+		</div>
+	</div>
+
+	<div ng-if="library.dedupeStatus == 'review'" class="alert alert-info alert-block">
+		<a data-dismiss="alert" class="close"><i class="fa fa-times-sign"></i></a>
+		<h3><i class="fa fa-bell-o icon-animated-bell"></i> De-duplication review in progress</h3>
 		<p>This library is still marked as having duplicate references.</p>
 		<div class="text-center pad-top">
 			<a class="btn" href="#/libraries/{{library._id}}/dedupe/review"><i class="fa fa-compress"></i> Examine duplicates</a>
@@ -85,6 +96,7 @@
 			<a class="btn" data-dismiss="alert"><i class="fa fa-times-sign"></i> Not right now</a>
 		</div>
 	</div>
+	<!-- }}} -->
 
 	<div class="navbar navbar-default">
 		<ul class="nav navbar-nav">

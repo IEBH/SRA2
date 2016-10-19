@@ -2,7 +2,7 @@
 * Load references belonging to a library
 * NOTE: Requires nesting within a controller that provides $scope.library
 */
-app.controller('libraryViewController', function($scope, $loader, $location, $q, $rootScope, $stateParams, $window, References, Settings) {
+app.controller('libraryViewController', function($scope, $loader, $location, $q, $rootScope, $stateParams, $window, References, Settings, Tasks) {
 	$scope.grid = {
 		data: [],
 		totalItems: null,
@@ -130,11 +130,19 @@ app.controller('libraryViewController', function($scope, $loader, $location, $q,
 	};
 
 	// Wait until library is ready to apply some other behaviours
-	var unwatchLibrary = $scope.$watch('library', function() {
-		if (!$scope.library) return; // Not yet loaded
+	var unwatchLibrary = $scope.$watch('library.title', function() {
+		if (!$scope.library || !$scope.library.title) return; // Not yet loaded
 
 		// Show the tags column if the library has tags
 		if ($scope.hasTags) $scope.gridApi.grid.columns.filter(c => c.field == 'tags')[0].showColumn();
+
+		if ($scope.library.dedupeStatus == 'processing') {
+			Tasks.pendingByLibrary({id: $scope.library._id}).$promise
+				.then(tasks => {
+					// One task - so allocate the task link to it
+					if (tasks.length == 1) $scope.taskLink = '#/libraries/task/' + tasks[0]._id;
+				});
+		}
 
 		unwatchLibrary();
 	});
