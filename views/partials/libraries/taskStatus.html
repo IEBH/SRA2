@@ -8,6 +8,7 @@
 		</div>
 		<div ng-switch-when="processing" class="alert alert-info alert-block">
 			<h1 class="pull-center"><i class="fa fa-spinner fa-spin"></i> Processing...</h1>
+			<div class="pad-top-lg"></div>
 			<div ng-if="task.progress.current > 0" class="progress progress-striped active">
 				<div class="progress-bar progress-bar-striped active" style="width: {{task.progress.percent}}%"></div>
 			</div>
