@@ -1,6 +1,6 @@
 app.controller('libraryController', function($scope, $rootScope, $httpParamSerializer, $interval, $location, $stateParams, $window, Libraries, References, ReferenceTags, Tasks) {
 	$scope.loading = true;
-	$scope.library = null;
+	$scope.library = {};
 	$scope.tags = null;
 	$scope.hasTags = false; // True if its not just meta tags
 	$scope.tagsObj = null; // Object lookup for tags
@@ -12,7 +12,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 
 		// Library {{{
 		Libraries.get({id: $scope.library._id}).$promise.then(function(data) {
-			$scope.library = data;
+			_.assign($scope.library, data);
 			// Decorators {{{
 			// Default values {{{
 			if (!$scope.library.screening) $scope.library.screening = {};
@@ -212,7 +212,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 			$location.path('/libraries/task/' + data._id);
 		});
 	} else {
-		$scope.library = {_id: $stateParams.id};
+		_.assign($scope.library, {_id: $stateParams.id});
 		$scope.$evalAsync($scope.refresh);
 	}
 
