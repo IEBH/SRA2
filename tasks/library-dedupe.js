@@ -48,12 +48,30 @@ module.exports = function(finish, task) {
 
 		// Clear existing duplicate data (if any) {{{
 		.limit(1)
-		.forEach(references, function(next, ref) {
-			if (ref.status == 'dupe') ref.status = 'active';
-			if (ref.duplicateData.length) ref.duplicateData = [];
-			if (!ref.isModified()) return next(); // Nothing to do
-			ref.save(next);
-		})
+		.parallel([
+			// Any status=dupe => status=active
+			function(next) {
+				References.update({
+					_id: {$in: task.references},
+					status: 'dupe',
+				}, {
+					status: 'active',
+				}, {
+					multi: true,
+				}, next)
+			},
+
+			// Any !!duplicateData => duplicateData=[]
+			function(next) {
+				References.update({
+					_id: {$in: task.references},
+				}, {
+					duplicateData: [],
+				}, {
+					multi: true,
+				}, next)
+			},
+		])
 		// }}}
 
 		// Dedupe worker {{{
