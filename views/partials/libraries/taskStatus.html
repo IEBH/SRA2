@@ -13,7 +13,7 @@
 				<div ng-if="task.progress.current > 0" class="progress progress-striped active">
 					<div class="progress-bar progress-bar-striped active" style="width: {{task.progress.percent}}%"></div>
 				</div>
-				<div ng-if="task.progress.current > 0" class="text-center">Processed: {{task.progress.current}} / {{task.progress.max}}</div>
+				<div ng-if="task.progress.current > 0" class="text-center">Processed: {{task.progress.current | number}} / {{task.progress.max | number}}</div>
 				<div ng-if="task.lastUpdate" class="text-center muted small pad-top-sm pad-bottom-sm">Last update at {{task.lastUpdate}}</div>
 			</div>
 			<div class="text-muted text-center">Processing happens in the background so you can close this page and come back to your library later</div>
