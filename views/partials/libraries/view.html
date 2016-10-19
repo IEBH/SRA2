@@ -89,7 +89,11 @@
 	<div class="navbar navbar-default">
 		<ul class="nav navbar-nav">
 			<li class="btn-group">
-				<a class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{grid.itemsSelected  ? grid.itemsSelected + ' selected' : grid.totalItems + ' total references'}} <i class="fa fa-chevron-down"></i></a>
+				<a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+					<span ng-if="grid.itemsSelected">{{grid.itemsSelected | number}} selected</span>
+					<span ng-if="!grid.itemsSelected">{{grid.totalItems | number}} total references</span>
+					<i class="fa fa-chevron-down"></i>
+				</a>
 				<ul class="dropdown-menu">
 					<li><a ng-click="selectAction('all')">Select all</a></li>
 					<li><a ng-click="selectAction('none')">Select none</a></li>
