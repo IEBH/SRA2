@@ -55,6 +55,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Polyglot Search',
 			}
 		})
+		.state('endnote-helper', {
+			url: '/endnote-helper',
+			views: {main: {templateUrl: '/partials/endnote-helper/index.html'}},
+			data: {
+				title: 'EndNote-Helper',
+			}
+		})
 		.state('debug', {
 			url: '/debug',
 			views: {main: {templateUrl: '/partials/debug/index.html'}},

@@ -51,7 +51,7 @@
     "express-restify-mongoose-queryizer": "^1.1.5",
     "express-session": "^1.14.0",
     "filesize": "^3.3.0",
-    "font-awesome": "^4.6.3",
+    "font-awesome": "^4.7.0",
     "fs-copy-simple": "^1.2.1",
     "golden-colors": "^2.0.0",
     "gulp": "^3.9.1",
