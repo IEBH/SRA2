@@ -33,7 +33,7 @@ app.controller('libraryViewController', function($scope, $loader, $location, $q,
 			{
 				name: 'tags',
 				cellTemplate: `
-					<div class="clickable ui-grid-cell-contents" ng-click="grid.appScope.openRef(row.entity)"> 
+					<div class="clickable ui-grid-cell-contents" ng-click="grid.appScope.openRef(row.entity)">
 						<span ng-repeat="tag in row.entity.tags" class="tag" style="background: {{tagsObj[tag].color}}">{{tagsObj[tag].title}}</span>
 					</div>
 				`,
@@ -72,7 +72,7 @@ app.controller('libraryViewController', function($scope, $loader, $location, $q,
 
 			// Filtering changes - refetch on changes {{{
 			$scope.gridApi.core.on.sortChanged($scope, function(grid, sortColumns) {
-				var sortBy = 
+				var sortBy =
 				$scope.refreshReferences({
 					sort: function() {
 						var sortBy = sortColumns
@@ -95,7 +95,7 @@ app.controller('libraryViewController', function($scope, $loader, $location, $q,
 			gridApi.selection.on.rowSelectionChanged($scope,function(row) {
 				$scope.grid.itemsSelected = $scope.gridApi.selection.getSelectedCount();
 			});
- 
+
 			gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows) {
 				$scope.grid.itemsSelected = $scope.gridApi.selection.getSelectedCount();
 			});
@@ -110,7 +110,10 @@ app.controller('libraryViewController', function($scope, $loader, $location, $q,
 
 		$q.all([
 			// Count references
-			References.count({library: $stateParams.id}).$promise
+			References.count({
+				library: $stateParams.id,
+				status: 'active',
+			}).$promise
 				.then(data => $scope.grid.totalItems = data.count),
 
 			// Fetch initial references
@@ -157,7 +160,7 @@ app.controller('libraryViewController', function($scope, $loader, $location, $q,
 			});
 	};
 	// }}}
-	
+
 	// Selection operations {{{
 	$scope.selectAction = function(what, operand) {
 		switch (what) {
