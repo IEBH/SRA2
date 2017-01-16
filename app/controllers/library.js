@@ -5,7 +5,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	$scope.hasTags = false; // True if its not just meta tags
 	$scope.tagsObj = null; // Object lookup for tags
 	$scope.activeTag = null;
-	
+
 	// Data refresher {{{
 	$scope.refresh = function() {
 		if (!$scope.library) return;
@@ -175,8 +175,8 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	// .isOwner / .isEditable {{{
 	$scope.isOwner = false;
 	$scope.isEditable = false;
-	$scope.$watchGroup(['library', 'user._id'], function() {
-		if (!$scope.library || !$scope.library._id || !$scope.user._id) return; // Not loaded yet
+	$scope.$watchGroup(['library', 'library.owners', 'user._id'], function() {
+		if (!$scope.library || !$scope.library._id || !$scope.user._id || !$scope.library.owners) return; // Not loaded yet
 		if (_.includes($scope.library.owners, $scope.user._id)) { // User is already an owner
 			$scope.isOwner = true;
 			$scope.isEditable = true;
