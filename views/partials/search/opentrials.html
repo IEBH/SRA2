@@ -1,0 +1,42 @@
+<div ng-controller="OpenTrialsController">
+	<div class="row-fluid">
+		<form ng-submit="submit()" class="form-horizontal">
+			<div class="form-group">
+				<div class="input-group input-group-lg col-sm-12">
+					<input ng-model="query" type="search" class="form-control" placeholder="Search for..." autofocus/>
+					<div class="input-group-btn">
+						<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="border-radius: 0">{{type.title}} <i class="fa fa-caret-down"></i></a>
+						<ul class="dropdown-menu">
+							<li ng-repeat="type in types track by type.id"><a ng-click="setType(type)">{{type.title}}</a></li>
+						</ul>
+					</div>
+					<div class="input-group-btn">
+						<button class="btn btn-primary" type="submit"><i class="fa" ng-class="searching ? 'fa-spinner fa-spin' : 'fa-search'"/></button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div ng-if="response" class="row-fluid">
+		<table ng-if="records.length" class="table table-striped table-bordered" id="reference-table">
+			<tr>
+				<th>Title</th>
+				<th>Authors</th>
+			</tr>
+			<tr ng-repeat="item in items track by item.id">
+				<td>{{item.title}}</td>
+				<td>
+					<span ng-repeat="author in item.authors | limitTo:3" class="badge badge-info">
+						<i class="fa fa-user"></i>
+						{{author}}
+					</span>
+					<span ng-if="item.authors.length > 3" class="badge badge-default">
+						<i class="fa fa-group"></i>
+						+{{::item.authors.length - 3}}
+					</span>
+					<em ng-if="!item.authors || !item.authors.length">none</em>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

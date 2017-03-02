@@ -48,6 +48,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Search',
 			}
 		})
+		.state('opentrials', {
+			url: '/opentrials',
+			views: {main: {templateUrl: '/partials/search/opentrials.html'}},
+			data: {
+				title: 'OpenTrials Search',
+			}
+		})
 		.state('polyglot', {
 			url: '/polyglot',
 			views: {main: {templateUrl: '/partials/search/polyglot.html'}},

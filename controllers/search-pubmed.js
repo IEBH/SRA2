@@ -4,8 +4,8 @@ var request = require('superagent');
 
 /**
 * Search pubmed
-* @param req.query.q Search query
-* @return string JSON dump of search results
+* @param {string} req.query.q Search query
+* @return {Object} Search results
 */
 app.get('/api/search/pubmed', function(req, res) {
 	async()
