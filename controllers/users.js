@@ -153,7 +153,7 @@ app.post('/api/users/profile', function(req, res) {
 			['email', 'name', 'title', 'libraryNo', 'faculty', 'position', 'settings'].forEach(function(field) {
 				if (req.body[field]) req.user[field] = req.body[field];
 			});
-			
+
 			req.user.save();
 			next();
 		})

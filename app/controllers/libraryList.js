@@ -47,5 +47,9 @@ app.controller('libraryListController', function($scope, $element, $q, Libraries
 	};
 	// }}}
 
-	$scope.$evalAsync($scope.refresh);
+	var userUnwatch = $scope.$watch('user._id', function() {
+		if (!$scope.user || !$scope.user._id) return; // User not yet loaded
+		$scope.refresh();
+		userUnwatch();
+	});
 });
