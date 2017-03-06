@@ -42,7 +42,7 @@ function Task() {
 						if (pm2Proc.pm2_env.status == 'stopped') {
 							if (moment(pm2Proc.pm2_env.created_at).isAfter(moment().subtract(10, 'minutes'))) {
 								console.log(colors.blue('[PM2]'), 'Clean up process', colors.cyan(pm2Proc.name));
-								pm2.delete(pm2Proc.name, next);
+								pm2.delete(pm2Proc.name, ()=> next());
 							} else {
 								console.log(colors.blue('[PM2]'), 'Process', colors.cyan(pm2Proc.name), 'stopped but not old enough for cleaning');
 								next();
@@ -87,17 +87,17 @@ function Task() {
 
 				switch (config.tasks.runMode) {
 					case 'pm2':
+						var procName = 'sra-task-' + task.worker + '-' + task._id;
 						pm2.start({
-							name: 'sra-task-' + task.worker + '-' + task._id,
+							name: procName,
 							script: './runtask.js',
-							args: ['-t', task._id],
+							args: ['--task', task._id.toString()],
 							autorestart: false,
 							env: {NODE_ENV: config.env},
-						}, function(err) {
-							if (err) return nextTask(err);
+						}, function(err, proc) {
 							outer.processed++;
 							outer.processNames.push(task.worker);
-							nextTask();
+							nextTask(); // Start next task immediately - let PM2 manage the PID in the background
 						});
 						break;
 					case 'inline':

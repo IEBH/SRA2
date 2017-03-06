@@ -3,7 +3,7 @@ module.exports = {
 	port: 80,
 	url: 'http://glitch',
 	tasks: {
-		runMode: 'inline',
+		runMode: 'pm2',
 		'library-cleaner': {
 			enabled: false,
 		},

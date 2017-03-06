@@ -87,7 +87,7 @@ var defaults = {
 	tasks: {
 		enabled: true,
 		queryLimit: 10, // How many tasks to work on in one task cycle
-		waitTime: 3 * 1000,
+		waitTime: 5 * 1000,
 
 		// How to execute tasks
 		// 'pm2' - run as seperated process via PM2
