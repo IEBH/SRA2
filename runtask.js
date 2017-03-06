@@ -16,12 +16,14 @@ var Tasks = require('./models/tasks');
 
 async()
 	.set('prefix', colors.blue('[TASK RUNNER' + (program.task ? '/' + program.task : '') + ']'))
+	// Fetch the task {{{
 	.then('task', function(next) {
 		if (!program.task) return next('No Task ID specified');
 		Tasks.findOne({_id: program.task}, next);
 	})
+	// }}}
+	// Sanity checks {{{
 	.then(function(next) {
-		// Sanity checks {{{
 		if (!this.task || !this.task._id) return next('Task ID not found: ' + program.task);
 		if (this.task.status != 'pending') {
 			if (program.force) {
@@ -31,12 +33,15 @@ async()
 			}
 		}
 		next();
-		// }}}
 	})
-	.then(function(next) { // Mark as processing so the next cycle doesn't grab it
+	// }}}
+	// Mark as processing so the next task-check cycle doesn't grab it {{{
+	.then(function(next) {
 		this.task.status = 'processing';
 		this.task.save(next);
 	})
+	// }}}
+	// Actually run the task {{{
 	.then(function(next) {
 		var task = this.task;
 		try {
@@ -62,6 +67,8 @@ async()
 			}
 		}, task);
 	})
+	// }}}
+	// End - terminate the process {{{
 	.end(function(err) {
 		if (err) {
 			console.log(this.prefix, colors.red('ERROR'), err.toString());
@@ -71,3 +78,4 @@ async()
 			process.exit(0);
 		}
 	});
+	// }}}
