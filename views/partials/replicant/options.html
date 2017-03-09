@@ -36,6 +36,7 @@
 											<div ng-class="comparison.selected && 'bg-success'" ng-click="toggleNode(comparison)" class="pad-xs box-rounded-sm">
 												<i class="fa fa-fw" ng-class="comparison.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
 												{{comparison.name}}
+												<span ng-if="comparison.selectedReason" class="badge badge-default">{{comparison.selectedReason}}</span>
 											</div>
 
 											<ul class="list-unstyled list-indented">
@@ -43,12 +44,14 @@
 													<div ng-class="outcome.selected && 'bg-success'" ng-click="toggleNode(outcome)" class="pad-xs box-rounded-sm">
 														<i class="fa fa-fw" ng-class="outcome.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
 														{{outcome.name}}
+														<span ng-if="outcome.selectedReason" class="badge badge-default">{{outcome.selectedReason}}</span>
 													</div>
 													<ul ng-if="outcome.subgroup" class="list-unstyled list-indented">
 														<li ng-repeat="subgroup in outcome.subgroup track by subgroup.id">
 															<div ng-class="subgroup.selected && 'bg-success'" ng-click="toggleNode(subgroup)" class="pad-xs box-rounded-sm">
 																<i class="fa fa-fw" ng-class="subgroup.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
 																{{subgroup.name}}
+																<span ng-if="subgroup.selectedReason" class="badge badge-default">{{subgroup.selectedReason}}</span>
 															</div>
 
 														</li>
@@ -60,6 +63,7 @@
 																<div ng-class="study.selected && 'bg-success'" ng-click="toggleNode(study)" class="pad-xs box-rounded-sm">
 																	<i class="fa fa-fw" ng-class="study.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
 																	{{study.name}}
+																	<span ng-if="study.selectedReason" class="badge badge-default">{{study.selectedReason}}</span>
 																</div>
 															</li>
 														</ul>

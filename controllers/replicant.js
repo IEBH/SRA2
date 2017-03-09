@@ -54,34 +54,51 @@ app.get('/api/replicant/:id/comparisons', function(req, res) {
 		.then('replicant', next => Replicants.findOne({_id: req.params.id}, next))
 		// }}}
 		.then('studies', function(next) {
+			var task = this;
 			if (!_.hasIn(this.replicant, 'revman.analysesAndData.comparison')) return next('No comparisons found in the uploaded RevMan file');
 			next(null, this.replicant.revman.analysesAndData.comparison.map(function(comparison) {
 				return {
 					id: comparison.id,
 					name: comparison.name,
+					selected: true,
 					outcome: comparison.outcome.map(function(outcome) {
 						var obj = {
 							id: outcome.id,
 							name: outcome.name,
 						};
+						if (_.isBoolean(outcome.estimable) && !outcome.estimable) {
+							obj.selected = false;
+							obj.selectedReason = 'Non-estimable';
+						} else {
+							obj.selected = true;
+						}
 
-						if (outcome.study)
+
+						if (outcome.study) {
 							obj.study = outcome.study.map(function(study) {
+								// Fetch reference from reference store
+								var ref = task.replicant.revman.studiesAndReferences.studies.includedStudies.study.find(s => s.id == study.studyId);
+
 								return {
-									id: study.id,
-									name: study.name,
+									id: study.studyId,
+									selected: obj.selected,
+									name: _.get(ref, 'reference.0.ti', study.studyId),
 								};
 							});
+						}
 
 						if (outcome.subgroup)
 							obj.subgroup = outcome.subgroup.map(function(subgroup) {
 								return {
 									id: subgroup.id,
 									name: subgroup.name,
+									selected: obj.selected,
 									study: subgroup.study ? subgroup.study.map(function(study) {
+										var ref = task.replicant.revman.studiesAndReferences.studies.includedStudies.study.find(s => s.id == study.studyId);
 										return {
-											id: study.id,
-											name: study.name,
+											id: study.studyId,
+											name: _.get(ref, 'reference.0.ti', study.studyId),
+											selected: obj.selected,
 										};
 									}) : [],
 								};

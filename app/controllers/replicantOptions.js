@@ -22,14 +22,7 @@ app.controller('replicantOptionsController', function($scope, $location, $q, $st
 
 			// Load main RevMan comparisons object
 			Replicant.comparisons({id: $stateParams.id}).$promise
-				.then(function(data) {
-					$scope.revman = data.map(function(comparison, comparisonIndex) {
-						comparison.selected = comparisonIndex < 3;
-						if (comparison.subgroup) comparison.subgroup.forEach(subgroup => subgroup.selected = comparison.selected);
-						if (comparison.study) comparison.study.forEach(study => study.selected = comparison.selected);
-						return comparison;
-					});
-				})
+				.then(data => $scope.revman = data)
 				.catch(res => $scope.error = res.data.error),
 
 			// Load Grammars list
@@ -123,12 +116,14 @@ app.controller('replicantOptionsController', function($scope, $location, $q, $st
 
 	$scope.toggleNode = function(item) {
 		if (!item.selected) { // Turning selection on
+			item.selected = true;
 			// Iterate down all generations turning them all on
 			TreeTools
 				.parents($scope.revman, {id: item.id}, {childNode: ['outcome', 'study', 'subgroup']})
 				.forEach(node => node.selected = true);
 		} else { // Turning selection off - just disable this one selection
 			item.selected = false;
+			// Iterate down all generations turning them all off
 			TreeTools
 				.children(item, null, {childNode: ['outcome', 'study', 'subgroup']})
 				.forEach(node => node.selected = false);
