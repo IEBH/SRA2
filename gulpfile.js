@@ -62,6 +62,7 @@ global.paths = {
 			'node_modules/bootstrap/dist/js/bootstrap.js',
 			// --- less important vendors below this line (alphabetical) --- //
 			'node_modules/angular-async-chainable/async-chainable.js',
+			'node_modules/angular-async-chainable/angular-async-chainable.js',
 			'node_modules/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
 			'node_modules/angular-bs-confirm/angular-bs-confirm.js',
 			'node_modules/angular-bs-text-highlight/angular-bs-text-highlight.js',
@@ -79,7 +80,7 @@ global.paths = {
 			'node_modules/angular-xeditable/dist/js/xeditable.js',
 			'node_modules/angular-xeditable/dist/css/xeditable.css',
 			'node_modules/d3/build/d3.js',
-			'node_modules/jquery-form/jquery.form.js',
+			'node_modules/jquery-form/src/jquery.form.js',
 			'node_modules/filesize/lib/filesize.js',
 			'node_modules/font-awesome/css/font-awesome.css', // NOTE: Font files are handled in controllers/vendors.js
 			'node_modules/sra-polyglot/dist/ngPolyglot.js',
@@ -97,6 +98,7 @@ gulp.task('db', ['scenario']);
 gulp.task('deploy', ['pm2-deploy']);
 gulp.task('serve', ['nodemon']);
 gulp.task('start', ['pm2-start']);
+gulp.on('stop', function() { process.exit(0); });
 
 gulp.task('build', function(finish) {
 	runSequence(
