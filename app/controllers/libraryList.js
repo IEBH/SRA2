@@ -2,7 +2,7 @@
 * Fetch a list of libraries
 * @param {boolean} [fetchCounts=false] If the DOM property $element.fetchCounts is true the reference count of each library is fetched
 */
-app.controller('libraryListController', function($scope, $element, $q, Libraries, References, Users, $location) {
+app.controller('libraryListController', function($scope, $element, $loader, $q, Libraries, References, Users, $location) {
 	$scope.libraries = null;
 
 	$scope.$watchGroup(['libraryAllowNew', 'libraries'], function() {
@@ -22,6 +22,7 @@ app.controller('libraryListController', function($scope, $element, $q, Libraries
 	// Data refresher {{{
 	$scope.refresh = function() {
 		if (!$scope.user) return;
+		$loader.start($scope.$id, !$scope.libraries);
 		Libraries.query({status: 'active', owners: $scope.user._id}).$promise
 			.then(function(data) {
 				var countPromises = [];
@@ -46,7 +47,8 @@ app.controller('libraryListController', function($scope, $element, $q, Libraries
 					// }}}
 
 				$q.allLimit(3, countPromises);
-			});
+			})
+			.finally(()=> $loader.stop($scope.$id));
 	};
 	// }}}
 
