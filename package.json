@@ -22,7 +22,7 @@
     "angular-collection-assistant": "^1.1.4",
     "angular-q-limit": "^1.0.1",
     "angular-resource": "1.5.9",
-    "angular-ui-grid": "^3.2.10",
+    "angular-ui-grid": "3.2.8",
     "angular-ui-loader": "^1.0.1",
     "angular-ui-notification": "^0.3.6",
     "angular-ui-router": "^0.4.2",
