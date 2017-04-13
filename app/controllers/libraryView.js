@@ -85,7 +85,7 @@ app.controller('libraryViewController', function($scope, $loader, $location, $q,
 
 			gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
 				$scope.refreshReferences({
-					skip: newPage * pageSize,
+					skip: (newPage - 1) * pageSize,
 					limit: pageSize,
 				});
 			});
@@ -122,7 +122,7 @@ app.controller('libraryViewController', function($scope, $loader, $location, $q,
 			.finally(() => $loader.stop($scope.$id));
 	};
 
-	$scope.referenceFilters = {library: $stateParams.id, sort: 'title', skip: 0, limit: $scope.grid.paginationPageSize};
+	$scope.referenceFilters = {library: $stateParams.id, status: 'active', sort: 'title', skip: 0, limit: $scope.grid.paginationPageSize};
 	$scope.refreshReferences = function(newFilters) {
 		_.merge($scope.referenceFilters, newFilters);
 
