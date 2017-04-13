@@ -133,7 +133,8 @@ app.controller('libraryDedupeReviewController', function($scope, $location, $q, 
 								});
 								// }}}
 								return ref;
-							});
+							})
+							.filter(ref => ref.duplicateDataFields.length > 0)
 							// }}}
 					}),
 

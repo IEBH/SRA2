@@ -65,7 +65,11 @@
 
 	<!-- Dupe list {{{ -->
 	<div ng-if="!loading" class="duplicates">
-		<div class="alert alert-info">
+		<div ng-if="!references.length" class="alert alert-info">
+			<h3><i class="fa fa-info-circle"></i> De-duplication complete</h3>
+			All your duplicates were automatically resolved with no conflicting fields.<br/>
+		</div>
+		<div ng-if="references.length" class="alert alert-info">
 			<h3><i class="fa fa-info-circle"></i> Conflicting fields</h3>
 			Below are conflicting fields where the deduplicator couldn't decide what value to use.<br/>
 			You can override these by clicking on the field you want to use or <a ng-click="dedupeEnd()">accept all changes</a> if they look acceptable.
