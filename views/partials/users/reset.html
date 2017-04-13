@@ -1,0 +1,65 @@
+<div ng-controller="userResetController" class="row-fluid">
+	<form ng-submit="submit()" class="login-layout">
+		<div class="login-container">
+			<div class="row-fluid">
+				<div class="position-relative">
+					<div id="login-box" class="login-box visible widget-box no-border">
+						<div class="widget-body">
+							<div class="widget-main">
+								<h4 class="header blue lighter bigger">
+									<i class="fa fa-coffee green"></i>
+									Please Enter a New Password
+								</h4>
+								<hr/>
+
+								<div ng-show="response.error" class="alert alert-warning text-center pad">
+									<h4>{{response.error}}</h4>
+								</div>
+								<div ng-show="response.message" class="alert alert-info text-center pad">
+									<h4>{{response.message}}</h4>
+								</div>
+
+								<div class="form-horizontal">
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Password</label>
+										<div class="col-sm-9">
+											<input type="password" ng-model="userDetails.password" autofocus class="form-control"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">... again</label>
+										<div class="col-sm-9">
+											<input type="password" ng-model="userDetails.password2" class="form-control"/>
+										</div>
+									</div>
+									<div class="form-group text-center">
+										<button type="submit" class="btn btn-sm btn-primary">
+											<i class="fa fa-key"></i>
+											Recover my details
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="toolbar clearfix">
+								<div>
+									<a href="#/login" class="forgot-password-link">
+										<i class="fa fa-arrow-left"></i>
+										Login
+									</a>
+								</div>
+
+								<div>
+									<a href="#/signup" class="user-signup-link">
+										I want to register
+										<i class="fa fa-arrow-right"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

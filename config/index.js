@@ -45,6 +45,7 @@ var defaults = {
 		from: 'noreply@crebp-sra.com',
 		to: 'ddeliver@bond.edu.au',
 		cc: [],
+		signoff: 'The CREBP-SRA Team',
 	},
 	mailgun: {
 		apiKey: 'FIXME:STORE THIS IN THE PRIVATE.JS FILE!!!',

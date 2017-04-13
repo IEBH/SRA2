@@ -3,7 +3,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		.otherwise('/');
 
 	$stateProvider
-		// General pages {{{
+		// Home {{{
 		.state('home', {
 			url: '/',
 			views: {main: {templateUrl: '/partials/dashboard.html'}},
@@ -11,6 +11,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Dashboard',
 			}
 		})
+		// }}}
 		// User management {{{
 		.state('login', {
 			url: '/login',
@@ -40,7 +41,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Your Profile',
 			}
 		})
+		.state('user-recover', {
+			url: '/recover',
+			views: {main: {templateUrl: '/partials/users/recover.html'}},
+			data: {
+				title: 'Recover Account Details',
+			}
+		})
+		.state('user-reset', {
+			url: '/reset/:token',
+			views: {main: {templateUrl: '/partials/users/reset.html'}},
+			data: {
+				title: 'Recover Account Details',
+			}
+		})
 		// }}}
+		// General pages {{{
 		.state('search', {
 			url: '/search',
 			views: {main: {templateUrl: '/partials/search/search.html'}},
