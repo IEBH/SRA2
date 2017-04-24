@@ -154,9 +154,8 @@ app.post('/api/users/reset', function(req, res){
 			Users.findOne({_token: req.body.token}, next)
 		})
 		.then(function(next) {
-			console.log('USER', this.user);
 			if (!this.user) return next('Password reset token invalid');
-			if (this.user._token != req.body._token) return next('Token Mismatch');
+			if (this.user._token != req.body.token) return next('Token Mismatch');
 			this.user.password = req.body.password;
 			this.user._token = undefined;
 			this.user.save(next);
