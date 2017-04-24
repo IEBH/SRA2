@@ -41,7 +41,7 @@ module.exports = function(finish, task) {
 		// Retrieve data {{{
 		.then('library', function(next) {
 			if (task.settings.library) { // Import into existing
-				Libraries.findOne({_id: task.library}, function(err, lib) {
+				Libraries.findOne({_id: task.settings.library}, function(err, lib) {
 					if (err) return next(err);
 					if (!lib) return next('Library not found');
 					next(null, lib);

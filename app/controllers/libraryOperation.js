@@ -247,6 +247,9 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 				.ajaxSubmit({
 					url: '/api/libraries/import',
 					type: 'POST',
+					data: {
+						library: $scope.library ? $scope.library._id : null,
+					},
 					dataType: 'json',
 					forceSync: true,
 					beforeSubmit: function() {
