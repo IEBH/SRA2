@@ -118,7 +118,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		})
 		.state('libraries-operation', {
-			url: '/libraries/{operation:copy|export|dedupe|screen|compare|tags|share|request|collabmatrix|word-freq|clear|delete|fulltext}',
+			url: '/libraries/{operation:copy|export|dedupe|spider|screen|compare|tags|share|request|collabmatrix|word-freq|clear|delete|fulltext}',
 			views: {main: {templateUrl: '/partials/libraries/operation.html'}},
 			data: {
 				title: 'Perform operation',
@@ -172,6 +172,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			views: {main: {templateUrl: '/partials/libraries/dedupe.html'}},
 			data: {
 				title: 'De-duplicate',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		.state('library-spider-review', {
+			url: '/libraries/:id/{operation:spider}/review',
+			views: {main: {templateUrl: '/partials/libraries/spider-review.html'}},
+			data: {
+				title: 'Spider',
+				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
+			}
+		})
+		.state('library-spider', {
+			url: '/libraries/:id/{operation:spider}',
+			views: {main: {templateUrl: '/partials/libraries/spider.html'}},
+			data: {
+				title: 'Spider',
 				breadcrumbs: [{url: '/libraries', title: 'Libraries'}]
 			}
 		})

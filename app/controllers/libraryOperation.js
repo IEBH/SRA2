@@ -43,6 +43,14 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			urlExisting: '/libraries/:id/dedupe'
 		},
 		{
+			id: 'spider',
+			title: 'Spider',
+			allowExisting: true,
+			allowNew: false,
+			allowNonOwner: false,
+			urlExisting: '/libraries/:id/spider'
+		},
+		{
 			id: 'screen',
 			title: 'Screen references',
 			allowExisting: true,

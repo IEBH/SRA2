@@ -1,0 +1,32 @@
+<div ng-controller="libraryOperation"><div ng-controller="librarySpiderController">
+	<form ng-submit="submit()">
+		<div class="alert alert-info">
+			<p>Follow all references in <strong>{{library.title}}</strong> and retrive the <em>cited by</em> and <em>cited</em> links.</p>
+		</div>
+		<div class="form-horizontal">
+			<div ng-if="errors.length" class="alert alert-warning">
+				<ul>
+					<li ng-repeat="error in errors">{{error.text}}</li>
+				</ul>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Filtering</label>
+				<div class="col-sm-9">
+					<div class="btn-group">
+						<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-filter"></i>
+							{{filter.title || 'Select a filter...'}}
+							<i class="fa fa-chevron-down"></i>
+						</a>
+						<ul class="dropdown-menu">
+							<li ng-repeat="f in filters"><a ng-click="setFilter(f)">{{f.title}}</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-center">
+			<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Perform Spider</button>
+		</div>
+	</form>
+</div></div>
