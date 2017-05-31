@@ -145,7 +145,6 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	// Set the breadcrumb title if we dont already have one {{{
 	$scope.$watch('library.title', function() {
 		if (!$scope.library) return;
-		$rootScope.$broadcast('setTitle', $scope.library.title);
 	});
 	// }}}
 

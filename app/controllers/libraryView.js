@@ -307,5 +307,12 @@ app.controller('libraryViewController', function($scope, $loader, $location, $q,
 	};
 	// }}}
 
+	// Deal with breadcrumbs {{{
+	$scope.$watch('library', ()=> {
+		if (!$scope.library) return; // Not yet loaded
+		$rootScope.$broadcast('setTitle', $scope.library.title);
+	});
+	// }}}
+
 	$scope.$evalAsync($scope.refresh);
 });
