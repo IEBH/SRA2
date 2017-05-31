@@ -12,6 +12,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@momsfriendlydevco/momsfriendlyfont": "0.0.3",
     "angular": "1.5.9",
     "angular-async-chainable": "^1.0.1",
     "angular-bootstrap-colorpicker": "^3.0.25",
