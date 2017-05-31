@@ -310,35 +310,42 @@ app.get('/api/libraries/:id/clear', function(req, res) {
 */
 app.post('/api/libraries/:id/share', function(req, res) {
 	async()
+		// Sanity checks {{{
 		.then(function(next) {
-			// Sanity checks {{{
 			if (!req.params.id) return next('id must be specified');
 			if (!req.user) return next('You must be logged in');
 			if (!req.body.email) return next('No email address(es) specified to send to');
 			if (!req.body.body) return next('No email body specified');
+			if (!/\[url\]/.test(req.body.body)) return next('Message must contain "[url]" somewhere');
 			next();
-			// }}}
 		})
+		// }}}
+		// Fetch data {{{
 		.then('library', function(next) {
 			Libraries.findOne({_id: req.params.id, status: 'active'}, next);
 		})
+		// }}}
+		// Send email {{{
 		.then(function(next) {
 			var self = this;
 			email.send({
 				from: req.user.name + ' <' + req.user.email + '>',
 				to: req.body.email,
 				subject: 'CREP-SRA Library Share - ' + (self.library.title || 'Untitled'),
-				text: req.body.body,
+				text: req.body.body.replace('[url]', config.publicUrl + '/#/libraries/' + this.library._id),
 			}, function(err) {
 				if (err) return next(err);
 				console.log(colors.blue('[SHARE]'), colors.cyan(self.library._id), 'With', req.body.email);
 				next();
 			});
 		})
+		// }}}
+		// End {{{
 		.end(function(err) {
 			if (err) return res.status(400).send(err);
 			res.send({id: this.library._id});
 		});
+		// }}}
 });
 
 
