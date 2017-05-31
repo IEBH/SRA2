@@ -308,7 +308,7 @@ app.controller('libraryViewController', function($scope, $loader, $location, $q,
 	// }}}
 
 	// Deal with breadcrumbs {{{
-	$scope.$watch('library', ()=> {
+	$scope.$watch('library.title', ()=> {
 		if (!$scope.library) return; // Not yet loaded
 		$rootScope.$broadcast('setTitle', $scope.library.title);
 	});

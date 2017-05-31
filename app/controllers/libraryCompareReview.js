@@ -3,7 +3,7 @@ app.controller('libraryCompareReviewController', function($scope, $location, $ro
 	$scope.task = null;
 
 	// Deal with breadcrumbs {{{
-	$scope.$watch('library', function() {
+	$scope.$watch('library.title', function() {
 		if (!$scope.library) return;
 		$rootScope.$broadcast('setBreadcrumb', [
 			{url: '/libraries', title: 'Libraries'},

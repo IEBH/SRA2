@@ -35,7 +35,7 @@ app.controller('libraryShareController', function($scope, $interpolate, $locatio
 	// }}}
 
 	// Deal with breadcrumbs {{{
-	$scope.$watch('library', function() {
+	$scope.$watch('library.title', function() {
 		if (!$scope.library) return;
 		$rootScope.$broadcast('setBreadcrumb', [
 			{url: '/libraries', title: 'Libraries'},
