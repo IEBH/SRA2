@@ -13,7 +13,7 @@ app.controller('libraryRequestController', function($scope, $location, $notifica
 			return $notification.error('You must agree to the terms');
 		}
 
-		Tasks.fromLibrary({id: $scope.library._id, worker: 'request'}, {settings: {
+		Tasks.fromLibrary({id: $scope.library._id, worker: 'library-request'}, {settings: {
 			user: _.pick($scope.user, ['email', 'name', 'title', 'libraryNo', 'faculty', 'position']),
 			ccUser: $scope.ccUser,
 			references: $scope.filter.references,

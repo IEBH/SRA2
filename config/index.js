@@ -77,6 +77,43 @@ var defaults = {
 			timeout: 30 * 1000,
 			maxReferences: 100, // Set to 0 to disable
 		},
+		exlibrisSettings: {
+			exlibris: {
+				apiKey: 'l7xxa3ca85418b3f4010b3adf4c379a1f939', // Bond sandbox
+			},
+			debug: {
+				execRequest: false, // FIXME: Disabled for now
+				titleMangle: title => `[SRA TEST ${(new Date).toISOString()} - DO NOT ACCEPT] ${title}`),
+			},
+			request: {
+				source: 'SRA',
+				note: 'SRA',
+			},
+			validator: (ref, eref) => {
+				if (!ref.type) return 'No reference type specified';
+				if (ref.type == 'book') {
+					if (!ref.title) return 'Missing book title';
+					if (!ref.journal) return 'Missing journal';
+					eref.pickup_location = 'MAIN',
+					eref.format = 'PHYSICAL';
+					eref.citation_type = 'BK';
+				} else if (ref.type == 'bookSection') {
+					if (!ref.title) return 'Missing book title';
+					if (!ref.pages || !ref.section) return 'Missing book section or pages';
+					eref.format = 'DIGITAL';
+					eref.citation_type = 'BK';
+				} else if (ref.type == 'conferencePaper') {
+					if (!ref.title) return 'Missing conference paper title';
+					eref.format = 'DIGITAL';
+					eref.citation_type = 'BK';
+				} else { // Assume everything else is a digital item
+					if (!ref.title) return 'Missing title';
+					eref.format = 'DIGITAL';
+					eref.citation_type = 'CR';
+				}
+				return true;
+			},
+		},
 	},
 	search: {
 		pubmed: {
