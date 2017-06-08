@@ -280,6 +280,19 @@ input[type=checkbox] {
 	width: 20px;
 	height: 20px;
 }
+
+.checkbox > label > input[type=checkbox] {
+	vertical-align: bottom;
+}
+
+.checkbox > label {
+	line-height: 1.5em;
+}
+
+.checkbox > label > span {
+	margin-left: 2px;
+	margin-right: 15px;
+}
 /* }}} */
 /* FIX: Buttons within confirm tool tips are too large {{{ */
 .tooltip-confirm-text {
