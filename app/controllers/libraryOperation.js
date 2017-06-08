@@ -5,6 +5,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'view',
 			title: 'View the library',
+			isTool: false,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
@@ -13,6 +14,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'copy',
 			title: 'Copy library',
+			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
@@ -21,6 +23,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'import',
 			title: 'Import references',
+			isTool: true,
 			allowExisting: true,
 			allowNew: true,
 			allowNonOwner: false,
@@ -29,6 +32,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'export',
 			title: 'Export references',
+			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
@@ -37,6 +41,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'dedupe',
 			title: 'Deduplicate',
+			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
@@ -45,6 +50,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'screen',
 			title: 'Screen references',
+			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
@@ -53,6 +59,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'compare',
 			title: 'Compare',
+			isTool: true,
 			allowExisting: true,
 			allowNew: true,
 			allowNonOwner: false,
@@ -61,6 +68,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'tags',
 			title: 'Edit the library tags',
+			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
@@ -68,7 +76,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		},
 		{
 			id: 'share',
-			title: 'Share the library',
+			title: 'Share library',
+			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
@@ -77,6 +86,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'request',
 			title: 'Journal Request',
+			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
@@ -85,6 +95,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'fulltext',
 			title: 'Find full texts',
+			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
@@ -93,6 +104,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'collabmatrix',
 			title: 'Generate a collaboration matrix',
+			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
@@ -101,6 +113,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'word-freq',
 			title: 'Collect word-frequency data',
+			isTool: true,
 			allowExisting: true,
 			allowNew: true,
 			allowNonOwner: true,
@@ -109,6 +122,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'clear',
 			title: 'Clear the library',
+			isTool: false,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
@@ -117,6 +131,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		{
 			id: 'delete',
 			title: 'Delete the library',
+			isTool: false,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
