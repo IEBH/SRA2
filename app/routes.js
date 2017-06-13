@@ -275,11 +275,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		})
 		// }}}
 		// Help {{{
-		.state('help-getting-started', {
-			url: '/help/getting-started',
-			views: {main: {templateUrl: '/partials/help/getting-started.html'}},
+		.state('help', {
+			url: '/help',
+			views: {main: {templateUrl: '/partials/help/list.html'}},
 			data: {
-				title: 'Getting Started',
+				title: 'Help',
+			}
+		})
+		.state('help-page', {
+			url: '/help/:topic',
+			views: {main: {templateUrl: '/partials/help/view.html'}},
+			data: {
+				title: 'Help',
 			}
 		})
 		// }}}

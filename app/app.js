@@ -33,6 +33,14 @@ app.config(function($httpProvider) {
 	$httpProvider.useApplyAsync(true);
 });
 
+app.config(function ($sceDelegateProvider) {
+	$sceDelegateProvider.resourceUrlWhitelist([
+		'self', // trust all resources from the same origin
+		'https://www.youtube.com/**',
+		'https://docs.google.com/**',
+	]);
+});
+
 // Loader display while routing {{{
 app.run(function($rootScope, $loader, $state) {
 	$rootScope.$on('$stateChangeStart', () => $loader.clear().start('stateChange'));

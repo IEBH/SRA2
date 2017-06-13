@@ -155,11 +155,20 @@
 				</ul>
 			</li>
 
-			<li>
-				<a href="#/help/getting-started">
+			<li ng-controller="helpListController">
+				<a href="#/help" data-toggle="dropdown" class="dropdown-toggle">
 					<i class="fa fa-question-circle"></i>
-					<span class="menu-text"> Getting Started</span>
+					<span class="menu-text"> Help</span>
+					<b class="arrow fa fa-angle-down"></b>
 				</a>
+				<ul class="submenu">
+					<li ng-repeat="topic in topics track by topic.id">
+						<a href="#/help/{{topic.id}}">
+							<i class="fa fa-chevron-right"></i>
+							{{topic.title}}
+						</a>
+					</li>
+				</ul>
 			</li>
 
 			<li>
