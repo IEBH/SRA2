@@ -83,7 +83,7 @@ var defaults = {
 			},
 			debug: {
 				execRequest: false, // FIXME: Disabled for now
-				titleMangle: title => `[SRA TEST ${(new Date).toISOString()} - DO NOT ACCEPT] ${title}`),
+				titleMangle: title => `[SRA TEST ${(new Date).toISOString()} - DO NOT ACCEPT] ${title}`,
 			},
 			request: {
 				source: 'SRA',
