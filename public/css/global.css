@@ -347,6 +347,11 @@ legend {
 	padding: 8px;
 }
 /* }}} */
+/* FIX: Badges dont vertical align when in pull-* {{{ */
+.pull-right > .badge, .pull-left > .badge {
+	vertical-align: top;
+}
+/* }}} */
 /* FIX: Table spacing is too big {{{ */
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
 	padding: 4px;

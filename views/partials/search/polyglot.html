@@ -89,6 +89,7 @@
 						{{engine.title}}
 					</a>
 					<div class="pull-right">
+						<span ng-if="engine.openTerms" class="badge badge-default">{{engine.openTerms}}</span>
 						<a ng-if="engine.open" ng-click="engineOpen(engine)" class="btn btn-sm btn-success" tooltip="Open this search in a new tab"><i class="fa fa-search"></i></a>
 						<a ng-click="clipboard(engine.translated)" class="btn btn-sm btn-success"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
 					</div>
