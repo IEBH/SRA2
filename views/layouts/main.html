@@ -155,6 +155,19 @@
 				</ul>
 			</li>
 
+			<li ng-if="user._id" ng-controller="libraryOperation">
+				<a data-toggle="dropdown" class="dropdown-toggle">
+					<i class="fa fa-wrench"></i>
+					<span class="menu-text"> Library tools</span>
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+				<ul class="submenu">
+					<li ng-repeat="operation in operations | filter:{isTool:true} track by operation.id">
+						<a href="#/libraries/{{operation.id}}"><i class="fa fa-angle-double-right"></i> {{operation.title}}</a>
+					</li>
+				</ul>
+			</li>
+
 			<li ng-controller="helpListController">
 				<a href="#/help" data-toggle="dropdown" class="dropdown-toggle">
 					<i class="fa fa-question-circle"></i>
