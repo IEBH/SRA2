@@ -289,6 +289,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Help',
 			}
 		})
+		.state('help-page-direct', { // Top level help topics
+			url: '/{topic:tools|whats-new}',
+			views: {main: {templateUrl: '/partials/help/view.html'}},
+			data: {
+				title: 'Help',
+			}
+		})
 		// }}}
 		// RevMan Replicant {{{
 		.state('replicant-upload', {
