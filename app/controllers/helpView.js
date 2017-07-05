@@ -21,9 +21,10 @@ app.controller('helpViewController', function($scope, $http, $location, $rootSco
 		$.get($scope.topic.url, html => {
 			$("#google-doc-iframe").attr("srcdoc", html);
 			setTimeout(function() {
+				$("#google-doc-iframe").contents().find('body').css('padding', '0 20px');
 				$("#google-doc-iframe").contents().find('a[href^="http://"]').attr("target", "_blank");
 				$("#google-doc-iframe").contents().find('a[href^="https://"]').attr("target", "_blank");
-			}, 1000);
+			}, 100);
 		});
 	});
 	// }}}
