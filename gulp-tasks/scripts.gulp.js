@@ -2,7 +2,6 @@
 * Aggregate vendor and app CSS
 */
 
-var annotate = require('gulp-ng-annotate');
 var cache = require('gulp-cache');
 var concat = require('gulp-concat');
 var babel = require('gulp-babel');
@@ -34,6 +33,7 @@ gulp.task('scripts', ['load:config'], function() {
 		}))
 		.pipe(cache(babel({ // Cache output and pipe though Babel
 			presets: ['es2015'],
+			plugins: ['angularjs-annotate'],
 		}), {
 			key: function(file) {
 				return [file.contents.toString('utf8'), file.stat.mtime, file.stat.size].join('');
@@ -46,7 +46,6 @@ gulp.task('scripts', ['load:config'], function() {
 		.pipe(gulpIf(config.gulp.debugJS, sourcemaps.init()))
 		.pipe(concat('app.min.js'))
 		.pipe(replace("\"app\/", "\"\/app\/")) // Rewrite all literal paths to relative ones
-		.pipe(gulpIf(config.gulp.minifyJS, annotate()))
 		.pipe(gulpIf(config.gulp.minifyJS, uglify({mangle: false})))
 		.pipe(gulpIf(config.gulp.debugJS, sourcemaps.write()))
 		.pipe(gulp.dest(paths.build))
