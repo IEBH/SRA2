@@ -39,6 +39,7 @@
     "basic-auth-connect": "^1.0.0",
     "body-parser": "^1.17.1",
     "bootstrap": "^3.3.7",
+    "chai": "^4.1.0",
     "chalk": "^1.1.3",
     "compression": "^1.6.2",
     "connect-flash": "^0.1.1",
@@ -82,7 +83,7 @@
     "map-stream": "0.0.7",
     "mfdc-email": "^2.0.0",
     "mkdirp": "^0.5.1",
-    "mocha": "^3.2.0",
+    "mocha": "^3.4.2",
     "mocha-logger": "^1.0.5",
     "moment": "^2.18.1",
     "mongoose": "^4.9.2",
@@ -105,16 +106,12 @@
     "smart-area": "^1.1.0",
     "sra-api": "0.0.0",
     "sra-dedupe": "^1.0.4",
-    "sra-polyglot": "^2.4.11",
+    "sra-polyglot": "^2.4.15",
     "strtotime": "^1.0.0",
     "superagent": "^3.5.2",
     "temp": "^0.8.3",
     "tree-tools": "^1.1.2",
     "uuid": "^3.0.1",
     "venn.js": "^0.2.14"
-  },
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.2.0"
   }
 }

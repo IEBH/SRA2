@@ -97,7 +97,7 @@ describe('Task: library-word-freq (' + test.title + ')', function(){
 	it('should have a task result', function() {
 		this.timeout(5 * 1000);
 		expect(task).to.have.property('result');
-		expect(task.result).to.be.an.object;
+		expect(task.result).to.be.an.instanceOf(Object);
 		expect(task.result.words).to.be.an.array;
 		/*console.log('Top 10 results:',
 			_(task.result.words)
@@ -109,28 +109,28 @@ describe('Task: library-word-freq (' + test.title + ')', function(){
 		switch (test.id) {
 			case 'tiny':
 				var word = _.find(task.result.words, {word: 'cancer'});
-				expect(word).to.be.an.object;
+				expect(word).to.be.an.instanceOf(Object);
 				expect(word.title).to.equal(2);
 				expect(word.abstract).to.equal(3);
 				expect(word.keywords).to.equal(1);
 				expect(word.points).to.equal((2*1) + (3*2) + (1*3)); // Check weights have also been applied
 
 				word = _.find(task.result.words, {word: 'female'});
-				expect(word).to.be.an.object;
+				expect(word).to.be.an.instanceOf(Object);
 				expect(word.title).to.equal(2);
 				expect(word.abstract).to.equal(1);
 				expect(word.keywords).to.equal(4);
 				expect(word.points).to.equal((2*1) + (1*2) + (4*3));
 
 				word = _.find(task.result.words, {word: 'breast'});
-				expect(word).to.be.an.object;
+				expect(word).to.be.an.instanceOf(Object);
 				expect(word.title).to.equal(3);
 				expect(word.abstract).to.equal(3);
 				expect(word.keywords).to.equal(4);
 				expect(word.points).to.equal((3*1) + (3*2) + (4*3));
 
 				word = _.find(task.result.words, {word: 'histological'});
-				expect(word).to.be.an.object;
+				expect(word).to.be.an.instanceOf(Object);
 				expect(word.title).to.equal(1);
 				expect(word.abstract).to.equal(2);
 				expect(word.keywords).to.equal(0);
