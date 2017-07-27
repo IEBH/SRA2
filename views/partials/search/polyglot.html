@@ -97,7 +97,7 @@
 			</div>
 			<div class="panel-collapse collapse" ng-class="engine.expanded && 'in'">
 				<div class="panel-body">
-					<pre>{{engine.translated}}</pre>
+					<div ng-bind-html="engine.translated" class="well"></div>
 				</div>
 			</div>
 		</div>

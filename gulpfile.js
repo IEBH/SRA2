@@ -73,6 +73,7 @@ global.paths = {
 			'node_modules/angular-q-limit/angular-q-limit.js',
 			'node_modules/angular-ui-loader/dist/ng-loader.js',
 			'node_modules/angular-resource/angular-resource.js',
+			'node_modules/angular-sanitize/angular-sanitize.js',
 			'node_modules/angular-ui-grid/ui-grid.min.{css,js}',
 			'node_modules/angular-ui-notification/dist/angular-ui-notification.{css,js}',
 			'node_modules/angular-ui-router/release/angular-ui-router.js',

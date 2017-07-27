@@ -11,6 +11,7 @@ var app = angular.module('app', [
 	'ng-collection-assistant',
 	'ngPolyglot',
 	'ngResource',
+	'ngSanitize',
 	'ngTreeTools',
 	'ui.grid',
 	'ui.grid.pagination',

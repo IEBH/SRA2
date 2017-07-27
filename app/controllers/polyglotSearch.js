@@ -1,4 +1,4 @@
-app.controller('PolyglotSearchController', function($scope, $httpParamSerializer, $window, Assets, clipboard, Polyglot) {
+app.controller('PolyglotSearchController', function($scope, $httpParamSerializer, $notification, $window, Assets, clipboard, Polyglot) {
 	$scope.query = '';
 	$scope.engines = _.map(Polyglot.engines, (engine, id) => { engine.id = id; return engine });
 	$scope.showDebugging = false; // Filter options by debugging status
@@ -141,5 +141,8 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 
 	$scope.clear = () => $scope.query = '';
 
-	$scope.clipboard = clipboard.copyText;
+	$scope.clipboard = text => { // Strip out HTML and copy to clipboard
+		clipboard.copyText($('<div>' + text.replace(/<br\/>/g, '\n') + '</div>').text());
+		$notification.success('Search query copied to clipboard');
+	};
 });
