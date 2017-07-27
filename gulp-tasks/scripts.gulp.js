@@ -47,7 +47,7 @@ gulp.task('scripts', ['load:config'], function() {
 		.pipe(concat('app.min.js'))
 		.pipe(replace("\"app\/", "\"\/app\/")) // Rewrite all literal paths to relative ones
 		.pipe(gulpIf(config.gulp.minifyJS, uglify({mangle: false})))
-		.pipe(gulpIf(config.gulp.debugJS, sourcemaps.write()))
+		.pipe(gulpIf(config.gulp.debugJS, sourcemaps.write('.')))
 		.pipe(gulp.dest(paths.build))
 		.on('end', function() {
 			if (!hasErr)

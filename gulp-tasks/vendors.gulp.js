@@ -150,7 +150,7 @@ gulp.task('vendors-main', ['load:config'], function(finish) {
 					.pipe(concat('vendors-main.min.js'))
 					.pipe(replace("\"app\/", "\"\/app\/")) // Rewrite all literal paths to relative ones
 					.pipe(gulpIf(config.gulp.minifyJS, uglify({mangle: false})))
-					.pipe(gulpIf(config.gulp.debugJS, sourcemaps.write()))
+					.pipe(gulpIf(config.gulp.debugJS, sourcemaps.write('.')))
 					.pipe(gulp.dest(paths.build))
 					.on('end', () => next(null, sources));
 			},
@@ -160,7 +160,7 @@ gulp.task('vendors-main', ['load:config'], function(finish) {
 					.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.init()))
 					.pipe(concat('vendors-main.min.css'))
 					.pipe(gulpIf(config.gulp.minifyCSS, cleanCSS()))
-					.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.write()))
+					.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.write('.')))
 					.pipe(gulp.dest(paths.build))
 					.on('end', () => next(null, sources));
 			},
