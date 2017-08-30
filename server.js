@@ -45,7 +45,12 @@ app.use(require('compression')());
 // }}}
 // Settings / ReST (Monoxide) {{{
 var monoxide = require('monoxide');
-require('./config/db');
+console.log('Connect');
+monoxide.connect(config.mongo.uri, function(err) {
+	if (err) console.log('DB CONNECTION ERR', err);
+	console.log('DB connected');
+});
+console.log('Load models');
 require('./models');
 // }}}
 // Settings / Cookies + Sessions {{{
