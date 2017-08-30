@@ -1,4 +1,4 @@
-var email = require('email').Email;
+var email = require('../lib/email');
 
 /**
 * Send a contact form email
@@ -14,13 +14,12 @@ app.post('/api/contact', function(req, res) {
 	if (!req.body.email) return res.status(400).send('No email provided');
 	if (!req.body.body) return res.status(400).send('No content provided');
 
-	new email({
+	email.send({
 		from: req.body.name + ' <' + req.body.email + '>',
 		to: config.contactEmail,
 		subject: req.body.subject || 'Contact form',
-		body: req.body.body,
-		bodyType: 'text/plain',
-	}).send(function(err) {
+		text: req.body.body,
+	}, function(err) {
 		if (err) {
 			console.log('Error emailing contact form', err);
 			return res.status(400).send(err);

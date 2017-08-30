@@ -3,7 +3,8 @@
 * This CSS extends the default Bootstrap base with some handy additional classes
 */
 /* Padding {{{ */
-.pad, .pad-sm, .pad-lg, .pad-xl {display:block;}
+.pad, .pad-none, .pad-sm, .pad-lg, .pad-xl {display:block;}
+.pad-none {padding: 0};
 .pad, table.pad td {padding: 20px;}
 .pad-xs, table.pad-xs td {padding: 5px;}
 .pad-sm, table.pad-sm td {padding: 10px;}
@@ -40,6 +41,11 @@
 .font-md {font-size: 14pt;}
 .font-lg {font-size: 16pt;}
 .font-xlg {font-size: 20pt;}
+/* }}} */
+/* Div utilities - .box-rounded-* {{{ */
+.box-rounded-sm {
+	border-radius: 5px;
+}
 /* }}} */
 /* Bootstrap sub-menus {{{ */
 /* e.g.

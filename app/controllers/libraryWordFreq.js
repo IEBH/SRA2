@@ -18,7 +18,7 @@ app.controller('libraryWordFreqController', function($scope, $location, $rootSco
 	};
 
 	// Deal with breadcrumbs {{{
-	$scope.$watch('library', function() {
+	$scope.$watch('library.title', function() {
 		if (!$scope.library) return;
 		$rootScope.$broadcast('setBreadcrumb', [
 			{url: '/libraries', title: 'Libraries'},
@@ -29,7 +29,7 @@ app.controller('libraryWordFreqController', function($scope, $location, $rootSco
 	// }}}
 
 	$scope.submit = function() {
-		Tasks.fromLibrary({id: $scope.library._id, worker: 'word-freq'}, {settings: {
+		Tasks.fromLibrary({id: $scope.library._id, worker: 'library-word-freq'}, {settings: {
 			references: $scope.filter.references,
 			deburr: $scope.deburr,
 			weights: $scope.weights,

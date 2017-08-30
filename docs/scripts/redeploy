@@ -18,10 +18,22 @@ npm install
 echo "Cleaning up dead NPM packages..."
 npm prune
 
+echo "Cleaning Gulp cache..."
+gulp clean
+
 echo "Building via Gulp..."
 gulp build
 
-echo "Rebooting PM2 process..."
-pm2 restart all
+echo "Flushing server logs..."
+pm2 flush
+
+echo "Stopping babysitter"
+pm2 stop babysitter
+
+echo "Rebooting PM2 server process..."
+pm2 restart server
+
+echo "Starting babysitter"
+pm2 start babysitter
 
 echo "done."

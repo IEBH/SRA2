@@ -1,0 +1,15 @@
+/* CSS file for replicant contents */
+/* This file really just sizes headers correctly */
+.replicant {
+}
+
+.replicant > h1 {
+	font-size: 24px;
+	font-weight: normal !important;
+	margin: 0 !important;
+}
+
+.replicant > h2 {
+	font-size: 20px;
+	margin: 0;
+}

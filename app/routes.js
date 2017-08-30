@@ -3,7 +3,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		.otherwise('/');
 
 	$stateProvider
-		// General pages {{{
+		// Home {{{
 		.state('home', {
 			url: '/',
 			views: {main: {templateUrl: '/partials/dashboard.html'}},
@@ -11,6 +11,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Dashboard',
 			}
 		})
+		// }}}
 		// User management {{{
 		.state('login', {
 			url: '/login',
@@ -40,7 +41,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Your Profile',
 			}
 		})
+		.state('user-recover', {
+			url: '/recover',
+			views: {main: {templateUrl: '/partials/users/recover.html'}},
+			data: {
+				title: 'Recover Account Details',
+			}
+		})
+		.state('user-reset', {
+			url: '/reset/:token',
+			views: {main: {templateUrl: '/partials/users/reset.html'}},
+			data: {
+				title: 'Recover Account Details',
+			}
+		})
 		// }}}
+		// General pages {{{
 		.state('search', {
 			url: '/search',
 			views: {main: {templateUrl: '/partials/search/search.html'}},
@@ -55,9 +71,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Polyglot Search',
 			}
 		})
+		.state('endnote-helper', {
+			url: '/endnote-helper',
+			views: {main: {templateUrl: '/partials/endnote-helper/index.html'}},
+			data: {
+				title: 'EndNote-Helper',
+			}
+		})
 		.state('debug', {
 			url: '/debug',
-			views: {main: {templateUrl: '/partials/debug.html'}},
+			views: {main: {templateUrl: '/partials/debug/index.html'}},
 			data: {
 				title: 'Debug testing area',
 			}
@@ -252,11 +275,48 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		})
 		// }}}
 		// Help {{{
-		.state('help-getting-started', {
-			url: '/help/getting-started',
-			views: {main: {templateUrl: '/partials/help/getting-started.html'}},
+		.state('help', {
+			url: '/help',
+			views: {main: {templateUrl: '/partials/help/list.html'}},
 			data: {
-				title: 'Getting Started',
+				title: 'Help',
+			}
+		})
+		.state('help-page', {
+			url: '/help/:topic',
+			views: {main: {templateUrl: '/partials/help/view.html'}},
+			data: {
+				title: 'Help',
+			}
+		})
+		.state('help-page-direct', { // Top level help topics
+			url: '/{topic:tools|whats-new}',
+			views: {main: {templateUrl: '/partials/help/view.html'}},
+			data: {
+				title: 'Help',
+			}
+		})
+		// }}}
+		// RevMan Replicant {{{
+		.state('replicant-upload', {
+			url: '/replicant',
+			views: {main: {templateUrl: '/partials/replicant/upload.html'}},
+			data: {
+				title: 'RevMan Replicant',
+			}
+		})
+		.state('replicant-options', {
+			url: '/replicant/:id',
+			views: {main: {templateUrl: '/partials/replicant/options.html'}},
+			data: {
+				title: 'RevMan Replicant',
+			}
+		})
+		.state('replicant-generate', {
+			url: '/replicant/:id/generate',
+			views: {main: {templateUrl: '/partials/replicant/generate.html'}},
+			data: {
+				title: 'RevMan Replicant',
 			}
 		})
 		// }}}

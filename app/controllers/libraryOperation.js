@@ -4,11 +4,12 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 	$scope.operations = [
 		{
 			id: 'view',
-			title: 'View the library',
+			title: 'View library',
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
-			urlExisting: '/libraries/:id'
+			urlExisting: '/libraries/:id',
+			isTool: false,
 		},
 		{
 			id: 'copy',
@@ -16,7 +17,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
-			urlExisting: '/libraries/:id/copy'
+			urlExisting: '/libraries/:id/copy',
+			isTool: false,
 		},
 		{
 			id: 'import',
@@ -24,7 +26,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			allowExisting: true,
 			allowNew: true,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/import'
+			urlExisting: '/libraries/:id/import',
+			isTool: true,
 		},
 		{
 			id: 'export',
@@ -32,7 +35,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
-			urlExisting: '/libraries/:id/export'
+			urlExisting: '/libraries/:id/export',
+			isTool: false,
 		},
 		{
 			id: 'dedupe',
@@ -40,7 +44,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/dedupe'
+			urlExisting: '/libraries/:id/dedupe',
+			isTool: true,
 		},
 		{
 			id: 'screen',
@@ -48,7 +53,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/screen'
+			urlExisting: '/libraries/:id/screen',
+			isTool: false,
 		},
 		{
 			id: 'compare',
@@ -56,23 +62,26 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			allowExisting: true,
 			allowNew: true,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/compare'
+			urlExisting: '/libraries/:id/compare',
+			isTool: true,
 		},
 		{
 			id: 'tags',
-			title: 'Edit the library tags',
+			title: 'Edit library tags',
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/tags'
+			urlExisting: '/libraries/:id/tags',
+			isTool: true,
 		},
 		{
 			id: 'share',
-			title: 'Share the library',
+			title: 'Share library',
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/share'
+			urlExisting: '/libraries/:id/share',
+			isTool: true,
 		},
 		{
 			id: 'request',
@@ -80,7 +89,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
-			urlExisting: '/libraries/:id/request'
+			urlExisting: '/libraries/:id/request',
+			isTool: true,
 		},
 		{
 			id: 'fulltext',
@@ -88,7 +98,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/fulltext'
+			urlExisting: '/libraries/:id/fulltext',
+			isTool: false,
 		},
 		{
 			id: 'collabmatrix',
@@ -96,7 +107,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
-			urlExisting: '/libraries/:id/collabmatrix'
+			urlExisting: '/libraries/:id/collabmatrix',
+			isTool: false,
 		},
 		{
 			id: 'word-freq',
@@ -104,7 +116,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			allowExisting: true,
 			allowNew: true,
 			allowNonOwner: true,
-			urlExisting: '/libraries/:id/word-freq'
+			urlExisting: '/libraries/:id/word-freq',
+			isTool: true,
 		},
 		{
 			id: 'clear',
@@ -112,7 +125,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/clear'
+			urlExisting: '/libraries/:id/clear',
+			isTool: false,
 		},
 		{
 			id: 'delete',
@@ -120,7 +134,8 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/delete'
+			urlExisting: '/libraries/:id/delete',
+			isTool: false,
 		}
 	];
 	$scope.operation = _.find($scope.operations, {id: 'view'});
@@ -247,6 +262,9 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 				.ajaxSubmit({
 					url: '/api/libraries/import',
 					type: 'POST',
+					data: {
+						library: $scope.library ? $scope.library._id : null,
+					},
 					dataType: 'json',
 					forceSync: true,
 					beforeSubmit: function() {
@@ -271,6 +289,7 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 						});
 					},
 					complete: function(res) {
+						Loader.finish();
 						if (res.responseJSON && res.responseJSON.url) {
 							window.location = res.responseJSON.url;
 						} else {

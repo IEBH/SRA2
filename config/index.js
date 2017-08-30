@@ -11,8 +11,8 @@ if (process.env.VCAP_SERVICES) {
 	env = 'openshift';
 } else if (process.env.MONGOLAB_URI) {
 	env = 'heroku';
-} else if (/-e\s*([a-z0-9\-]+)/i.test(process.argv.slice(1).join(' '))) { // exec with '-e env'
-	var eargs = /-e\s*([a-z0-9\-]+)/i.exec(process.argv.slice(1).join(' '));
+} else if (/-e\s*([a-z0-9\-\.]+)/i.test(process.argv.slice(1).join(' '))) { // exec with '-e env'
+	var eargs = /-e\s*([a-z0-9\-\.]+)/i.exec(process.argv.slice(1).join(' '));
 	env = eargs[1];
 } else if (process.env.NODE_ENV) { // Inherit from NODE_ENV
 	env = process.env.NODE_ENV;
@@ -25,7 +25,7 @@ var defaults = {
 	env: env,
 	root: path.normalize(__dirname + '/..'),
 	host: null, // Listen to all host requests
-	port: process.env.PORT || 80,
+	port: process.env.PORT || 8080,
 	url: 'http://localhost',
 	secret: "dT2CsWwmEBPnggihyKlY3IXONBIY4Db/yt5y1qcRHXkylDxHfEPGAsPkG1ikpFMgPnE9TrghA4hXSmuf8DvrdwtXZHY4Zmg8VVFs9Ei2NRK3N",
 	access: {
@@ -38,6 +38,14 @@ var defaults = {
 		minifyJS: false,
 		debugCSS: true,
 		minifyCSS: false,
+	},
+	email: {
+		enabled: true,
+		method: 'mailgun',
+		from: 'noreply@crebp-sra.com',
+		to: 'ddeliver@bond.edu.au',
+		cc: [],
+		signoff: 'The CREBP-SRA Team',
 	},
 	mailgun: {
 		apiKey: 'FIXME:STORE THIS IN THE PRIVATE.JS FILE!!!',
@@ -56,31 +64,19 @@ var defaults = {
 		name: 'CREBP-SRA',
 		license: 'c71e85e2d852cb4962d8b47dcad90de117501a07',
 	},
+	analytics: {
+		enabled: false,
+		insert: '',
+	},
 	limits: {
-		references: 100, // How many references to hold in memory at once during operations such as export, dedupe etc.
+		references: 100, // How many references to hold in memory at once during operations
 		recentLibraries: 10,
 	},
 	library: {
 		request: {
-			method: 'sendmail', // sendmail, mailgun
-			email: {
-				from: null, // Set to falsy to use users own email
-				to: 'ddeliver@bond.edu.au',
-				cc: [],
-			},
 			timeout: 30 * 1000,
 			maxReferences: 100, // Set to 0 to disable
 		},
-	},
-	cron: {
-		enabled: true,
-		queryLimit: 10, // How many tasks to work on in one cron cycle
-		waitTime: 3 * 1000,
-
-		// How to execute tasks
-		// 'pm2' - run as seperated process via PM2
-		// 'inline' - run within this thread
-		runMode: 'pm2',
 	},
 	search: {
 		pubmed: {
@@ -90,18 +86,22 @@ var defaults = {
 		},
 	},
 	tasks: {
+		enabled: true,
+		queryLimit: 10, // How many tasks to work on in one task cycle
+		waitTime: 5 * 1000,
+
+		// How to execute tasks
+		// 'pm2' - run as seperated process via PM2
+		// 'inline' - run within this thread
+		runMode: 'pm2',
+
 		'library-cleaner': {
 			enabled: true,
 		},
-		dedupe: {
-			limit: 20, // How many comparison threads to allow at once for the dedupe task
-			stringDistance: {
-				// String distance between titles before its considered a match
-				// The following tests are performed in series - the idea being the least CPU costly are up first
-				jaroWinklerMin: 0.9, // natural.JaroWinklerDistance 
-				levenshteinMax: 10, // natural.LevenshteinDistance 
-			},
-		},
+	},
+	test: {
+		username: 'mc',
+		password: 'qwaszx',
 	},
 };
 
@@ -129,6 +129,12 @@ if (config.port != 80 && url.parse(config.url).port != config.port) {
 // Trim remaining '/' from url {{{
 config.url = _.trimEnd(config.url, '/');
 // }}}
+// Calculate config.publicUrl - same as config.url with port forced to 80 {{{
+var parsedURL = url.parse(config.url);
+parsedURL.host = undefined; // Have to set this to undef to force a hostname rebuild
+parsedURL.port = undefined; // Have to set this to reset the port to default (80 doesn't work for some reason)
+config.publicUrl = _.trimEnd(url.format(parsedURL), '/');
+// }}}
 // }}}
 
-module.exports = config;
+global.config = module.exports = config;

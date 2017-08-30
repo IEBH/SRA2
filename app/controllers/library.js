@@ -1,27 +1,22 @@
 app.controller('libraryController', function($scope, $rootScope, $httpParamSerializer, $interval, $location, $stateParams, $window, Libraries, References, ReferenceTags, Tasks) {
 	$scope.loading = true;
-	$scope.library = null;
+	$scope.library = {};
 	$scope.tags = null;
 	$scope.hasTags = false; // True if its not just meta tags
 	$scope.tagsObj = null; // Object lookup for tags
 	$scope.activeTag = null;
-	
+
 	// Data refresher {{{
 	$scope.refresh = function() {
 		if (!$scope.library) return;
 
 		// Library {{{
 		Libraries.get({id: $scope.library._id}).$promise.then(function(data) {
-			$scope.library = data;
+			_.assign($scope.library, data);
 			// Decorators {{{
 			// Default values {{{
 			if (!$scope.library.screening) $scope.library.screening = {};
 			if (!$scope.library.screening.weightings) $scope.library.screening.weightings = [];
-			// }}}
-			// .referenceCount {{{
-			$scope.library.referenceCount = null;
-			References.count({library: $scope.library._id, status: 'active'}).$promise
-				.then(countData => $scope.library.referenceCount = countData.count);
 			// }}}
 			// Files {{{
 			if ($scope.library.files) {
@@ -85,9 +80,9 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 					// Decorators {{{
 					// .referenceCount {{{
 					tag.referenceCount = null;
-					References.count({library: $scope.library._id, tags: tag._id}).$promise.then(function(countData) {
-						tag.referenceCount = countData.count;
-					});
+						References.count({library: $scope.library._id, tags: tag._id}).$promise.then(function(countData) {
+							tag.referenceCount = countData.count;
+						});
 					// }}}
 					// Add to tagsObj lookup {{{
 					$scope.tagsObj[tag._id] = tag;
@@ -150,7 +145,6 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	// Set the breadcrumb title if we dont already have one {{{
 	$scope.$watch('library.title', function() {
 		if (!$scope.library) return;
-		$rootScope.$broadcast('setTitle', $scope.library.title);
 	});
 	// }}}
 
@@ -180,8 +174,8 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 	// .isOwner / .isEditable {{{
 	$scope.isOwner = false;
 	$scope.isEditable = false;
-	$scope.$watchGroup(['library', 'user'], function() {
-		if (!$scope.library || !$scope.library.title || !$scope.user || !$scope.user._id) return; // Not loaded yet
+	$scope.$watchGroup(['library', 'library.owners', 'user._id'], function() {
+		if (!$scope.library || !$scope.library._id || !$scope.user._id || !$scope.library.owners) return; // Not loaded yet
 		if (_.includes($scope.library.owners, $scope.user._id)) { // User is already an owner
 			$scope.isOwner = true;
 			$scope.isEditable = true;
@@ -217,7 +211,7 @@ app.controller('libraryController', function($scope, $rootScope, $httpParamSeria
 			$location.path('/libraries/task/' + data._id);
 		});
 	} else {
-		$scope.library = {_id: $stateParams.id};
+		_.assign($scope.library, {_id: $stateParams.id});
 		$scope.$evalAsync($scope.refresh);
 	}
 

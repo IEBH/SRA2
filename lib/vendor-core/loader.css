@@ -1,0 +1,24 @@
+.loader-bar {
+	height: 5px;
+}
+
+.loader-bar::before, .loader-bar::after {
+	background: #2A4858;
+}
+
+.loader-spinner {
+	top: auto;
+	right: 25px;
+	bottom: 50px;
+	left: auto;
+}
+
+.loader-spinner::before {
+	animation-duration: 1.00s;
+	width: 50px;
+	height: 50px;
+	border-color: #59A2D9;
+	border-width: 8px;
+	border-bottom-color: transparent;
+	border-left-color: transparent;
+}

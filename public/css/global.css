@@ -1,3 +1,8 @@
+/* Global elements {{{ */
+[ng-click], [data-toggle], .clickable {
+	cursor: pointer;
+}
+/* }}} */
 /* Header {{{ */
 .header {
 	float: right;
@@ -129,6 +134,16 @@ table a:hover {
 input[type=checkbox] {
 	opacity: 1 !important;
 }
+
+/* Sub-lists should still be indented even if they are unstyled */
+ul.list-indented li {
+	padding: 2px;
+}
+
+ul.list-indented ul {
+	margin-left: 25px;
+}
+
 /* Radios look weird {{{ */
 .radio {
 	margin-bottom: 10px;
@@ -266,6 +281,21 @@ input[type=checkbox] {
 	height: 20px;
 }
 /* }}} */
+/* FIX: Buttons within confirm tool tips are too large {{{ */
+.tooltip-confirm-text {
+	font-size: 12px;
+}
+
+.tooltip-confirm-btn-group {
+	margin-top: 10px;
+}
+
+.tooltip-confirm-btn-group > .btn-xs {
+	margin: 0;
+	padding: 2px 4px !important;
+	height: auto !important;
+}
+/* }}} */
 /* FIX: ng-click doesnt register as clickable within links {{{ */
 a[ng-click] {
 	cursor: pointer;
@@ -315,6 +345,11 @@ legend {
 .badge-lg {
 	font-size: 15pt;
 	padding: 8px;
+}
+/* }}} */
+/* FIX: Badges dont vertical align when in pull-* {{{ */
+.pull-right > .badge, .pull-left > .badge {
+	vertical-align: top;
 }
 /* }}} */
 /* FIX: Table spacing is too big {{{ */
@@ -383,7 +418,7 @@ td .badge {
 }
 /* }}} */
 /* FIX: Buttons in panel titles {{{ */
-.panel-title a.btn {
+.panel-title a.btn, .panel-title .btn-group {
 	height: 35px;
 	margin-top: -9px;
 	padding: 0 5px;

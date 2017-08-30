@@ -1,0 +1,87 @@
+<div ng-controller="replicantOptionsController" class="row-fluid">
+	<legend>RevMan Replicant - import options</legend>
+	<div ng-if="error" class="alert alert-danger">{{error}}</div>
+	<form ng-if="!error" ng-submit="submit()" class="form-horizontal">
+		<div class="form-group">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">
+					Grammar file
+				</label>
+				<div class="col-sm-10">
+					<select ng-model="options.grammar" class="form-control">
+						<option ng-repeat="grammar in grammars track by grammar.file" value="{{grammar.file}}">{{grammar.name}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">
+					Primary studies
+					<div class="help-block">
+						Select all studies that should have output within the abstract
+					</div>
+				</label>
+				<div class="col-sm-10 form-control-static">
+					<div class="panel-group" id="accordion-primary">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title" data-toggle="collapse" data-parent="#accordion-primary" data-target="#accordion-primary-list">
+									<div class="pull-right"><i class="fa fa-caret-down"></i></div>
+									{{counts.text}}
+								</h4>
+							</div>
+							<div id="accordion-primary-list" class="panel-collapse collapse">
+								<div class="panel-body font-md">
+									<ul class="list-unstyled list-indented">
+										<li ng-repeat="comparison in revman track by comparison.id">
+											<div ng-class="comparison.selected && 'bg-success'" ng-click="toggleNode(comparison)" class="pad-xs box-rounded-sm">
+												<i class="fa fa-fw" ng-class="comparison.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
+												{{comparison.name}}
+												<span ng-if="comparison.selectedReason" class="badge badge-default">{{comparison.selectedReason}}</span>
+											</div>
+
+											<ul class="list-unstyled list-indented">
+												<li ng-repeat="outcome in comparison.outcome track by outcome.id">
+													<div ng-class="outcome.selected && 'bg-success'" ng-click="toggleNode(outcome)" class="pad-xs box-rounded-sm">
+														<i class="fa fa-fw" ng-class="outcome.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
+														{{outcome.name}}
+														<span ng-if="outcome.selectedReason" class="badge badge-default">{{outcome.selectedReason}}</span>
+													</div>
+													<ul ng-if="outcome.subgroup" class="list-unstyled list-indented">
+														<li ng-repeat="subgroup in outcome.subgroup track by subgroup.id">
+															<div ng-class="subgroup.selected && 'bg-success'" ng-click="toggleNode(subgroup)" class="pad-xs box-rounded-sm">
+																<i class="fa fa-fw" ng-class="subgroup.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
+																{{subgroup.name}}
+																<span ng-if="subgroup.selectedReason" class="badge badge-default">{{subgroup.selectedReason}}</span>
+															</div>
+
+														</li>
+													</ul>
+
+													<ul ng-if="outcome.study" class="list-unstyled list-indented">
+														<ul ng-if="outcome.study" class="list-unstyled list-indented">
+															<li ng-repeat="study in outcome.study track by study.id">
+																<div ng-class="study.selected && 'bg-success'" ng-click="toggleNode(study)" class="pad-xs box-rounded-sm">
+																	<i class="fa fa-fw" ng-class="study.selected ? 'fa-check-square-o' : 'fa-square-o'"></i>
+																	{{study.name}}
+																	<span ng-if="study.selectedReason" class="badge badge-default">{{study.selectedReason}}</span>
+																</div>
+															</li>
+														</ul>
+													</ul>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="text-center">
+			<button type="submit" class="btn btn-lg btn-success"><i class="fa fa-check"></i> Generate content</button>
+		</div>
+	</form>
+</div>

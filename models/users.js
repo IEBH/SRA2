@@ -6,6 +6,7 @@ var User = module.exports = monoxide.schema('users', {
 	_passhash: {type: String},
 	_passhash2: {type: String},
 	_passsalt: {type: String},
+	_token: {type: String},
 	name: {type: String},
 	status: {type: String, enum: ['active', 'deleted'], default: 'active', index: true},
 	role: {type: String, enum: ['user', 'admin', 'root'], default: 'user', index: true},

@@ -6,13 +6,17 @@
 		<div ng-switch-when="pending" class="alert alert-info alert-block">
 			<h1 class="pull-center"><i class="fa fa-spinner fa-spin"></i> Task pre-processing...</h1>
 		</div>
-		<div ng-switch-when="processing" class="alert alert-info alert-block">
-			<h1 class="pull-center"><i class="fa fa-spinner fa-spin"></i> Processing...</h1>
-			<div ng-if="task.progress.current > 0" class="progress progress-striped active">
-				<div class="progress-bar progress-bar-striped active" style="width: {{task.progress.percent}}%"></div>
+		<div ng-switch-when="processing">
+			<div class="alert alert-info alert-block">
+				<h1 class="pull-center"><i class="fa fa-spinner fa-spin"></i> Processing...</h1>
+				<div class="pad-top-lg"></div>
+				<div ng-if="task.progress.current > 0" class="progress progress-striped active">
+					<div class="progress-bar progress-bar-striped active" style="width: {{task.progress.percent}}%"></div>
+				</div>
+				<div ng-if="task.progress.current > 0" class="text-center">Processed: {{task.progress.current | number}} / {{task.progress.max | number}}</div>
+				<div ng-if="task.lastUpdate" class="text-center muted small pad-top-sm pad-bottom-sm">Last update at {{task.lastUpdate}}</div>
 			</div>
-			<div ng-if="task.progress.current > 0" class="text-center">Processed: {{task.progress.current}} / {{task.progress.max}}</div>
-			<div ng-if="task.lastUpdate" class="text-center muted small pad-top-sm pad-bottom-sm">Last update at {{task.lastUpdate}}</div>
+			<div class="text-muted text-center">Processing happens in the background so you can close this page and come back to your library later</div>
 		</div>
 		<div ng-switch-when="completed" class="alert alert-success alert-block">
 			<h1 class="pull-center"><i class="fa fa-exclamation-triangle"></i> Completed processing</h1>

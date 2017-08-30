@@ -1,7 +1,13 @@
 <div ng-controller="libraryOperation"><div ng-controller="libraryDedupeController">
 	<form ng-submit="submit()">
 		<div class="alert alert-info">
-			<p>Attempt to remove duplicates from the <strong>{{library.title}}</strong> reference library.</p>
+			<p><i class="fa fa-question-circle"></i> Attempt to remove duplicates from the <strong>{{library.title}}</strong> reference library.</p>
+		</div>
+		<div class="alert alert-warning">
+			<p><i class="fa fa-exclamation-triangle"></i><strong>Warning</strong></p>
+			<p>Deduplication is extremely slow as our servers have shared resources with all user users performing tasks.</p>
+			<p>Please try to keep your libraries as small as possible (less than 2k references).</p>
+			<p>If you can, please perform deduplciation on your own PC using the <a href="#/help/dedupe-offline">offline deduplicator</a> before using our server which has limited resources.</p>
 		</div>
 		<div class="form-horizontal">
 			<div ng-if="errors.length" class="alert alert-warning">

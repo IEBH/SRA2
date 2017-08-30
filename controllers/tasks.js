@@ -6,13 +6,49 @@ var References = require('../models/references');
 var Tasks = require('../models/tasks');
 
 /**
-* Create a combined on an entire library (assume all references, unless req.params.references is specified)
-* @param string req.params.libid The library ID to operate on
-* @param string req.params.worker The worker to allocate
-* @param object req.body.settings Additional options to pass to the records (stored in processQueue.settings)
-* @param string req.body.settings.references Specific references to operate on - otherwise all are assumed
+* Query the PROCESSING tasks attached to a library
+* @param {string} req.params.libid The library ID to examine
+* @return {array} The array of currently processing tasks attached to a library
 */
-app.all('/api/tasks/library/:libid/:worker', function(req, res) {
+app.get('/api/tasks/library/:libid', function(req, res) {
+	async()
+		// Sanity checks {{{
+		.then(function(next) {
+			if (!req.params.libid) return next('libid must be specified');
+			next();
+		})
+		// }}}
+		// Check the library is valid {{{
+		.then('library', function(next) {
+			Libraries.findOne({_id: req.params.libid, status: 'active'}, next);
+		})
+		// }}}
+		// Fetch the tasks {{{
+		.then('tasks', function(next) {
+			Tasks.find({
+				library: this.library._id.toString(),
+				status: 'processing',
+			})
+				.select('_id created library status progress history result destination')
+				.exec(next);
+		})
+		// }}}
+		// End {{{
+		.end(function(err) {
+			if (err) return res.status(400).send(err);
+			res.send(this.tasks);
+		});
+		// }}}
+});
+
+/**
+* Create a task on an entire library (assume all references, unless req.params.references is specified)
+* @param {string} req.params.libid The library ID to operate on
+* @param {string} req.params.worker The worker to allocate
+* @param {object} req.body.settings Additional options to pass to the records (stored in processQueue.settings)
+* @param {string} req.body.settings.references Specific references to operate on - otherwise all are assumed
+*/
+app.post('/api/tasks/library/:libid/:worker', function(req, res) {
 	async()
 		.set('settings', req.body.settings || {})
 		// Sanity checks {{{
@@ -71,14 +107,18 @@ app.get('/api/tasks/:id', function(req, res) {
 			next();
 		})
 		// }}}
+		// Fetch task {{{
 		.then('task', function(next) {
 			Tasks
 				.findOne({_id: req.params.id})
 				.select('_id created library status progress history result destination')
 				.exec(next);
 		})
+		// }}}
+		// End {{{
 		.end(function(err) {
 			if (err) return res.status(400).send(err);
 			res.send(this.task);
 		});
+		// }}}
 });

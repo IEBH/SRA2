@@ -1,9 +1,11 @@
 var _ = require('lodash');
 var async = require('async-chainable');
 var colors = require('chalk');
+var email = require('mfdc-email');
 var Libraries = require('../models/libraries');
 var References = require('../models/references');
 var Users = require('../models/users');
+var uuid = require('uuid');
 
 // Passport setup {{{
 var passport = require('passport');
@@ -148,6 +150,78 @@ app.post('/signup', function(req, res, finish) {
 		});
 });
 
+
+/**
+* Send an email to a user with a password reset token
+* @param {string} req.body.email The email address to generate the token for
+*/
+app.post('/api/users/recover', function(req, res){
+	async()
+		// Sanity checks {{{
+		.then(function(next) {
+			if (!req.body.email) return next('No email provided');
+			next();
+		})
+		// }}}
+		.then('user', function(next) {
+			Users.findOne({ email: req.body.email }, function(err, user) {
+				if (!user) return next(`Email ${req.body.email} does not belong to an account`)
+				next(null, user);
+			});
+		})
+		.then(function(next){
+			this.user._token = uuid.v4();
+			this.user.save(next);
+		})
+		.then(function(next){
+			email()
+				.to(this.user.email)
+				.subject("CREBP-SRA Password Reset")
+				.template(__dirname + '/../views/email/password-reset.txt')
+				.templateParams({
+					url: config.publicUrl + '/#/reset/' + this.user._token,
+				})
+				.send(next)
+		})
+		.end(function(err){
+			if (err) {
+				res.send({error: err.toString()});
+			} else {
+				res.send({message: 'An email has been sent with instructions to reset your password'});
+			}
+		});
+})
+
+
+/**
+* Accept a password change token and a new password
+* @param {string} req.body.token The token to process
+* @param {string} req.body.password The new password to accept
+*/
+app.post('/api/users/reset', function(req, res){
+	async()
+		.then(function(next){
+			if(!req.body.token) next('Token not specified');
+			if(!req.body.password) next('Password not specified');
+			next()
+		})
+		.then('user', function(next){
+			Users.findOne({_token: req.body.token}, next)
+		})
+		.then(function(next) {
+			if (!this.user) return next('Password reset token invalid');
+			if (this.user._token != req.body.token) return next('Token Mismatch');
+			this.user.password = req.body.password;
+			this.user._token = undefined;
+			this.user.save(next);
+		})
+		.end(function(err){
+			if (err) return res.send({error: err.toString()});
+			res.send({message:'Your password has been reset'})
+		})
+});
+
+
 app.get('/api/users/profile', function(req, res) {
 	if (!req.user) return res.status(200).send({});
 
@@ -197,18 +271,18 @@ app.get('/api/users/profile', function(req, res) {
 
 app.post('/api/users/profile', function(req, res) {
 	async()
+		// Sanity checks {{{
 		.then(function(next) {
-			// Sanity checks {{{
 			if (!req.user) return next('User is not logged in');
 			if (!req.body || !_.isObject(req.body)) return next('Nothing to save');
 			next();
-			// }}}
 		})
+		// }}}
 		.then(function(next) {
 			['email', 'name', 'title', 'libraryNo', 'faculty', 'position', 'settings'].forEach(function(field) {
 				if (req.body[field]) req.user[field] = req.body[field];
 			});
-			
+
 			req.user.save();
 			next();
 		})

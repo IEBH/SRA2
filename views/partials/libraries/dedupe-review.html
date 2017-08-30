@@ -32,7 +32,7 @@
 			</div>
 
 			<div class="infobox-data">
-				<div class="infobox-content">References (accepted)</div>
+				<div class="infobox-content">Total references</div>
 				<div class="infobox-content">{{stats.active | number}}</div>
 			</div>
 		</div>
@@ -43,7 +43,7 @@
 			</div>
 
 			<div class="infobox-data">
-				<div class="infobox-content">Duplicates</div>
+				<div class="infobox-content">Found duplicates</div>
 				<div class="infobox-content">{{stats.dupes | number}}</div>
 			</div>
 		</div>
@@ -65,6 +65,16 @@
 
 	<!-- Dupe list {{{ -->
 	<div ng-if="!loading" class="duplicates">
+		<div ng-if="!references.length" class="alert alert-info">
+			<h3><i class="fa fa-info-circle"></i> De-duplication complete</h3>
+			All your duplicates were automatically resolved with no conflicting fields.<br/>
+		</div>
+		<div ng-if="references.length" class="alert alert-info">
+			<h3><i class="fa fa-info-circle"></i> Conflicting fields</h3>
+			Below are conflicting fields where the deduplicator couldn't decide what value to use.<br/>
+			You can override these by clicking on the field you want to use or <a ng-click="dedupeEnd()">accept all changes</a> if they look acceptable.
+		</div>
+
 		<div ng-repeat="reference in references track by reference._id">
 			<legend>{{reference.title}}</legend>
 			<div class="row">

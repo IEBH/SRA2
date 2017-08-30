@@ -13,4 +13,8 @@ echo "Stopping all PM2 child processes..."
 pm2 kill
 
 echo "Booting main web server"
+NODE_ENV=production
 pm2 start server.js
+
+echo "Booting babysitter process"
+pm2 start --name babysitter `which pm2-babysitter` -- --app server --url http://localhost -v -d 10000

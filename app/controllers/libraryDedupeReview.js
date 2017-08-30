@@ -1,6 +1,6 @@
 app.controller('libraryDedupeReviewController', function($scope, $location, $q, $rootScope, References) {
 	// Deal with breadcrumbs {{{
-	$scope.$watch('library', function() {
+	$scope.$watch('library.title', function() {
 		if (!$scope.library) return;
 		$rootScope.$broadcast('setBreadcrumb', [
 			{url: '/libraries', title: 'Libraries'},
@@ -133,7 +133,8 @@ app.controller('libraryDedupeReviewController', function($scope, $location, $q, 
 								});
 								// }}}
 								return ref;
-							});
+							})
+							.filter(ref => ref.duplicateDataFields.length > 0)
 							// }}}
 					}),
 

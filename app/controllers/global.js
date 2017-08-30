@@ -83,6 +83,12 @@ app.controller('globalController', function($scope, $rootScope, $debounce, $loca
 	};
 	// }}}
 
+	// General utility functions {{{
+	$scope.toggle = function(obj, property) {
+		obj[property] = ! obj[property];
+	};
+	// }}}
+
 	// Service hooks {{{
 	$rootScope.loader = Loader.loaderData;
 	// }}}
