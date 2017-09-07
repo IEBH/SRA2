@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Initial / Config {{{
-global.config = require('./config');
+global.config = require('./config/index.conf.js');
 // }}}
 // Initial / NewRelic {{{
 if (config.newrelic.enabled) require('newrelic');
@@ -15,9 +15,10 @@ var fspath = require('path');
 var fs = require('fs');
 var requireDir = require('require-dir');
 global.app = express();
+global.app.config = config;
 // }}}
 // Settings {{{
-require('./config/db');
+require('./config/db.conf.js');
 app.set('title', config.title);
 app.set('view engine', "html");
 app.set('layout', 'layouts/main');

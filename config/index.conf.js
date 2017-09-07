@@ -20,6 +20,7 @@ if (process.env.VCAP_SERVICES) {
 // }}}
 
 var defaults = {
+	isProduction: false, // Master `is this production mode` switch - disables debugging and vario
 	name: 'crebp-sra', // NPM compatible name
 	title: 'CREBP-SRA',
 	env: env,
@@ -32,8 +33,13 @@ var defaults = {
 		lockdown: false, // Set to true to lock the site with the below users
 		users: [{user: 'user', pass: 'qwaszx'}],
 	},
+	analytics: {
+		enabled: false,
+		insert: '',
+	},
 	contactEmail: 'matt_carter@bond.edu.au',
 	gulp: {
+		notifications: true,
 		debugJS: true,
 		minifyJS: false,
 		debugCSS: true,
@@ -64,9 +70,8 @@ var defaults = {
 		name: 'CREBP-SRA',
 		license: 'c71e85e2d852cb4962d8b47dcad90de117501a07',
 	},
-	analytics: {
-		enabled: false,
-		insert: '',
+	paths: {
+		root: path.normalize(__dirname + '/..'),
 	},
 	limits: {
 		references: 100, // How many references to hold in memory at once during operations
@@ -110,11 +115,11 @@ var config = _.merge(
 	// Adopt defaults...
 	defaults,
 
-	// Which are overriden by private.js if its present
-	fs.existsSync(__dirname + '/private.js') ? require(__dirname + '/private.js') : {},
+	// Which are overriden by private.conf.js if its present
+	fs.existsSync(__dirname + '/private.conf.js') ? require(__dirname + '/private.conf.js') : {},
 
-	// Whish are overriden by the NODE_ENV.js file if its present
-	fs.existsSync(__dirname + '/' + defaults.env + '.js') ? require(__dirname + '/' + defaults.env + '.js') : {}
+	// Which are overriden by the NODE_ENV.conf.js file if its present
+	fs.existsSync(__dirname + '/' + defaults.env + '.conf.js') ? require(__dirname + '/' + defaults.env + '.conf.js') : {}
 );
 
 // Sanity checks {{{

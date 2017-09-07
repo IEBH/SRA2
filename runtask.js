@@ -4,8 +4,8 @@ var async = require('async-chainable');
 var colors = require('colors');
 var program = require('commander');
 
-global.config = require('./config');
-require('./config/db');
+global.app = require('./units/core/backend.js');
+app.db = require('./config/db.conf.js');
 
 program
 	.version(require('./package.json').version)
