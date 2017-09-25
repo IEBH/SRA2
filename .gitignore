@@ -1,4 +1,4 @@
-config/private.js
+config/private.conf.js
 node_modules/
 build/
 .DS_Store
