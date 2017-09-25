@@ -4,8 +4,8 @@ var minifyHtml = require('gulp-minify-html');
 var notify = require('gulp-notify');
 
 var templateBootCount = 0;
-gulp.task('partials', ['load:config'], function() {
-	return gulp.src(paths.partials)
+gulp.task('partials', ['load:app'], function() {
+	return gulp.src(`${__dirname}/../views/partials/**/*.html`)
 		.pipe(minifyHtml())
 		.pipe(ngTemplateCache({
 			filename: 'partials.min.js',

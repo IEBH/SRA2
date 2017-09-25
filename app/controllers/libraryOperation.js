@@ -4,138 +4,138 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 	$scope.operations = [
 		{
 			id: 'view',
-			title: 'View the library',
-			isTool: false,
+			title: 'View library',
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
-			urlExisting: '/libraries/:id'
+			urlExisting: '/libraries/:id',
+			isTool: false,
 		},
 		{
 			id: 'copy',
 			title: 'Copy library',
-			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
-			urlExisting: '/libraries/:id/copy'
+			urlExisting: '/libraries/:id/copy',
+			isTool: false,
 		},
 		{
 			id: 'import',
 			title: 'Import references',
-			isTool: true,
 			allowExisting: true,
 			allowNew: true,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/import'
+			urlExisting: '/libraries/:id/import',
+			isTool: true,
 		},
 		{
 			id: 'export',
 			title: 'Export references',
-			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
-			urlExisting: '/libraries/:id/export'
+			urlExisting: '/libraries/:id/export',
+			isTool: false,
 		},
 		{
 			id: 'dedupe',
 			title: 'Deduplicate',
-			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/dedupe'
+			urlExisting: '/libraries/:id/dedupe',
+			isTool: true,
 		},
 		{
 			id: 'screen',
 			title: 'Screen references',
-			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/screen'
+			urlExisting: '/libraries/:id/screen',
+			isTool: false,
 		},
 		{
 			id: 'compare',
 			title: 'Compare',
-			isTool: true,
 			allowExisting: true,
 			allowNew: true,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/compare'
+			urlExisting: '/libraries/:id/compare',
+			isTool: true,
 		},
 		{
 			id: 'tags',
-			title: 'Edit the library tags',
-			isTool: true,
+			title: 'Edit library tags',
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/tags'
+			urlExisting: '/libraries/:id/tags',
+			isTool: true,
 		},
 		{
 			id: 'share',
 			title: 'Share library',
-			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/share'
+			urlExisting: '/libraries/:id/share',
+			isTool: true,
 		},
 		{
 			id: 'request',
 			title: 'Journal Request',
-			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
-			urlExisting: '/libraries/:id/request'
+			urlExisting: '/libraries/:id/request',
+			isTool: true,
 		},
 		{
 			id: 'fulltext',
 			title: 'Find full texts',
-			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/fulltext'
+			urlExisting: '/libraries/:id/fulltext',
+			isTool: false,
 		},
 		{
 			id: 'collabmatrix',
 			title: 'Generate a collaboration matrix',
-			isTool: true,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: true,
-			urlExisting: '/libraries/:id/collabmatrix'
+			urlExisting: '/libraries/:id/collabmatrix',
+			isTool: false,
 		},
 		{
 			id: 'word-freq',
 			title: 'Collect word-frequency data',
-			isTool: true,
 			allowExisting: true,
 			allowNew: true,
 			allowNonOwner: true,
-			urlExisting: '/libraries/:id/word-freq'
+			urlExisting: '/libraries/:id/word-freq',
+			isTool: true,
 		},
 		{
 			id: 'clear',
 			title: 'Clear the library',
-			isTool: false,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/clear'
+			urlExisting: '/libraries/:id/clear',
+			isTool: false,
 		},
 		{
 			id: 'delete',
 			title: 'Delete the library',
-			isTool: false,
 			allowExisting: true,
 			allowNew: false,
 			allowNonOwner: false,
-			urlExisting: '/libraries/:id/delete'
+			urlExisting: '/libraries/:id/delete',
+			isTool: false,
 		}
 	];
 	$scope.operation = _.find($scope.operations, {id: 'view'});

@@ -8,14 +8,14 @@ var notify = require('gulp-notify');
 var scenario = require('gulp-mongoose-scenario');
 
 /**
-* Setup the local Mongo DB with all the files located in paths.data
+* Setup the local Mongo DB with all the files located in ./*.json
 */
-gulp.task('scenario', ['load:models'], function(finish) {
+gulp.task('scenario', ['load:app.db'], function(finish) {
 	if (config.env == 'production') return finish('Refusing to reload database in production! If you REALLY want to do this use `NODE_ENV=something gulp db`');
-	gulp.src(paths.scenarios)
-		.pipe(scenario({connection: db, nuke: true}))
+	gulp.src(`${app.config.paths.root}/units/scenario`)
+		.pipe(scenario({connection: app.db, nuke: true}))
 		.on('error', function(err) {
-			gutil.log('Error loading scenario'.red, err);
+			gutil.log(gutil.colors.red('Error loading scenario'), err);
 		})
 		.on('end', function(err) {
 			notify({

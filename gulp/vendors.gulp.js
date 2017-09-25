@@ -11,6 +11,7 @@ var async = require('async-chainable');
 var braceExpansion = require('brace-expansion');
 var cache = require('gulp-cache');
 var cleanCSS = require('gulp-clean-css');
+var colors = require('chalk');
 var concat = require('gulp-concat');
 var fs = require('fs');
 var fspath = require('path');
@@ -58,12 +59,12 @@ gulp.task('vendors', ['vendors-core', 'vendors-main']);
 * This differs from the regular vendors selection in that these should be loaded as soon as possible
 * Each of these resources should stand-alone (no jQuery / Angular etc.) and should load in the very top of the page head
 */
-gulp.task('vendors-core', ['load:config'], function(finish) {
+gulp.task('vendors-core', ['load:app'], function(finish) {
 	async()
 		.set('includes', []) // Array of all JS / CSS files we need to include in the project
 		.forEach(paths.vendors.core, function(next, dep, depIndex) { // Process all strings into paths
 			// At the moment this doesn't surve a purpose but we could add extra properties here that do things like transpose individual files based on options
-			this.includes[depIndex] = config.root + '/' + dep;
+			this.includes[depIndex] = fspath.resolve(paths.root, dep);
 			next();
 		})
 		.then('includes', function(next) {
@@ -77,7 +78,7 @@ gulp.task('vendors-core', ['load:config'], function(finish) {
 		})
 		.forEach('includes', function(next, path) {
 			fs.stat(path, function(err, stats) {
-				if (err) return next('Error loading dependency path "' + path + '". Maybe you should specify the file directly with file://PATH - ' + err.toString());
+				if (err) return next('Error loading dependency path "' + path + '" - ' + err.toString());
 				if (stats.isDirectory()) return next('Dependency path "' + path + '" is a directory. This should be a file');
 				next();
 			});
@@ -107,23 +108,24 @@ gulp.task('vendors-core', ['load:config'], function(finish) {
 			gutil.log('Compiled', gutil.colors.cyan(this.js.length), 'core vendor JS scripts');
 			gutil.log('Compiled', gutil.colors.cyan(this.css.length), 'core vendor CSS files');
 
-			notify({
-				title: config.title + ' - Core vendors',
-				message: 'Rebuilt ' + (this.js.length + this.css.length) + ' core vendor files' + (++vendorBootCount > 1 ? ' #' + vendorBootCount : ''),
-				icon: __dirname + '/icons/html5.png',
-			}).write(0);
+			if (app.config.gulp.notifications)
+				notify({
+					title: app.config.title + ' - Core vendors',
+					message: 'Rebuilt ' + (this.js.length + this.css.length) + ' core vendor files' + (++vendorBootCount > 1 ? ' #' + vendorBootCount : ''),
+					icon: __dirname + '/icons/html5.png',
+				}).write(0);
 
 			finish();
 		});
 });
 
 
-gulp.task('vendors-main', ['load:config'], function(finish) {
+gulp.task('vendors-main', ['load:app'], function(finish) {
 	async()
 		.set('includes', []) // Array of all JS / CSS files we need to include in the project
 		.forEach(paths.vendors.main, function(next, dep, depIndex) { // Process all strings into paths
 			// At the moment this doesn't surve a purpose but we could add extra properties here that do things like transpose individual files based on options
-			this.includes[depIndex] = config.root + '/' + dep;
+			this.includes[depIndex] = fspath.resolve(paths.root, dep);
 			next();
 		})
 		.then('includes', function(next) {
@@ -137,7 +139,7 @@ gulp.task('vendors-main', ['load:config'], function(finish) {
 		})
 		.forEach('includes', function(next, path) {
 			fs.stat(path, function(err, stats) {
-				if (err) return next('Error loading dependency path "' + path + '". Maybe you should specify the file directly with file://PATH - ' + err.toString());
+				if (err) return next('Cannot load vendor dependency - ' + path);
 				if (stats.isDirectory()) return next('Dependency path "' + path + '" is a directory. This should be a file');
 				next();
 			});
@@ -146,35 +148,39 @@ gulp.task('vendors-main', ['load:config'], function(finish) {
 			js: function(next) {
 				var sources = this.includes.filter(i => /\.js$/.test(i));
 				return gulp.src(sources)
-					.pipe(gulpIf(config.gulp.debugJS, sourcemaps.init()))
+					.pipe(gulpIf(app.config.gulp.debugJS, sourcemaps.init()))
 					.pipe(concat('vendors-main.min.js'))
 					.pipe(replace("\"app\/", "\"\/app\/")) // Rewrite all literal paths to relative ones
-					.pipe(gulpIf(config.gulp.minifyJS, uglify({mangle: false})))
-					.pipe(gulpIf(config.gulp.debugJS, sourcemaps.write()))
+					.pipe(gulpIf(app.config.gulp.minifyJS, uglify({mangle: false})))
+					.pipe(gulpIf(app.config.gulp.debugJS, sourcemaps.write('.')))
 					.pipe(gulp.dest(paths.build))
 					.on('end', () => next(null, sources));
 			},
 			css: function(next) {
 				var sources = this.includes.filter(i => /\.css$/.test(i));
 				return gulp.src(sources)
-					.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.init()))
+					.pipe(gulpIf(app.config.gulp.debugCSS, sourcemaps.init()))
 					.pipe(concat('vendors-main.min.css'))
-					.pipe(gulpIf(config.gulp.minifyCSS, cleanCSS()))
-					.pipe(gulpIf(config.gulp.debugCSS, sourcemaps.write()))
+					.pipe(gulpIf(app.config.gulp.minifyCSS, cleanCSS()))
+					.pipe(gulpIf(app.config.gulp.debugCSS, sourcemaps.write('.')))
 					.pipe(gulp.dest(paths.build))
 					.on('end', () => next(null, sources));
 			},
 		})
 		.end(function(err) {
-			if (err) return finish(err);
-			gutil.log('Compiled', gutil.colors.cyan(this.js.length), 'main vendor JS scripts');
-			gutil.log('Compiled', gutil.colors.cyan(this.css.length), 'main vendor CSS files');
+			if (err) {
+				gutil.log(colors.red('ERROR'), err.toString());
+			} else {
+				gutil.log('Compiled', gutil.colors.cyan(this.js.length), 'main vendor JS scripts');
+				gutil.log('Compiled', gutil.colors.cyan(this.css.length), 'main vendor CSS files');
 
-			notify({
-				title: config.title + ' - Main vendors',
-				message: 'Rebuilt ' + (this.js.length + this.css.length) + ' vendor files' + (++vendorBootCount > 1 ? ' #' + vendorBootCount : ''),
-				icon: __dirname + '/icons/html5.png',
-			}).write(0);
+				if (app.config.gulp.notifications)
+					notify({
+						title: app.config.title + ' - Main vendors',
+						message: 'Rebuilt ' + (this.js.length + this.css.length) + ' vendor files' + (++vendorBootCount > 1 ? ' #' + vendorBootCount : ''),
+						icon: __dirname + '/icons/html5.png',
+					}).write(0);
+			}
 
 			finish();
 		});

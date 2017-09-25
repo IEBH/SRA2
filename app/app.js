@@ -11,6 +11,7 @@ var app = angular.module('app', [
 	'ng-collection-assistant',
 	'ngPolyglot',
 	'ngResource',
+	'ngSanitize',
 	'ngTreeTools',
 	'ui.grid',
 	'ui.grid.pagination',
@@ -31,6 +32,14 @@ app.config(function($compileProvider) {
 app.config(function($httpProvider) {
 	// Enable async HTTP for performance boost
 	$httpProvider.useApplyAsync(true);
+});
+
+app.config(function ($sceDelegateProvider) {
+	$sceDelegateProvider.resourceUrlWhitelist([
+		'self', // trust all resources from the same origin
+		'https://www.youtube.com/**',
+		'https://docs.google.com/**',
+	]);
 });
 
 // Loader display while routing {{{

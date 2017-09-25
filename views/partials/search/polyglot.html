@@ -89,14 +89,19 @@
 						{{engine.title}}
 					</a>
 					<div class="pull-right">
+						<!-- FIXME: The engine open functionality rarely works - maybe someday this will be updated
 						<a ng-if="engine.open" ng-click="engineOpen(engine)" class="btn btn-sm btn-success" tooltip="Open this search in a new tab"><i class="fa fa-search"></i></a>
+						-->
 						<a ng-click="clipboard(engine.translated)" class="btn btn-sm btn-success"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
+					</div>
+					<div class="pull-right pad-right-sm">
+						<span ng-if="engine.openTerms" class="badge badge-default">{{engine.openTerms}}</span>
 					</div>
 				</h4>
 			</div>
 			<div class="panel-collapse collapse" ng-class="engine.expanded && 'in'">
 				<div class="panel-body">
-					<pre>{{engine.translated}}</pre>
+					<div ng-bind-html="engine.translated" class="well"></div>
 				</div>
 			</div>
 		</div>
