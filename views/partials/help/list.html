@@ -4,7 +4,7 @@
 			<div class="panel-heading">Help Topics</div>
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
-					<li ng-repeat="topic in topics track by topic.id">
+					<li ng-repeat="topic in topics | filter:{show:true} track by topic.id">
 						<a href="#/help/{{topic.id}}">
 							{{topic.title}}
 						</a>
