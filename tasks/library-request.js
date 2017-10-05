@@ -4,7 +4,7 @@ var email = require('../lib/email');
 var Libraries = require('../models/libraries');
 var moment = require('moment');
 var References = require('../models/references');
-var sraExlibrisRequest = require('/home/mc/Papers/Projects/Node/sra-exlibris-request/index.js'); // FIXME: Wrong FS path
+var sraExlibrisRequest = require('sra-exlibris-request');
 
 module.exports = function(finish, task) {
 	async()

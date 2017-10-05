@@ -109,6 +109,7 @@
     "smart-area": "^1.1.0",
     "sra-api": "0.0.0",
     "sra-dedupe": "^1.0.4",
+    "sra-exlibris-request": "0.0.1",
     "sra-polyglot": "^2.4.20",
     "strtotime": "^1.0.0",
     "superagent": "^3.5.2",
