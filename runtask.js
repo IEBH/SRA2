@@ -61,7 +61,7 @@ async()
 					response: err.toString(),
 				});
 				task.save(next);
-			} else if (task.status = 'error') { // Error already set by something upstream
+			} else if (task.status == 'error') { // Error already set by something upstream
 				// Do nothing
 				task.touched = new Date();
 				task.save(next);
