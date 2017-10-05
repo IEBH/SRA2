@@ -28,7 +28,7 @@ var defaults = {
 	host: null, // Listen to all host requests
 	port: process.env.PORT || 8080,
 	url: 'http://localhost',
-	secret: "dT2CsWwmEBPnggihyKlY3IXONBIY4Db/yt5y1qcRHXkylDxHfEPGAsPkG1ikpFMgPnE9TrghA4hXSmuf8DvrdwtXZHY4Zmg8VVFs9Ei2NRK3N",
+	secret: 'FIXME: See config/private.conf.js',
 	access: {
 		lockdown: false, // Set to true to lock the site with the below users
 		users: [{user: 'user', pass: 'qwaszx'}],
@@ -77,14 +77,15 @@ var defaults = {
 		references: 100, // How many references to hold in memory at once during operations
 		recentLibraries: 10,
 	},
-	library: {
-		request: {
-			timeout: 30 * 1000,
-			maxReferences: 100, // Set to 0 to disable
-		},
+	request: {
+		timeout: 30 * 1000,
+		maxReferences: 100, // Set to 0 to disable
 		exlibrisSettings: {
 			exlibris: {
-				apiKey: 'l7xxa3ca85418b3f4010b3adf4c379a1f939', // Bond sandbox
+				apiKey: 'FIXME: SEE config/private.conf.js',
+				endpoints: {
+					resourcesRequest: 'https://api-ap.hosted.exlibrisgroup.com',
+				},
 			},
 			debug: {
 				execRequest: false, // FIXME: Disabled for now
@@ -133,7 +134,7 @@ var defaults = {
 		waitTime: 5 * 1000,
 
 		// How to execute tasks
-		// 'pm2' - run as seperated process via PM2
+		// 'pm2' - run as seperate process via PM2
 		// 'inline' - run within this thread
 		runMode: 'pm2',
 
@@ -141,7 +142,7 @@ var defaults = {
 			enabled: true,
 		},
 	},
-	test: {
+	test: { // Details to use in testkits
 		username: 'mc',
 		password: 'qwaszx',
 	},
