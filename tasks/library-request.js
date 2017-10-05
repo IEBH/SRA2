@@ -31,13 +31,13 @@ module.exports = function(finish, task) {
 			historyTask: function(next) {
 				task.progress.current = 0;
 				task.progress.max = task.references.length;
-				task.history.push({type: 'status', response: 'Going to request ' + task.references.length + ' references'});
+				task.history.push({type: 'status', response: `Going to request ${task.references.length} references`});
 				next();
 			},
 			requester: function(next) {
 				next(null, new sraExlibrisRequest()
 					.set(config.request.exlibrisSettings)
-					.set('user.email', task.settings.user.email)
+					.set('user.email', task.settings.user.email.toLowerCase())
 				);
 			},
 		})
@@ -46,16 +46,18 @@ module.exports = function(finish, task) {
 		// Final sanity checks {{{
 		.then(function(next) {
 			if (!config.request.maxReferences) return next();
-			if (this.references.length > config.request.maxReferences) return next('Refusing to submit ' + this.references.length + ' journal requests. ' + config.request.maxReferences + ' is the maximum allowed.');
+			if (this.references.length > config.request.maxReferences) return next(`Refusing to submit ${this.references.length} journal requests. ${config.request.maxReferences} is the maximum allowed.`);
 			next();
 		})
 		// }}}
 
 		// Send requests {{{
+		.set('errorCount', 0)
 		.forEach('references', function(nextRef, ref) {
-			this.requester.request(ref, function(err, res) {
+			this.requester.request(ref, (err, res) => {
 				if (err) {
 					task.history.push({type: 'error', response: err.toString()});
+					this.errorCount++;
 				} else {
 					task.history.push({type: 'response', response: this.response});
 				}
@@ -67,9 +69,15 @@ module.exports = function(finish, task) {
 
 		// Finish {{{
 		.then(function(next) { // Finalize task data
-			task.history.push({type: 'completed', response: 'Completed request operation'});
-			task.completed = new Date();
-			task.status = 'completed';
+			if (this.errorCount > 0) {
+				task.history.push({type: 'completed', response: `Completed request operation but ${this.errorCount} errors were reported`});
+				task.completed = new Date();
+				task.status = 'error';
+			} else {
+				task.history.push({type: 'completed', response: 'Completed request operation'});
+				task.completed = new Date();
+				task.status = 'completed';
+			}
 			task.save(next);
 		})
 		.end(finish);
