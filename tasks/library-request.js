@@ -45,8 +45,8 @@ module.exports = function(finish, task) {
 
 		// Final sanity checks {{{
 		.then(function(next) {
-			if (!config.library.request.maxReferences) return next();
-			if (this.references.length > config.library.request.maxReferences) return next('Refusing to submit ' + this.references.length + ' journal requests. ' + config.library.request.maxReferences + ' is the maximum allowed.');
+			if (!config.request.maxReferences) return next();
+			if (this.references.length > config.request.maxReferences) return next('Refusing to submit ' + this.references.length + ' journal requests. ' + config.request.maxReferences + ' is the maximum allowed.');
 			next();
 		})
 		// }}}
