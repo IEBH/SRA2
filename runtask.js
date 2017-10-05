@@ -55,10 +55,15 @@ async()
 		worker(function(err) {
 			if (err) {
 				task.status = 'error';
+				task.touched = new Date();
 				task.history.push({
 					type: 'error',
 					response: err.toString(),
 				});
+				task.save(next);
+			} else if (task.status = 'error') { // Error already set by something upstream
+				// Do nothing
+				task.touched = new Date();
 				task.save(next);
 			} else {
 				task.touched = new Date();
