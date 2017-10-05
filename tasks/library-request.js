@@ -38,6 +38,19 @@ module.exports = function(finish, task) {
 				next(null, new sraExlibrisRequest()
 					.set(config.request.exlibrisSettings)
 					.set('user.email', task.settings.user.email.toLowerCase())
+					.on('requestRetry', (ref, attempt, tryAgainInTimeout) => {
+						task.history.push({type: 'queued', response: `request failed (attempt #${attempt}) for "${ref.title}" retry in ${tryAgainInTimeout}ms`})
+					})
+					.on('requestFailed', (ref, attempt) => {
+						task.history.push({type: 'error', response: `request failed (after ${attempt} attempts) for "${ref.title}"`})
+					})
+					.on('requestError', (ref, err) => {
+						task.history.push({type: 'error', response: `request error for "${ref.title}" - ${err.toString()}`})
+					})
+					.on('requestSucceed', (ref, err) => {
+						task.history.push({type: 'completed', response: `request complete for "${ref.title}"`})
+					})
+
 				);
 			},
 		})
