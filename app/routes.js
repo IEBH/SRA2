@@ -71,13 +71,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Polyglot Search',
 			}
 		})
-		.state('endnote-helper', {
-			url: '/endnote-helper',
-			views: {main: {templateUrl: '/partials/endnote-helper/index.html'}},
-			data: {
-				title: 'EndNote-Helper',
-			}
-		})
 		.state('debug', {
 			url: '/debug',
 			views: {main: {templateUrl: '/partials/debug/index.html'}},
@@ -290,7 +283,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		})
 		.state('help-page-direct', { // Top level help topics
-			url: '/{topic:tools|whats-new}',
+			url: '/{topic:tools|whats-new|endnote-helper}',
 			views: {main: {templateUrl: '/partials/help/view.html'}},
 			data: {
 				title: 'Help',

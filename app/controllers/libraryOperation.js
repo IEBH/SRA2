@@ -256,6 +256,13 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 		$scope.newLibrary.name = name.replace(/\.(csv|txt|xml)$/, '');
 	});
 
+	$scope.error;
+	$scope.checkFile = name => {
+		if (!$scope.formats.some(f => name.toLowerCase().endsWith(f.ext))) {
+			$scope.error = 'The file you have provided does not look like a supported library.';
+		}
+	};
+
 	$scope.import = function() {
 		$timeout(function() {
 			$('form')

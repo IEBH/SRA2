@@ -6,6 +6,7 @@ module.exports = {
 	url: 'http://crebp-sra.com',
 	port: 80,
 	gulp: {
+		notifications: false,
 		debugJS: false,
 		minifyJS: true,
 		debugCSS: false,

@@ -2,53 +2,61 @@
 * Bootstrap styled file uploader
 *
 * e.g.
-*	
+*
 *	<file-upload/>
 *
+* @param {function} onSelect Callback to run when the file contents change. Called as ({name})
+* @emits fileUploadChange Emitted when the file contents change
 */
-app.directive('fileUpload', function() {
-	return {
-		scope: {
-		},
-		restrict: 'E',
-		controller: function($scope, $element) {
-			$scope.text = 'Select file...';
 
-			$scope.click = function() {
+angular
+	.module('app')
+	.component('fileUpload', {
+		bindings: {
+			onSelect: '&?',
+		},
+		controller: function($scope, $element) {
+			var $ctrl = this;
+
+			$ctrl.text = 'Select file...';
+
+			$ctrl.click = function() {
 				$element.find('input[type=file]').trigger('click');
 			};
 
-			$scope.setFile = function(name) {
-				$scope.text = name;
+			$ctrl.setFile = function(name) {
+				$ctrl.text = name;
+				if ($ctrl.onSelect) $ctrl.onSelect({name});
 				$scope.$emit('fileUploadChange', name);
 			};
-		},
-		template: 
-			'<input type="file" name="file"/>' +
-			'<a ng-click="click(this)" class="btn btn-primary">' +
-				'<i class="fa fa-file"></i>' +
-				'{{text}}' +
-			'</a>',
-		link: function($scope, elem, attr, ctrl) {
-			elem
-				.find('input[type=file]')
-				.css({
-					position: 'absolute',
-					'z-index': 2,
-					top: 0,
-					left: 0,
-					filter: 'alpha(opacity=0)',
-					'-ms-filter': 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)',
-					opacity: 0,
-					'background-color': 'transparent',
-					color: 'transparent',
-				})
-				.on('change', function() {
-					var my = $(this);
-					$scope.$apply(function() {
-						$scope.setFile(my.val().replace(/\\/g,'/').replace( /.*\//,''));
+
+			$ctrl.$onInit = ()=> {
+				$element
+					.find('input[type=file]')
+					.css({
+						position: 'absolute',
+						'z-index': 2,
+						top: 0,
+						left: 0,
+						filter: 'alpha(opacity=0)',
+						'-ms-filter': 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)',
+						opacity: 0,
+						'background-color': 'transparent',
+						color: 'transparent',
+					})
+					.on('change', function() {
+						var my = $(this);
+						$scope.$apply(function() {
+							$ctrl.setFile(my.val().replace(/\\/g,'/').replace( /.*\//,''));
+						});
 					});
-				});
-		}
-	}
-});
+			};
+		},
+		template: `
+			<input type="file" name="file"/>
+			<a ng-click="$ctrl.click(this)" class="btn btn-primary">
+				<i class="fa fa-file"></i>
+				{{$ctrl.text}}
+			</a>
+		`,
+	})

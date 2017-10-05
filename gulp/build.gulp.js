@@ -63,6 +63,5 @@ gulp.task('build:includes', function() {
 gulp.task('build:clean', function(finish) {
 	gutil.log('Cleaning: ' + gutil.colors.blue(paths.build));
 
-	var delPaths = [].concat(paths.build, paths.report);
-	return rimraf(delPaths, finish);
+	return rimraf(paths.build, finish);
 });
