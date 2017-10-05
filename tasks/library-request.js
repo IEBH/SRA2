@@ -54,12 +54,12 @@ module.exports = function(finish, task) {
 		// Send requests {{{
 		.set('errorCount', 0)
 		.forEach('references', function(nextRef, ref) {
-			this.requester.request(ref, (err, res) => {
+			this.requester.request(ref.toObject(), (err, res) => {
 				if (err) {
 					task.history.push({type: 'error', response: err.toString()});
 					this.errorCount++;
 				} else {
-					task.history.push({type: 'response', response: this.response});
+					task.history.push({type: 'response', response: res});
 				}
 				task.progress.current++;
 				task.save(nextRef); // Ignore individual errors

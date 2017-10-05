@@ -83,12 +83,11 @@ var defaults = {
 		exlibrisSettings: {
 			exlibris: {
 				apiKey: 'FIXME: SEE config/private.conf.js',
-				endpoints: {
-					resourcesRequest: 'https://api-ap.hosted.exlibrisgroup.com',
-				},
+				region: 'apac',
+				resourceRequestRetry: 10, // How many times to retry the request if we get back a fail
 			},
 			debug: {
-				execRequest: false, // FIXME: Disabled for now
+				execRequest: false,
 				titleMangle: title => `[SRA TEST ${(new Date).toISOString()} - DO NOT ACCEPT] ${title}`,
 			},
 			request: {
@@ -98,22 +97,21 @@ var defaults = {
 			validator: (ref, eref) => {
 				if (!ref.type) return 'No reference type specified';
 				if (ref.type == 'book') {
-					if (!ref.title) return 'Missing book title';
-					if (!ref.journal) return 'Missing journal';
+					if (!eref.title) return 'Missing book title';
 					eref.pickup_location = 'MAIN',
 					eref.format = 'PHYSICAL';
 					eref.citation_type = 'BK';
 				} else if (ref.type == 'bookSection') {
-					if (!ref.title) return 'Missing book title';
-					if (!ref.pages || !ref.section) return 'Missing book section or pages';
+					if (!eref.title) return 'Missing book title';
+					if (!eref.pages && !eref.section) return 'Missing book section or pages';
 					eref.format = 'DIGITAL';
 					eref.citation_type = 'BK';
 				} else if (ref.type == 'conferencePaper') {
-					if (!ref.title) return 'Missing conference paper title';
+					if (!eref.title) return 'Missing conference paper title';
 					eref.format = 'DIGITAL';
 					eref.citation_type = 'BK';
 				} else { // Assume everything else is a digital item
-					if (!ref.title) return 'Missing title';
+					if (!eref.title) return 'Missing title';
 					eref.format = 'DIGITAL';
 					eref.citation_type = 'CR';
 				}
