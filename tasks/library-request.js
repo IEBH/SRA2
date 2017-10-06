@@ -71,8 +71,6 @@ module.exports = function(finish, task) {
 				if (err) {
 					task.history.push({type: 'error', response: err.toString()});
 					this.errorCount++;
-				} else {
-					task.history.push({type: 'response', response: res});
 				}
 				task.progress.current++;
 				task.save(nextRef); // Ignore individual errors

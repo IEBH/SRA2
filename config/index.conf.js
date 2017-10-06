@@ -83,8 +83,8 @@ var defaults = {
 		exlibrisSettings: {
 			exlibris: {
 				apiKey: 'FIXME: SEE config/private.conf.js',
-				region: 'apac',
-				resourceRequestRetry: 10, // How many times to retry the request if we get back a fail
+				region: 'eu',
+				resourceRequestRetry: 1, // How many times to retry the request if we get back a fail
 			},
 			debug: {
 				execRequest: false,
