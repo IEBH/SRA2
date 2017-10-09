@@ -88,7 +88,7 @@ var defaults = {
 			},
 			debug: {
 				execRequest: false,
-				titleMangle: title => `[SRA TEST ${(new Date).toISOString()} - DO NOT ACCEPT] ${title}`,
+				// titleMangle: title => `[SRA TEST ${(new Date).toISOString()} - DO NOT ACCEPT] ${title}`,
 			},
 			request: {
 				source: 'SRA',
