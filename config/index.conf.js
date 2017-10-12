@@ -80,7 +80,13 @@ var defaults = {
 	request: {
 		timeout: 30 * 1000,
 		maxReferences: 100, // Set to 0 to disable
+		fallbackEmail: { // Send an email to the below if the exlibris request fails
+			enabled: true,
+			to: 'matt_carter@bond.edu.au',
+			subject: ref => `SRA Journal Request failed - ${ref.title}`,
+		},
 		exlibrisSettings: {
+			enabled: false, // Set to false to always send an email
 			exlibris: {
 				apiKey: 'FIXME: SEE config/private.conf.js',
 				region: 'eu',

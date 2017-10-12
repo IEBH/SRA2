@@ -15,4 +15,17 @@ module.exports = {
 	newrelic: {
 		enabled: true,
 	},
+	request: {
+		fallbackEmail: { // Send an email to the below if the exlibris request fails
+			enabled: true,
+			to: 'jclark@bond.edu.au',
+			subject: ref => `SRA Journal Request failed - ${ref.title}`,
+		},
+		exlibrisSettings: {
+			enabled: true,
+			debug: {
+				execRequest: true,
+			},
+		},
+	},
 };

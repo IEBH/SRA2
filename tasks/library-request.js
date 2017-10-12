@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var async = require('async-chainable');
-var email = require('../lib/email');
+var email = require('mfdc-email');
 var Libraries = require('../models/libraries');
 var moment = require('moment');
 var References = require('../models/references');
@@ -67,14 +67,50 @@ module.exports = function(finish, task) {
 		// Send requests {{{
 		.set('errorCount', 0)
 		.forEach('references', function(nextRef, ref) {
-			this.requester.request(ref.toObject(), (err, res) => {
-				if (err) {
-					task.history.push({type: 'error', response: err.toString()});
+
+			async()
+				.set('errorCount', this.errorCount)
+				.set('requester', this.requester)
+				// Make the request {{{
+				.then('responseSent', function(next) {
+					if (!config.request.exlibrisSettings.enabled) return next(null, false);
+					this.requester.request(ref.toObject(), (err, res) => {
+						return next(null, !err);
+					});
+				})
+				// }}}
+				// Log errors {{{
+				.then(function(next) {
+					if (this.responseSent) return next();
+					task.history.push({type: 'error', response: `Resource request rejected - '${ref.title}'`});
 					this.errorCount++;
-				}
-				task.progress.current++;
-				task.save(nextRef); // Ignore individual errors
-			});
+					next();
+				})
+				// }}}
+				// Send email about the reference failing if that feature is enabled
+				.then(function(next) {
+					if (this.responseSent) return next();
+					if (!config.request.fallbackEmail.enabled) return next(`Reference submission failed with no fallback left to try - ${ref.title}`);
+
+					email()
+						.to(config.request.fallbackEmail.to)
+						.subject(config.request.fallbackEmail.subject(ref))
+						.set('html', true)
+						.template(__dirname + '/../views/email/library-request-fallback.html')
+						.templateParams({
+							ref: ref,
+							user: task.settings.user,
+						})
+						.send(next)
+				})
+				// }}}
+				// Save progress {{{
+				.then(function(next) {
+					task.progress.current++;
+					task.save(next); // Ignore individual errors
+				})
+				// }}}
+				.end(nextRef)
 		})
 		// }}}
 
