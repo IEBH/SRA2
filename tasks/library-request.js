@@ -87,7 +87,7 @@ module.exports = function(finish, task) {
 					next();
 				})
 				// }}}
-				// Send email about the reference failing if that feature is enabled
+				// Send email about the reference failing if that feature is enabled {{{
 				.then(function(next) {
 					if (this.responseSent) return next();
 					if (!config.request.fallbackEmail.enabled) return next(`Reference submission failed with no fallback left to try - ${ref.title}`);
@@ -101,7 +101,10 @@ module.exports = function(finish, task) {
 							ref: ref,
 							user: task.settings.user,
 						})
-						.send(next)
+						.send(function(err) {
+							if (err) return next(`Error sending email - ${err.toString()}`);
+							next(`Reference submission failed (fallback to email was accepted) - ${ref.title}`);
+						})
 				})
 				// }}}
 				// Save progress {{{
