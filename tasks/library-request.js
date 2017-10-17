@@ -87,6 +87,12 @@ module.exports = function(finish, task) {
 					next();
 				})
 				// }}}
+				// Save progress {{{
+				.then(function(next) {
+					task.progress.current++;
+					task.save(next); // Ignore individual errors
+				})
+				// }}}
 				// Send email about the reference failing if that feature is enabled {{{
 				.then(function(next) {
 					if (this.responseSent) return next();
@@ -105,12 +111,6 @@ module.exports = function(finish, task) {
 							if (err) return next(`Error sending email - ${err.toString()}`);
 							next(`Reference submission failed (fallback to email was accepted) - ${ref.title}`);
 						})
-				})
-				// }}}
-				// Save progress {{{
-				.then(function(next) {
-					task.progress.current++;
-					task.save(next); // Ignore individual errors
 				})
 				// }}}
 				.end(nextRef)
