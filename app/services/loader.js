@@ -45,6 +45,7 @@ app.factory('Loader', function() {
 		* @return object This chainable object
 		*/
 		finish: function() {
+			console.log('FINISH');
 			$('#modal-loader').modal('hide');
 			this.loaderData.shown = false;
 			return this;

@@ -1,4 +1,4 @@
-app.controller('replicantUploadController', function($scope, $timeout, Loader) {
+app.controller('replicantUploadController', function($filter, $scope, $timeout, Loader) {
 	$scope.submit = function() {
 		$timeout(function() {
 			$('form')
