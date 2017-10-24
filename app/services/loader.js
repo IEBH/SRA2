@@ -45,8 +45,8 @@ app.factory('Loader', function() {
 		* @return object This chainable object
 		*/
 		finish: function() {
-			console.log('FINISH');
 			$('#modal-loader').modal('hide');
+			$('.modal-backdrop').remove(); // BUGFIX: Remove modal backdrops which hang around for some reason
 			this.loaderData.shown = false;
 			return this;
 		},
@@ -57,13 +57,8 @@ app.factory('Loader', function() {
 		*/
 		start: function() {
 			this.loaderData.shown = true;
-			console.log('START');
 
 			$('#modal-loader')
-				.one('shown.bs.modal', ()=> {
-					console.log('SHOWN', this.loaderData.shown);
-					if (!this.loaderData.shown) $('#modal-loader').modal('hide');
-				})
 				.modal({
 					backdrop: 'static', // Dont close modal on backdrop click
 					keyboard: false, // Dont close modal on keyboard
