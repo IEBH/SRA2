@@ -56,12 +56,19 @@ app.factory('Loader', function() {
 		* @return object This chainable object
 		*/
 		start: function() {
-			$('#modal-loader').modal({
-				backdrop: 'static', // Dont close modal on backdrop click
-				keyboard: false, // Dont close modal on keyboard
-				show: true,
-			});
 			this.loaderData.shown = true;
+			console.log('START');
+
+			$('#modal-loader')
+				.one('shown.bs.modal', ()=> {
+					console.log('SHOWN', this.loaderData.shown);
+					if (!this.loaderData.shown) $('#modal-loader').modal('hide');
+				})
+				.modal({
+					backdrop: 'static', // Dont close modal on backdrop click
+					keyboard: false, // Dont close modal on keyboard
+					show: true,
+				});
 			return this;
 		},
 	};
