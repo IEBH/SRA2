@@ -36,7 +36,7 @@ schema
 
 schema.methods.encryptPass = function(salt, password) {
 	var saltBuffer = new Buffer(salt, 'base64')
-	return crypto.pbkdf2Sync(password, saltBuffer, 10000, 64).toString('base64');
+	return crypto.pbkdf2Sync(password, saltBuffer, 10000, 64, 'sha1').toString('base64');
 };
 
 schema.methods.validPassword = function(candidate, next) {
