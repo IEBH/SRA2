@@ -246,7 +246,9 @@ app.get('/api/libraries/:id/export/:format', function(req, res) {
 						.skip(config.limits.references * batch)
 						.exec(function(err, res) {
 							if (err) return next(err);
-							next(null, res, res.length < config.limits.references);
+
+							// NOTE: We have to convert Mongo's annoying objects to native plain objects here so we can clip out the weird methods that Mongo adds
+							next(null, res.map(r => r.toObject()), res.length < config.limits.references);
 						});
 				},
 			})
