@@ -5,6 +5,40 @@ global.config = require('./config/index.conf.js');
 // Initial / NewRelic {{{
 if (config.newrelic.enabled) require('newrelic');
 // }}}
+// Initial / Papertrail {{{
+var winston = require('winston');
+
+var logger = new winston.Logger({
+	level: 'info',
+});
+
+// Add default console logger
+logger.add(winston.transports.Console, {
+	level: 'info',
+	colorize: true,
+	prettyPrint: true,
+	depth: 5,
+	showLevel: false, // Omit the level prefix on the console
+});
+
+
+// Add Papertrail if its enabled
+if (config.papertrail.enabled) {
+	var winstonPT = require('winston-papertrail').Papertrail;
+
+	logger.add(winston.transports.Papertrail, {
+		host: config.papertrail.host,
+		port: config.papertrail.port,
+		hostname: config.papertrail.hostname,
+	});
+}
+
+// Remap console.* -> app.logger.*
+console.info = logger.info;
+console.log = logger.info;
+console.warn = logger.warn;
+console.error = logger.error;
+// }}}
 // Requires {{{
 var _ = require('lodash');
 var colors = require('chalk');

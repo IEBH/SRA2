@@ -117,6 +117,8 @@
     "temp": "^0.8.3",
     "tree-tools": "^1.1.2",
     "uuid": "^3.0.1",
-    "venn.js": "^0.2.14"
+    "venn.js": "^0.2.14",
+    "winston": "^2.4.0",
+    "winston-papertrail": "^1.0.5"
   }
 }

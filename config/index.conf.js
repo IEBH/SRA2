@@ -73,6 +73,12 @@ var defaults = {
 	paths: {
 		root: path.normalize(__dirname + '/..'),
 	},
+	papertrail: {
+		enabled: false,
+		host: 'FIXME:Specify in private.conf.js',
+		port: 'FIXME:Specify in private.conf.js',
+		hostname: 'FIXME:Specify in private.conf.js',
+	},
 	limits: {
 		references: 100, // How many references to hold in memory at once during operations
 		recentLibraries: 10,
