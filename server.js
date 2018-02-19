@@ -26,6 +26,7 @@ logger.add(winston.transports.Console, {
 if (config.papertrail.enabled) {
 	var winstonPT = require('winston-papertrail').Papertrail;
 
+	console.log('Loading Winston/Papertail logging as', config.papertrail.hostname);
 	logger.add(winston.transports.Papertrail, {
 		host: config.papertrail.host,
 		port: config.papertrail.port,
