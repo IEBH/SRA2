@@ -73,6 +73,7 @@ module.exports = function(finish, task) {
 				.set('requester', this.requester)
 				// Make the request {{{
 				.then('responseSent', function(next) {
+					return next('FAKE FAILOVER');
 					if (!config.request.exlibrisSettings.enabled) return next(null, false);
 					this.requester.request(ref.toObject(), (err, res) => {
 						return next(null, !err);
@@ -98,6 +99,7 @@ module.exports = function(finish, task) {
 					if (this.responseSent) return next();
 					if (!config.request.fallbackEmail.enabled) return next(`Reference submission failed with no fallback left to try - ${ref.title}`);
 
+					console.log('Sending request failed email to', config.request.fallbackEmail.to);
 					email()
 						.to(config.request.fallbackEmail.to)
 						.subject(config.request.fallbackEmail.subject(ref))
