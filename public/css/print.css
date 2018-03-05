@@ -1,10 +1,5 @@
 @media print {
-	.no-print {
-		display: none;
-	}
-
-	/* Fixes during print {{{ */
-	.sidebar, .navbar, .breadcrumbs, .page-header {
+	.sidebar, .navbar, .breadcrumbs, .page-header, .no-print {
 		display: none !important;
 	}
 
@@ -15,5 +10,4 @@
 	.main-content {
 		margin: 0px !important;
 	}
-	/* }}} */
 }
