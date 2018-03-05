@@ -95,27 +95,29 @@ module.exports = function(finish, task) {
 				})
 				// }}}
 				// Send email about the reference failing if that feature is enabled {{{
-				.then(function(next) {
-					if (this.responseSent) return next();
-					if (!config.request.fallbackEmail.enabled) return next(`Reference submission failed with no fallback left to try - ${ref.title}`);
+				.end(function(err) {
+					if (err) {
+						if (!config.request.fallbackEmail.enabled) return nextRef(`Reference submission failed with no fallback left to try - ${ref.title}`);
 
-					console.log('Sending request failed email to', config.request.fallbackEmail.to);
-					email()
-						.to(config.request.fallbackEmail.to)
-						.subject(config.request.fallbackEmail.subject(ref))
-						.set('html', true)
-						.template(__dirname + '/../views/email/library-request-fallback.html')
-						.templateParams({
-							ref: ref,
-							user: task.settings.user,
-						})
-						.send(function(err) {
-							if (err) return next(`Error sending email - ${err.toString()}`);
-							next(`Reference submission failed (fallback to email was accepted) - ${ref.title}`);
-						})
+						console.log('Sending request failed email to', config.request.fallbackEmail.to);
+						email()
+							.to(config.request.fallbackEmail.to)
+							.subject(config.request.fallbackEmail.subject(ref))
+							.set('html', true)
+							.template(__dirname + '/../views/email/library-request-fallback.html')
+							.templateParams({
+								ref: ref,
+								user: task.settings.user,
+							})
+							.send(function(err) {
+								if (err) return next(`Error sending email - ${err.toString()}`);
+								nextRef(`Reference submission failed (fallback to email was accepted) - ${ref.title}`);
+							})
+					} else {
+						nextRef(); // Always try the next reference even if this one failed
+					}
 				})
 				// }}}
-				.end(nextRef)
 		})
 		// }}}
 
