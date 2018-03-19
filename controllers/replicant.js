@@ -15,7 +15,7 @@ app.post('/api/replicant/import', multer().any(), function(req, res) {
 		// Sanity checks {{{
 		.then(function(next) {
 			if (!req.files) return next('No files were uploaded');
-			if (!req.user._id) return next('You are not logged in');
+			if (!req.user || !req.user._id) return next('You are not logged in');
 			if (req.files.length > 1) return next('Only one file is allowed at a time');
 			next();
 		})
