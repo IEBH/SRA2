@@ -18,7 +18,7 @@ module.exports = {
 	request: {
 		fallbackEmail: { // Send an email to the below if the exlibris request fails
 			enabled: true,
-			to: 'matt_carter@bond.edu.au',
+			to: 'jclark@bond.edu.au',
 			subject: ref => `SRA Journal Request failed - ${ref.title}`,
 		},
 		exlibrisSettings: {
