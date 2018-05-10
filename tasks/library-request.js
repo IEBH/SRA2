@@ -73,7 +73,6 @@ module.exports = function(finish, task) {
 				.set('requester', this.requester)
 				// Make the request {{{
 				.then('responseSent', function(next) {
-					return next('FAKE FAILOVER');
 					if (!config.request.exlibrisSettings.enabled) return next(null, false);
 					this.requester.request(ref.toObject(), (err, res) => {
 						return next(null, !err);
