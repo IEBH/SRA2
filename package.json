@@ -1,7 +1,7 @@
 {
   "name": "crebp-sra",
   "description": "Systematic Review Accelerator from the Bond University Center for Research in Evidence-Based Practice",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "main": "server.js",
   "private": true,
   "engines": {
@@ -100,7 +100,7 @@
     "passport-local": "^1.0.0",
     "pm2": "^2.4.2",
     "readfilebyline": "^0.1.2",
-    "reflib": "^1.5.9",
+    "reflib": "^1.5.10",
     "require-dir": "^0.3.1",
     "revman": "^1.4.2",
     "revman-replicant": "0.0.10",
