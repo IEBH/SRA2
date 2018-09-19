@@ -33,8 +33,8 @@ app.controller('helpListController', function($scope) {
 
 		// Accessible from top level menu - dont show the following in help topics list
 		{
-			id: 'endnote-helper',
-			title: 'EndNote-Helper',
+			id: 'sra-helper',
+			title: 'SRA-Helper',
 			url: 'https://docs.google.com/document/d/1KqVi5TiZ_LLW-Sl-PGTEke_L93CAysSy7e-vRVK7GY4/pub?embedded=true',
 			show: false,
 		},
