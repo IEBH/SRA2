@@ -12,6 +12,17 @@
 
 .header a {
 	text-decoration: none;
+	display: inline-block;
+}
+
+.header a.bond {
+}
+
+.header a.iebh > img {
+	width: 150px;
+	height: 60px;
+	margin-top: 5px;
+	margin-bottom: -5px;
 }
 
 .header img {
