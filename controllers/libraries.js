@@ -333,7 +333,7 @@ app.post('/api/libraries/:id/share', function(req, res) {
 			email.send({
 				from: req.user.name + ' <' + req.user.email + '>',
 				to: req.body.email,
-				subject: 'CREP-SRA Library Share - ' + (self.library.title || 'Untitled'),
+				subject: 'SR-Accelerator Library Share - ' + (self.library.title || 'Untitled'),
 				text: req.body.body.replace('[url]', config.publicUrl + '/#/libraries/' + this.library._id),
 			}, function(err) {
 				if (err) return next(err);
