@@ -1,7 +1,7 @@
 {
-  "name": "crebp-sra",
+  "name": "sr-accelerator",
   "description": "Systematic Review Accelerator from the Bond University Center for Research in Evidence-Based Practice",
-  "version": "2.4.3",
+  "version": "3.5.0",
   "main": "server.js",
   "private": true,
   "engines": {

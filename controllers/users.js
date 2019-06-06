@@ -121,7 +121,7 @@ app.post('/api/users/recover', function(req, res){
 		.then(function(next){
 			email()
 				.to(this.user.email)
-				.subject("CREBP-SRA Password Reset")
+				.subject("SR-Accelerator Password Reset")
 				.template(__dirname + '/../views/email/password-reset.txt')
 				.templateParams({
 					url: config.publicUrl + '/#/reset/' + this.user._token,

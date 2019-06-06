@@ -3,7 +3,7 @@ var colors = require('chalk');
 console.log(colors.bold.red('RUNNING IN PRODUCTION MODE'));
 
 module.exports = {
-	url: 'http://crebp-sra.com',
+	url: 'http://sr-accelerator.com',
 	port: 80,
 	gulp: {
 		notifications: false,

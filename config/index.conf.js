@@ -21,8 +21,8 @@ if (process.env.VCAP_SERVICES) {
 
 var defaults = {
 	isProduction: false, // Master `is this production mode` switch - disables debugging and vario
-	name: 'crebp-sra', // NPM compatible name
-	title: 'CREBP-SRA',
+	name: 'sr-accelerator', // NPM compatible name
+	title: 'SR-Accelerator',
 	env: env,
 	root: path.normalize(__dirname + '/..'),
 	host: null, // Listen to all host requests
@@ -48,10 +48,10 @@ var defaults = {
 	email: {
 		enabled: true,
 		method: 'mailgun',
-		from: 'noreply@crebp-sra.com',
+		from: 'noreply@sr-accelerator.com',
 		to: 'ddeliver@bond.edu.au',
 		cc: [],
-		signoff: 'The CREBP-SRA Team',
+		signoff: 'The SR-Accelerator Team',
 	},
 	mailgun: {
 		apiKey: 'FIXME:STORE THIS IN THE PRIVATE.JS FILE!!!',

@@ -1,6 +1,6 @@
 app.controller('libraryShareController', function($scope, $interpolate, $location, $rootScope, Libraries) {
 	$scope.emails = '';
-	$scope.body = 'The link to a shared library shared via the CREBP-SRA.com system can be found below.\n\n[url]\n\nThe CREBP-SRA team';
+	$scope.body = 'The link to a shared library shared via the SR-Accelerator.com system can be found below.\n\n[url]\n\nThe SR-Accelerator team';
 
 	$scope.errors = [];
 	$scope.submit = function() {
@@ -27,10 +27,10 @@ app.controller('libraryShareController', function($scope, $interpolate, $locatio
 		if (!$scope.user._id || !$scope.library || !$scope.library.title) return; // We dont have all the data yet
 		if ($scope.body) return; // We already have a body
 		$scope.body =
-			$scope.user.name + " would like to share a reference library with you via CREBP-SRA:\n\n" +
+			$scope.user.name + " would like to share a reference library with you via SR-Accelerator:\n\n" +
 			"Library: " + $scope.library.title + "\n\n" +
-			"   http://crebp-sra.com/#/libraries/" + $scope.library._id + "\n\n" +
-			"The CREBP-SRA team";
+			"   http://sr-accelerator.com/#/libraries/" + $scope.library._id + "\n\n" +
+			"The SR-Accelerator team";
 	});
 	// }}}
 
