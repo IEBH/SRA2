@@ -8,6 +8,8 @@ var schema = new mongoose.Schema({
 	title: {type: String, default: 'New Tag'},
 	color: {type: String},
 	status: {type: String, enum: ['active', 'deleted'], default: 'active', indexed: true},
+}, {
+	usePushEach: true,
 });
 
 schema.pre('save', function(next) {

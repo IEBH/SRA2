@@ -24,6 +24,8 @@ var schema = new mongoose.Schema({
 		phd: {type: Boolean},
 		staff: {type: Boolean},
 	},
+}, {
+	usePushEach: true,
 });
 
 // Deal with logins + user passwords {{{

@@ -37,6 +37,8 @@ var schema = new mongoose.Schema({
 		reference: {type: mongoose.Schema.ObjectId, ref: 'references'},
 		conflicting: {type: mongoose.Schema.Types.Mixed, default: {}},
 	}],
+}, {
+	usePushEach: true,
 });
 
 module.exports = mongoose.model(name, schema);

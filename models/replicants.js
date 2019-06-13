@@ -8,6 +8,8 @@ var schema = new mongoose.Schema({
 	revman: {type: mongoose.Schema.Types.Mixed}, // The nested RevMan object extracted via the revman module
 	grammar: {type: String}, // The basename of the gammar file to use
 	primary: {type: Array}, // Array of IDs used within the revman object that are primary studies
+}, {
+	usePushEach: true,
 });
 
 module.exports = mongoose.model(name, schema);
