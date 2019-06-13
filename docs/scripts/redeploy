@@ -13,10 +13,7 @@ echo "Pulling latest Git repo..."
 git pull
 
 echo "Installing NPM packages..."
-npm install
-
-echo "Cleaning up dead NPM packages..."
-npm prune
+npm ci
 
 echo "Cleaning Gulp cache..."
 gulp clean
@@ -27,13 +24,7 @@ gulp build
 echo "Flushing server logs..."
 pm2 flush
 
-echo "Stopping babysitter"
-pm2 stop babysitter
-
 echo "Rebooting PM2 server process..."
 pm2 restart server
-
-echo "Starting babysitter"
-pm2 start babysitter
 
 echo "done."
