@@ -43,6 +43,8 @@ app.controller('userSignupController', function($scope, $rootScope, Users) {
 				var errText = err.data ? err.data : err.toString();
 				if (/duplicate key error index: .*?username/.test(errText)) {
 					$scope.errors.push({text: 'That username is already in use'});
+				} else if (err.data && err.data.errmsg && /^E11000 duplicate key error/.test(err.data.errmsg)) {
+					$scope.errors.push({text: 'That email address is already registered - try resetting your password'});
 				} else {
 					$scope.errors.push({text: 'Unknown error: ' + errText});
 				}
