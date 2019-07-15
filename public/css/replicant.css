@@ -13,3 +13,9 @@
 	font-size: 20px;
 	margin: 0;
 }
+
+.replicant dfn {
+	font-weight: bold;
+	color: #438eb9;
+	cursor: help;
+}
