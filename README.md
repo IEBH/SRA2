@@ -13,7 +13,7 @@ The assistance it gives researches when constructing reviews is split into a num
 
 SRA is built using the [PHP](http://www.php.net) Programming language using the [CodeIgniter](http://ellislab.com/codeigniter) framework, [MySQL](https://www.mysql.com) database storage as well as specially developed modules for [importing and exporting EndNote reference libraries](https://github.com/hash-bang/PHP-EndNote).
 
-The project is available open source via GitHub at https://github.com/CREBP/SRA
+The project is available open source via GitHub at https://github.com/IEBH/SRA
 
 
 EndNote compatibility
