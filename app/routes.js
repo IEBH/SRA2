@@ -71,6 +71,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Polyglot Search',
 			}
 		})
+		.state('polyglot2', {
+			url: '/polyglot2',
+			views: {main: {templateUrl: '/partials/search/polyglot2.html'}},
+			data: {
+				title: 'Polyglot 2.0 Search',
+			}
+		})
 		.state('debug', {
 			url: '/debug',
 			views: {main: {templateUrl: '/partials/debug/index.html'}},

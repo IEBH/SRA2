@@ -1,4 +1,116 @@
 <div ng-controller="PolyglotSearchController">
-	<iframe style="height: calc(100vh - 145px); width: calc(100vw - 210px); border: none" src="https://iebh.github.io/sra-polyglot/"></iframe>
-	<!-- <iframe src="https://iebh.github.io/sra-polyglot/" style="position: relative; height: 100%; width: 100%; border: none"></iframe> -->
+	<a href="#/polyglot2">
+		<div class="alert alert-info text-center">
+			New version of Polyglot released, click here to test <br>
+			Old Polyglot Search Translater will be phased out 1st October 
+		</div>
+	</a>
+	
+	<div id="modal-polyglotOptions" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Polyglot options</h4>
+				</div>
+				<div class="modal-body form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Group lines</label>
+						<div class="col-sm-9">
+							<switch ng-model="options.groupLines" class="green"></switch>
+							<p class="help-block">Assume all lines should be wrapped in brackets automatically</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Group single lines</label>
+						<div class="col-sm-9">
+							<switch ng-model="options.groupLinesAlways" class="green"></switch>
+							<p class="help-block">Always group lines, even if there is only one apparent single-line query</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Preserve new-lines</label>
+						<div class="col-sm-9">
+							<switch ng-model="options.preserveNewlines" class="green"></switch>
+							<p class="help-block">Keep new-line characters in output. Disabling this will return a single line query</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Rewrite wildcard characters</label>
+						<div class="col-sm-9">
+							<switch ng-model="options.replaceWildcards" class="green"></switch>
+							<p class="help-block">Some search engines use unusual wildcard characters for some queries. If this is enabled Polyglot will attempt to change those to the syntax used by that search engine</p>
+						</div>
+					</div>
+					<hr/>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Debugging</label>
+						<div class="col-sm-9">
+							<switch ng-model="showDebugging" class="green"></switch>
+							<p class="help-block">Show additional debugging options such as lexical tree output and templates</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					Your query
+					<div class="pull-right">
+						<a confirm="clear()" confirm-text="Clear?" class="btn btn-sm btn-default"><i class="fa fa-eraser"></i></a>
+						<div class="btn-group">
+							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" tooltip="Insert a search template"> <i class="fa fa-text-width"></i> <i class="fa fa-caret-down"></i></a>
+							<ul class="dropdown-menu pull-right">
+								<li ng-repeat="template in templates | filter:filterDebugging track by template.id"><a ng-click="insertTemplate(template)">{{template.name}}</a></li>
+							</ul>
+						</div>
+						<a ng-click="clipboard(query)" class="btn btn-sm btn-default"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
+						<a ng-click="showExample()" class="btn btn-sm btn-default"><i class="fa fa-random" tooltip="Show a random example"></i></a>
+						<a data-toggle="modal" data-target="#modal-polyglotOptions" class="btn btn-sm btn-default"><i class="fa fa-cog" tooltip="Configure Polyglot"></i></a>
+					</div>
+				</h4>
+			</div>
+			<div class="panel-body form-horizontal pad-none">
+					<textarea class="form-control" rows="12" id="query" ng-model="query" ng-trim="false"></textarea>
+			</div>
+			<div ng-show="!query" class="panel-footer text-center">
+				Type a PubMed or Ovid MEDLINE query in the box above to see its translations.
+				<a ng-click="showExample()">Show me an example</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="accordion-style1 panel-group">
+		<div ng-repeat="engine in engines track by engine.id" ng-if="!engine.debugging || showDebugging" class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a ng-click="toggleExpandEngine(engine)" class="accordion-toggle collapsed">
+						<i class="fa fa-fw" ng-class="engine.expanded ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+						{{engine.title}}
+					</a>
+					<div class="pull-right">
+						<!-- FIXME: The engine open functionality rarely works - maybe someday this will be updated
+						<a ng-if="engine.open" ng-click="engineOpen(engine)" class="btn btn-sm btn-success" tooltip="Open this search in a new tab"><i class="fa fa-search"></i></a>
+						-->
+						<a ng-click="clipboard(engine.translated)" class="btn btn-sm btn-success"><i class="fa fa-copy" tooltip="Copy to clipboard"></i></a>
+					</div>
+					<div class="pull-right pad-right-sm">
+						<span ng-if="engine.openTerms" class="badge badge-default">{{engine.openTerms}}</span>
+					</div>
+				</h4>
+			</div>
+			<div class="panel-collapse collapse" ng-class="engine.expanded && 'in'">
+				<div class="panel-body">
+					<div ng-bind-html="engine.translated" class="well"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

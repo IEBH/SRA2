@@ -13,12 +13,6 @@ app.controller('PolyglotSearchController', function($scope, $httpParamSerializer
 		replaceWildcards: true,
 	};
 
-	// Function to Open New Polyglot in new tab {{{
-	$scope.openNewPolyglot = function() {
-		window.open('https://iebh.github.io/sra-polyglot', '_blank')
-	};
-	// }}}
-
 	// MeSH auto-complete {{{
 	// NOTE: Need to add `smart-area="smartArea"` back to main <textarea/> input in view to activate
 	$scope.smartArea = {
