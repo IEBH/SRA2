@@ -64,18 +64,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Search',
 			}
 		})
-		.state('polyglot', {
-			url: '/polyglot',
+		.state('polyglot-old', {
+			url: '/polyglot-old',
 			views: {main: {templateUrl: '/partials/search/polyglot.html'}},
 			data: {
-				title: 'Polyglot Search',
+				title: 'Old Polyglot Search',
 			}
 		})
-		.state('polyglot2', {
-			url: '/polyglot2',
+		.state('polyglot', {
+			url: '/polyglot',
 			views: {main: {templateUrl: '/partials/search/polyglot2.html'}},
 			data: {
-				title: 'Polyglot 2.0 Search',
+				title: 'Polyglot Search',
 			}
 		})
 		.state('debug', {
