@@ -236,8 +236,9 @@ app.controller('libraryViewController', function($scope, $loader, $location, $q,
 			case 'delete':
 				$scope.gridApi.selection.getSelectedRows()
 					.forEach(function(row) {
-						ref.status = 'deleted';
-						References.save({id: row._id}, {status: row.status});
+						References.save({id: row._id}, {status: 'deleted'}).$promise
+							.then($scope.refresh)
+							.then($scope.gridApi.selection.clearSelectedRows());
 					});
 				break;
 		}
