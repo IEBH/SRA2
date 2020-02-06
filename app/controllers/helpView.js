@@ -26,7 +26,10 @@ app.controller('helpViewController', function($scope, $http, $location, $rootSco
 				frame.contents().find('a[href^="http://"]').attr("target", "_blank");
 				frame.contents().find('a[href^="https://"]').attr("target", "_blank").each((i, el) => {
 					var $el = $(el);
-					$el.attr('href', $el.attr('href').replace(/^https:\/\/www\.google\.com\/url\?q=/, ''));
+					$el.attr('href', $el.attr('href')
+						.replace(/^https:\/\/www\.google\.com\/url\?q=(.*?)&.*$/, '$1') // Remove `&...` slush from GitHub URLs
+						.replace(/^https:\/\/www\.google\.com\/url\?q=/, '') // Rewrite all other URLs
+					);
 				});
 			}, 100);
 		});
