@@ -9,7 +9,6 @@
 var _ = require('lodash');
 var async = require('async-chainable');
 var braceExpansion = require('brace-expansion');
-var cache = require('gulp-cache');
 var cleanCSS = require('gulp-clean-css');
 var colors = require('chalk');
 var concat = require('gulp-concat');

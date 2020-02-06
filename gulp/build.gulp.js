@@ -8,7 +8,6 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var notify = require('gulp-notify');
 var rimraf = require('rimraf');
-var runSequence = require('run-sequence');
 
 var common = require('./common.gulp.lib');
 
@@ -16,15 +15,13 @@ var common = require('./common.gulp.lib');
 * Builds the optimized app
 * @return {Stream}
 */
-gulp.task('build', function(finish) {
+gulp.task('build', function() {
 	gutil.log('Building the optimized app');
 
-	// FIXME: This is a temporary work around until Gulp 4 - https://github.com/OverZealous/run-sequence
-	runSequence(
-		['css', 'partials', 'scripts', 'vendors'],
+	return gulp.series(
+		gulp.parallel('css', 'partials', 'scripts', 'vendors'),
 		'build:includes',
 		'build:complete',
-		finish
 	);
 });
 

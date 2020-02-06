@@ -4,7 +4,6 @@
 
 var _ = require('lodash');
 var bytediff = require('gulp-bytediff');
-var cache = require('gulp-cache');
 var concat = require('gulp-concat');
 var babel = require('gulp-babel');
 var colors = require('chalk');
@@ -36,8 +35,8 @@ gulp.task('scripts', ['load:app'], function() {
 				this.emit('end');
 			},
 		}))
-		.pipe(cache(babel({ // Cache output and pipe though Babel
-			presets: ['es2015'],
+		.pipe(babel({
+			presets: ['@babel/env'],
 			plugins: ['angularjs-annotate'],
 		}), {
 			key: function(file) {
@@ -47,7 +46,7 @@ gulp.task('scripts', ['load:app'], function() {
 				gutil.log(gutil.colors.blue('[Babel]'), 'compile', colors.cyan(file.relative));
 				return true;
 			},
-		}))
+		})
 		.pipe(replace(/^'use strict';\n$/m, ''))
 		.pipe(gulpIf(app.config.gulp.debugJS, sourcemaps.init()))
 		.pipe(concat('app.min.js'))
@@ -66,9 +65,4 @@ gulp.task('scripts', ['load:app'], function() {
 					icon: __dirname + '/icons/javascript.png',
 				}).write(0);
 		});
-});
-
-
-gulp.task('scripts:clean', function(next) {
-	cache.clearAll(next);
 });

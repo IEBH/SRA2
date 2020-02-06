@@ -6,11 +6,10 @@
 
 var _ = require('lodash');
 var glob = require('glob');
-var gulp = require('gulp');
+var gulp = require('@momsfriendlydevco/gulpy').mutate();
 var gutil = require('gulp-util');
 var notify = require('gulp-notify');
 var path = require('path');
-var runSequence = require('run-sequence');
 var taskListing = require('gulp-task-listing');
 
 var port = process.env.PORT || 8080;
@@ -143,7 +142,6 @@ gulp.task('help', taskListing);
 
 // Redirectors {{{
 gulp.task('default', ['serve']);
-gulp.task('clean', ['build:clean', 'scripts:clean']);
 gulp.task('db', ['scenario']);
 gulp.task('deploy', ['pm2-deploy']);
 gulp.task('fakes', ['fake-users']);
