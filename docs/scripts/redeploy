@@ -7,7 +7,7 @@
 # Stop on errors
 set -euo pipefail
 
-cd ~/crebp-sra.com
+cd ~/sr-accelerator.com
 
 echo "Pulling latest Git repo..."
 git pull
@@ -15,14 +15,8 @@ git pull
 echo "Installing NPM packages..."
 npm ci
 
-echo "Cleaning Gulp cache..."
-gulp clean
-
 echo "Building via Gulp..."
 gulp build
-
-echo "Flushing server logs..."
-pm2 flush
 
 echo "Rebooting PM2 server process..."
 pm2 restart server
