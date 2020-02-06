@@ -24,7 +24,10 @@ app.controller('helpViewController', function($scope, $http, $location, $rootSco
 				var frame = $("#google-doc-iframe");
 				frame.contents().find('body').css('padding', '0 20px');
 				frame.contents().find('a[href^="http://"]').attr("target", "_blank");
-				frame.contents().find('a[href^="https://"]').attr("target", "_blank");
+				frame.contents().find('a[href^="https://"]').attr("target", "_blank").each((i, el) => {
+					var $el = $(el);
+					$el.attr('href', $el.attr('href').replace(/^https:\/\/www\.google\.com\/url\?q=/, ''));
+				});
 			}, 100);
 		});
 	});
