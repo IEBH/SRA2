@@ -36,7 +36,7 @@ app.controller('helpListController', function($scope) {
 			id: 'sra-helper',
 			title: 'SRA-Helper',
 			url: 'https://docs.google.com/document/d/1KqVi5TiZ_LLW-Sl-PGTEke_L93CAysSy7e-vRVK7GY4/pub?embedded=true',
-			show: false,
+			show: true,
 		},
 		{
 			id: 'tools',
@@ -45,10 +45,18 @@ app.controller('helpListController', function($scope) {
 			show: false,
 		},
 		{
+			id: 'citing',
+			title: 'Citing us',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vSXq5kubanl-APyOARTgcPWsOyYCW54rSa-tXbJEO25942h_MXHEX3LABOMwkBYxUFUgyJ9_evOaOoQ/pub?embedded=true',
+			show: true,
+		},
+		/* Abandoned now - MC 2020-02-06
+		{
 			id: 'whats-new',
 			title: 'Whats New',
 			url: 'https://docs.google.com/document/d/1foFrSxPZ2_IQ3V5cgLHWCD1UvkI6K3JHbjXfI9-fI6A/pub?embedded=true',
 			show: false, // Accessible from top level menu - dont show in help topics list
 		},
+		*/
 	];
 });

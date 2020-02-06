@@ -115,6 +115,13 @@
 				</a>
 			</li>
 
+			<li ng-if="!user._id">
+				<a href="#/login">
+					<i class="fa fa-user"></i>
+					<span class="menu-text"> Login</span>
+				</a>
+			</li>
+
 			<li>
 				<a href="#/polyglot">
 					<i class="fa fa-search"></i>
@@ -198,7 +205,8 @@
 					<span class="menu-text"> Whats new</span>
 				</a>
 			</li>
-<li>
+
+			<li>
 				<a href="#/aboutus">
 					<i class="fa fa-envelope"></i>
 					<span class="menu-text"> About Us</span>
@@ -206,16 +214,16 @@
 			</li>
 
 			<li>
-				<a href="#/contact">
-					<i class="fa fa-envelope"></i>
-					<span class="menu-text"> Contact Us</span>
+				<a href="#/help/citing">
+					<i class="fa fa-pencil-square-o"></i>
+					<span class="menu-text"> Citing us</span>
 				</a>
 			</li>
 
-			<li ng-if="!user._id">
-				<a href="#/login">
-					<i class="fa fa-user"></i>
-					<span class="menu-text"> Login</span>
+			<li>
+				<a href="#/contact">
+					<i class="fa fa-envelope"></i>
+					<span class="menu-text"> Contact Us</span>
 				</a>
 			</li>
 			<? } ?>
