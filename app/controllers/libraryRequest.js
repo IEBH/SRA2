@@ -11,6 +11,8 @@ app.controller('libraryRequestController', function($scope, $location, $notifica
 			return $notification.error('You must agree to the copyright notice');
 		} else if (!$scope.agree.terms) {
 			return $notification.error('You must agree to the terms');
+		} else if (!$scope.agree.searched) {
+			return $notification.error('You must agree to the terms');
 		}
 
 		Tasks.fromLibrary({id: $scope.library._id, worker: 'library-request'}, {settings: {

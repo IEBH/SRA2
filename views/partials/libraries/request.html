@@ -137,7 +137,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-12 text-center">
-				You can check the existing status of your requests at <a href="https://apac-tc.hosted.exlibrisgroup.com/primo-explore/login?vid=BOND&targetURL=https://apac-tc.hosted.exlibrisgroup.com/primo-explore/account?vid=BOND" target="_blank"> your Bond Library profile page</a>.
+				You can check the existing status of your requests at <a href="https://library.bond.edu.au/mylibrary" target="_blank">your Bond Library profile page</a>.
 			</div>
 		</div>
 		<!-- This doesn't apply to the current process (requesting via email but it it may again some day) {{{
@@ -152,6 +152,7 @@
 		<legend>Submit request</legend>
 		<div class="form-group">
 			<div class="col-sm-9 col-sm-offset-3 form-inline">
+				<p>IMPORTANT: Please only submit requests for articles not available from the Library. Use Endnote’s <a href="https://bond.libguides.com/endnote/collecting-references#find-full-text" target="_blank">Find full text</a> feature or the <a href="http://sr-accelerator.com/#/sra-helper" target="_blank">SRA-Helper</a> to simplify this, or use <a href="https://librarysearch.bond.edu.au/" target="_blank">Library Search.</a></p>
 				<div class="checkbox">
 					<label>
 						<input ng-model="agree.copyright" type="checkbox"/>
@@ -166,6 +167,14 @@
 					<label>
 						<input ng-model="agree.terms" type="checkbox"/>
 						<span>I declare the items requested are for the purpose of work or research undertaken at Bond University.</span>
+					</label>
+				</div>
+			</div>
+			<div class="col-sm-9 col-sm-offset-3 form-inline">
+				<div class="checkbox">
+					<label>
+						<input ng-model="agree.searched" type="checkbox"/>
+						<span> I have searched Library Search for each item I’m submitting and have not been able to get the full text.</span>
 					</label>
 				</div>
 			</div>
