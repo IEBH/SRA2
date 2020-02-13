@@ -15,7 +15,7 @@ var common = require('./common.gulp.lib');
 * Builds the optimized app
 * @return {Stream}
 */
-gulp.task('build', function() {
+gulp.task('build', ['scripts'], function() {
 	gutil.log('Building the optimized app');
 
 	return gulp.series(
