@@ -39,6 +39,7 @@ module.exports = function(finish, task) {
 					.set(config.request.exlibrisSettings)
 					.set('user.email', task.settings.user.email.toLowerCase())
 					.set('request.source', 'SRA')
+					.set('debug.execRequest', false)
 					.on('requestRetry', (ref, attempt, tryAgainInTimeout) => {
 						task.history.push({type: 'queued', response: `request failed (attempt #${attempt}) for "${ref.title}" retry in ${tryAgainInTimeout}ms`})
 					})
@@ -64,62 +65,14 @@ module.exports = function(finish, task) {
 			next();
 		})
 		// }}}
-
-		// Send requests {{{
-		.set('errorCount', 0)
-		.forEach('references', function(nextRef, ref) {
-
-			async()
-				.set('errorCount', this.errorCount)
-				.set('requester', this.requester)
-				// Make the request {{{
-				.then('responseSent', function(next) {
-					if (!config.request.exlibrisSettings.enabled) return next(null, false);
-					this.requester.request(ref.toObject(), (err, res) => {
-						return next(null, !err);
-					});
-				})
-				// }}}
-				// Log errors {{{
-				.then(function(next) {
-					if (this.responseSent) return next();
-					task.history.push({type: 'error', response: `Resource request rejected - '${ref.title}'`});
-					this.errorCount++;
-					next();
-				})
-				// }}}
-				// Save progress {{{
-				.then(function(next) {
-					task.progress.current++;
-					task.save(next); // Ignore individual errors
-				})
-				// }}}
-				// Send email about the reference failing if that feature is enabled {{{
-				.end(function(err) {
-					if (err) {
-						if (!config.request.fallbackEmail.enabled) return nextRef(`Reference submission failed with no fallback left to try - ${ref.title}`);
-
-						console.log('Sending request failed email to', config.request.fallbackEmail.to);
-						email()
-							.to(config.request.fallbackEmail.to)
-							.subject(config.request.fallbackEmail.subject(ref))
-							.set('html', true)
-							.template(__dirname + '/../views/email/library-request-fallback.html')
-							.templateParams({
-								ref: ref,
-								user: task.settings.user,
-							})
-							.send(function(err) {
-								if (err) return next(`Error sending email - ${err.toString()}`);
-								nextRef(`Reference submission failed (fallback to email was accepted) - ${ref.title}`);
-							})
-					} else {
-						nextRef(); // Always try the next reference even if this one failed
-					}
-				})
-				// }}}
+		.then(function(next) {
+			// Map references to objects which can be read by the sra-exlibris-request tool
+			refs = this.references.map(reference => reference.toObject());
+			// Submit all requests
+			this.requester.requestAll(refs, function(err, res) {
+				return next()
+			})
 		})
-		// }}}
 
 		// Finish {{{
 		.then(function(next) { // Finalize task data
