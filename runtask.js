@@ -9,6 +9,7 @@ app.db = require('./config/db.conf.js');
 
 program
 	.version(require('./package.json').version)
+	.option('-f, --force', 'Run a task even if it is already marked as completed')
 	.option('-t, --task [id]', 'The Task ID to execute')
 	.parse(process.argv);
 
