@@ -26,7 +26,7 @@ app.controller('helpListController', function($scope) {
 		},
 		{
 			id: 'polyglot',
-			title: 'Polyglot Search Syntax Translator',
+			title: 'Polyglot Search Translator',
 			url: 'https://docs.google.com/document/d/1zL2_bIyZyhikrir-veUc2M59e7_c5iAmsHIu6JBxyB4/pub?embedded=true',
 			show: true,
 		},
