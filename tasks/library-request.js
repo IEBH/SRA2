@@ -39,7 +39,6 @@ module.exports = function(finish, task) {
 					.set(config.request.exlibrisSettings)
 					.set('user.email', task.settings.user.email.toLowerCase())
 					.set('request.source', 'SRA')
-					.set('debug.execRequest', false)
 					.on('requestRetry', (ref, attempt, tryAgainInTimeout) => {
 						task.history.push({type: 'queued', response: `request failed (attempt #${attempt}) for "${ref.title}" retry in ${tryAgainInTimeout}ms`})
 					})
