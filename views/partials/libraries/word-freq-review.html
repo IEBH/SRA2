@@ -4,6 +4,16 @@
 		<h3>Loading data...</h3>
 	</div>
 	<div ng-if="!loading" class="alert">
+		<div class="btn-group pull-right">
+			<a ng-click="copyTable()" class="btn">
+				<i class="fa fa-copy"></i>
+				Copy to clipboard
+			</a>
+			<a ng-click="shareUrl()" class="btn">
+				<i class="fa fa-share"></i>
+				Share URL
+			</a>
+		</div>
 		<h1>Word-frequency analysis results</h1>
 		<div class="pad-top">
 			<div class="form-group">
@@ -16,7 +26,7 @@
 			</div>
 		</div>
 		<div class="pad-top">
-			<table class="table table-bordered table-striped">
+			<table id="word-freqs" class="table table-bordered table-striped">
 				<thead><tr>
 					<th><a ng-click="setSort('word')">
 						Word

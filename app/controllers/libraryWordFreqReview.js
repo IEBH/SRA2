@@ -1,4 +1,4 @@
-app.controller('libraryWordFreqReviewController', function($scope, $location, $rootScope, $stateParams, Libraries, References, Tasks) {
+app.controller('libraryWordFreqReviewController', function($scope, $clipboard, $location, $notification, $rootScope, $stateParams, Libraries, References, Tasks) {
 	$scope.loading = true;
 	$scope.task = null;
 
@@ -41,6 +41,43 @@ app.controller('libraryWordFreqReviewController', function($scope, $location, $r
 		} else {
 			$scope.sortCol = col;
 		}
+	};
+	// }}}
+
+	// Copying {{{
+	$scope.copyTable = function() {
+		var elTable = $('#word-freqs')[0];
+		// Below line is essential !!!
+
+		// Ensure that range and selection are supported by the browsers
+		var range, sel;
+		if (document.createRange && window.getSelection) {
+			range = document.createRange();
+			sel = window.getSelection();
+			// unselect any element in the page
+			sel.removeAllRanges();
+
+			try {
+				range.selectNodeContents(elTable);
+				sel.addRange(range);
+			} catch (e) {
+				range.selectNode(elTable);
+				sel.addRange(range);
+			}
+
+			document.execCommand('copy');
+			sel.removeAllRanges();
+			$notification.success('Table copied to clipboard');
+		} else {
+			$notification.error('Not supported in this browser');
+		}
+	};
+	// }}}
+
+	// Share URL {{{
+	$scope.shareUrl = function() {
+		$clipboard.copy(window.location.href);
+		$notification.success('URL copied to clipboard');
 	};
 	// }}}
 });
