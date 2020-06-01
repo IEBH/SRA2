@@ -48,15 +48,6 @@ app.controller('libraryOperation', function($scope, $rootScope, $filter, $locati
 			isTool: true,
 		},
 		{
-			id: 'screen',
-			title: 'Screen references',
-			allowExisting: true,
-			allowNew: false,
-			allowNonOwner: false,
-			urlExisting: '/libraries/:id/screen',
-			isTool: false,
-		},
-		{
 			id: 'compare',
 			title: 'Compare',
 			allowExisting: true,
