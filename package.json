@@ -108,7 +108,7 @@
     "sha1": "^1.1.1",
     "smart-area": "^1.1.0",
     "sra-api": "0.0.0",
-    "sra-dedupe": "^1.0.9",
+    "sra-dedupe": "^1.1.0",
     "sra-exlibris-request": "^1.0.2",
     "sra-polyglot": "^2.4.25",
     "strtotime": "^1.0.0",
