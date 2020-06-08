@@ -71,6 +71,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Polyglot Search',
 			}
 		})
+		.state('disputatron', {
+			url: '/disputatron',
+			views: {main: {templateUrl: '/partials/disputes/disputatron.html'}},
+			data: {
+				title: 'Disputatron Reference Resolver',
+			}
+		})
 		.state('debug', {
 			url: '/debug',
 			views: {main: {templateUrl: '/partials/debug/index.html'}},
