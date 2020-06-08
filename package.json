@@ -110,7 +110,6 @@
     "sra-api": "0.0.0",
     "sra-dedupe": "^1.1.0",
     "sra-exlibris-request": "^1.0.2",
-    "sra-polyglot": "^2.4.25",
     "strtotime": "^1.0.0",
     "superagent": "^3.5.2",
     "temp": "^0.8.3",

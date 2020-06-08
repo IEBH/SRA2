@@ -9,7 +9,6 @@ var app = angular.module('app', [
 	'angular-ui-loader',
 	'colorpicker.module',
 	'ng-collection-assistant',
-	'ngPolyglot',
 	'ngResource',
 	'ngSanitize',
 	'ngTreeTools',
