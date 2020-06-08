@@ -52,5 +52,6 @@ Setup
 Node v14 displays circular dependency warnings, use v13 to supress warnings
 
 1. Install MongoDB
+2. run `npm ci`
 2. run `gulp db`
 3. run `gulp`
