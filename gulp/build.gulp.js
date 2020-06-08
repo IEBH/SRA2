@@ -15,11 +15,10 @@ var common = require('./common.gulp.lib');
 * Builds the optimized app
 * @return {Stream}
 */
-gulp.task('build', ['scripts'], function() {
+gulp.task('build', gulp.parallel('css', 'partials', 'scripts', 'vendors'), function() {
 	gutil.log('Building the optimized app');
 
 	return gulp.series(
-		gulp.parallel('css', 'partials', 'scripts', 'vendors'),
 		'build:includes',
 		'build:complete',
 	);
