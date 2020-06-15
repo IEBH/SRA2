@@ -30,6 +30,12 @@ app.controller('helpListController', function($scope) {
 			url: 'https://docs.google.com/document/d/1zL2_bIyZyhikrir-veUc2M59e7_c5iAmsHIu6JBxyB4/pub?embedded=true',
 			show: true,
 		},
+		{
+			id: 'disputatron',
+			title: 'Disputatron',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vR__jD5ZsH6dqQMqgFoppbrWglXedHE_3L_t7De2JeBGN-vlTCRnq-QgY5o8UAJWx6fFfgnODo0KMBa/pub?embedded=true',
+			show: true,
+		},
 
 		// Accessible from top level menu - dont show the following in help topics list
 		{
