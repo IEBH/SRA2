@@ -25,9 +25,21 @@ app.controller('helpListController', function($scope) {
 			show: true,
 		},
 		{
+			id: 'searchRefiner',
+			title: 'Search refiner',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vRFwo-BEmejsccn-cZrTS8grpJA4KyyPs036_pkrMWha2tEnTlH6nSEi__1bX8xrxPlFVRRYYbY1reJ/pub?embedded=true',
+			show: true,
+		},
+		{
 			id: 'polyglot',
 			title: 'Polyglot Search Translator',
 			url: 'https://docs.google.com/document/d/1zL2_bIyZyhikrir-veUc2M59e7_c5iAmsHIu6JBxyB4/pub?embedded=true',
+			show: true,
+		},
+		{
+			id: 'sra-helper',
+			title: 'SRA-Helper',
+			url: 'https://docs.google.com/document/d/1KqVi5TiZ_LLW-Sl-PGTEke_L93CAysSy7e-vRVK7GY4/pub?embedded=true',
 			show: true,
 		},
 		{
@@ -36,13 +48,8 @@ app.controller('helpListController', function($scope) {
 			url: 'https://docs.google.com/document/d/e/2PACX-1vR__jD5ZsH6dqQMqgFoppbrWglXedHE_3L_t7De2JeBGN-vlTCRnq-QgY5o8UAJWx6fFfgnODo0KMBa/pub?embedded=true',
 			show: true,
 		},
+
 		// Accessible from top level menu - dont show the following in help topics list
-		{
-			id: 'sra-helper',
-			title: 'SRA-Helper',
-			url: 'https://docs.google.com/document/d/1KqVi5TiZ_LLW-Sl-PGTEke_L93CAysSy7e-vRVK7GY4/pub?embedded=true',
-			show: true,
-		},
 		{
 			id: 'tools',
 			title: 'Recommended Tools',
