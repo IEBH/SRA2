@@ -30,7 +30,12 @@ app.controller('helpListController', function($scope) {
 			url: 'https://docs.google.com/document/d/1zL2_bIyZyhikrir-veUc2M59e7_c5iAmsHIu6JBxyB4/pub?embedded=true',
 			show: true,
 		},
-
+		{
+			id: 'dispute',
+			title: 'Disputatron',
+			url: 'https://docs.google.com/document/d/1WouC2aX60EbTEZFX4rDiYSgsVII7u7nnnU6IpLNkOIc/pub?embedded=true',
+			show: true,
+		},
 		// Accessible from top level menu - dont show the following in help topics list
 		{
 			id: 'sra-helper',
