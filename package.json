@@ -103,7 +103,7 @@
     "reflib": "^1.7.5",
     "require-dir": "^0.3.1",
     "revman": "^1.4.2",
-    "revman-replicant": "0.0.14",
+    "revman-replicant": "0.0.15",
     "rimraf": "^2.6.1",
     "sha1": "^1.1.1",
     "smart-area": "^1.1.0",
