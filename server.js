@@ -201,10 +201,22 @@ app.use(function(err, req, res, next){
 });
 // }}}
 
-// Init {{{
-var server = app.listen(config.port, config.host, function() {
-	console.log('Web interface listening at', colors.cyan(config.url));
-});
+// Init > HTTP -> HTTPS {{{
+if (app.config.ssl.enabled) {
+	var redirectApp = express();
+	redirectApp.get('/*', function(req, res) {
+		res.redirect('https://' + url.parse(app.config.url).hostname + req.url); // Force HTTPS protocol, irrespective of specified protocol in app.config.url
+	});
+
+	var server = https.createServer({
+		cert: fs.readFileSync(app.config.ssl.cert),
+		key: fs.readFileSync(app.config.ssl.key),
+	}, app.express).listen(443, resolve);
+} else { // Simple HTTP server
+	var server = app.listen(config.port, config.host, function() {
+		console.log('Web interface listening at', colors.cyan(config.url));
+	});
+}
 // }}}
 // Init tasks {{{
 if (config.tasks.enabled) {

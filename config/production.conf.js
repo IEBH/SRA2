@@ -28,4 +28,7 @@ module.exports = {
 			},
 		},
 	},
+	ssl: {
+		enabled: true,
+	},
 };

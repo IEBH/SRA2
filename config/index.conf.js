@@ -138,6 +138,11 @@ var defaults = {
 			idLimit: 10, // How many paper ID's to fetch at once per search query
 		},
 	},
+	ssl: {
+		enabled: false,
+		cert: '/etc/letsencrypt/live/sr-accelerator.com/fullchain.pem',
+		key: '/etc/letsencrypt/live/sr-accelerator.com/privkey.pem',
+	},
 	tasks: {
 		enabled: true,
 		queryLimit: 10, // How many tasks to work on in one task cycle
