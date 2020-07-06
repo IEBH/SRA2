@@ -201,7 +201,9 @@ app.use(function(err, req, res, next){
 });
 // }}}
 
-// Init > HTTP -> HTTPS {{{
+// Init {{{
+var http = require('http');
+var https = require('https');
 if (app.config.ssl.enabled) {
 	var redirectApp = express();
 	redirectApp.get('/*', function(req, res) {
