@@ -204,18 +204,24 @@ app.use(function(err, req, res, next){
 // Init {{{
 var http = require('http');
 var https = require('https');
+var url = require('url');
+var server;
+
 if (app.config.ssl.enabled) {
 	var redirectApp = express();
 	redirectApp.get('/*', function(req, res) {
 		res.redirect('https://' + url.parse(app.config.url).hostname + req.url); // Force HTTPS protocol, irrespective of specified protocol in app.config.url
 	});
+	redirectApp.listen(config.port, config.host, function() {
+		console.log('HTTP Web interface listening at', colors.cyan(config.url));
+	});
 
-	var server = https.createServer({
+	server = https.createServer({
 		cert: fs.readFileSync(app.config.ssl.cert),
 		key: fs.readFileSync(app.config.ssl.key),
-	}, app.express).listen(443);
+	}, app).listen(443);
 } else { // Simple HTTP server
-	var server = app.listen(config.port, config.host, function() {
+	server = app.listen(config.port, config.host, function() {
 		console.log('Web interface listening at', colors.cyan(config.url));
 	});
 }
