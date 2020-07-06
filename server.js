@@ -213,7 +213,7 @@ if (app.config.ssl.enabled) {
 	var server = https.createServer({
 		cert: fs.readFileSync(app.config.ssl.cert),
 		key: fs.readFileSync(app.config.ssl.key),
-	}, app.express).listen(443, resolve);
+	}, app.express).listen(443);
 } else { // Simple HTTP server
 	var server = app.listen(config.port, config.host, function() {
 		console.log('Web interface listening at', colors.cyan(config.url));
