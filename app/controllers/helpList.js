@@ -26,7 +26,7 @@ app.controller('helpListController', function($scope) {
 		},
 		{
 			id: 'searchRefiner',
-			title: 'Search refiner',
+			title: 'SearchRefiner',
 			url: 'https://docs.google.com/document/d/e/2PACX-1vRFwo-BEmejsccn-cZrTS8grpJA4KyyPs036_pkrMWha2tEnTlH6nSEi__1bX8xrxPlFVRRYYbY1reJ/pub?embedded=true',
 			show: true,
 		},
