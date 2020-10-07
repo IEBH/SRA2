@@ -18,6 +18,7 @@ module.exports = function(finish, task) {
 				ignore: {
 					common: true,
 					numbers: true,
+					duplicates: false,
 				},
 				min: {
 					points: 3,
@@ -123,7 +124,7 @@ module.exports = function(finish, task) {
 								});
 							}
 							
-							if (!counted[wordGroup]) {
+							if (!task.settings.ignore.duplicates || !counted[wordGroup]) { // Check to see if word is already counted if ignoring duplicates
 								self.words[wordGroup].points += (task.settings.weights[key] || 1);
 								self.words[wordGroup][key]++;
 								counted[wordGroup] = true; // Keep track of whether we have seen this word grouping before in this reference so we dont count it twice

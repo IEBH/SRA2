@@ -11,6 +11,7 @@ app.controller('libraryWordFreqController', function($scope, $location, $rootSco
 	$scope.ignore = {
 		common: true,
 		numbers: true,
+		duplicates: false,
 	};
 	$scope.min = {
 		points: 3,
