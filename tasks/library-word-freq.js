@@ -27,7 +27,7 @@ module.exports = function(finish, task) {
 					results: 500, // Anything above this limit gets truncated by the resultsTruncate field
 					resultsTruncate: 'points',
 				},
-				combineWords: 1, // How many word combinations should be examined (1=one word,2=two words etc.)
+				combineWords: 2, // How many word combinations should be examined (1=one word,2=two words etc.)
 			});
 
 			if (!task.settings) return next('.settings object must be present for request');

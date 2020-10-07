@@ -2,7 +2,7 @@ app.controller('libraryWordFreqController', function($scope, $location, $rootSco
 	$scope.comparisons = [];
 
 	$scope.deburr = true;
-	$scope.combineWords = 1;
+	$scope.combineWords = 2;
 	$scope.weights = {
 		title: 1,
 		keywords: 1,
