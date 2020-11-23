@@ -46,6 +46,13 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-sm-3 control-label">Ignore duplicate words</label>
+				<div class="col-sm-9">
+					<switch ng-model="ignore.duplicates" class="green"></switch>
+					<p class="help-block">Only count words once per article</p>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-sm-3 control-label">Max words in phrase</label>
 				<div class="col-sm-9">
 					<input ng-model="combineWords" type="number" min="1" max="5" step="1" class="form-control"/>
