@@ -2,9 +2,6 @@
 // Initial / Config {{{
 global.config = require('./config/index.conf.js');
 // }}}
-// Initial / NewRelic {{{
-if (config.newrelic.enabled) require('newrelic');
-// }}}
 // Initial / Papertrail {{{
 var winston = require('winston');
 

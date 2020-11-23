@@ -12,9 +12,6 @@ module.exports = {
 		debugCSS: false,
 		minifyCSS: false,
 	},
-	newrelic: {
-		enabled: true,
-	},
 	request: {
 		fallbackEmail: { // Send an email to the below if the exlibris request fails
 			enabled: true,

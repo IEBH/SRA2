@@ -65,11 +65,6 @@ var defaults = {
 			}
 		}
 	},
-	newrelic: {
-		enabled: false,
-		name: 'CREBP-SRA',
-		license: 'c71e85e2d852cb4962d8b47dcad90de117501a07',
-	},
 	paths: {
 		root: path.normalize(__dirname + '/..'),
 	},
