@@ -78,6 +78,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Disputatron Reference Resolver',
 			}
 		})
+		.state('screenatron', {
+			url: '/screenatron',
+			views: {main: {templateUrl: '/partials/screening/screenatron.html'}},
+			data: {
+				title: 'Screenatron',
+			}
+		})
 		.state('debug', {
 			url: '/debug',
 			views: {main: {templateUrl: '/partials/debug/index.html'}},

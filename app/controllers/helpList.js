@@ -48,6 +48,13 @@ app.controller('helpListController', function($scope) {
 			url: 'https://docs.google.com/document/d/e/2PACX-1vR__jD5ZsH6dqQMqgFoppbrWglXedHE_3L_t7De2JeBGN-vlTCRnq-QgY5o8UAJWx6fFfgnODo0KMBa/pub?embedded=true',
 			show: true,
 		},
+		{
+			id: 'screenatron',
+			title: 'Screenatron',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vQbXMaBlal2LXZoY1Km6Gq3ZmxQkGpNbNyuQM1MpkqQ9S0T7Zv--UW7h96ug4L9FUWrcKadZqVoFKa5/pub?embedded=true',
+			show: true,
+		},
+
 
 		// Accessible from top level menu - dont show the following in help topics list
 		{
