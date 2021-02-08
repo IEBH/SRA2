@@ -71,18 +71,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Polyglot Search',
 			}
 		})
-		.state('disputatron', {
-			url: '/disputatron',
-			views: {main: {templateUrl: '/partials/disputes/disputatron.html'}},
-			data: {
-				title: 'Disputatron Reference Resolver',
-			}
-		})
 		.state('screenatron', {
 			url: '/screenatron',
 			views: {main: {templateUrl: '/partials/screening/screenatron.html'}},
 			data: {
 				title: 'Screenatron',
+			}
+		})
+		.state('disputatron', {
+			url: '/disputatron',
+			views: {main: {templateUrl: '/partials/disputes/disputatron.html'}},
+			data: {
+				title: 'Disputatron Reference Resolver',
 			}
 		})
 		.state('debug', {
