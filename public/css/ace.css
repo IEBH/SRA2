@@ -41,7 +41,7 @@ body.breadcrumbs-fixed {
 .page-content {
     background: #fff;
     margin: 0;
-    padding: 8px 20px 24px;
+    padding: 8px 20px 0px;
 }
 .page-content .page-header:first-child {
     margin: 0 0 12px;
