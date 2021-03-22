@@ -42,6 +42,7 @@ var _ = require('lodash');
 var colors = require('chalk');
 var bodyParser = require('body-parser');
 var express = require('express');
+var proxy = require("express-http-proxy");
 var layouts = require('express-ejs-layouts')
 var fspath = require('path');
 var fs = require('fs');
@@ -70,6 +71,23 @@ if (config.access && config.access.lockdown) {
 		return (user && pass == user.pass);
 	}, config.title + ' - Private'));
 }
+// }}}
+// Settings / Analytics {{{
+app.use('/assets', express.static(config.root + '/assets'));
+function getIpFromReq (req) { // get the client's IP address
+    var bareIP = ":" + ((req.connection.socket && req.connection.socket.remoteAddress)
+        || req.headers["x-forwarded-for"] || req.connection.remoteAddress || "");
+    return (bareIP.match(/:([^:]+)$/) || [])[1] || "127.0.0.1";
+}
+app.use("/a", proxy("www.google-analytics.com", {
+    proxyReqPathResolver: function (req) {
+		console.log(req.url);
+		req.url = req.url.replace("acollect", "collect");
+		console.log(req.url);
+        return req.url + (req.url.indexOf("?") === -1 ? "?" : "&")
+            + "uip=" + encodeURIComponent(getIpFromReq(req));
+    }
+}));
 // }}}
 // Settings / Parsing {{{
 app.use(require('cookie-parser')());
