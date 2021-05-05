@@ -7,7 +7,7 @@
 # Stop on errors
 set -euo pipefail
 
-cd ~/sr-accelerator.com
+cd /sites/sr-accelerator.com
 
 echo "Stopping all PM2 child processes..."
 pm2 kill
@@ -15,8 +15,6 @@ pm2 kill
 echo "Booting main web server"
 NODE_ENV=production
 
-export PORT=10101
-pm2 start --name sra-a --time server
+PORT=10101 pm2 start --name sra-a --time server.js
 
-export PORT=10102
-pm2 start --name sra-b --time server
+PORT=10102 pm2 start --name sra-b --time server.js

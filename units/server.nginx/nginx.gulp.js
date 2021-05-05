@@ -4,7 +4,7 @@ var exec = require('@momsfriendlydevco/exec');
 gulp.task('nginx', ()=> gulp.run('nginx:check', 'nginx:chmod', 'nginx:deploy', 'nginx:reload'));
 
 gulp.task('nginx:check', ['load:app'], ()=>
-	exec(['sudo', 'nginx', '-t', '-c', `${app.config.paths.root}/server.nginx/nginx.conf`], {log: gulp.log.bind(this, '[NGINX/check]')})
+	exec(['sudo', 'nginx', '-t', '-c', `${__dirname}/nginx.conf`], {log: gulp.log.bind(this, '[NGINX/check]')})
 );
 
 gulp.task('nginx:chmod', ()=>
@@ -12,7 +12,7 @@ gulp.task('nginx:chmod', ()=>
 );
 
 gulp.task('nginx:deploy', ()=>
-	gulp.src('./server.nginx/nginx.conf')
+	gulp.src(`${__dirname}/nginx.conf`)
 		.pipe(gulp.dest('/etc/nginx'))
 );
 

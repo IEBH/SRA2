@@ -5,11 +5,11 @@
 # Stop on errors
 set -euo pipefail
 
-echo "Stopping server..."
-pm2 stop server
+echo "Stopping nginx..."
+sudo service nginx stop
 
 echo "Requesting cert renewal via Certbot..."
-sudo ~/certbot-auto certonly \
+sudo certbot certonly \
 	--cert-name sr-accelerator.com \
 	-d sr-accelerator.com \
 	-d www.sr-accelerator.com \
@@ -19,5 +19,5 @@ sudo ~/certbot-auto certonly \
 	--manual-public-ip-logging-ok
 
 
-echo "Reloading server..."
-pm2 start server
+echo "Reloading nginx..."
+sudo service nginx start

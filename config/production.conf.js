@@ -4,7 +4,7 @@ console.log(colors.bold.red('RUNNING IN PRODUCTION MODE'));
 
 module.exports = {
 	url: 'http://sr-accelerator.com',
-	port: 80,
+	port: process.env.PORT || 80,
 	gulp: {
 		notifications: false,
 		debugJS: false,
