@@ -26,6 +26,6 @@ module.exports = {
 		},
 	},
 	ssl: {
-		enabled: true,
+		enabled: false, // Managed by Nginx
 	},
 };
