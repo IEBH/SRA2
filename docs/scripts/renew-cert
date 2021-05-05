@@ -1,0 +1,23 @@
+#!/bin/bash
+# Renew a letsencrypt / acme cert
+# Usage: renew-cert
+
+# Stop on errors
+set -euo pipefail
+
+echo "Stopping server..."
+pm2 stop server
+
+echo "Requesting cert renewal via Certbot..."
+sudo ~/certbot-auto certonly \
+	--cert-name sr-accelerator.com \
+	-d sr-accelerator.com \
+	-d www.sr-accelerator.com \
+	-m matt_carter@bond.edu.au \
+	--agree-tos \
+	--eff-email \
+	--manual-public-ip-logging-ok
+
+
+echo "Reloading server..."
+pm2 start server

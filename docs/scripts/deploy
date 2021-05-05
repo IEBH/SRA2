@@ -14,4 +14,9 @@ pm2 kill
 
 echo "Booting main web server"
 NODE_ENV=production
-pm2 start server.js
+
+export PORT=10101
+pm2 start --name sra-a --time server
+
+export PORT=10102
+pm2 start --name sra-b --time server
