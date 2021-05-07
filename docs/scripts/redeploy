@@ -19,6 +19,6 @@ echo "Building via Gulp..."
 gulp build
 
 echo "Rebooting PM2 server process..."
-pm2 restart --wait-ready --listen-timeout=10000 sra-a sra-b
+pm2 restart --wait-ready --listen-timeout=10000 sra-a sra-b sra-c sra-d
 
 echo "done."

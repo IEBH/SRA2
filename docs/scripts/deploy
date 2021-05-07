@@ -13,8 +13,10 @@ echo "Stopping all PM2 child processes..."
 pm2 kill
 
 echo "Booting main web server"
-NODE_ENV=production
-
+export NODE_ENV=production
 PORT=10101 pm2 start --name sra-a --time server.js
 
+export NODE_ENV=slave
 PORT=10102 pm2 start --name sra-b --time server.js
+PORT=10103 pm2 start --name sra-c --time server.js
+PORT=10104 pm2 start --name sra-d --time server.js
