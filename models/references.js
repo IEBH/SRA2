@@ -1,10 +1,10 @@
 var name = 'references';
 var schema = new mongoose.Schema({
 	id: mongoose.Schema.ObjectId,
-	library: {type: mongoose.Schema.ObjectId, ref: 'libraries', indexed: true},
+	library: {type: mongoose.Schema.ObjectId, ref: 'libraries', index: true},
 	created: {type: Date, default: Date.now},
 	edited: {type: Date, default: Date.now},
-	tags: [{type: mongoose.Schema.ObjectId, ref: 'referenceTags', indexed: true}],
+	tags: [{type: mongoose.Schema.ObjectId, ref: 'referenceTags', index: true}],
 	type: {type: String, default: 'report'},
 	title: {type: String},
 	journal: {type: String},
@@ -23,7 +23,7 @@ var schema = new mongoose.Schema({
 	abstract: {type: String},
 	notes: {type: String},
 	researchNotes: {type: String},
-	status: {type: String, enum: ['active', 'deleted', 'dupe'], default: 'active', indexed: true},
+	status: {type: String, enum: ['active', 'deleted', 'dupe'], default: 'active', index: true},
 	fullTextURL: {type: String},
 	screening: {
 		hash: {type: String},

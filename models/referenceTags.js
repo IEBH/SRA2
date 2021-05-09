@@ -4,10 +4,10 @@ var name = 'referenceTags';
 var schema = new mongoose.Schema({
 	id: mongoose.Schema.ObjectId,
 	created: {type: Date, default: Date.now},
-	library: {type: mongoose.Schema.ObjectId, ref: 'libraries', indexed: true},
+	library: {type: mongoose.Schema.ObjectId, ref: 'libraries', index: true},
 	title: {type: String, default: 'New Tag'},
 	color: {type: String},
-	status: {type: String, enum: ['active', 'deleted'], default: 'active', indexed: true},
+	status: {type: String, enum: ['active', 'deleted'], default: 'active', index: true},
 }, {
 	usePushEach: true,
 });
