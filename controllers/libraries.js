@@ -157,7 +157,7 @@ app.post('/api/libraries/import', multer().any(), function(req, res) {
 		// Copy each file into a valid blob path {{{
 		.set('blobIDs', [])
 		.forEach(req.files, function(next, file) {
-			var blobPath = temp.path({suffix: fspath.parse(file.originalname).ext, prefix: 'blob-', dir: os.tmpDir()});
+			var blobPath = temp.path({suffix: fspath.parse(file.originalname).ext, prefix: 'blob-', dir: os.tmpdir()});
 			var blobID = fspath.basename(blobPath).substr(5);
 			this.blobIDs.push(blobID);
 			console.log(colors.blue('Upload'), colors.cyan(file.originalname), 'into blob', colors.cyan(blobID));

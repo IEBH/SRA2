@@ -70,7 +70,7 @@ module.exports = function(finish, task) {
 		.forEach(task.settings.blobIDs, function(next, blobID) {
 			var self = this;
 			var library = this.library;
-			var blobFile = os.tmpDir() + '/blob-' + blobID;
+			var blobFile = os.tmpdir() + '/blob-' + blobID;
 			reflib.parseFile(blobFile, {
 				fixes: {
 					authors: true,
