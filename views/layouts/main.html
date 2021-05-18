@@ -105,34 +105,34 @@
 		<span class="menu-text"></span>
 	</a>
 
-	<div class="sidebar fixed" id="sidebar">
+	<div ng-class="{ sidebar: true, fixed: true, collapseSide: !showSidebar }" id="sidebar" >
 		<!-- Sidebar {{{ -->
 		<ul class="nav nav-list">
 			<li>
 				<a href="#/">
 					<i class="fa fa-dashboard"></i>
-					<span class="menu-text">Dashboard</span>
+					<span ng-if="showSidebar" class="menu-text">Dashboard</span>
 				</a>
 			</li>
 
 			<li ng-if="!user._id">
 				<a href="#/login">
 					<i class="fa fa-user"></i>
-					<span class="menu-text"> Login</span>
+					<span ng-if="showSidebar" class="menu-text"> Login</span>
 				</a>
 			</li>
 
 			<li>
 				<a href="https://ielab-sysrev2.uqcloud.net/account/login" target="_blank">
 					<i class="fa fa-search-minus"></i>
-					<span class="menu-text">SearchRefiner</span>
+					<span ng-if="showSidebar" class="menu-text">SearchRefiner</span>
 				</a>
 			</li>
 
 			<li>
 				<a href="#/polyglot">
 					<i class="fa fa-search"></i>
-					<span class="menu-text">Polyglot Search</span>
+					<span ng-if="showSidebar" class="menu-text">Polyglot Search</span>
 				</a>
 			</li>
 
@@ -140,21 +140,21 @@
 
 				<a href="#/screenatron">
 					<i class="fa fa-external-link"></i>
-					<span class="menu-text">Screenatron</span>
+					<span ng-if="showSidebar" class="menu-text">Screenatron</span>
 				</a>
 			</li>
 
 			<li>
 				<a href="#/disputatron">
 					<i class="fa fa-compress"></i>
-					<span class="menu-text">Disputatron</span>
+					<span ng-if="showSidebar" class="menu-text">Disputatron</span>
 				</a>
 			</li>
 
 			<li>
 				<a href="#/replicant">
 					<i class="fa fa-android"></i>
-					<span class="menu-text">RevMan Replicant</span>
+					<span ng-if="showSidebar" class="menu-text">RevMan Replicant</span>
 				</a>
 			</li>
 
@@ -162,17 +162,17 @@
 			<li>
 				<a href="#/sra-helper">
 					<i class="fa fa-window-restore"></i>
-					<span class="menu-text">SRA-Helper</span>
+					<span ng-if="showSidebar" class="menu-text">SRA-Helper</span>
 				</a>
 			</li>
 
 			<li ng-if="user._id" ng-controller="libraryListController">
 				<a href="#/libraries" data-toggle="dropdown" class="dropdown-toggle">
 					<i class="fa fa-tags"></i>
-					<span class="menu-text"> My libraries</span>
-					<b class="arrow fa fa-angle-down"></b>
+					<span ng-if="showSidebar" class="menu-text"> My libraries</span>
+					<b ng-if="showSidebar" class="arrow fa fa-angle-down"></b>
 				</a>
-				<ul class="submenu">
+				<ul ng-if="showSidebar" class="submenu">
 					<li><a href="#/libraries"><i class="fa fa-angle-double-right"></i> View all</a></li>
 					<li ng-repeat="library in libraries">
 						<a href="#/libraries/{{library._id}}">
@@ -186,10 +186,10 @@
 				</ul>
 			</li>
 
-			<li ng-if="user._id" ng-controller="libraryOperation">
+			<li ng-if="user._id && showSidebar" ng-controller="libraryOperation">
 				<a data-toggle="dropdown" class="dropdown-toggle">
 					<i class="fa fa-wrench"></i>
-					<span class="menu-text"> Library tools</span>
+					<span ng-if="showSidebar" class="menu-text"> Library tools</span>
 					<b class="arrow fa fa-angle-down"></b>
 				</a>
 				<ul class="submenu">
@@ -202,10 +202,10 @@
 			<li ng-controller="helpListController">
 				<a href="#/help" data-toggle="dropdown" class="dropdown-toggle">
 					<i class="fa fa-question-circle"></i>
-					<span class="menu-text"> Help</span>
-					<b class="arrow fa fa-angle-down"></b>
+					<span ng-if="showSidebar" class="menu-text"> Help</span>
+					<b ng-if="showSidebar" class="arrow fa fa-angle-down"></b>
 				</a>
-				<ul class="submenu">
+				<ul ng-if="showSidebar" class="submenu">
 					<li ng-repeat="topic in topics | filter:{show:true} track by topic.id">
 						<a href="#/help/{{topic.id}}">
 							<i class="fa fa-chevron-right"></i>
@@ -218,35 +218,41 @@
 			<li>
 				<a href="#/tools">
 					<i class="fa fa-wrench"></i>
-					<span class="menu-text"> Recommended Tools</span>
+					<span ng-if="showSidebar" class="menu-text"> Recommended Tools</span>
 				</a>
 			</li>
 
 			<li>
 				<a href="#/whats-new">
 					<i class="fa fa-asterisk"></i>
-					<span class="menu-text"> Whats new</span>
+					<span ng-if="showSidebar" class="menu-text"> Whats new</span>
 				</a>
 			</li>
 
 			<li>
 				<a href="#/aboutus">
 					<i class="fa fa-envelope"></i>
-					<span class="menu-text"> About Us</span>
+					<span ng-if="showSidebar" class="menu-text"> About Us</span>
 				</a>
 			</li>
 
 			<li>
 				<a href="#/help/citing">
 					<i class="fa fa-pencil-square-o"></i>
-					<span class="menu-text"> Citing us</span>
+					<span ng-if="showSidebar" class="menu-text"> Citing us</span>
 				</a>
 			</li>
 
 			<li>
 				<a href="#/contact">
 					<i class="fa fa-envelope"></i>
-					<span class="menu-text"> Contact Us</span>
+					<span ng-if="showSidebar" class="menu-text"> Contact Us</span>
+				</a>
+			</li>
+			<li>
+				<a ng-click="collapseSidebar()">
+					<i ng-class="{ fa: true, 'fa-compress': showSidebar, 'fa-expand': !showSidebar }"></i>
+					<span ng-if="showSidebar" class="menu-text">Collapse</span>
 				</a>
 			</li>
 			<? } ?>
@@ -259,7 +265,7 @@
 		-->
 		<!-- }}} -->
 	</div>
-	<div class="main-content">
+	<div class="main-content" ng-style="{ 'margin-left': showSidebar ? '190px' : '44px' }">
 		<div class="breadcrumbs" id="breadcrumbs">
 			<ul class="breadcrumb">
 				<li>

@@ -47,6 +47,13 @@ body.navbar-fixed {
 	top: 65px;
 }
 
+.sidebar.collapseSide {
+	width: 44px;
+}
+
+.sidebar.collapseSide::before {
+	width: 44px;
+}
 .ace-nav {
 	60px;
 }
