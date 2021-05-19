@@ -74,7 +74,7 @@
 
 			<ul class="nav ace-nav pull-right">
 				<li class="light-blue">
-					<a ng-show="user._id" data-toggle="dropdown" href="#" class="dropdown-toggle" style="height: 50px; padding-top: 5px !important">
+					<a ng-show="user._id" data-toggle="dropdown" href="#" class="dropdown-toggle" style="height: 50px; padding-top: 0px !important">
 						<div class="user-info">
 							<small>Welcome,</small> {{user.name}}
 						</div>
@@ -88,7 +88,9 @@
 						<li><a href="#/profile"><i class="fa fa-user"></i> Your profile</a></li>
 						<li><a href="#/logout"><i class="fa fa-power-off"></i> Logout</a></li>
 					</ul>
-					<a ng-show="!user._id" href="#/login"><i class="fa fa-user"></i> Login</a>
+					<a ng-show="!user._id" href="#/login" style="height: 50px; padding-top: 0px !important">
+						<i class="fa fa-user"></i> Login
+					</a>
 				</li>
 			</ul>
 
