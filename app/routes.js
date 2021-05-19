@@ -64,6 +64,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Search',
 			}
 		})
+		.state('searchrefiner', {
+			url: '/searchrefiner',
+			views: {main: {templateUrl: '/partials/search/searchrefiner.html'}},
+			data: {
+				title: 'Search Refiner',
+			}
+		})
 		.state('polyglot', {
 			url: '/polyglot',
 			views: {main: {templateUrl: '/partials/search/polyglot2.html'}},
