@@ -2,6 +2,7 @@
 app.controller('globalController', function($scope, $rootScope, $debounce, $location, $timeout, Loader, Settings, Users) {
 	// .user {{{
 	$scope.user = {};
+	$rootScope.showSidebar = true;
 
 	/** Attempt to login to the server with the supplied details
 	* If the details are omitted a 'relog' occurs to refresh user details
@@ -92,4 +93,8 @@ app.controller('globalController', function($scope, $rootScope, $debounce, $loca
 	// Service hooks {{{
 	$rootScope.loader = Loader.loaderData;
 	// }}}
+
+	$scope.collapseSidebar = function() {
+		$rootScope.showSidebar = !$rootScope.showSidebar;
+	}
 });

@@ -40,13 +40,20 @@
 }
 
 body.navbar-fixed {
-	padding-top: 65px;
+	padding-top: 50px;
 }
 
 .sidebar.fixed {
-	top: 65px;
+	top: 50px;
 }
 
+.sidebar.collapseSide {
+	width: 44px;
+}
+
+.sidebar.collapseSide::before {
+	width: 44px;
+}
 .ace-nav {
 	60px;
 }
