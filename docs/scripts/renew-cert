@@ -13,6 +13,7 @@ sudo certbot certonly \
 	--cert-name sr-accelerator.com \
 	-d sr-accelerator.com \
 	-d www.sr-accelerator.com \
+	-d searchrefiner.sr-accelerator.com \
 	-m matt_carter@bond.edu.au \
 	--agree-tos \
 	--eff-email \
