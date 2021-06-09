@@ -69,7 +69,7 @@ module.exports = function(finish, task) {
 
 				var counted = {}; // Object `${sentence}`=>true storage of keys we have already seen
 				var lastWords = [];
-				
+
 				_(
 					_.isArray(ref[key]) ? // Is an array - split each element by whitespace
 						_(ref[key])
@@ -123,7 +123,7 @@ module.exports = function(finish, task) {
 									self.words[wordGroup][key] = 0;
 								});
 							}
-							
+
 							if (!task.settings.ignore.duplicates || !counted[wordGroup]) { // Check to see if word is already counted if ignoring duplicates
 								self.words[wordGroup].points += (task.settings.weights[key] || 1);
 								self.words[wordGroup][key]++;
@@ -154,7 +154,7 @@ module.exports = function(finish, task) {
 		.then('words', function(next) {
 			if (this.words.length <= task.settings.max.results) return next(null, this.words);
 
-			next(null, 
+			next(null,
 				_(this.words)
 					.sortBy(task.settings.max.resultsTruncate)
 					.reverse()
@@ -177,7 +177,7 @@ module.exports = function(finish, task) {
 
 		// Finish {{{
 		.then(function(next) { // Finalize task data
-			task.destination = config.url + '/#/libraries/' + this.library._id + '/word-freq/' + task._id;
+			task.destination = config.publicUrl + '/#/libraries/' + this.library._id + '/word-freq/' + task._id;
 			task.history.push({type: 'completed', response: 'Completed word frequency operation'});
 			task.completed = new Date();
 			task.status = 'completed';
