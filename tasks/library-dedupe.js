@@ -147,7 +147,7 @@ module.exports = function(finish, task) {
 		// Finish {{{
 		.parallel([
 			function(next) { // Finalize task data
-				task.destination = config.url + '/#/libraries/' + this.library._id + '/dedupe/review';
+				task.destination = config.publicUrl + '/#/libraries/' + this.library._id + '/dedupe/review';
 				task.completed = new Date();
 				task.status = 'completed';
 				task.history.push({type: 'completed', response: 'Completed dedupe. Scanned ' + scanned + ' refs and found ' + dupesFound + ' dupes'});

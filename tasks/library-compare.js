@@ -121,7 +121,7 @@ module.exports = function(finish, task) {
 		// }}}
 		// Finish {{{
 		.then(function(next) { // Finalize task data
-			task.destination = config.url + '/#/libraries/' + this.libraries[0]._id + '/compare/' + task._id;
+			task.destination = config.publicUrl + '/#/libraries/' + this.libraries[0]._id + '/compare/' + task._id;
 			task.result = {
 				libraries: this.libraries.map(function(lib) { return lib._id }),
 				conflicts: this.conflicts,

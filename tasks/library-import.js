@@ -110,7 +110,7 @@ module.exports = function(finish, task) {
 		// }}}
 		// Finish {{{
 		.then(function(next) { // Finalize task data
-			task.destination = config.url + '/#/libraries/' + this.library._id;
+			task.destination = config.publicUrl + '/#/libraries/' + this.library._id;
 			task.history.push({type: 'completed', response: 'Completed import. Imported ' + this.refs.length + ' references with ' + _.size(this.tags) + ' tags'});
 			console.log(colors.blue('Upload'), colors.green('Completed'), 'Imported', colors.cyan(this.refs.length), 'references with', colors.cyan(_.size(this.tags)), 'tags');
 			task.completed = new Date();

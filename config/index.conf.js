@@ -28,6 +28,7 @@ var defaults = {
 	host: null, // Listen to all host requests
 	port: process.env.PORT || 8080,
 	url: 'http://localhost',
+	publicUrl: 'http://localhost',
 	secret: 'FIXME: See config/private.conf.js',
 	access: {
 		lockdown: false, // Set to true to lock the site with the below users
