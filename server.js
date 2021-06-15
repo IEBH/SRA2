@@ -47,10 +47,12 @@ var layouts = require('express-ejs-layouts')
 var fspath = require('path');
 var fs = require('fs');
 var requireDir = require('require-dir');
+var cors = require('cors');
 global.app = express();
 global.app.config = config;
 // }}}
 // Settings {{{
+app.use(cors())
 require('./config/db.conf.js');
 app.set('title', config.title);
 app.set('view engine', "html");
