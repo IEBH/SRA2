@@ -4969,7 +4969,7 @@
   "resolved" "https://registry.npmjs.org/jsonify/-/jsonify-0.0.0.tgz"
   "version" "0.0.0"
 
-"jsonwebtoken@^8.5.1":
+"jsonwebtoken@^8.2.0", "jsonwebtoken@^8.5.1":
   "integrity" "sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w=="
   "resolved" "https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz"
   "version" "8.5.1"
@@ -6555,6 +6555,14 @@
   "resolved" "https://registry.npmjs.org/pascalcase/-/pascalcase-0.1.1.tgz"
   "version" "0.1.1"
 
+"passport-jwt@^4.0.0":
+  "integrity" "sha512-BwC0n2GP/1hMVjR4QpnvqA61TxenUMlmfNjYNgK0ZAs0HK4SOQkHcSv4L328blNTLtHq7DbmvyNJiH+bn6C5Mg=="
+  "resolved" "https://registry.npmjs.org/passport-jwt/-/passport-jwt-4.0.0.tgz"
+  "version" "4.0.0"
+  dependencies:
+    "jsonwebtoken" "^8.2.0"
+    "passport-strategy" "^1.0.0"
+
 "passport-local@^1.0.0":
   "integrity" "sha1-H+YyaMkudWBmJkN+O5BmYsFbpu4="
   "resolved" "https://registry.npmjs.org/passport-local/-/passport-local-1.0.0.tgz"
@@ -6562,7 +6570,7 @@
   dependencies:
     "passport-strategy" "1.x.x"
 
-"passport-strategy@1.x.x":
+"passport-strategy@^1.0.0", "passport-strategy@1.x.x":
   "integrity" "sha1-tVOaqPwiWj0a0XlHbd8ja0QPUuQ="
   "resolved" "https://registry.npmjs.org/passport-strategy/-/passport-strategy-1.0.0.tgz"
   "version" "1.0.0"

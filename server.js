@@ -136,6 +136,25 @@ passport.deserializeUser(function(id, next) {
 		});
 });
 
+const JWTstrategy = require('passport-jwt').Strategy;
+const ExtractJWT = require('passport-jwt').ExtractJwt;
+
+passport.use(
+  new JWTstrategy(
+    {
+      secretOrKey: 'TOP_SECRET',
+      jwtFromRequest: ExtractJWT.fromBodyField('token')
+    },
+    async (token, done) => {
+      try {
+        return done(null, token);
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
+);
+
 // Various security blocks
 global.ensure = {
 	loginFail: function(req, res, next) { // Special handler to reject login and redirect to login screen or raise error depending on context

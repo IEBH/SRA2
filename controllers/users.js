@@ -6,6 +6,7 @@ var Libraries = require('../models/libraries');
 var References = require('../models/references');
 var Users = require('../models/users');
 var uuid = require('uuid');
+const jwt = require('jsonwebtoken');
 
 app.post('/login', passport.authenticate('local', {
 	successRedirect: '/',
@@ -258,7 +259,28 @@ app.post('/api/users/login', function(req, res) {
 		})
 		.end(function(err) {
 			if (err) return res.send({error: 'Invalid username or password'});
-			res.send(this.profile);
+			const token = jwt.sign(this.profile, 'TOP_SECRET');
+			res.send({ ...this.profile, token });
+		});
+});
+
+app.post('/api/users/loginFromToken', function(req, res) {
+	async()
+		.then('profile', function(next) {
+			passport.authenticate('jwt', function(err, user) {
+				if (err) return next({ err });
+				if (user) {
+					console.log(colors.green('Successful login for'), colors.cyan(user.username));
+					return next({ user });
+				} else {
+					console.log(colors.red('Failed login for'), colors.cyan(user.username));
+					return next({ err: 'Unauthorized' });
+				}
+			})(req, res, next);
+		})
+		.end(function(data) {
+			if (data.err) return res.send({error: 'Invalid username or password'});
+			res.send(data.user);
 		});
 });
 
