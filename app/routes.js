@@ -78,6 +78,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Polyglot Search',
 			}
 		})
+		.state('deduplicator', {
+			url: '/deduplicator',
+			views: {main: {templateUrl: '/partials/deduplication/deduplicator.html'}},
+			data: {
+				title: 'Deduplicator',
+			}
+		})
 		.state('screenatron', {
 			url: '/screenatron',
 			views: {main: {templateUrl: '/partials/screening/screenatron.html'}},
