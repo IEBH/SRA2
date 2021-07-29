@@ -124,12 +124,27 @@
 				</a>
 			</li>
 
+			<li ng-if="user._id">
+				<a href="#/libraries/word-freq">
+					<i class="fa fa-binoculars"></i>
+					<span ng-if="showSidebar" class="menu-text">WordFreq</span>
+				</a>
+			</li>
+
 			<li>
 				<a href="https://ielab-sysrev2.uqcloud.net/account/login" target="_blank">
 					<i class="fa fa-search-minus"></i>
 					<span ng-if="showSidebar" class="menu-text">SearchRefiner</span>
 				</a>
 			</li>
+
+			<!-- TODO: Add when methods wizard released -->
+			<!-- <li>
+				<a ng-if="user._id" href="#/methods-wizard">
+					<i class="fa fa-pencil"></i>
+					<span ng-if="showSidebar" class="menu-text">Methods Wizard</span>
+				</a>
+			</li> -->
 
 			<li>
 				<a href="#/polyglot">
@@ -138,8 +153,14 @@
 				</a>
 			</li>
 
-			<li>
+			<!-- <li>
+				<a href="#/deduplicator">
+					<i class="fa fa-files-o"></i>
+					<span ng-if="showSidebar" class="menu-text">Deduplicator (beta)</span>
+				</a>
+			</li> -->
 
+			<li>
 				<a href="#/screenatron">
 					<i class="fa fa-external-link"></i>
 					<span ng-if="showSidebar" class="menu-text">Screenatron</span>
@@ -157,14 +178,6 @@
 				<a href="#/replicant">
 					<i class="fa fa-android"></i>
 					<span ng-if="showSidebar" class="menu-text">RevMan Replicant</span>
-				</a>
-			</li>
-
-			<!-- Soon to be obsolete -->
-			<li>
-				<a href="#/sra-helper">
-					<i class="fa fa-window-restore"></i>
-					<span ng-if="showSidebar" class="menu-text">SRA-Helper</span>
 				</a>
 			</li>
 

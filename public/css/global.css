@@ -45,8 +45,12 @@ body.navbar-fixed {
 
 .sidebar.fixed {
 	top: 50px;
+	overflow-y: auto;
 }
-
+.sidebar.fixed::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
 .sidebar.collapseSide {
 	width: 44px;
 }

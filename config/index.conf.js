@@ -173,12 +173,12 @@ var config = _.merge(
 
 // Sanity checks {{{
 // If config.url doesn't contain a port append it {{{
-// if (config.port != 80 && url.parse(config.url).port != config.port) {
-// 	var parsedURL = url.parse(config.url);
-// 	parsedURL.host = undefined; // Have to set this to undef to force a hostname rebuild
-// 	parsedURL.port = config.port;
-// 	config.url = url.format(parsedURL);
-// }
+if (config.port != 80 && url.parse(config.url).port != config.port) {
+	var parsedURL = url.parse(config.url);
+	parsedURL.host = undefined; // Have to set this to undef to force a hostname rebuild
+	parsedURL.port = config.port;
+	config.url = url.format(parsedURL);
+}
 // }}}
 // Trim remaining '/' from url {{{
 config.url = _.trimEnd(config.url, '/');

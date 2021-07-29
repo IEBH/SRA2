@@ -64,11 +64,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Search',
 			}
 		})
+		.state('methods-wizard', {
+			url: '/methods-wizard',
+			views: {main: {templateUrl: '/partials/methods/methods-wizard.html'}},
+			data: {
+				title: 'Methods Wizard'
+			}
+		})
 		.state('polyglot', {
 			url: '/polyglot',
 			views: {main: {templateUrl: '/partials/search/polyglot2.html'}},
 			data: {
 				title: 'Polyglot Search',
+			}
+		})
+		.state('deduplicator', {
+			url: '/deduplicator',
+			views: {main: {templateUrl: '/partials/deduplication/deduplicator.html'}},
+			data: {
+				title: 'Deduplicator',
 			}
 		})
 		.state('screenatron', {
