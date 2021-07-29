@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Initial / Config {{{
 global.config = require('./config/index.conf.js');
+process.chdir(__dirname);
 // }}}
 // Initial / Papertrail {{{
 var winston = require('winston');
