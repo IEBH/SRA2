@@ -8,13 +8,13 @@ app.controller('helpListController', function($scope) {
 		},
 		{
 			id: 'dedupe',
-			title: 'DeDuplicator',
+			title: 'DeDuplicator (old)',
 			url: 'https://docs.google.com/document/d/1jGUozyJiSfMCOeotC0XIMqWNSOTYhqt6zJGfUOWsIvY/pub?embedded=true',
 			show: true,
 		},
 		{
 			id: 'dedupe-offline',
-			title: 'DeDuplicator (Offline)',
+			title: 'DeDuplicator (old - Offline)',
 			url: 'https://docs.google.com/document/d/1UUo9jr2lGXATXAlLjJ6O71Yerj-BX9xM5NB2bwhOCqM/pub?embedded=true',
 			show: true,
 		},
