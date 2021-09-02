@@ -31,6 +31,12 @@ app.controller('helpListController', function($scope) {
 			show: true,
 		},
 		{
+			id: 'searchRefinery',
+			title: 'SearchRefinery',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vSoxP2JYqUtCr6gLZTbSx8-vJ14X1vM6pL6WY4Whayyc8Yeyh4zCOlCJOSUf2Nhaq_C_-ZMmDHcUZ1d/pub?embedded=true',
+			show: true,
+		},
+		{
 			id: 'polyglot',
 			title: 'Polyglot Search Translator',
 			url: 'https://docs.google.com/document/d/1zL2_bIyZyhikrir-veUc2M59e7_c5iAmsHIu6JBxyB4/pub?embedded=true',

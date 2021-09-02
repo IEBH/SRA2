@@ -71,6 +71,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Methods Wizard'
 			}
 		})
+		.state('searchrefinery', {
+			url: '/searchrefinery',
+			views: {main: {templateUrl: '/partials/search/searchrefinery.html'}},
+			data: {
+				title: 'SearchRefinery',
+			}
+		})
 		.state('polyglot', {
 			url: '/polyglot',
 			views: {main: {templateUrl: '/partials/search/polyglot2.html'}},
