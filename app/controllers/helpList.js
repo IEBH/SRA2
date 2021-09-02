@@ -25,12 +25,6 @@ app.controller('helpListController', function($scope) {
 			show: true,
 		},
 		{
-			id: 'searchRefiner',
-			title: 'SearchRefiner',
-			url: 'https://docs.google.com/document/d/e/2PACX-1vRFwo-BEmejsccn-cZrTS8grpJA4KyyPs036_pkrMWha2tEnTlH6nSEi__1bX8xrxPlFVRRYYbY1reJ/pub?embedded=true',
-			show: true,
-		},
-		{
 			id: 'searchRefinery',
 			title: 'SearchRefinery',
 			url: 'https://docs.google.com/document/d/e/2PACX-1vSoxP2JYqUtCr6gLZTbSx8-vJ14X1vM6pL6WY4Whayyc8Yeyh4zCOlCJOSUf2Nhaq_C_-ZMmDHcUZ1d/pub?embedded=true',
