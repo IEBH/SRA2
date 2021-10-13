@@ -106,6 +106,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Disputatron Reference Resolver',
 			}
 		})
+		.state('spidercite', {
+			url: '/spidercite',
+			views: {main: {templateUrl: '/partials/search/spidercite.html'}},
+			data: {
+				title: 'SpiderCite',
+			}
+		})
 		.state('debug', {
 			url: '/debug',
 			views: {main: {templateUrl: '/partials/debug/index.html'}},
