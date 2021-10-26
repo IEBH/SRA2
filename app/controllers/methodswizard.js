@@ -1,7 +1,7 @@
 app.controller('MethodsWizardController', ['$scope','$location', '$sce', function($scope, $location, $sce) {
   var params = $location.search();
   var id = params.id;
-  var methodsWizardUrl = "https://methodswizard.netlify.app/#/";
+  var methodsWizardUrl = "https://methodswizard.sr-accelerator.com/#/";
   if(id) {
     methodsWizardUrl = methodsWizardUrl.concat(id);
   }
