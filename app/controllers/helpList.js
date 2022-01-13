@@ -7,21 +7,9 @@ app.controller('helpListController', function($scope) {
 			show: true,
 		},
 		{
-			id: 'dedupe',
-			title: 'DeDuplicator (old)',
-			url: 'https://docs.google.com/document/d/1jGUozyJiSfMCOeotC0XIMqWNSOTYhqt6zJGfUOWsIvY/pub?embedded=true',
-			show: true,
-		},
-		{
-			id: 'dedupe-offline',
-			title: 'DeDuplicator (old - Offline)',
-			url: 'https://docs.google.com/document/d/1UUo9jr2lGXATXAlLjJ6O71Yerj-BX9xM5NB2bwhOCqM/pub?embedded=true',
-			show: true,
-		},
-		{
 			id: 'wordfreq',
 			title: 'Word Frequency Analyser',
-			url: 'https://docs.google.com/document/d/1OHeetDraMJiaxpCLr6VAJJXmPxdBPE_sU2wLKG5ODrc/pub?embedded=true',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vSMaEiS-SvH-8ymVp_oKVhbyTUJKpHKayN4hgFAlyBHJFrGcby_KOHS-yAhD87XB2yODkdnOD0wEKEG/pub?embedded=true',
 			show: true,
 		},
 		{
@@ -66,7 +54,24 @@ app.controller('helpListController', function($scope) {
 			url: 'https://docs.google.com/document/d/e/2PACX-1vQvLTMeQl3N0FLDO2GxzqAtnq1X5znakUXSEL2hUVNRjiEd3dfvDaNqDmZMl0B42SqaNNz8l7lSL0R_/pub?embedded=true',
 			show: true,
 		},
-
+		{
+			id: 'dedupe',
+			title: 'DeDuplicator (old)',
+			url: 'https://docs.google.com/document/d/1jGUozyJiSfMCOeotC0XIMqWNSOTYhqt6zJGfUOWsIvY/pub?embedded=true',
+			show: true,
+		},
+		{
+			id: 'dedupe-offline',
+			title: 'DeDuplicator (old - Offline)',
+			url: 'https://docs.google.com/document/d/1UUo9jr2lGXATXAlLjJ6O71Yerj-BX9xM5NB2bwhOCqM/pub?embedded=true',
+			show: true,
+		},
+		{
+			id: 'word-freq',
+			title: 'Word Frequency Analyser (old)',
+			url: 'https://docs.google.com/document/d/1OHeetDraMJiaxpCLr6VAJJXmPxdBPE_sU2wLKG5ODrc/pub?embedded=true',
+			show: true,
+		},
 
 		// Accessible from top level menu - dont show the following in help topics list
 		{

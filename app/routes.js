@@ -71,6 +71,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Methods Wizard'
 			}
 		})
+		.state('wordfreq', {
+			url: '/wordfreq',
+			views: {main: {templateUrl: '/partials/search/wordfreq.html'}},
+			data: {
+				title: 'Word Frequency Analyser',
+			}
+		})
 		.state('searchrefinery', {
 			url: '/searchrefinery',
 			views: {main: {templateUrl: '/partials/search/searchrefinery.html'}},
