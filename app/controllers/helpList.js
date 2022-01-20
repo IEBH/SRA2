@@ -7,27 +7,15 @@ app.controller('helpListController', function($scope) {
 			show: true,
 		},
 		{
-			id: 'dedupe',
-			title: 'DeDuplicator',
-			url: 'https://docs.google.com/document/d/1jGUozyJiSfMCOeotC0XIMqWNSOTYhqt6zJGfUOWsIvY/pub?embedded=true',
-			show: true,
-		},
-		{
-			id: 'dedupe-offline',
-			title: 'DeDuplicator (Offline)',
-			url: 'https://docs.google.com/document/d/1UUo9jr2lGXATXAlLjJ6O71Yerj-BX9xM5NB2bwhOCqM/pub?embedded=true',
-			show: true,
-		},
-		{
 			id: 'wordfreq',
 			title: 'Word Frequency Analyser',
-			url: 'https://docs.google.com/document/d/1OHeetDraMJiaxpCLr6VAJJXmPxdBPE_sU2wLKG5ODrc/pub?embedded=true',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vSMaEiS-SvH-8ymVp_oKVhbyTUJKpHKayN4hgFAlyBHJFrGcby_KOHS-yAhD87XB2yODkdnOD0wEKEG/pub?embedded=true',
 			show: true,
 		},
 		{
-			id: 'searchRefiner',
-			title: 'SearchRefiner',
-			url: 'https://docs.google.com/document/d/e/2PACX-1vRFwo-BEmejsccn-cZrTS8grpJA4KyyPs036_pkrMWha2tEnTlH6nSEi__1bX8xrxPlFVRRYYbY1reJ/pub?embedded=true',
+			id: 'searchRefinery',
+			title: 'SearchRefinery',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vSoxP2JYqUtCr6gLZTbSx8-vJ14X1vM6pL6WY4Whayyc8Yeyh4zCOlCJOSUf2Nhaq_C_-ZMmDHcUZ1d/pub?embedded=true',
 			show: true,
 		},
 		{
@@ -60,7 +48,30 @@ app.controller('helpListController', function($scope) {
 			url: 'https://docs.google.com/document/d/e/2PACX-1vR__jD5ZsH6dqQMqgFoppbrWglXedHE_3L_t7De2JeBGN-vlTCRnq-QgY5o8UAJWx6fFfgnODo0KMBa/pub?embedded=true',
 			show: true,
 		},
-
+		{
+			id: 'spidercite',
+			title: 'SpiderCite',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vQvLTMeQl3N0FLDO2GxzqAtnq1X5znakUXSEL2hUVNRjiEd3dfvDaNqDmZMl0B42SqaNNz8l7lSL0R_/pub?embedded=true',
+			show: true,
+		},
+		{
+			id: 'dedupe',
+			title: 'DeDuplicator (old)',
+			url: 'https://docs.google.com/document/d/1jGUozyJiSfMCOeotC0XIMqWNSOTYhqt6zJGfUOWsIvY/pub?embedded=true',
+			show: true,
+		},
+		{
+			id: 'dedupe-offline',
+			title: 'DeDuplicator (old - Offline)',
+			url: 'https://docs.google.com/document/d/1UUo9jr2lGXATXAlLjJ6O71Yerj-BX9xM5NB2bwhOCqM/pub?embedded=true',
+			show: true,
+		},
+		{
+			id: 'word-freq',
+			title: 'Word Frequency Analyser (old)',
+			url: 'https://docs.google.com/document/d/1OHeetDraMJiaxpCLr6VAJJXmPxdBPE_sU2wLKG5ODrc/pub?embedded=true',
+			show: true,
+		},
 
 		// Accessible from top level menu - dont show the following in help topics list
 		{

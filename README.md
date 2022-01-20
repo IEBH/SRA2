@@ -55,3 +55,14 @@ Node v14 displays circular dependency warnings, use v13 to supress warnings
 2. run `npm ci`
 2. run `gulp db`
 3. run `gulp`
+
+Update Server
+==============
+1. run `git pull`
+2. run `gulp deploy`
+
+Update Ecosystem
+===============
+1. Pull changes from git in specified ecosystem
+2. run `cd /sites/ecosystem`
+3. run `pm2 restart ecosystem.json`

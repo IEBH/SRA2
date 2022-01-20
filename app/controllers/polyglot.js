@@ -5,6 +5,6 @@ app.controller('PolyglotController', ['$scope','$location', '$sce', function($sc
     if(token) {
       polyglotUrl = polyglotUrl.concat("?token=" + token);
     }
-    console.log(polyglotUrl);
+    // console.log(polyglotUrl);
     $scope.polyglotUrl = $sce.trustAsResourceUrl(polyglotUrl);
   }]);
