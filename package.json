@@ -9,7 +9,7 @@
   },
   "scripts": {
     "deploy": "gulp deploy",
-    "start": "node server.js"
+    "start": "gulp"
   },
   "dependencies": {
     "@babel/core": "^7.8.4",
