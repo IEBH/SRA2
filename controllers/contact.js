@@ -17,7 +17,6 @@ app.post('/api/contact', function(req, res) {
 	email.send({
 		from: req.body.name + ' <' + req.body.email + '>',
 		to: config.contactEmail,
-		cc: 'cforbes@bond.edu.au',
 		subject: req.body.subject || 'Contact form',
 		text: req.body.body,
 	}, function(err) {
