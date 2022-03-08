@@ -299,7 +299,7 @@ app.controller('libraryViewController', function($scope, $loader, $location, $q,
 			}, function(outField, inField) {
 				if (reference[inField]) params[outField] = reference[inField];
 			});
-			$window.open('https://ap01.alma.exlibrisgroup.com/view/uresolver/61BOND_INST/openurl?' + $httpParamSerializer(params), '_blank');
+			$window.open('https://bond.alma.exlibrisgroup.com/view/uresolver/61BOND_INST/openurl?' + $httpParamSerializer(params), '_blank');
 		}
 	};
 
