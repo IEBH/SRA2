@@ -57,16 +57,10 @@
 		</li>
 	</ul>
 */
-.bottom-align-text {
-	position: absolute;
-	bottom: 0;
-	left: 10px;
-	right: 10px;
-}
 .vertical-center {
 	display: inline-block;
+	height: 100%;
 	vertical-align: middle;
-	float: none;
 }
 
 .btn-group ul.dropdown-menu li:hover ul.dropdown-menu {
