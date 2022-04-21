@@ -71,6 +71,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'Methods Wizard'
 			}
 		})
+		.state('trial-wizard', {
+			url: '/trial-wizard',
+			views: {main: {templateUrl: '/partials/methods/trial-wizard.html'}},
+			data: {
+				title: 'Trial Wizard'
+			}
+		})
 		.state('wordfreq', {
 			url: '/wordfreq',
 			views: {main: {templateUrl: '/partials/search/wordfreq.html'}},
