@@ -3,7 +3,7 @@ app.controller('helpListController', function($scope) {
 		{
 			id: 'libraries',
 			title: 'Importing / Exporting Libraries',
-			url: 'https://docs.google.com/document/d/1ebqWjSz6WlztDmNAvWVkxzU4EV2MbR5iG6EU0cbwT-Q/pub?embedded=true',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vRbqjv2_BB-IGVCV5lH8Po97muvY7LSZN9qiK1ti8Qm6n5C1Yc2GoGoOnzmD8dryf_pVQwrDqXdoXIZ/pub?embedded=true',
 			show: true,
 		},
 		{
