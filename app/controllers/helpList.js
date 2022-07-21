@@ -25,12 +25,6 @@ app.controller('helpListController', function($scope) {
 			show: true,
 		},
 		{
-			id: 'sra-helper',
-			title: 'SRA-Helper',
-			url: 'https://docs.google.com/document/d/1KqVi5TiZ_LLW-Sl-PGTEke_L93CAysSy7e-vRVK7GY4/pub?embedded=true',
-			show: true,
-		},
-		{
 			id: 'deduplicator',
 			title: 'Deduplicator',
 			url: 'https://docs.google.com/document/d/e/2PACX-1vRZshMTQ_61kWRKQdwIgb1vUOH0UK0fdw1aiRMOoSp7V_EEkzN-RAsSbcKee-003vzdK72LqdUijYCC/pub?embedded=true',
@@ -52,18 +46,6 @@ app.controller('helpListController', function($scope) {
 			id: 'spidercite',
 			title: 'SpiderCite',
 			url: 'https://docs.google.com/document/d/e/2PACX-1vQvLTMeQl3N0FLDO2GxzqAtnq1X5znakUXSEL2hUVNRjiEd3dfvDaNqDmZMl0B42SqaNNz8l7lSL0R_/pub?embedded=true',
-			show: true,
-		},
-		{
-			id: 'dedupe',
-			title: 'DeDuplicator (old)',
-			url: 'https://docs.google.com/document/d/1jGUozyJiSfMCOeotC0XIMqWNSOTYhqt6zJGfUOWsIvY/pub?embedded=true',
-			show: true,
-		},
-		{
-			id: 'dedupe-offline',
-			title: 'DeDuplicator (old - Offline)',
-			url: 'https://docs.google.com/document/d/1UUo9jr2lGXATXAlLjJ6O71Yerj-BX9xM5NB2bwhOCqM/pub?embedded=true',
 			show: true,
 		},
 		{
