@@ -19,19 +19,21 @@ app.controller('helpViewController', function($scope, $http, $location, $rootSco
 	// @see https://stackoverflow.com/q/28343653/1295040
 	$scope.$watch('topic.url', ()=> {
 		$.get($scope.topic.url, html => {
-			$("#google-doc-iframe").attr("srcdoc", html);
-			setTimeout(function() {
-				var frame = $("#google-doc-iframe");
-				frame.contents().find('body').css('padding', '0 20px');
-				frame.contents().find('a[href^="http://"]').attr("target", "_blank");
-				frame.contents().find('a[href^="https://"]').attr("target", "_blank").each((i, el) => {
-					var $el = $(el);
-					$el.attr('href', $el.attr('href')
-						.replace(/^https:\/\/www\.google\.com\/url\?q=(.*?)&.*$/, '$1') // Remove `&...` slush from GitHub URLs
-						.replace(/^https:\/\/www\.google\.com\/url\?q=/, '') // Rewrite all other URLs
-					);
-				});
-			}, 100);
+			$("#google-doc-iframe")
+				.one('load', ()=> { // Contents changed
+					var frame = $("#google-doc-iframe");
+					frame.contents().find('body').css('padding', '0 20px');
+					frame.contents().find('a[href^="http://"], a[href^="https://"]')
+						.attr("target", "_blank")
+						.each((i, el) => {
+							var $el = $(el);
+							$el.attr('href', $el.attr('href')
+								.replace(/^https:\/\/www\.google\.com\/url\?q=(.*?)&.*$/, (m, v) => unescape(v)) // Remove `&...` slush from GitHub URLs
+								.replace(/^https:\/\/www\.google\.com\/url\?q=(.*)$/, (m, v) => unescape(v)) // Rewrite all other URLs
+							);
+						});
+				})
+				.attr("srcdoc", html) // Splat HTML contents
 		});
 	});
 	// }}}
