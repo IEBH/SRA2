@@ -11,7 +11,10 @@
     "deploy": "gulp deploy",
     "start": "gulp"
   },
-  "author": "Matt Carter <m@ttcarter.com>",
+  "author": [
+    "Matt Carter <m@ttcarter.com> (https://github.com/hash-bang)",
+    "Justin Cark <jclark@bond.edu.au> (https://github.com/Justin-Clarc)"
+  ],
   "license": "MIT",
   "dependencies": {
     "@babel/core": "^7.8.4",
