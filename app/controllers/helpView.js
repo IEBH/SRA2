@@ -21,10 +21,32 @@ app.controller('helpViewController', function($scope, $http, $location, $rootSco
 		$.get($scope.topic.url, html => {
 			$("#google-doc-iframe")
 				.one('load', ()=> { // Contents changed
-					var frame = $("#google-doc-iframe");
-					frame.contents().find('body').css('padding', '0 20px');
-					frame.contents().find('a[href^="http://"], a[href^="https://"]')
-						.attr("target", "_blank")
+					var $frame = $("#google-doc-iframe").contents();
+
+					// Inject CSS
+					$frame.find('head')
+						.append([
+							'<style>',
+
+							'table { width: 101% }',
+
+							'p { margin-bottom: 1rem }',
+
+							'</style>',
+						].join('\n'));
+
+
+					// Fix up main document + content display area
+					$frame.find('body, body > .doc-content')
+						.css({
+							margin: '0',
+							padding: '0 20px',
+							'max-width': 'none',
+						});
+
+					//  Make all links open in new tab + remove tracking garbage
+					$frame.find('a[href^="http://"], a[href^="https://"]')
+						.attr('target', '_blank')
 						.each((i, el) => {
 							var $el = $(el);
 							$el.attr('href', $el.attr('href')

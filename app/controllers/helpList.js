@@ -62,6 +62,12 @@ app.controller('helpListController', function($scope) {
 			url: 'https://docs.google.com/document/d/e/2PACX-1vSXq5kubanl-APyOARTgcPWsOyYCW54rSa-tXbJEO25942h_MXHEX3LABOMwkBYxUFUgyJ9_evOaOoQ/pub?embedded=true',
 			show: true,
 		},
+		{
+			id: 'licenses',
+			title: 'Licenses',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vTZf8JT-vvPJf6OwYTzmFhW9crSmRkpdqcwy8PpuumBTO4r7l9ocgvOPUPx9Njhg-zHiOSfajZdaEJV/pub?embedded=true',
+			show: true,
+		},
 		/* Abandoned now - MC 2020-02-06
 		{
 			id: 'whats-new',

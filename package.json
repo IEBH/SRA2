@@ -1,7 +1,7 @@
 {
-  "name": "sr-accelerator",
+  "name": "@iebh/SRA2",
   "description": "Systematic Review Accelerator from the Bond University Institute for Evidence-Based Healthcare",
-  "version": "3.5.0",
+  "version": "2.0.0",
   "main": "server.js",
   "private": true,
   "engines": {
@@ -11,6 +11,11 @@
     "deploy": "gulp deploy",
     "start": "gulp"
   },
+  "author": [
+    "Matt Carter <m@ttcarter.com> (https://github.com/hash-bang)",
+    "Justin Cark <jclark@bond.edu.au> (https://github.com/Justin-Clarc)"
+  ],
+  "license": "MIT",
   "dependencies": {
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
