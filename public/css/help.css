@@ -1,9 +1,4 @@
 .help-frame {
-	position: fixed;
-	top: 155px;
-	right: 0;
-	bottom: 0;
-	left: 190px;
 }
 
 @media print {

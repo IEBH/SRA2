@@ -57,6 +57,7 @@ global.paths = {
 			'node_modules/bootstrap/dist/css/bootstrap.css',
 			'node_modules/bootstrap/dist/js/bootstrap.js',
 			// --- less important vendors below this line (alphabetical) --- //
+			'node_modules/@momsfriendlydevco/embed-gdocs/dist/embed-gdocs.js',
 			'node_modules/@momsfriendlydevco/momsfriendlyfont/dist/moms-friendly-font.css',
 			'node_modules/angular-async-chainable/async-chainable.js',
 			'node_modules/angular-async-chainable/lib/angular-async-chainable.js',

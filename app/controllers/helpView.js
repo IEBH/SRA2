@@ -18,47 +18,10 @@ app.controller('helpViewController', function($scope, $http, $location, $rootSco
 	// Any link being clicked in an IFrame will try to redirect within the IFrame and refuse due to content policy
 	// @see https://stackoverflow.com/q/28343653/1295040
 	$scope.$watch('topic.url', ()=> {
-		$.get($scope.topic.url, html => {
-			$("#google-doc-iframe")
-				.one('load', ()=> { // Contents changed
-					var $frame = $("#google-doc-iframe").contents();
-
-					// Inject CSS
-					$frame.find('head')
-						.append([
-							'<style>',
-
-							'table { width: 101% }',
-
-							'p { margin-bottom: 1rem }',
-
-							'</style>',
-						].join('\n'));
-
-
-					// Fix up main document + content display area
-					$frame.find('body, body > .doc-content')
-						.css({
-							margin: '0',
-							padding: '0 20px',
-							'max-width': 'none',
-						});
-
-					//  Make all links open in new tab + remove tracking garbage
-					$frame.find('a[href^="http://"], a[href^="https://"]')
-						.attr('target', '_blank')
-						.each((i, el) => {
-							var $el = $(el);
-							$el.attr('href', $el.attr('href')
-								.replace(/^https:\/\/www\.google\.com\/url\?q=(.*?)&.*$/, (m, v) => unescape(v)) // Remove `&...` slush from GitHub URLs
-								.replace(/^https:\/\/www\.google\.com\/url\?q=(.*)$/, (m, v) => unescape(v)) // Rewrite all other URLs
-							);
-						});
-				})
-				.attr("srcdoc", html) // Splat HTML contents
+		embedGDoc({
+			selector: '#gdoc',
+			url: $scope.topic.url,
 		});
 	});
 	// }}}
-
-	$scope.print = ()=> $("#google-doc-iframe")[0].contentWindow.print();
 });
