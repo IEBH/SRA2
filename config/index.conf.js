@@ -38,7 +38,7 @@ var defaults = {
 		enabled: false,
 		insert: '',
 	},
-	contactEmail: 'matt_carter@bond.edu.au',
+	contactEmail: 'theteam@sr-accelerator.com',
 	gulp: {
 		notifications: true,
 		debugJS: true,
