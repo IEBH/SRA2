@@ -6,6 +6,20 @@ module.exports = {
 	url: 'http://sr-accelerator.com',
 	publicUrl: 'http://sr-accelerator.com',
 	port: process.env.PORT || 80,
+	analytics: {
+		enabled: true,
+		insert: [
+			'<!-- Google tag (gtag.js) -->',
+			'<script async src="https://www.googletagmanager.com/gtag/js?id=G-69RXV8Y1KB"></script>',
+			'<script>',
+			'  window.dataLayer = window.dataLayer || [];',
+			'  function gtag(){dataLayer.push(arguments);}',
+			'  gtag(\'js\', new Date());',
+			'',
+			'  gtag(\'config\', \'G-69RXV8Y1KB\');',
+			'</script>',
+		].join('\n'),
+	},
 	gulp: {
 		notifications: false,
 		debugJS: false,
