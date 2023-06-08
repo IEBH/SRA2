@@ -1,6 +1,12 @@
 app.controller('helpListController', function($scope) {
 	$scope.topics = [
 		{
+			id: 'overview',
+			title: 'SRA Overview',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vT5ZsB039lkVySFPM_NbmR5BRlgAysf5pqqgBef7XEwun5VJc3OJfRZvs_CMbm2XfV6Ctkm6GHdMubq/pub',
+			show: true,
+		},
+		{
 			id: 'libraries',
 			title: 'Importing / Exporting Libraries',
 			url: 'https://docs.google.com/document/d/e/2PACX-1vRbqjv2_BB-IGVCV5lH8Po97muvY7LSZN9qiK1ti8Qm6n5C1Yc2GoGoOnzmD8dryf_pVQwrDqXdoXIZ/pub?embedded=true',
