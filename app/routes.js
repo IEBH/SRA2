@@ -127,6 +127,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				title: 'SpiderCite',
 			}
 		})
+		.state('terafarmer', {
+			url: '/terafarmer',
+			views: {main: {templateUrl: '/partials/search/terafarmer.html'}},
+			data: {
+				title: 'Polyglot Search',
+			}
+		})
 		.state('debug', {
 			url: '/debug',
 			views: {main: {templateUrl: '/partials/debug/index.html'}},
