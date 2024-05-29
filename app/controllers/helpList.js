@@ -1,9 +1,15 @@
-app.controller('helpListController', function($scope) {
+app.controller('helpListController', function ($scope) {
 	$scope.topics = [
 		{
 			id: 'overview',
 			title: 'SRA Overview',
 			url: 'https://docs.google.com/document/d/e/2PACX-1vT5ZsB039lkVySFPM_NbmR5BRlgAysf5pqqgBef7XEwun5VJc3OJfRZvs_CMbm2XfV6Ctkm6GHdMubq/pub',
+			show: true,
+		},
+		{
+			id: 'sravideos',
+			title: 'Help Videos',
+			url: 'https://docs.google.com/document/d/e/2PACX-1vSHN97bX4JnBQEEhOXUmftUhqjNcc5cU4Ntm5ePoRjPD3B9Thk51niyFHGwJ5hdS4uDnnBXh9k19R6d/pub',
 			show: true,
 		},
 		{
