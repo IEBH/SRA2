@@ -25,7 +25,7 @@
 }
 
 .header-alert:hover {
-	filter: brightness(1.5);
+	filter: brightness(1.1);
 }
 
 .header-alert .alert {
