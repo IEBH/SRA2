@@ -15,6 +15,25 @@
 	display: inline-block;
 }
 
+.header-alert {
+	padding: 10px;
+	max-width: 1000px;
+	height: 40px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+}
+
+.header-alert:hover {
+	filter: brightness(1.5);
+}
+
+.header-alert .alert {
+	padding: 0 10px;
+	margin: 0;
+	border-radius: 10px;
+}
+
 .header a.bond {
 }
 
