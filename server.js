@@ -3,7 +3,7 @@
 global.config = require('./config/index.conf.js');
 process.chdir(__dirname);
 // }}}
-// Initial / Papertrail {{{
+// Initial / Logging {{{
 var winston = require('winston');
 
 var logger = new winston.Logger({
@@ -19,18 +19,6 @@ logger.add(winston.transports.Console, {
 	showLevel: false, // Omit the level prefix on the console
 });
 
-
-// Add Papertrail if its enabled
-if (config.papertrail.enabled) {
-	var winstonPT = require('winston-papertrail').Papertrail;
-
-	console.log('Loading Winston/Papertail logging as', config.papertrail.hostname);
-	logger.add(winston.transports.Papertrail, {
-		host: config.papertrail.host,
-		port: config.papertrail.port,
-		hostname: config.papertrail.hostname,
-	});
-}
 
 // Remap console.* -> app.logger.*
 console.info = logger.info;
