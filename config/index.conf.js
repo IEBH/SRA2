@@ -48,11 +48,14 @@ var defaults = {
 	},
 	email: {
 		enabled: true,
-		method: 'mailgun',
+		method: 'smtp',
 		from: 'noreply@sr-accelerator.com',
 		to: 'ddeliver@bond.edu.au',
 		cc: [],
 		signoff: 'The SR-Accelerator Team',
+		smtp: {
+			// see private.conf.js
+		},
 	},
 	mailgun: {
 		apiKey: 'FIXME:STORE THIS IN THE PRIVATE.JS FILE!!!',

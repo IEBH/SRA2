@@ -23,7 +23,7 @@ module.exports = {
 	gulp: {
 		notifications: false,
 		debugJS: false,
-		minifyJS: true,
+		minifyJS: false,
 		debugCSS: false,
 		minifyCSS: false,
 	},
