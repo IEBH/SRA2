@@ -15,7 +15,7 @@ app.post('/api/contact', function(req, res) {
 	if (!req.body.body) return res.status(400).send('No content provided');
 
 	email.send({
-		from: req.body.name + ' <' + req.body.email + '>',
+		from: 'SRA Contact Form <info@sr-accelerator.com>',
 		to: config.contactEmail,
 		subject: req.body.subject || 'Contact form',
 		text: req.body.body,
