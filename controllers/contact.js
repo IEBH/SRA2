@@ -18,7 +18,10 @@ app.post('/api/contact', function(req, res) {
 		from: 'SRA Contact Form <info@sr-accelerator.com>',
 		to: config.contactEmail,
 		subject: req.body.subject || 'Contact form',
-		text: req.body.body,
+		text:
+			'FROM: ' + req.body.email
+			+ '\n\n'
+			+ req.body.body,
 	}, function(err) {
 		if (err) {
 			console.log('Error emailing contact form', err);
