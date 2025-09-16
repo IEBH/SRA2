@@ -52,6 +52,97 @@
 </head>
 
 <body ng-app="app" ng-controller="globalController" class="navbar-fixed">
+
+<!-- Shutdown message {{{ -->
+<style>
+#sra-shutdown {
+	position: fixed;
+	z-index: 999999999;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	padding: 50px;
+	background: #FFF;
+	user-select: none;
+}
+
+#sra-shutdown .tera-logo {
+	float: left;
+	width: 120px;
+	height: 120px;
+	margin: 20px 20px 0 0;
+}
+
+#sra-shutdown p + p {
+	margin-top: 20px;
+}
+
+#sra-shutdown hr {
+	margin: 50px 0;
+}
+
+#sra-shutdown label, #sra-shutdown a {
+	cursor: pointer;
+	font-weight: normal;
+}
+
+#sra-shutdown .d-flex-vcenter {
+	display: flex;
+	align-items: center;
+}
+
+#sra-shutdown .mr-1 {
+	margin-right: 10px;
+}
+
+#sra-shutdown .mb-3 {
+	margin-bottom: 30px;
+}
+</style>
+
+<script>
+function sraShutdownContinue() {
+	let shutdownAgree = document.querySelector('#sra_shutdown_agree');
+	console.log('SRA Shutdown agreed?', shutdownAgree.checked);
+	if (shutdownAgree.checked) {
+		sraShutdownRemove();
+	} else {
+		alert('Please acknowledge that the SRA will be shutting down soon to contine')
+	}
+}
+
+function sraShutdownRemove() {
+	let shutdownModel = document.querySelector('#sra-shutdown');
+	console.log('SRA Shutdown - removing warning');
+	shutdownModel.remove();
+}
+
+if (window.self !== window.top) {
+	console.log('[SRA Shutdown Notice] Document context running within an iFrame - removing SRA shutdown prompt');
+}
+</script>
+
+<div id="sra-shutdown">
+	<h1>The Systematic Research Accelerator (SRA) has been upgraded</h1>
+	<img src="https://tera-tools.com/assets/logo/logo.svg" class="tera-logo"/>
+	<p>The SRA has been running for 10 years but, we now have a new and improved platform called the Evidence Research Accelerator (TERA).</p>
+	<p>TERA has all the old tools, some new ones, and is brought to you by the same team. It also has project management which enables integration between tools, storing of project files and easy collaboration between all team members.
+</p>
+	<p>Check out <a href="https://tera-tools.com">tera-tools.com</a> today.</a>
+	<hr/>
+	<p class="mb-3">
+		<label class="d-flex-vcenter">
+			<input type="checkbox" id="sra_shutdown_agree" class="mr-1"/>
+			I agree have read the above and know that the SRA is being replaced by TERA from October 31st 2025
+		</label>
+	</p>
+	<p>
+		<a href="#" class="btn btn-primary" onclick="sraShutdownContinue()">Continue on to SR-accelerator.com...</a>
+	</p>
+</div>
+<!-- }}} -->
+
 <div id="modal-loader" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
