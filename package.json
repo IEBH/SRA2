@@ -127,7 +127,8 @@
     "winston-papertrail": "^1.0.5"
   },
   "overrides": {
-    "node-expat": "^2.4.1"
+    "node-expat": "^2.4.1",
+    "gkt": "1.0.0"
   },
   "allowScripts": {
     "node-expat@2.4.1": true
